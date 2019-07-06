@@ -1,27 +1,18 @@
 import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { AxisProvider } from '../internal/axios/axiosProvider';
+
+const axios = new AxisProvider().axios;
 
 export namespace Branches {
 
     export class Api extends CrowdinApi {
 
-        listProjectBranches(projectId: number, name?: string, limit?: number, offset?: number): ResponseList<Model.Branch> {
-            //TODO implement
-            return {
-                data: [{
-                    data: {
-                        id: 1,
-                        projectId: 2,
-                        name: 'test',
-                        title: 'test',
-                        exportPattern: '',
-                        status: 0,
-                        priority: 0,
-                        createdAt: '',
-                        updatedAt: ''
-                    }
-                }],
-                pagination: []
-            };
+        listProjectBranches(projectId: number, name?: string, limit?: number, offset?: number): Promise<ResponseList<Model.Branch>> {
+            let url = `${this.url}/projects/${projectId}/branches?account-key=${this.accountKey}&login=${this.login}`;
+            url = this.addQueryParam(url, 'name', name);
+            url = this.addQueryParam(url, 'limit', limit);
+            url = this.addQueryParam(url, 'offset', offset);
+            return axios.get(url);
         }
     }
 

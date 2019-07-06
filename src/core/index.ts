@@ -1,16 +1,30 @@
 export abstract class CrowdinApi {
+
+    static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
+
     readonly login: string;
     readonly accountKey: string;
+    readonly organization: string;
+    readonly url: string;
 
-    constructor(login: string, accountKey: string) {
+    constructor(login: string, accountKey: string, organization: string) {
         this.accountKey = accountKey;
         this.login = login;
+        this.organization = organization;
+        this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+    }
+
+    protected addQueryParam(url: string, name: string, value?: any): string {
+        if (!!value) {
+            url += `&${name}=${value}`;
+        }
+        return url;
     }
 }
 
 export interface ResponseList<T> {
     data: ResponseObject<T>[];
-    pagination: Pagination[];
+    pagination: Pagination;
 }
 
 export interface ResponseObject<T> {

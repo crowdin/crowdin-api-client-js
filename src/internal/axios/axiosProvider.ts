@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { ErrorResponse } from '../../core';
 
 export class AxisProvider {
 
@@ -31,11 +32,22 @@ export class AxisProvider {
         this.axios.interceptors.response.use(
             response => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
-                return Promise.resolve(response);
+                return Promise.resolve(response.data);
             },
             error => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
-                return Promise.reject(error);
+                if (!!error.response && !!error.response.data) {
+                    return Promise.reject(error.response.data as ErrorResponse);
+                } else {
+                    const defaultError: ErrorResponse = {
+                        error: {
+                            code: 500,
+                            message: 'Request failed'
+                        }
+                    };
+                    return Promise.reject(defaultError);
+                }
+
             }
         );
     }
