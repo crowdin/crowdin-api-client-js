@@ -44,3 +44,18 @@ export interface Error {
     message: string;
     code: number;
 }
+
+export interface PatchRequest {
+    value: any;
+    op: PatchOperation;
+    path: string;
+}
+
+export enum PatchOperation {
+    ADD = 'add',
+    REMOVE = 'remove',
+    REPLACE = 'replace',
+    MOVE = 'move',
+    copy = 'copy',
+    TEST = 'test',
+}
