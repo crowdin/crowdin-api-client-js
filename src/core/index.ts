@@ -59,3 +59,9 @@ export enum PatchOperation {
     copy = 'copy',
     TEST = 'test',
 }
+
+export enum Priority {
+    LOW = 0,
+    NORMAL = 0,
+    HIGH = 0,
+}

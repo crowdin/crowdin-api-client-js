@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, Priority } from '../core';
 import { AxisProvider } from '../internal/axios/axiosProvider';
 
 const axios = new AxisProvider().axios;
@@ -54,7 +54,7 @@ export namespace Branches {
             name: string;
             title?: string;
             exportPattern?: string;
-            priority?: number;
+            priority?: Priority;
         }
     }
 }

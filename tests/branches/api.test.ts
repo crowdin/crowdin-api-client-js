@@ -1,6 +1,5 @@
 import * as nock from 'nock';
-import * as crowdin from '../../index';
-import { PatchOperation } from '../../core';
+import * as crowdin from '../../src/index';
 
 describe('Branches API', () => {
 
@@ -64,7 +63,7 @@ describe('Branches API', () => {
             .reply(200)
             .patch(`/projects/${projectId}/branches/${branchId}`, [{
                 value: branchTitle,
-                op: PatchOperation.REPLACE,
+                op: crowdin.PatchOperation.REPLACE,
                 path: '/title'
             }])
             .query({
@@ -111,7 +110,7 @@ describe('Branches API', () => {
 
     it('Update branch', async () => {
         const branch = await api.updateBranch(projectId, branchId, [{
-            op: PatchOperation.REPLACE,
+            op: crowdin.PatchOperation.REPLACE,
             path: '/title',
             value: branchTitle
         }]);
