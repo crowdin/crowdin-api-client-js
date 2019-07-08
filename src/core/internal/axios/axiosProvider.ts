@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { ErrorResponse } from '../../core';
+import { ErrorResponse } from '../..';
 
 export class AxisProvider {
 

@@ -1,7 +1,4 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, Priority } from '../core';
-import { AxisProvider } from '../internal/axios/axiosProvider';
-
-const axios = new AxisProvider().axios;
 
 export namespace Branches {
 
@@ -18,7 +15,7 @@ export namespace Branches {
             url = this.addQueryParam(url, 'name', name);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return axios.get(url);
+            return this.axios.get(url);
         }
 
         /**
@@ -27,7 +24,7 @@ export namespace Branches {
          */
         createBranch(projectId: number, request: Model.CreateBranchRequest): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.post(url, request);
+            return this.axios.post(url, request);
         }
 
         /**
@@ -36,17 +33,16 @@ export namespace Branches {
          */
         getBranch(projectId: number, branchId: number): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.get(url);
+            return this.axios.get(url);
         }
 
         /**
          * @param projectId project identifier
          * @param branchId branch identifier
          */
-        //TODO should be discussed with back end
         deleteBranch(projectId: number, branchId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.delete(url);
+            return this.axios.delete(url);
         }
 
         /**
@@ -56,7 +52,7 @@ export namespace Branches {
          */
         updateBranch(projectId: number, branchId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.patch(url, request);
+            return this.axios.patch(url, request);
         }
     }
 

@@ -1,7 +1,4 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
-import { AxisProvider } from '../internal/axios/axiosProvider';
-
-const axios = new AxisProvider().axios;
 
 export namespace Directories {
 
@@ -20,7 +17,7 @@ export namespace Directories {
             url = this.addQueryParam(url, 'directoryId', directoryId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return axios.get(url);
+            return this.axios.get(url);
         }
 
         /**
@@ -29,7 +26,7 @@ export namespace Directories {
          */
         createDirectory(projectId: number, request: Model.CreateDirectoryRequest): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.post(url, request);
+            return this.axios.post(url, request);
         }
 
         /**
@@ -38,17 +35,16 @@ export namespace Directories {
          */
         getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.get(url);
+            return this.axios.get(url);
         }
 
         /**
          * @param projectId project identifier
          * @param directoryId directory identifier
          */
-        //TODO should be discussed with back end
         deleteDirectory(projectId: number, directoryId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.delete(url);
+            return this.axios.delete(url);
         }
 
         /**
@@ -58,7 +54,7 @@ export namespace Directories {
          */
         updateDirectory(projectId: number, directoryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return axios.patch(url, request);
+            return this.axios.patch(url, request);
         }
     }
 
