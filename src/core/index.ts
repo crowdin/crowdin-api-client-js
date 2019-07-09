@@ -12,6 +12,11 @@ export abstract class CrowdinApi {
     readonly url: string;
     readonly axios: AxiosInstance;
 
+    /**
+     * @param login login
+     * @param accountKey account key
+     * @param organization organization name
+     */
     constructor(login: string, accountKey: string, organization: string) {
         this.accountKey = accountKey;
         this.login = login;
