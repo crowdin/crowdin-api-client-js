@@ -11,7 +11,7 @@ describe('Files API', () => {
     const fileMimeType = 'application/xml';
     const fileSize = 300;
 
-    const filleRawUrl = 'google.com';
+    const filleRawUrl = 'test.com';
     const fileRevisionId = 888;
 
     const branchId = 12;
