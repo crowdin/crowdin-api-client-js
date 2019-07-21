@@ -6,3 +6,5 @@ export * from './glossaries';
 export * from './projectsSettings';
 export * from './issues';
 export * from './languages';
+export * from './preTranslation';
+export * from './progress';
