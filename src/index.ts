@@ -8,3 +8,4 @@ export * from './issues';
 export * from './languages';
 export * from './preTranslation';
 export * from './progress';
+export * from './projects';
