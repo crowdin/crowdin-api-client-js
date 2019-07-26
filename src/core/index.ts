@@ -17,10 +17,10 @@ export abstract class CrowdinApi {
      * @param accountKey account key
      * @param organization organization name
      */
-    constructor(login: string, accountKey: string, organization: string) {
+    constructor(login: string, accountKey: string, organization?: string) {
         this.accountKey = accountKey;
         this.login = login;
-        this.organization = organization;
+        this.organization = !!organization ? organization : 'api';
         this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
         this.axios = CrowdinApi.AXIOS_INSTANCE;
     }

@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, ResponseList } from '../core';
 
 export namespace Issues {
 
