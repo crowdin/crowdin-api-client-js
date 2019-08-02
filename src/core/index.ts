@@ -76,3 +76,8 @@ export enum Priority {
     NORMAL = 0,
     HIGH = 0,
 }
+
+export interface DownloadLink {
+    url: string;
+    expireIn: string;
+}

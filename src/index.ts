@@ -11,3 +11,4 @@ export * from './progress';
 export * from './projects';
 export * from './pseudoTranslations';
 export * from './translationQualityAssurance';
+export * from './reports';

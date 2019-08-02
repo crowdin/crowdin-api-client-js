@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
 
 export namespace Glossaries {
 
@@ -62,7 +62,7 @@ export namespace Glossaries {
         /**
          * @param glossaryId glossary identifier
          */
-        getGlossaryDownloadLink(glossaryId: number): Promise<ResponseObject<Model.GlossaryDownloadLink>> {
+        getGlossaryDownloadLink(glossaryId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/download?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -176,11 +176,6 @@ export namespace Glossaries {
             startedAt: string;
             finishedAt: string;
             eta: string;
-        }
-
-        export interface GlossaryDownloadLink {
-            url: string;
-            expireIn: string;
         }
 
         export interface GlossaryFile {

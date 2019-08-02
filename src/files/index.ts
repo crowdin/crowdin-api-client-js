@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
 
 export namespace Files {
 
@@ -66,7 +66,7 @@ export namespace Files {
          * @param projectId project identifier
          * @param fileId file identifier
          */
-        exportFileRaw(projectId: number, fileId: number): Promise<ResponseObject<Model.FileRaw>> {
+        exportFileRaw(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/download?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -133,11 +133,6 @@ export namespace Files {
             type?: FileType;
             importOptions?: SpreadsheetImportOptions | XmlImportOptions;
             exportOptions?: GeneralExportOptions | PropertyExportOptions;
-        }
-
-        export interface FileRaw {
-            url: string;
-            expireIn: string;
         }
 
         export interface FileRevision {

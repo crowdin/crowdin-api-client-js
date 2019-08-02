@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseObject } from '../core';
+import { CrowdinApi, ResponseObject, DownloadLink } from '../core';
 
 export namespace PseudoTranslations {
 
@@ -24,9 +24,8 @@ export namespace PseudoTranslations {
 
         /**
          * @param projectId project identifier
-         * @param pseudoTranslationBuildId pseudo translation build identifier, consists of 36 characters
          */
-        getPseudoTranslationLastBuildDownloadLink(projectId: number): Promise<ResponseObject<Model.DownloadLink>> {
+        getPseudoTranslationLastBuildDownloadLink(projectId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -50,11 +49,6 @@ export namespace PseudoTranslations {
             startedAt: string;
             finishedAt: string;
             eta: string;
-        }
-
-        export interface DownloadLink {
-            url: string;
-            expireIn: string;
         }
 
         export enum CharTransformation {
