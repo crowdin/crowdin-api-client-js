@@ -71,12 +71,6 @@ export enum PatchOperation {
     TEST = 'test',
 }
 
-export enum Priority {
-    LOW = 0,
-    NORMAL = 0,
-    HIGH = 0,
-}
-
 export interface DownloadLink {
     url: string;
     expireIn: string;

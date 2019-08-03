@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, Priority } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
 export namespace Branches {
 
@@ -74,6 +74,12 @@ export namespace Branches {
             title?: string;
             exportPattern?: string;
             priority?: Priority;
+        }
+
+        export enum Priority {
+            LOW = 0,
+            NORMAL = 0,
+            HIGH = 0,
         }
     }
 }
