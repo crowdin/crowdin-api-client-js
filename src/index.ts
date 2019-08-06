@@ -14,3 +14,4 @@ export * from './translationQualityAssurance';
 export * from './reports';
 export * from './screenshots';
 export * from './strings';
+export * from './storage';

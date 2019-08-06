@@ -40,7 +40,7 @@ export namespace Strings {
          * @param projectId project identifier
          * @param stringId string identifier
          */
-        deleteBranch(projectId: number, stringId: number): Promise<void> {
+        deleteString(projectId: number, stringId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.delete(url);
         }
@@ -50,7 +50,7 @@ export namespace Strings {
          * @param stringId string identifier
          * @param request request body
          */
-        updateBranch(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<Model.String>> {
+        updateString(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<Model.String>> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.patch(url, request);
         }

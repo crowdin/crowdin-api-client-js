@@ -107,11 +107,11 @@ describe('Strings API', () => {
     });
 
     it('Delete string', async () => {
-        await api.deleteBranch(projectId, stringId);
+        await api.deleteString(projectId, stringId);
     });
 
     it('Update string', async () => {
-        const string = await api.updateBranch(projectId, stringId, [{
+        const string = await api.updateString(projectId, stringId, [{
             op: crowdin.PatchOperation.REPLACE,
             path: '/text',
             value: stringText
