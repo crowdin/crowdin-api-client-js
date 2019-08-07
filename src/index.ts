@@ -15,3 +15,4 @@ export * from './reports';
 export * from './screenshots';
 export * from './strings';
 export * from './storage';
+export * from './tasks';
