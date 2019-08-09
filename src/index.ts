@@ -16,3 +16,4 @@ export * from './screenshots';
 export * from './strings';
 export * from './storage';
 export * from './tasks';
+export * from './translationMemory';

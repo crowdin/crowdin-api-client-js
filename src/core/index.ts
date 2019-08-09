@@ -47,6 +47,7 @@ export interface Pagination {
     limit: number;
 }
 
+//TODO fix
 export interface ErrorResponse {
     error: Error;
 }
