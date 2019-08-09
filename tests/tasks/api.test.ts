@@ -79,22 +79,6 @@ describe('Tasks API', () => {
                     id: taskId,
                     title: taskTitle
                 }
-            })
-            .get(`/projects/${projectId}/tasks/statistics`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
-            .reply(200, {
-                data: [{
-                    data: {
-                        total: total
-                    }
-                }],
-                pagination: {
-                    offset: 0,
-                    limit: limit
-                }
             });
     });
 
@@ -109,8 +93,8 @@ describe('Tasks API', () => {
         expect(tasks.pagination.limit).toBe(limit);
     });
 
-    it('Create task', async () => {
-        const task = await api.createTask(projectId, {
+    it('Add task', async () => {
+        const task = await api.addTask(projectId, {
             title: taskTitle,
             languageId: languageId,
             workflowStepId: workflowStepId,
@@ -129,8 +113,8 @@ describe('Tasks API', () => {
         await api.deleteTask(projectId, taskId);
     });
 
-    it('Update task', async () => {
-        const task = await api.updateTask(projectId, taskId, [{
+    it('Edit task', async () => {
+        const task = await api.editTask(projectId, taskId, [{
             op: crowdin.PatchOperation.REPLACE,
             path: '/title',
             value: taskTitle
@@ -139,10 +123,4 @@ describe('Tasks API', () => {
         expect(task.data.title).toBe(taskTitle);
     });
 
-    it('List task statistic', async () => {
-        const taskStatistic = await api.listTaskStatistic(projectId);
-        expect(taskStatistic.data.length).toBe(1);
-        expect(taskStatistic.data[0].data.total).toBe(total);
-        expect(taskStatistic.pagination.limit).toBe(limit);
-    });
 });

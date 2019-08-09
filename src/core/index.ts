@@ -47,14 +47,18 @@ export interface Pagination {
     limit: number;
 }
 
-//TODO fix
 export interface ErrorResponse {
-    error: Error;
+    errors: ErrorKey[];
+}
+
+export interface ErrorKey {
+    key: string;
+    errors: Error[];
 }
 
 export interface Error {
+    code: string;
     message: string;
-    code: number;
 }
 
 export interface PatchRequest {
@@ -75,4 +79,25 @@ export enum PatchOperation {
 export interface DownloadLink {
     url: string;
     expireIn: string;
+}
+
+export enum BooleanInt {
+    TRUE = 1,
+    FALSE = 0,
+}
+
+export interface Status {
+    identifier: string;
+    status: string;
+    progress: number;
+    attributes: Attribute[];
+    createdAt: string;
+    updatedAt: string;
+    startedAt: string;
+    finishedAt: string;
+    eta: string;
+}
+
+export interface Attribute {
+    [key: string]: string;
 }

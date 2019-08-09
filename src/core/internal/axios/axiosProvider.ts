@@ -40,10 +40,13 @@ export class AxisProvider {
                     return Promise.reject(error.response.data as ErrorResponse);
                 } else {
                     const defaultError: ErrorResponse = {
-                        error: {
-                            code: 500,
-                            message: 'Request failed'
-                        }
+                        errors: [{
+                            key: '',
+                            errors: [{
+                                code: '500',
+                                message: 'Request failed.'
+                            }]
+                        }]
                     };
                     return Promise.reject(defaultError);
                 }

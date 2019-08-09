@@ -20,7 +20,7 @@ export namespace Tasks {
          * @param projectId project identifier
          * @param request request body
          */
-        createTask(projectId: number, request: Model.CreateTaskRequest): Promise<ResponseObject<Model.Task>> {
+        addTask(projectId: number, request: Model.CreateTaskRequest): Promise<ResponseObject<Model.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -48,26 +48,11 @@ export namespace Tasks {
          * @param taskId task identifier
          * @param request request body
          */
-        updateTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Task>> {
+        editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.patch(url, request);
         }
 
-        /**
-         * @param projectId project identifier
-         * @param limit maximum number of items to retrieve (default 25)
-         * @param offset starting offset in the collection (default 0)
-         * @param status defines the task resolution status
-         * @param languageIds language identifier for filter
-         */
-        listTaskStatistic(projectId: number, limit?: number, offset?: number, status?: Model.Status, languageIds?: string): Promise<ResponseList<Model.Statistic>> {
-            let url = `${this.url}/projects/${projectId}/tasks/statistics?account-key=${this.accountKey}&login=${this.login}`;
-            url = this.addQueryParam(url, 'limit', limit);
-            url = this.addQueryParam(url, 'offset', offset);
-            url = this.addQueryParam(url, 'status', status);
-            url = this.addQueryParam(url, 'languageIds', languageIds);
-            return this.axios.get(url);
-        }
     }
 
     export namespace Model {
@@ -97,11 +82,11 @@ export namespace Tasks {
         }
 
         export interface CreateTaskRequest {
+            workflowStepId: number;
             status?: Status;
             title: string;
             description?: string;
             languageId: number;
-            workflowStepId: number;
             fileIds: number[];
             type: Type;
             splitFiles?: boolean;
@@ -109,11 +94,6 @@ export namespace Tasks {
             deadline?: string;
             dateFrom?: string;
             dateTo?: string;
-        }
-
-        export interface Statistic {
-            total: number;
-            languageId: number;
         }
 
         export enum Status {

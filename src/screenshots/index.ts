@@ -20,7 +20,7 @@ export namespace Screenshots {
          * @param projectId project identifier
          * @param request request body
          */
-        createScreenshot(projectId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
+        addScreenshot(projectId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -39,7 +39,7 @@ export namespace Screenshots {
          * @param screenshotId screenshot identifier
          * @param request request body
          */
-        replaceScreenshot(projectId: number, screenshotId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
+        updateScreenshot(projectId: number, screenshotId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.put(url, request);
         }
@@ -58,7 +58,7 @@ export namespace Screenshots {
          * @param screenshotId screenshot identifier
          * @param request request body
          */
-        updateScreenshot(projectId: number, screenshotId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Screenshot>> {
+        editScreenshot(projectId: number, screenshotId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.patch(url, request);
         }
@@ -81,7 +81,7 @@ export namespace Screenshots {
          * @param screenshotId screenshot identifier
          * @param request request body
          */
-        replaceAllScreenshotTags(projectId: number, screenshotId: number, request: Model.AddTagRequest[]): Promise<void> {
+        replaceTags(projectId: number, screenshotId: number, request: Model.AddTagRequest[]): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.put(url, request);
         }
@@ -100,7 +100,7 @@ export namespace Screenshots {
          * @param projectId project identifier
          * @param screenshotId screenshot identifier
          */
-        deleteAllScreenshotTags(projectId: number, screenshotId: number): Promise<void> {
+        clearTags(projectId: number, screenshotId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.delete(url);
         }

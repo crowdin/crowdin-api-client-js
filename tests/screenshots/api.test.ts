@@ -182,8 +182,8 @@ describe('Screenshots API', () => {
         expect(screenshots.pagination.limit).toBe(limit);
     });
 
-    it('Create screenshot', async () => {
-        const screenshot = await api.createScreenshot(projectId, {
+    it('Add screenshot', async () => {
+        const screenshot = await api.addScreenshot(projectId, {
             name: screenshotName,
             storageId: storageId
         });
@@ -197,8 +197,8 @@ describe('Screenshots API', () => {
         expect(screenshot.data.name).toBe(screenshotName);
     });
 
-    it('Replace screenshot', async () => {
-        const screenshot = await api.replaceScreenshot(projectId, screenshotId, {
+    it('Update screenshot', async () => {
+        const screenshot = await api.updateScreenshot(projectId, screenshotId, {
             storageId: storageId,
             name: screenshotName
         });
@@ -210,8 +210,8 @@ describe('Screenshots API', () => {
         await api.deleteScreenshot(projectId, screenshotId);
     });
 
-    it('Update screenshot', async () => {
-        const screenshot = await api.updateScreenshot(projectId, screenshotId, [{
+    it('Edit screenshot', async () => {
+        const screenshot = await api.editScreenshot(projectId, screenshotId, [{
             op: crowdin.PatchOperation.REPLACE,
             path: '/name',
             value: screenshotName
@@ -228,8 +228,8 @@ describe('Screenshots API', () => {
         expect(tags.pagination.limit).toBe(limit);
     });
 
-    it('Replace all screenshot tags', async () => {
-        await api.replaceAllScreenshotTags(projectId, screenshotId, [{
+    it('Replace tags', async () => {
+        await api.replaceTags(projectId, screenshotId, [{
             stringId: stringId
         }]);
     });
@@ -242,8 +242,8 @@ describe('Screenshots API', () => {
         expect(tag.data.screenshotId).toBe(screenshotId);
     });
 
-    it('Delete all screenshot tags', async () => {
-        await api.deleteAllScreenshotTags(projectId, screenshotId);
+    it('Clear tags', async () => {
+        await api.clearTags(projectId, screenshotId);
     });
 
     it('Get tag', async () => {

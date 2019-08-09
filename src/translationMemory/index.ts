@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
 
 export namespace TranslationMemory {
 
@@ -68,7 +68,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param request request body
          */
-        exportTm(tmId: number, request: Model.ExportTranslationMemoryRequest): Promise<ResponseObject<Model.Status>> {
+        exportTm(tmId: number, request: Model.ExportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/exports?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -77,7 +77,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param exportId export identifier
          */
-        checkExportStatus(tmId: number, exportId: string): Promise<ResponseObject<Model.Status>> {
+        checkExportStatus(tmId: number, exportId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/exports/${exportId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -86,7 +86,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param request request body
          */
-        importTm(tmId: number, request: Model.ImportTranslationMemoryRequest): Promise<ResponseObject<Model.Status>> {
+        importTm(tmId: number, request: Model.ImportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/imports?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -95,7 +95,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param importId import identifier
          */
-        checkImportStatus(tmId: number, importId: string): Promise<ResponseObject<Model.Status>> {
+        checkImportStatus(tmId: number, importId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/imports/${importId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -123,18 +123,6 @@ export namespace TranslationMemory {
             format?: Format;
         }
 
-        export interface Status {
-            identifier: string;
-            status: string;
-            progress: number;
-            attributes: Attribute[];
-            createdAt: string;
-            updatedAt: string;
-            startedAt: string;
-            finishedAt: string;
-            eta: string;
-        }
-
         export interface ImportTranslationMemoryRequest {
             storageId: number;
             firstLineContainsHeader?: boolean;
@@ -145,10 +133,6 @@ export namespace TranslationMemory {
             TMX = 'tmx',
             CSV = 'csv',
             XLSX = 'xlsx',
-        }
-
-        export interface Attribute {
-            [key: string]: string;
         }
 
         export interface Scheme {

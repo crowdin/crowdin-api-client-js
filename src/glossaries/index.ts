@@ -1,17 +1,17 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
 
 export namespace Glossaries {
 
     export class Api extends CrowdinApi {
 
         /**
-         * @param userId list user glossaries
+         * @param groupId group identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listGlossaries(userId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Glossary>> {
+        listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Glossary>> {
             let url = `${this.url}/glossaries?account-key=${this.accountKey}&login=${this.login}`;
-            url = this.addQueryParam(url, 'userId', userId);
+            url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
             return this.axios.get(url);
@@ -20,7 +20,7 @@ export namespace Glossaries {
         /**
          * @param request request body
          */
-        createGlossary(request: Model.CreateGlossaryRequest): Promise<ResponseObject<Model.Glossary>> {
+        addGlossary(request: Model.CreateGlossaryRequest): Promise<ResponseObject<Model.Glossary>> {
             let url = `${this.url}/glossaries?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -45,7 +45,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        updateGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Glossary>> {
+        editGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Glossary>> {
             let url = `${this.url}/glossaries/${glossaryId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.patch(url, request);
         }
@@ -54,16 +54,18 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        startGlossaryExport(glossaryId: number, request: Model.StartGlossaryExportRequest): Promise<ResponseObject<Model.GlossaryStatus>> {
+        exportGlossary(glossaryId: number, request: Model.ExportGlossaryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
 
         /**
          * @param glossaryId glossary identifier
+         * @param format defines download format (default is tbx)
          */
-        getGlossaryDownloadLink(glossaryId: number): Promise<ResponseObject<DownloadLink>> {
+        downloadGlossary(glossaryId: number, format?: Model.GlossaryFormat): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/download?account-key=${this.accountKey}&login=${this.login}`;
+            url = this.addQueryParam(url, 'format', format);
             return this.axios.get(url);
         }
 
@@ -71,7 +73,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param exportId export identifier
          */
-        getGlossaryExportStatus(glossaryId: number, exportId: number): Promise<ResponseObject<Model.GlossaryStatus>> {
+        checkGlossaryExportStatus(glossaryId: number, exportId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -80,7 +82,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        importGlossaryFile(glossaryId: number, request: Model.GlossaryFile): Promise<ResponseObject<Model.GlossaryStatus>> {
+        importGlossaryFile(glossaryId: number, request: Model.GlossaryFile): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/imports?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -89,7 +91,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param importId import identifier
          */
-        getGlossaryImportStatus(glossaryId: number, importId: number): Promise<ResponseObject<Model.GlossaryStatus>> {
+        checkGlossaryImportStatus(glossaryId: number, importId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/imports/${importId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
@@ -112,7 +114,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        createTerm(glossaryId: number, request: Model.CreateTermRequest): Promise<ResponseObject<Model.Term>> {
+        addTerm(glossaryId: number, request: Model.CreateTermRequest): Promise<ResponseObject<Model.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.post(url, request);
         }
@@ -140,7 +142,7 @@ export namespace Glossaries {
          * @param termId term identifier
          * @param request request body
          */
-        updateTerm(glossaryId: number, termId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Term>> {
+        editTerm(glossaryId: number, termId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.patch(url, request);
         }
@@ -160,22 +162,11 @@ export namespace Glossaries {
 
         export interface CreateGlossaryRequest {
             name: string;
+            groupId: number;
         }
 
-        export interface StartGlossaryExportRequest {
+        export interface ExportGlossaryRequest {
             format: GlossaryFormat;
-        }
-
-        export interface GlossaryStatus {
-            identifier: string;
-            status: string;
-            progress: number;
-            attributes: GlossaryStatusAttribute[];
-            createdAt: string;
-            updatedAt: string;
-            startedAt: string;
-            finishedAt: string;
-            eta: string;
         }
 
         export interface GlossaryFile {
@@ -208,10 +199,6 @@ export namespace Glossaries {
             TBX = 'tbx',
             CSV = 'csv',
             XLSX = 'xlsx',
-        }
-
-        export interface GlossaryStatusAttribute {
-            [key: string]: string;
         }
 
         export interface GlossaryFileScheme {

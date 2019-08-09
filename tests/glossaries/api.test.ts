@@ -10,20 +10,22 @@ describe('Glossaries API', () => {
     const glossaryTerms = 4;
     const glossaryFormat = crowdin.Glossaries.Model.GlossaryFormat.CSV;
     const glossaryLink = 'test.com';
-    const exportId = 1111;
-    const importId = 2222;
+    const exportId = '1111';
+    const importId = '2222';
     const storageId = 1232131;
     const termId = 5555;
     const termText = 'en';
     const termLanguageId = 90;
     const limit = 25;
+    const groupId = 111;
 
     beforeAll(() => {
         scope = nock(api.url)
             .get('/glossaries')
             .query({
                 'account-key': api.accountKey,
-                login: api.login
+                login: api.login,
+                groupId: groupId
             })
             .reply(200, {
                 data: [{
@@ -38,7 +40,8 @@ describe('Glossaries API', () => {
                 }
             })
             .post('/glossaries', {
-                name: glossaryName
+                name: glossaryName,
+                groupId: groupId
             })
             .query({
                 'account-key': api.accountKey,
@@ -211,16 +214,17 @@ describe('Glossaries API', () => {
     });
 
     it('List glossaries', async () => {
-        const glossaries = await api.listGlossaries();
+        const glossaries = await api.listGlossaries(groupId);
         expect(glossaries.data.length).toBe(1);
         expect(glossaries.data[0].data.id).toBe(glossaryId);
         expect(glossaries.data[0].data.name).toBe(glossaryName);
         expect(glossaries.pagination.limit).toBe(limit);
     });
 
-    it('Create glossary', async () => {
-        const glossary = await api.createGlossary({
-            name: glossaryName
+    it('Add glossary', async () => {
+        const glossary = await api.addGlossary({
+            name: glossaryName,
+            groupId: groupId
         });
         expect(glossary.data.id).toBe(glossaryId);
         expect(glossary.data.name).toBe(glossaryName);
@@ -236,8 +240,8 @@ describe('Glossaries API', () => {
         await api.deleteGlossary(glossaryId);
     });
 
-    it('Update glossary', async () => {
-        const glossary = await api.updateGlossary(glossaryId, [{
+    it('Edit glossary', async () => {
+        const glossary = await api.editGlossary(glossaryId, [{
             op: crowdin.PatchOperation.REPLACE,
             path: '/term',
             value: glossaryTerms
@@ -247,20 +251,20 @@ describe('Glossaries API', () => {
         expect(glossary.data.terms).toBe(glossaryTerms);
     });
 
-    it('Start glossary export', async () => {
-        const exportStatus = await api.startGlossaryExport(glossaryId, {
+    it('Export glossary', async () => {
+        const exportStatus = await api.exportGlossary(glossaryId, {
             format: glossaryFormat
         });
         expect(exportStatus.data.identifier).toBe(exportId);
     });
 
-    it('Get glossary download link', async () => {
-        const link = await api.getGlossaryDownloadLink(glossaryId);
+    it('Download glossary', async () => {
+        const link = await api.downloadGlossary(glossaryId);
         expect(link.data.url).toBe(glossaryLink);
     });
 
-    it('Get glossary export status', async () => {
-        const exportStatus = await api.getGlossaryExportStatus(glossaryId, exportId);
+    it('Check glossary export status', async () => {
+        const exportStatus = await api.checkGlossaryExportStatus(glossaryId, exportId);
         expect(exportStatus.data.identifier).toBe(exportId);
     });
 
@@ -271,8 +275,8 @@ describe('Glossaries API', () => {
         expect(importStatus.data.identifier).toBe(importId);
     });
 
-    it('Get glossary import status', async () => {
-        const importStatus = await api.getGlossaryImportStatus(glossaryId, importId);
+    it('Check glossary import status', async () => {
+        const importStatus = await api.checkGlossaryImportStatus(glossaryId, importId);
         expect(importStatus.data.identifier).toBe(importId);
     });
 
@@ -283,8 +287,8 @@ describe('Glossaries API', () => {
         expect(terms.data[0].data.glossaryId).toBe(glossaryId);
     });
 
-    it('Create term', async () => {
-        const term = await api.createTerm(glossaryId, {
+    it('Add term', async () => {
+        const term = await api.addTerm(glossaryId, {
             languageId: termLanguageId,
             text: termText
         });
@@ -302,8 +306,8 @@ describe('Glossaries API', () => {
         await api.deleteTerm(glossaryId, termId);
     });
 
-    it('Update term', async () => {
-        const term = await api.updateTerm(glossaryId, termId, [{
+    it('Edit term', async () => {
+        const term = await api.editTerm(glossaryId, termId, [{
             op: crowdin.PatchOperation.REPLACE,
             path: '/text',
             value: termText
