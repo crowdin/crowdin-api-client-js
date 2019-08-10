@@ -1,6 +1,5 @@
-import { CrowdinApi, ResponseObject, DownloadLink, Status } from '../core';
+import { CrowdinApi, ResponseObject, DownloadLink, Status, ResponseList } from '../core';
 
-//TODO add rest of the end points
 export namespace Translations {
 
     export class Api extends CrowdinApi {
@@ -48,6 +47,66 @@ export namespace Translations {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download?account-key=${this.accountKey}&login=${this.login}`;
             return this.axios.get(url);
         }
+
+        /**
+         * @param projectId project identifier
+         * @param branchId branch identifier
+         * @param limit maximum number of items to retrieve (default 25)
+         * @param offset starting offset in the collection (default 0)
+         */
+        listProjectBuilds(projectId: number, branchId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Build>> {
+            let url = `${this.url}/projects/${projectId}/translations/builds?account-key=${this.accountKey}&login=${this.login}`;
+            url = this.addQueryParam(url, 'branchId', branchId);
+            url = this.addQueryParam(url, 'limit', limit);
+            url = this.addQueryParam(url, 'offset', offset);
+            return this.axios.get(url);
+        }
+
+        /**
+         * @param projectId project identifier
+         * @param request request body
+         */
+        buildProject(projectId: number, request: Model.BuildRequest): Promise<ResponseObject<Model.Build>> {
+            let url = `${this.url}/projects/${projectId}/translations/builds?account-key=${this.accountKey}&login=${this.login}`;
+            return this.axios.post(url, request);
+        }
+
+        /**
+         * @param projectId project identifier
+         * @param buildId build identifier
+         */
+        downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download?account-key=${this.accountKey}&login=${this.login}`;
+            return this.axios.get(url);
+        }
+
+        /**
+         * @param projectId project identifier
+         * @param buildId build identifier
+         */
+        checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<Model.Build>> {
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}?account-key=${this.accountKey}&login=${this.login}`;
+            return this.axios.get(url);
+        }
+
+        /**
+         * @param projectId project identifier
+         * @param buildId build identifier
+         */
+        cancelBuild(projectId: number, buildId: number): Promise<void> {
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}?account-key=${this.accountKey}&login=${this.login}`;
+            return this.axios.delete(url);
+        }
+
+        /**
+         * @param projectId project identifier
+         * @param languageId language identifier
+         * @param request request body
+         */
+        uploadTranslation(projectId: number, languageId: number, request: Model.UploadTranslationRequest): Promise<void> {
+            let url = `${this.url}/projects/${projectId}/translations/${languageId}?account-key=${this.accountKey}&login=${this.login}`;
+            return this.axios.post(url, request);
+        }
     }
 
     export namespace Model {
@@ -85,6 +144,34 @@ export namespace Translations {
             ASIAN = 'asian',
             EUROPEAN = 'european',
             ARABIC = 'arabic',
+        }
+
+        export interface Build {
+            id: number;
+            projectId: number;
+            branchId: number;
+            languagesId: number[];
+            status: string;
+            progress: Progress;
+        }
+
+        export interface Progress {
+            percent: number;
+            currentLanguageId: string;
+            currentFileId: string;
+        }
+
+        export interface BuildRequest {
+            branchId?: number;
+            targetLanguagesId?: number[];
+        }
+
+        export interface UploadTranslationRequest {
+            storageId: string;
+            fileId: number;
+            importDuplicates?: boolean;
+            importEqSuggestions?: boolean;
+            autoApproveImported?: boolean;
         }
     }
 }

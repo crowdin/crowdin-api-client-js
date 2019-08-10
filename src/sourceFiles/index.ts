@@ -3,6 +3,7 @@ import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } 
 export namespace Files {
 
     export class Api extends CrowdinApi {
+
         /**
          * @param projectId project identifier
          * @param name filter branch by name
