@@ -4,7 +4,7 @@ import * as crowdin from '../../src/index';
 describe('Source Files API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Files.Api = new crowdin.Files.Api('testUser', 'qwerty', 'testOrg');
+    const api: crowdin.SourceFiles.Api = new crowdin.SourceFiles.Api('testUser', 'qwerty', 'testOrg');
     const projectId = 2;
     const fileName = '1.txt';
     const fileTitle = 'Test file';

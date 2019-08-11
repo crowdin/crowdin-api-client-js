@@ -1,6 +1,6 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace Strings {
+export namespace SourceStrings {
 
     export class Api extends CrowdinApi {
 

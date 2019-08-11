@@ -4,7 +4,7 @@ import * as crowdin from '../../src/index';
 describe('Upload Storage API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Storage.Api = new crowdin.Storage.Api('testUser', 'qwerty', 'testOrg');
+    const api: crowdin.UploadStorage.Api = new crowdin.UploadStorage.Api('testUser', 'qwerty', 'testOrg');
     const storageId = 2;
     const contentType = 'text/plain';
     const fileContent = 'test text.';

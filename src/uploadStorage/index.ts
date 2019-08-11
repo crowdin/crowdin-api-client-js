@@ -1,6 +1,6 @@
 import { CrowdinApi, ResponseList, ResponseObject } from '../core';
 
-export namespace Storage {
+export namespace UploadStorage {
 
     export class Api extends CrowdinApi {
 
