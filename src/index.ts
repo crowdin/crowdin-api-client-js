@@ -13,3 +13,4 @@ export * from './tasks';
 export * from './translationMemory';
 export * from './webhooks';
 export * from './machineTranslation';
+export * from './notifications';
