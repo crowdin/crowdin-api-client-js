@@ -4,6 +4,10 @@
     "description": "NodeJS client library for Crowdin API v2.",
     "main": "out/index.js",
     "types": "out/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/crowdin/crowdin-node-sdk-2.git"
+    },
     "files": [
         "out/**/*"
     ],
@@ -13,7 +17,6 @@
         "watch": "tsc -watch -p ./",
         "lint": "tslint -p tsconfig.json"
     },
-    "repository": "github:crowdin/crowdin-node-sdk-2",
     "keywords": [
         "Crowdin"
     ],
