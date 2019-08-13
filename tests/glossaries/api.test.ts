@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Glossaries API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Glossaries.Api = new crowdin.Glossaries.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Glossaries.Api = new crowdin.Glossaries.Api(credentials);
     const glossaryId = 112;
     const glossaryName = 'test';
     const glossaryTerms = 4;

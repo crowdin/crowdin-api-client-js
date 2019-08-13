@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Tasks API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Tasks.Api = new crowdin.Tasks.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Tasks.Api = new crowdin.Tasks.Api(credentials);
     const projectId = 2;
     const taskId = 3;
     const taskTitle = 'Test title';

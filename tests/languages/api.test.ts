@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Languages API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Languages.Api = new crowdin.Languages.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Languages.Api = new crowdin.Languages.Api(credentials);
     const languageId = 2;
 
     const limit = 25;

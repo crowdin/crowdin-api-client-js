@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Translation Memory API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.TranslationMemory.Api = new crowdin.TranslationMemory.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.TranslationMemory.Api = new crowdin.TranslationMemory.Api(credentials);
     const tmId = 2;
     const groupId = 44;
     const storageId = 55;

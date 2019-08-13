@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Notifications API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Notifications.Api = new crowdin.Notifications.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Notifications.Api = new crowdin.Notifications.Api(credentials);
     const subscriptionId = 'test';
 
     const limit = 25;

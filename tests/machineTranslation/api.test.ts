@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Machine Translation engines (MTs) API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.MachineTranslation.Api = new crowdin.MachineTranslation.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.MachineTranslation.Api = new crowdin.MachineTranslation.Api(credentials);
     const mtId = 2;
     const groupId = 3;
     const name = 'test';

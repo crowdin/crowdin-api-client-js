@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Screenshots API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Screenshots.Api = new crowdin.Screenshots.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Screenshots.Api = new crowdin.Screenshots.Api(credentials);
     const projectId = 2;
     const screenshotId = 23;
     const screenshotName = 'test.png';

@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Translations API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Translations.Api = new crowdin.Translations.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Translations.Api = new crowdin.Translations.Api(credentials);
     const projectId = 2;
     const preTranslationId = '21';
     const pseudoTranslationBuildId = '21';

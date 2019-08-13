@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Projects and Groups API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.ProjectsGroups.Api = new crowdin.ProjectsGroups.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.ProjectsGroups.Api = new crowdin.ProjectsGroups.Api(credentials);
     const projectId = 2;
     const groupId = 1;
     const projectName = 'testProject';

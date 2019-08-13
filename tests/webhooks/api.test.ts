@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Web-hooks API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Webhooks.Api = new crowdin.Webhooks.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Webhooks.Api = new crowdin.Webhooks.Api(credentials);
     const projectId = 2;
     const webhookId = 3;
     const name = 'test';

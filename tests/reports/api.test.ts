@@ -4,7 +4,12 @@ import * as crowdin from '../../src/index';
 describe('Reports API', () => {
 
     let scope: nock.Scope;
-    const api: crowdin.Reports.Api = new crowdin.Reports.Api('testUser', 'qwerty', 'testOrg');
+    const credentials: crowdin.Credentials = {
+        login: 'testUser',
+        accountKey: 'qwerty',
+        organization: 'testOrg'
+    };
+    const api: crowdin.Reports.Api = new crowdin.Reports.Api(credentials);
     const projectId = 2;
     const reportId = '123';
     const reportName = 'testReport';
