@@ -1,6 +1,6 @@
 {
-    "name": "crowdin-node-sdk-2",
-    "version": "1.0.0",
+    "name": "crowdin-sdk-2",
+    "version": "1.0.1",
     "description": "NodeJS client library for Crowdin API v2.",
     "main": "out/index.js",
     "types": "out/index.d.ts",

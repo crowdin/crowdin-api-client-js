@@ -6,7 +6,7 @@ For more about Crowdin API v2 see [Crowdin API](https://support.crowdin.com/ente
 
 ## Installation
 
-`npm install crowdin-node-sdk-2`
+`npm install crowdin-sdk-2`
 
 ## Usage
 
