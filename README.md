@@ -13,7 +13,7 @@ For more about Crowdin API v2 see [Crowdin API](https://support.crowdin.com/ente
 Start using client by creating `Credentials` object:
 
 ```typescript
-import * as crowdin from 'crowdin-node-sdk-2';
+import * as crowdin from 'crowdin-sdk-2';
 
 const credentials: crowdin.Credentials = {
     login: 'yourLogin',
