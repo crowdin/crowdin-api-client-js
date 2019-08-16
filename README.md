@@ -6,8 +6,6 @@ For more about Crowdin API v2 see [Crowdin API](https://support.crowdin.com/ente
 
 ## Installation
 
-`npm install crowdin-sdk-2`
-
 ## Usage
 
 Start using client by creating `Credentials` object:
