@@ -5,8 +5,7 @@ describe('Screenshots API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Screenshots.Api = new crowdin.Screenshots.Api(credentials);
@@ -21,11 +20,13 @@ describe('Screenshots API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/screenshots`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/screenshots`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -38,71 +39,86 @@ describe('Screenshots API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/screenshots`, {
-                storageId: storageId,
-                name: screenshotName
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/screenshots`,
+                {
+                    storageId: storageId,
+                    name: screenshotName
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: screenshotId,
                     name: screenshotName
                 }
             })
-            .get(`/projects/${projectId}/screenshots/${screenshotId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/screenshots/${screenshotId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: screenshotId,
                     name: screenshotName
                 }
             })
-            .put(`/projects/${projectId}/screenshots/${screenshotId}`, {
-                storageId: storageId,
-                name: screenshotName
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .put(`/projects/${projectId}/screenshots/${screenshotId}`,
+                {
+                    storageId: storageId,
+                    name: screenshotName
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: screenshotId,
                     name: screenshotName
                 }
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/screenshots/${screenshotId}`, [{
-                value: screenshotName,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/name'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/screenshots/${screenshotId}`,
+                [{
+                    value: screenshotName,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/name'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: screenshotId,
                     name: screenshotName
                 }
             })
-            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -115,59 +131,74 @@ describe('Screenshots API', () => {
                     limit: limit
                 }
             })
-            .put(`/projects/${projectId}/screenshots/${screenshotId}/tags`, [{
-                stringId: stringId
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .put(`/projects/${projectId}/screenshots/${screenshotId}/tags`,
+                [{
+                    stringId: stringId
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .post(`/projects/${projectId}/screenshots/${screenshotId}/tags`, [{
-                stringId: stringId
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/screenshots/${screenshotId}/tags`,
+                [{
+                    stringId: stringId
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: tagId,
                     screenshotId: screenshotId
                 }
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: tagId,
                     screenshotId: screenshotId
                 }
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, [{
-                value: stringId,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/stringId'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`,
+                [{
+                    value: stringId,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/stringId'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: screenshotId

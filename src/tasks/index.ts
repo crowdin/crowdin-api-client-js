@@ -10,10 +10,10 @@ export namespace Tasks {
          * @param offset starting offset in the collection (default 0)
          */
         listTasks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Task>> {
-            let url = `${this.url}/projects/${projectId}/tasks?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/tasks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -21,8 +21,8 @@ export namespace Tasks {
          * @param request request body
          */
         addTask(projectId: number, request: Model.CreateTaskRequest): Promise<ResponseObject<Model.Task>> {
-            let url = `${this.url}/projects/${projectId}/tasks?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/tasks`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,8 +30,8 @@ export namespace Tasks {
          * @param taskId task identifier
          */
         getTask(projectId: number, taskId: number): Promise<ResponseObject<Model.Task>> {
-            let url = `${this.url}/projects/${projectId}/tasks/${taskId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -39,8 +39,8 @@ export namespace Tasks {
          * @param taskId task identifier
          */
         deleteTask(projectId: number, taskId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/tasks/${taskId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -49,8 +49,8 @@ export namespace Tasks {
          * @param request request body
          */
         editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Task>> {
-            let url = `${this.url}/projects/${projectId}/tasks/${taskId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
     }

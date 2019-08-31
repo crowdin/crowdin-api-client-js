@@ -5,8 +5,8 @@ export namespace UploadStorage {
     export class Api extends CrowdinApi {
 
         listStorages(): Promise<ResponseList<Model.Storage>> {
-            let url = `${this.url}/storages?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/storages`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -14,28 +14,26 @@ export namespace UploadStorage {
          * @param request binary file data
          */
         addStorage(contentType: string, request: any): Promise<ResponseObject<Model.Storage>> {
-            let url = `${this.url}/storages?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request, {
-                headers: {
-                    'Content-Type': contentType
-                }
-            });
+            let url = `${this.url}/storages`;
+            let config = this.defaultConfig();
+            config.headers['Content-Type'] = contentType;
+            return this.axios.post(url, request, config);
         }
 
         /**
          * @param storageId storage identifier
          */
         getStorage(storageId: number): Promise<ResponseObject<Model.Storage>> {
-            let url = `${this.url}/storages/${storageId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/storages/${storageId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param storageId storage identifier
          */
         deleteStorage(storageId: number): Promise<void> {
-            let url = `${this.url}/storages/${storageId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/storages/${storageId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
     }
 

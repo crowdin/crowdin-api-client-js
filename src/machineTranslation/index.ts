@@ -10,35 +10,35 @@ export namespace MachineTranslation {
          * @param offset starting offset in the collection (default 0)
          */
         listMts(groupId: number, limit?: number, offset?: number): Promise<ResponseList<Model.MachineTranslation>> {
-            let url = `${this.url}/mts?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/mts`;
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param request request body
          */
         createMt(request: Model.CreateMachineTranslationRequest): Promise<ResponseObject<Model.MachineTranslation>> {
-            let url = `${this.url}/mts?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/mts`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
          * @param mtId mt identifier
          */
         getMt(mtId: number): Promise<ResponseObject<Model.MachineTranslation>> {
-            let url = `${this.url}/mts/${mtId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/mts/${mtId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param mtId mt identifier
          */
         deleteMt(mtId: number): Promise<void> {
-            let url = `${this.url}/mts/${mtId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/mts/${mtId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -46,8 +46,8 @@ export namespace MachineTranslation {
          * @param request request body
          */
         updateMt(mtId: number, request: PatchRequest[]): Promise<ResponseObject<Model.MachineTranslation>> {
-            let url = `${this.url}/mts/${mtId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/mts/${mtId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
     }

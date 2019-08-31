@@ -10,10 +10,10 @@ export namespace Reports {
          * @param offset starting offset in the collection (default 0)
          */
         listSupportedReports(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.SupportedReport>> {
-            let url = `${this.url}/projects/${projectId}/supported-reports?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/supported-reports`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -21,8 +21,8 @@ export namespace Reports {
          * @param request request body
          */
         generateReport(projectId: number, request: Model.GenerateReportRequest): Promise<ResponseObject<Model.Report>> {
-            let url = `${this.url}/projects/${projectId}/reports?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/reports`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,8 +30,8 @@ export namespace Reports {
          * @param reportId report identifier
          */
         exportProjectReportRaw(projectId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
-            let url = `${this.url}/projects/${projectId}/reports/${reportId}/download?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/reports/${reportId}/download`;
+            return this.axios.get(url, this.defaultConfig());
         }
     }
 

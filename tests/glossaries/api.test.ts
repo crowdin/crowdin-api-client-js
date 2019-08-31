@@ -5,8 +5,7 @@ describe('Glossaries API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Glossaries.Api = new crowdin.Glossaries.Api(credentials);
@@ -26,10 +25,14 @@ describe('Glossaries API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/glossaries')
+            .get('/glossaries', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .query({
-                'account-key': api.accountKey,
-                login: api.login,
                 groupId: groupId
             })
             .reply(200, {
@@ -44,46 +47,56 @@ describe('Glossaries API', () => {
                     limit: limit
                 }
             })
-            .post('/glossaries', {
-                name: glossaryName,
-                groupId: groupId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post('/glossaries',
+                {
+                    name: glossaryName,
+                    groupId: groupId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: glossaryId,
                     name: glossaryName
                 }
             })
-            .get(`/glossaries/${glossaryId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: glossaryId,
                     name: glossaryName
                 }
             })
-            .delete(`/glossaries/${glossaryId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/glossaries/${glossaryId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/glossaries/${glossaryId}`, [{
-                value: glossaryTerms,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/term'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/glossaries/${glossaryId}`,
+                [{
+                    value: glossaryTerms,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/term'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: glossaryId,
@@ -91,68 +104,79 @@ describe('Glossaries API', () => {
                     terms: glossaryTerms
                 }
             })
-            .post(`/glossaries/${glossaryId}/exports`, {
-                format: glossaryFormat
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/glossaries/${glossaryId}/exports`,
+                {
+                    format: glossaryFormat
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: exportId
                 }
             })
-            .get(`/glossaries/${glossaryId}/exports/download`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}/exports/download`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: glossaryLink
                 }
             })
-            .get(`/glossaries/${glossaryId}/exports/${exportId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}/exports/${exportId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: exportId
                 }
             })
-            .post(`/glossaries/${glossaryId}/imports`, {
-                storageId: storageId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/glossaries/${glossaryId}/imports`,
+                {
+                    storageId: storageId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: importId
                 }
             })
-            .get(`/glossaries/${glossaryId}/imports/${importId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}/imports/${importId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: importId
                 }
             })
-
-
-
-            .get(`/glossaries/${glossaryId}/terms`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}/terms`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -165,46 +189,56 @@ describe('Glossaries API', () => {
                     limit: limit
                 }
             })
-            .post(`/glossaries/${glossaryId}/terms`, {
-                languageId: termLanguageId,
-                text: termText
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/glossaries/${glossaryId}/terms`,
+                {
+                    languageId: termLanguageId,
+                    text: termText
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: termId,
                     glossaryId: glossaryId
                 }
             })
-            .get(`/glossaries/${glossaryId}/terms/${termId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/glossaries/${glossaryId}/terms/${termId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: termId,
                     glossaryId: glossaryId
                 }
             })
-            .delete(`/glossaries/${glossaryId}/terms/${termId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/glossaries/${glossaryId}/terms/${termId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/glossaries/${glossaryId}/terms/${termId}`, [{
-                value: termText,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/text'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/glossaries/${glossaryId}/terms/${termId}`,
+                [{
+                    value: termText,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/text'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: termId,

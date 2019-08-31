@@ -5,8 +5,7 @@ describe('Upload Storage API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.UploadStorage.Api = new crowdin.UploadStorage.Api(credentials);
@@ -18,11 +17,13 @@ describe('Upload Storage API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/storages')
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get('/storages', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -36,33 +37,34 @@ describe('Upload Storage API', () => {
             })
             .post('/storages', fileContent, {
                 reqheaders: {
-                    'Content-Type': contentType
+                    'Content-Type': contentType,
+                    'Authorization': `Bearer ${api.token}`
                 }
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
             })
             .reply(200, {
                 data: {
                     id: storageId
                 }
             })
-            .get(`/storages/${storageId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/storages/${storageId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: storageId
                 }
             })
-            .delete(`/storages/${storageId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/storages/${storageId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200);
     });
 

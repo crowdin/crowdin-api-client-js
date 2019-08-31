@@ -5,8 +5,7 @@ describe('Translation Status API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.TranslationStatus.Api = new crowdin.TranslationStatus.Api(credentials);
@@ -22,11 +21,13 @@ describe('Translation Status API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/issues`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/issues`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -38,11 +39,13 @@ describe('Translation Status API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/branches/${branchId}/languages/progress`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/branches/${branchId}/languages/progress`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -54,11 +57,13 @@ describe('Translation Status API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/directories/${directoryId}/languages/progress`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/directories/${directoryId}/languages/progress`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -70,11 +75,13 @@ describe('Translation Status API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/export-ready-progress`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/export-ready-progress`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -86,11 +93,13 @@ describe('Translation Status API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/files/${fileId}/languages/progress`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files/${fileId}/languages/progress`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -102,11 +111,13 @@ describe('Translation Status API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/languages/progress`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/languages/progress`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {

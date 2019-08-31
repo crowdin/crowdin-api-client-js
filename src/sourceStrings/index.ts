@@ -11,11 +11,11 @@ export namespace SourceStrings {
          * @param offset starting offset in the collection (default 0)
          */
         listProjectStrings(projectId: number, fileId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.String>> {
-            let url = `${this.url}/projects/${projectId}/strings?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/strings`;
             url = this.addQueryParam(url, 'fileId', fileId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -23,8 +23,8 @@ export namespace SourceStrings {
          * @param request request body
          */
         addString(projectId: number, request: Model.CreateStringRequest): Promise<ResponseObject<Model.String>> {
-            let url = `${this.url}/projects/${projectId}/strings?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/strings`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -32,8 +32,8 @@ export namespace SourceStrings {
          * @param stringId string identifier
          */
         getString(projectId: number, stringId: number): Promise<ResponseObject<Model.String>> {
-            let url = `${this.url}/projects/${projectId}/strings/${stringId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -41,8 +41,8 @@ export namespace SourceStrings {
          * @param stringId string identifier
          */
         deleteString(projectId: number, stringId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/strings/${stringId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -51,8 +51,8 @@ export namespace SourceStrings {
          * @param request request body
          */
         editString(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<Model.String>> {
-            let url = `${this.url}/projects/${projectId}/strings/${stringId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
     }
 

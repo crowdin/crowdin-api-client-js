@@ -5,8 +5,7 @@ describe('Languages API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Languages.Api = new crowdin.Languages.Api(credentials);
@@ -16,11 +15,13 @@ describe('Languages API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/languages')
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get('/languages', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -32,11 +33,13 @@ describe('Languages API', () => {
                     limit: limit
                 }
             })
-            .get(`/languages/${languageId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/languages/${languageId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: languageId

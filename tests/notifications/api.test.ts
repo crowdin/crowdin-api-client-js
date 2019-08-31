@@ -5,8 +5,7 @@ describe('Notifications API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Notifications.Api = new crowdin.Notifications.Api(credentials);
@@ -16,11 +15,13 @@ describe('Notifications API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/notification-channels/subscriptions')
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get('/notification-channels/subscriptions', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -32,33 +33,40 @@ describe('Notifications API', () => {
                     limit: limit
                 }
             })
-            .post('/notification-channels/subscriptions', {
-                subscriptionId: subscriptionId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post('/notification-channels/subscriptions',
+                {
+                    subscriptionId: subscriptionId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     subscriptionId: subscriptionId
                 }
             })
-            .get(`/notification-channels/subscriptions/${subscriptionId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/notification-channels/subscriptions/${subscriptionId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     subscriptionId: subscriptionId
                 }
             })
-            .delete(`/notification-channels/subscriptions/${subscriptionId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/notification-channels/subscriptions/${subscriptionId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200);
     });
 

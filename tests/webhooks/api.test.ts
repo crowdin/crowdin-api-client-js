@@ -5,8 +5,7 @@ describe('Web-hooks API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Webhooks.Api = new crowdin.Webhooks.Api(credentials);
@@ -20,11 +19,13 @@ describe('Web-hooks API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/webhooks`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/webhooks`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -36,46 +37,56 @@ describe('Web-hooks API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/webhooks`, {
-                name: name,
-                url: url,
-                events: [],
-                requestType: requestType
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/webhooks`,
+                {
+                    name: name,
+                    url: url,
+                    events: [],
+                    requestType: requestType
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: webhookId
                 }
             })
-            .get(`/projects/${projectId}/webhooks/${webhookId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/webhooks/${webhookId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: webhookId
                 }
             })
-            .delete(`/projects/${projectId}/webhooks/${webhookId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/webhooks/${webhookId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/webhooks/${webhookId}`, [{
-                value: name,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/name'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/webhooks/${webhookId}`,
+                [{
+                    value: name,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/name'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: webhookId,

@@ -5,8 +5,7 @@ describe('Tasks API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Tasks.Api = new crowdin.Tasks.Api(credentials);
@@ -22,11 +21,13 @@ describe('Tasks API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/tasks`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/tasks`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -38,47 +39,57 @@ describe('Tasks API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/tasks`, {
-                title: taskTitle,
-                languageId: languageId,
-                fileIds: [],
-                type: type,
-                workflowStepId: workflowStepId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/tasks`,
+                {
+                    title: taskTitle,
+                    languageId: languageId,
+                    fileIds: [],
+                    type: type,
+                    workflowStepId: workflowStepId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: taskId
                 }
             })
-            .get(`/projects/${projectId}/tasks/${taskId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/tasks/${taskId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: taskId
                 }
             })
-            .delete(`/projects/${projectId}/tasks/${taskId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/tasks/${taskId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/tasks/${taskId}`, [{
-                value: taskTitle,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/title'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/tasks/${taskId}`,
+                [{
+                    value: taskTitle,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/title'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: taskId,

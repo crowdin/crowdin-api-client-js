@@ -10,10 +10,10 @@ export namespace Webhooks {
          * @param offset starting offset in the collection (default 0)
          */
         listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Webhook>> {
-            let url = `${this.url}/projects/${projectId}/webhooks?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/webhooks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -21,8 +21,8 @@ export namespace Webhooks {
          * @param request request body
          */
         addWebhook(projectId: number, request: Model.AddWebhookRequest): Promise<ResponseObject<Model.Webhook>> {
-            let url = `${this.url}/projects/${projectId}/webhooks?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/webhooks`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,8 +30,8 @@ export namespace Webhooks {
          * @param webhookId webhook identifier
          */
         getWebhook(projectId: number, webhookId: number): Promise<ResponseObject<Model.Webhook>> {
-            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -39,8 +39,8 @@ export namespace Webhooks {
          * @param webhookId webhook identifier
          */
         deleteWebhook(projectId: number, webhookId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -49,8 +49,8 @@ export namespace Webhooks {
          * @param request request body
          */
         editWebhook(projectId: number, webhookId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Webhook>> {
-            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
     }

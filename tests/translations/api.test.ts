@@ -5,8 +5,7 @@ describe('Translations API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Translations.Api = new crowdin.Translations.Api(credentials);
@@ -25,64 +24,78 @@ describe('Translations API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .post(`/projects/${projectId}/pre-translations`, {
-                languageIds: [],
-                fileIds: []
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/pre-translations`,
+                {
+                    languageIds: [],
+                    fileIds: []
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: preTranslationId
                 }
             })
-            .get(`/projects/${projectId}/pre-translations/${preTranslationId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/pre-translations/${preTranslationId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: preTranslationId
                 }
             })
-            .post(`/projects/${projectId}/pseudo-translations/builds`, {})
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/pseudo-translations/builds`,
+                {},
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: pseudoTranslationBuildId
                 }
             })
-            .get(`/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: pseudoTranslationBuildId
                 }
             })
-            .get(`/projects/${projectId}/pseudo-translations/builds/download`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/pseudo-translations/builds/download`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: downloadLink
                 }
             })
-            .get(`/projects/${projectId}/translations/builds`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/translations/builds`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -94,50 +107,62 @@ describe('Translations API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/translations/builds`, {})
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/translations/builds`,
+                {},
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: buildId
                 }
             })
-            .get(`/projects/${projectId}/translations/builds/${buildId}/download`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/translations/builds/${buildId}/download`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: url
                 }
             })
-            .get(`/projects/${projectId}/translations/builds/${buildId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/translations/builds/${buildId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: statusId
                 }
             })
-            .delete(`/projects/${projectId}/translations/builds/${buildId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/translations/builds/${buildId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .post(`/projects/${projectId}/translations/${languageId}`, {
-                storageId: storageId,
-                fileId: fileId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/translations/${languageId}`,
+                {
+                    storageId: storageId,
+                    fileId: fileId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200);
     });
 

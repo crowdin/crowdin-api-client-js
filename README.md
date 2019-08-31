@@ -14,8 +14,7 @@ Start using client by creating `Credentials` object:
 import * as crowdin from 'crowdin-sdk-2';
 
 const credentials: crowdin.Credentials = {
-    login: 'yourLogin',
-    accountKey: 'yourAccountKey',
+    token: 'testToken',
     organization: 'organizationName'
 };
 ```

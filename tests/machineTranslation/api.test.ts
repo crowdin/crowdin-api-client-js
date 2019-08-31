@@ -5,8 +5,7 @@ describe('Machine Translation engines (MTs) API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.MachineTranslation.Api = new crowdin.MachineTranslation.Api(credentials);
@@ -18,10 +17,14 @@ describe('Machine Translation engines (MTs) API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/mts')
+            .get('/mts', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .query({
-                'account-key': api.accountKey,
-                login: api.login,
                 groupId: groupId
             })
             .reply(200, {
@@ -35,43 +38,53 @@ describe('Machine Translation engines (MTs) API', () => {
                     limit: limit
                 }
             })
-            .post('/mts', {
-                name: name
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post('/mts',
+                {
+                    name: name
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: mtId
                 }
             })
-            .get(`/mts/${mtId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/mts/${mtId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: mtId
                 }
             })
-            .delete(`/mts/${mtId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/mts/${mtId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/mts/${mtId}`, [{
-                value: name,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/name'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/mts/${mtId}`,
+                [{
+                    value: name,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/name'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: mtId,

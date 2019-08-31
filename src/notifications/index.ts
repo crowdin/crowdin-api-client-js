@@ -5,32 +5,32 @@ export namespace Notifications {
     export class Api extends CrowdinApi {
 
         listSubscriptions(): Promise<ResponseList<Model.Subscription>> {
-            let url = `${this.url}/notification-channels/subscriptions?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/notification-channels/subscriptions`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param request request body
          */
         subscribeToChannel(request: Model.SubscribeToChannel): Promise<ResponseObject<Model.Subscription>> {
-            let url = `${this.url}/notification-channels/subscriptions?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/notification-channels/subscriptions`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
          * @param subscriptonId subscripton identifier
          */
         getSubscription(subscriptonId: string): Promise<ResponseObject<Model.Subscription>> {
-            let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param subscriptonId subscripton identifier
          */
         removeChannelSubscription(subscriptonId: string): Promise<void> {
-            let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
     }

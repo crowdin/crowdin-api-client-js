@@ -9,18 +9,18 @@ export namespace Languages {
          * @param offset starting offset in the collection (default 0)
          */
         listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<Model.Language>> {
-            let url = `${this.url}/languages?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/languages`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param languageId language identifier
          */
         getLanguage(languageId: number): Promise<ResponseObject<Model.Language>> {
-            let url = `${this.url}/languages/${languageId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/languages/${languageId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
     }

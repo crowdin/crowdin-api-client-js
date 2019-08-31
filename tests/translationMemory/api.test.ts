@@ -5,8 +5,7 @@ describe('Translation Memory API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.TranslationMemory.Api = new crowdin.TranslationMemory.Api(credentials);
@@ -22,10 +21,14 @@ describe('Translation Memory API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/tms')
+            .get('/tms', undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .query({
-                'account-key': api.accountKey,
-                login: api.login,
                 groupId: groupId
             })
             .reply(200, {
@@ -39,97 +42,119 @@ describe('Translation Memory API', () => {
                     limit: limit
                 }
             })
-            .post('/tms', {
-                name: name,
-                groupId: groupId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post('/tms',
+                {
+                    name: name,
+                    groupId: groupId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: tmId
                 }
             })
-            .get(`/tms/${tmId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/tms/${tmId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: tmId
                 }
             })
-            .delete(`/tms/${tmId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/tms/${tmId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/tms/${tmId}`, [{
-                value: name,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/name'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/tms/${tmId}`,
+                [{
+                    value: name,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/name'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: tmId,
                     name: name
                 }
             })
-            .get(`/tms/${tmId}/exports`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/tms/${tmId}/exports`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: url
                 }
             })
-            .post(`/tms/${tmId}/exports`, {})
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/tms/${tmId}/exports`,
+                {},
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: exportId
                 }
             })
-            .get(`/tms/${tmId}/exports/${exportId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/tms/${tmId}/exports/${exportId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: exportId
                 }
             })
-            .post(`/tms/${tmId}/imports`, {
-                storageId: storageId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/tms/${tmId}/imports`,
+                {
+                    storageId: storageId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: importId
                 }
             })
-            .get(`/tms/${tmId}/imports/${importId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/tms/${tmId}/imports/${importId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     identifier: importId

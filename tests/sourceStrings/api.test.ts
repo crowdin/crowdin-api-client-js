@@ -5,8 +5,7 @@ describe('Source Strings API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.SourceStrings.Api = new crowdin.SourceStrings.Api(credentials);
@@ -19,11 +18,13 @@ describe('Source Strings API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/strings`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/strings`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -36,46 +37,56 @@ describe('Source Strings API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/strings`, {
-                identifier: stringIdentifier,
-                text: stringText
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/strings`,
+                {
+                    identifier: stringIdentifier,
+                    text: stringText
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: stringId,
                     text: stringText
                 }
             })
-            .get(`/projects/${projectId}/strings/${stringId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/strings/${stringId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: stringId,
                     text: stringText
                 }
             })
-            .delete(`/projects/${projectId}/strings/${stringId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/strings/${stringId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/strings/${stringId}`, [{
-                value: stringText,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/text'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/strings/${stringId}`,
+                [{
+                    value: stringText,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/text'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: stringId,

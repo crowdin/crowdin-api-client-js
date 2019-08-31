@@ -12,12 +12,12 @@ export namespace TranslationStatus {
          * @param status defines the issue resolution status
          */
         listReportedIssues(projectId: number, limit?: number, offset?: number, type?: Model.Type, status?: Model.Status): Promise<ResponseList<Model.Issue>> {
-            let url = `${this.url}/projects/${projectId}/issues?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/issues`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
             url = this.addQueryParam(url, 'type', type);
             url = this.addQueryParam(url, 'status', status);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -25,8 +25,8 @@ export namespace TranslationStatus {
          * @param branchId branch identifier
          */
         getBranchProgress(projectId: number, branchId: number): Promise<ResponseList<Model.Progress>> {
-            let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -34,8 +34,8 @@ export namespace TranslationStatus {
          * @param directoryId directory identifier
          */
         getDirectoryProgress(projectId: number, directoryId: number): Promise<ResponseList<Model.Progress>> {
-            let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -45,11 +45,11 @@ export namespace TranslationStatus {
          * @param offset starting offset in the collection (default 0)
          */
         getProjectProgress(projectId: number, languageIds?: string, limit?: number, offset?: number): Promise<ResponseList<Model.ProjectProgress>> {
-            let url = `${this.url}/projects/${projectId}/export-ready-progress?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/export-ready-progress`;
             url = this.addQueryParam(url, 'languageIds', languageIds);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -57,16 +57,16 @@ export namespace TranslationStatus {
          * @param fileId file identifier
          */
         getFileProgress(projectId: number, fileId: number): Promise<ResponseList<Model.Progress>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param projectId project identifier
          */
         getLanguageProgress(projectId: number): Promise<ResponseList<Model.Progress>> {
-            let url = `${this.url}/projects/${projectId}/languages/progress?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/languages/progress`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
     }

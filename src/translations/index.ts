@@ -9,8 +9,8 @@ export namespace Translations {
          * @param request request body
          */
         preTranslate(projectId: number, request: Model.PreTranslateRequest): Promise<ResponseObject<Status>> {
-            let url = `${this.url}/projects/${projectId}/pre-translations?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/pre-translations`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -18,8 +18,8 @@ export namespace Translations {
          * @param preTranslationId pre translation identifier
          */
         preTranslationStatus(projectId: number, preTranslationId: string): Promise<ResponseObject<Status>> {
-            let url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -27,8 +27,8 @@ export namespace Translations {
          * @param request request body
          */
         buildPseudoTranslation(projectId: number, request: Model.BuildPseudoTranslationFilesRequest): Promise<ResponseObject<Status>> {
-            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -36,16 +36,16 @@ export namespace Translations {
          * @param pseudoTranslationBuildId pseudo translation build identifier, consists of 36 characters
          */
         checkPseudoTranslationBuildStatus(projectId: number, pseudoTranslationBuildId: string): Promise<ResponseObject<Status>> {
-            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
          * @param projectId project identifier
          */
         downloadPseudoTranslation(projectId: number): Promise<ResponseObject<DownloadLink>> {
-            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -55,11 +55,11 @@ export namespace Translations {
          * @param offset starting offset in the collection (default 0)
          */
         listProjectBuilds(projectId: number, branchId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Build>> {
-            let url = `${this.url}/projects/${projectId}/translations/builds?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/translations/builds`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -67,8 +67,8 @@ export namespace Translations {
          * @param request request body
          */
         buildProject(projectId: number, request: Model.BuildRequest): Promise<ResponseObject<Model.Build>> {
-            let url = `${this.url}/projects/${projectId}/translations/builds?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/translations/builds`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -76,8 +76,8 @@ export namespace Translations {
          * @param buildId build identifier
          */
         downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
-            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -85,8 +85,8 @@ export namespace Translations {
          * @param buildId build identifier
          */
         checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<Model.Build>> {
-            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -94,8 +94,8 @@ export namespace Translations {
          * @param buildId build identifier
          */
         cancelBuild(projectId: number, buildId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -104,8 +104,8 @@ export namespace Translations {
          * @param request request body
          */
         uploadTranslation(projectId: number, languageId: number, request: Model.UploadTranslationRequest): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/translations/${languageId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/translations/${languageId}`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
     }
 

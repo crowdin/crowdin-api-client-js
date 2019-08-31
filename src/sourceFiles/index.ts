@@ -11,11 +11,11 @@ export namespace SourceFiles {
          * @param offset starting offset in the collection (default 0)
          */
         listProjectBranches(projectId: number, name?: string, limit?: number, offset?: number): Promise<ResponseList<Model.Branch>> {
-            let url = `${this.url}/projects/${projectId}/branches?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/branches`;
             url = this.addQueryParam(url, 'name', name);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -23,8 +23,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         createBranch(projectId: number, request: Model.CreateBranchRequest): Promise<ResponseObject<Model.Branch>> {
-            let url = `${this.url}/projects/${projectId}/branches?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/branches`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -32,8 +32,8 @@ export namespace SourceFiles {
          * @param branchId branch identifier
          */
         getBranch(projectId: number, branchId: number): Promise<ResponseObject<Model.Branch>> {
-            let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -41,8 +41,8 @@ export namespace SourceFiles {
          * @param branchId branch identifier
          */
         deleteBranch(projectId: number, branchId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -51,8 +51,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         editBranch(projectId: number, branchId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Branch>> {
-            let url = `${this.url}/projects/${projectId}/branches/${branchId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -63,12 +63,12 @@ export namespace SourceFiles {
          * @param offset starting offset in the collection (default 0)
          */
         listProjectDirectories(projectId: number, branchId?: number, directoryId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Directory>> {
-            let url = `${this.url}/projects/${projectId}/directories?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/directories`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'directoryId', directoryId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -76,8 +76,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         createDirectory(projectId: number, request: Model.CreateDirectoryRequest): Promise<ResponseObject<Model.Directory>> {
-            let url = `${this.url}/projects/${projectId}/directories?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/directories`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -85,8 +85,8 @@ export namespace SourceFiles {
          * @param directoryId directory identifier
          */
         getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<Model.Directory>> {
-            let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -94,8 +94,8 @@ export namespace SourceFiles {
          * @param directoryId directory identifier
          */
         deleteDirectory(projectId: number, directoryId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -104,8 +104,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         editDirectory(projectId: number, directoryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Directory>> {
-            let url = `${this.url}/projects/${projectId}/directories/${directoryId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -117,12 +117,12 @@ export namespace SourceFiles {
          * @param offset starting offset in the collection (default 0)
          */
         listProjectFiles(projectId: number, branchId?: number, directoryId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.File>> {
-            let url = `${this.url}/projects/${projectId}/files?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/files`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'directoryId', directoryId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -132,10 +132,10 @@ export namespace SourceFiles {
          * @param directoryId get files of directory. You can set branchId or directoryId, not both
          */
         createFile(projectId: number, request: Model.CreateFileRequest, branchId?: number, directoryId?: number): Promise<ResponseObject<Model.File>> {
-            let url = `${this.url}/projects/${projectId}/files?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/files`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'directoryId', directoryId);
-            return this.axios.post(url, request);
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -143,8 +143,8 @@ export namespace SourceFiles {
          * @param fileId file identifier
          */
         getFile(projectId: number, fileId: number): Promise<ResponseObject<Model.File>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -152,8 +152,8 @@ export namespace SourceFiles {
          * @param fileId file identifier
          */
         deleteFile(projectId: number, fileId: number): Promise<void> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.delete(url);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}`;
+            return this.axios.delete(url, this.defaultConfig());
         }
 
         /**
@@ -162,8 +162,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         editFile(projectId: number, fileId: number, request: PatchRequest[]): Promise<ResponseObject<Model.File>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.patch(url, request);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}`;
+            return this.axios.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -171,8 +171,8 @@ export namespace SourceFiles {
          * @param fileId file identifier
          */
         downloadFile(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}/download?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}/download`;
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -182,10 +182,10 @@ export namespace SourceFiles {
          * @param offset starting offset in the collection (default 0)
          */
         listFileRevisions(projectId: number, fileId: number, limit?: number, offset?: number): Promise<ResponseList<Model.FileRevision>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions?account-key=${this.accountKey}&login=${this.login}`;
+            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url);
+            return this.axios.get(url, this.defaultConfig());
         }
 
         /**
@@ -194,8 +194,8 @@ export namespace SourceFiles {
          * @param request request body
          */
         updateFile(projectId: number, fileId: number, request: Model.CreateFileRevisionRequest): Promise<ResponseList<Model.FileRevision>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.post(url, request);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
+            return this.axios.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -204,8 +204,8 @@ export namespace SourceFiles {
          * @param revision revision number
          */
         getFileRevision(projectId: number, fileId: number, revision: number): Promise<ResponseObject<Model.FileRevision>> {
-            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revision}?account-key=${this.accountKey}&login=${this.login}`;
-            return this.axios.get(url);
+            let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revision}`;
+            return this.axios.get(url, this.defaultConfig());
         }
     }
 

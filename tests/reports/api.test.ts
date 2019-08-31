@@ -5,8 +5,7 @@ describe('Reports API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.Reports.Api = new crowdin.Reports.Api(credentials);
@@ -24,11 +23,13 @@ describe('Reports API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/supported-reports`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/supported-reports`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -40,25 +41,30 @@ describe('Reports API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/reports`, {
-                name: reportName,
-                schema: schema
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/reports`,
+                {
+                    name: reportName,
+                    schema: schema
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     name: reportName,
                     reportId: reportId
                 }
             })
-            .get(`/projects/${projectId}/reports/${reportId}/download`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/reports/${reportId}/download`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: downloadLink

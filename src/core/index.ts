@@ -1,13 +1,13 @@
 import { AxisProvider } from './internal/axios/axiosProvider';
 import { AxiosInstance } from 'axios';
+import { URL } from 'url';
 
 export abstract class CrowdinApi {
 
     private static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
     private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
 
-    readonly login: string;
-    readonly accountKey: string;
+    readonly token: string;
     readonly organization: string;
     readonly url: string;
     readonly axios: AxiosInstance;
@@ -18,8 +18,7 @@ export abstract class CrowdinApi {
      * @param organization organization name
      */
     constructor(credentials: Credentials) {
-        this.accountKey = credentials.accountKey;
-        this.login = credentials.login;
+        this.token = credentials.token;
         this.organization = !!credentials.organization ? credentials.organization : 'api';
         this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
         this.axios = CrowdinApi.AXIOS_INSTANCE;
@@ -27,15 +26,19 @@ export abstract class CrowdinApi {
 
     protected addQueryParam(url: string, name: string, value?: any): string {
         if (!!value) {
-            url += `&${name}=${value}`;
+            url += new URL(url).searchParams.toString().length === 0 ? '?' : '&';
+            url += `${name}=${value}`;
         }
         return url;
+    }
+
+    protected defaultConfig(): any {
+        return { headers: { Authorization: `Bearer ${this.token}` } };
     }
 }
 
 export interface Credentials {
-    login: string;
-    accountKey: string;
+    token: string;
     organization?: string;
 }
 

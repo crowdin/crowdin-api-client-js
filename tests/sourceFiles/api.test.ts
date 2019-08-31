@@ -5,8 +5,7 @@ describe('Source Files API', () => {
 
     let scope: nock.Scope;
     const credentials: crowdin.Credentials = {
-        login: 'testUser',
-        accountKey: 'qwerty',
+        token: 'testToken',
         organization: 'testOrg'
     };
     const api: crowdin.SourceFiles.Api = new crowdin.SourceFiles.Api(credentials);
@@ -34,10 +33,14 @@ describe('Source Files API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/branches`)
+            .get(`/projects/${projectId}/branches`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .query({
-                'account-key': api.accountKey,
-                login: api.login,
                 name: branchName
             })
             .reply(200, {
@@ -51,45 +54,55 @@ describe('Source Files API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/branches`, {
-                name: branchName
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/branches`,
+                {
+                    name: branchName
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: branchId,
                     name: branchName
                 }
             })
-            .get(`/projects/${projectId}/branches/${branchId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/branches/${branchId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: branchId,
                     name: branchName
                 }
             })
-            .delete(`/projects/${projectId}/branches/${branchId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/branches/${branchId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/branches/${branchId}`, [{
-                value: branchTitle,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/title'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/branches/${branchId}`,
+                [{
+                    value: branchTitle,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/title'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: branchId,
@@ -97,11 +110,13 @@ describe('Source Files API', () => {
                     title: branchTitle
                 }
             })
-            .get(`/projects/${projectId}/directories`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/directories`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -114,45 +129,55 @@ describe('Source Files API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/directories`, {
-                name: directoryName
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/directories`,
+                {
+                    name: directoryName
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: directoryId,
                     name: directoryName
                 }
             })
-            .get(`/projects/${projectId}/directories/${directoryId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/directories/${directoryId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: directoryId,
                     name: directoryName
                 }
             })
-            .delete(`/projects/${projectId}/directories/${directoryId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/directories/${directoryId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/directories/${directoryId}`, [{
-                value: directoryTitle,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/title'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/directories/${directoryId}`,
+                [{
+                    value: directoryTitle,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/title'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: directoryId,
@@ -160,11 +185,13 @@ describe('Source Files API', () => {
                     title: directoryTitle
                 }
             })
-            .get(`/projects/${projectId}/files`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -181,13 +208,18 @@ describe('Source Files API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/files`, {
-                name: fileName,
-                storageId: storageId
-            })
+            .post(`/projects/${projectId}/files`,
+                {
+                    name: fileName,
+                    storageId: storageId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .query({
-                'account-key': api.accountKey,
-                login: api.login,
                 branchId: branchId
             })
             .reply(200, {
@@ -200,11 +232,13 @@ describe('Source Files API', () => {
                     }
                 }
             })
-            .get(`/projects/${projectId}/files/${fileId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files/${fileId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: fileId,
@@ -215,21 +249,26 @@ describe('Source Files API', () => {
                     }
                 }
             })
-            .delete(`/projects/${projectId}/files/${fileId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .delete(`/projects/${projectId}/files/${fileId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200)
-            .patch(`/projects/${projectId}/files/${fileId}`, [{
-                value: fileTitle,
-                op: crowdin.PatchOperation.REPLACE,
-                path: '/title'
-            }])
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .patch(`/projects/${projectId}/files/${fileId}`,
+                [{
+                    value: fileTitle,
+                    op: crowdin.PatchOperation.REPLACE,
+                    path: '/title'
+                }],
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: fileId,
@@ -241,21 +280,25 @@ describe('Source Files API', () => {
                     }
                 }
             })
-            .get(`/projects/${projectId}/files/${fileId}/download`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files/${fileId}/download`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     url: filleRawUrl
                 }
             })
-            .get(`/projects/${projectId}/files/${fileId}/revisions`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files/${fileId}/revisions`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -268,13 +311,16 @@ describe('Source Files API', () => {
                     limit: limit
                 }
             })
-            .post(`/projects/${projectId}/files/${fileId}/revisions`, {
-                storageId: storageId
-            })
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .post(`/projects/${projectId}/files/${fileId}/revisions`,
+                {
+                    storageId: storageId
+                },
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: [{
                     data: {
@@ -287,11 +333,13 @@ describe('Source Files API', () => {
                     limit: limit
                 }
             })
-            .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`)
-            .query({
-                'account-key': api.accountKey,
-                login: api.login
-            })
+            .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined,
+                {
+                    reqheaders: {
+                        'Authorization': `Bearer ${api.token}`
+                    }
+                }
+            )
             .reply(200, {
                 data: {
                     id: fileRevisionId,
