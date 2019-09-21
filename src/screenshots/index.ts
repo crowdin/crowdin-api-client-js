@@ -13,7 +13,7 @@ export namespace Screenshots {
             let url = `${this.url}/projects/${projectId}/screenshots`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Screenshots {
          */
         addScreenshot(projectId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -31,7 +31,7 @@ export namespace Screenshots {
          */
         getScreenshot(projectId: number, screenshotId: number): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -41,7 +41,7 @@ export namespace Screenshots {
          */
         updateScreenshot(projectId: number, screenshotId: number, request: Model.CreateScreenshotRequest): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
-            return this.axios.put(url, request, this.defaultConfig());
+            return this.put(url, request, this.defaultConfig());
         }
 
         /**
@@ -50,7 +50,7 @@ export namespace Screenshots {
          */
         deleteScreenshot(projectId: number, screenshotId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -60,7 +60,7 @@ export namespace Screenshots {
          */
         editScreenshot(projectId: number, screenshotId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -73,7 +73,7 @@ export namespace Screenshots {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -83,7 +83,7 @@ export namespace Screenshots {
          */
         replaceTags(projectId: number, screenshotId: number, request: Model.AddTagRequest[]): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-            return this.axios.put(url, request, this.defaultConfig());
+            return this.put(url, request, this.defaultConfig());
         }
 
         /**
@@ -93,7 +93,7 @@ export namespace Screenshots {
          */
         addTag(projectId: number, screenshotId: number, request: Model.AddTagRequest[]): Promise<ResponseObject<Model.Tag>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -102,7 +102,7 @@ export namespace Screenshots {
          */
         clearTags(projectId: number, screenshotId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -112,7 +112,7 @@ export namespace Screenshots {
          */
         getTag(projectId: number, screenshotId: number, tagId: number): Promise<ResponseObject<Model.Tag>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -122,7 +122,7 @@ export namespace Screenshots {
          */
         deleteTag(projectId: number, screenshotId: number, tagId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -133,7 +133,7 @@ export namespace Screenshots {
          */
         updateTag(projectId: number, screenshotId: number, tagId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Screenshot>> {
             let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
     }
 

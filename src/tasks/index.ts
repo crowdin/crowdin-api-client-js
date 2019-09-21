@@ -13,7 +13,7 @@ export namespace Tasks {
             let url = `${this.url}/projects/${projectId}/tasks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Tasks {
          */
         addTask(projectId: number, request: Model.CreateTaskRequest): Promise<ResponseObject<Model.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -31,7 +31,7 @@ export namespace Tasks {
          */
         getTask(projectId: number, taskId: number): Promise<ResponseObject<Model.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -40,7 +40,7 @@ export namespace Tasks {
          */
         deleteTask(projectId: number, taskId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -50,7 +50,7 @@ export namespace Tasks {
          */
         editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
     }

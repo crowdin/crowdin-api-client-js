@@ -1,5 +1,5 @@
 import { AxisProvider } from './internal/axios/axiosProvider';
-import { AxiosInstance } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { URL } from 'url';
 
 export abstract class CrowdinApi {
@@ -10,18 +10,17 @@ export abstract class CrowdinApi {
     readonly token: string;
     readonly organization: string;
     readonly url: string;
-    readonly axios: AxiosInstance;
+    readonly httpClient: HttpClient;
 
     /**
-     * @param login login
-     * @param accountKey account key
-     * @param organization organization name
+     * @param credentials credentials
+     * @param config optional configuration of the client
      */
-    constructor(credentials: Credentials) {
+    constructor(credentials: Credentials, config?: ClientConfig) {
         this.token = credentials.token;
         this.organization = !!credentials.organization ? credentials.organization : 'api';
         this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
-        this.axios = CrowdinApi.AXIOS_INSTANCE;
+        this.httpClient = !!config && !!config.httpClient ? config.httpClient : CrowdinApi.AXIOS_INSTANCE;
     }
 
     protected addQueryParam(url: string, name: string, value?: any): string {
@@ -35,11 +34,50 @@ export abstract class CrowdinApi {
     protected defaultConfig(): any {
         return { headers: { Authorization: `Bearer ${this.token}` } };
     }
+
+    //Http overrides
+
+    protected get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.get(url, config);
+    }
+
+    protected delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.delete(url, config);
+    }
+
+    protected head<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.head(url, config);
+    }
+
+    protected post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.post(url, data, config);
+    }
+
+    protected put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.put(url, data, config);
+    }
+
+    protected patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+        return this.httpClient.patch(url, data, config);
+    }
+}
+
+export interface HttpClient {
+    get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    head<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+    put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+    patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
 }
 
 export interface Credentials {
     token: string;
     organization?: string;
+}
+
+export interface ClientConfig {
+    httpClient?: HttpClient;
 }
 
 export interface ResponseList<T> {

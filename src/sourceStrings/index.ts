@@ -15,7 +15,7 @@ export namespace SourceStrings {
             url = this.addQueryParam(url, 'fileId', fileId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -24,7 +24,7 @@ export namespace SourceStrings {
          */
         addString(projectId: number, request: Model.CreateStringRequest): Promise<ResponseObject<Model.String>> {
             let url = `${this.url}/projects/${projectId}/strings`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -33,7 +33,7 @@ export namespace SourceStrings {
          */
         getString(projectId: number, stringId: number): Promise<ResponseObject<Model.String>> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -42,7 +42,7 @@ export namespace SourceStrings {
          */
         deleteString(projectId: number, stringId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -52,7 +52,7 @@ export namespace SourceStrings {
          */
         editString(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<Model.String>> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
     }
 

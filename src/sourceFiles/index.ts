@@ -15,7 +15,7 @@ export namespace SourceFiles {
             url = this.addQueryParam(url, 'name', name);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -24,7 +24,7 @@ export namespace SourceFiles {
          */
         createBranch(projectId: number, request: Model.CreateBranchRequest): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -33,7 +33,7 @@ export namespace SourceFiles {
          */
         getBranch(projectId: number, branchId: number): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -42,7 +42,7 @@ export namespace SourceFiles {
          */
         deleteBranch(projectId: number, branchId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -52,7 +52,7 @@ export namespace SourceFiles {
          */
         editBranch(projectId: number, branchId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Branch>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -68,7 +68,7 @@ export namespace SourceFiles {
             url = this.addQueryParam(url, 'directoryId', directoryId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -77,7 +77,7 @@ export namespace SourceFiles {
          */
         createDirectory(projectId: number, request: Model.CreateDirectoryRequest): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -86,7 +86,7 @@ export namespace SourceFiles {
          */
         getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -95,7 +95,7 @@ export namespace SourceFiles {
          */
         deleteDirectory(projectId: number, directoryId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -105,7 +105,7 @@ export namespace SourceFiles {
          */
         editDirectory(projectId: number, directoryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Directory>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -122,7 +122,7 @@ export namespace SourceFiles {
             url = this.addQueryParam(url, 'directoryId', directoryId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -135,7 +135,7 @@ export namespace SourceFiles {
             let url = `${this.url}/projects/${projectId}/files`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'directoryId', directoryId);
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -144,7 +144,7 @@ export namespace SourceFiles {
          */
         getFile(projectId: number, fileId: number): Promise<ResponseObject<Model.File>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -153,7 +153,7 @@ export namespace SourceFiles {
          */
         deleteFile(projectId: number, fileId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -163,7 +163,7 @@ export namespace SourceFiles {
          */
         editFile(projectId: number, fileId: number, request: PatchRequest[]): Promise<ResponseObject<Model.File>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -172,7 +172,7 @@ export namespace SourceFiles {
          */
         downloadFile(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/download`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -185,7 +185,7 @@ export namespace SourceFiles {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -195,7 +195,7 @@ export namespace SourceFiles {
          */
         updateFile(projectId: number, fileId: number, request: Model.CreateFileRevisionRequest): Promise<ResponseList<Model.FileRevision>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -205,7 +205,7 @@ export namespace SourceFiles {
          */
         getFileRevision(projectId: number, fileId: number, revision: number): Promise<ResponseObject<Model.FileRevision>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revision}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
     }
 

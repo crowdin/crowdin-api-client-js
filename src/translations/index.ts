@@ -10,7 +10,7 @@ export namespace Translations {
          */
         preTranslate(projectId: number, request: Model.PreTranslateRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pre-translations`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -19,7 +19,7 @@ export namespace Translations {
          */
         preTranslationStatus(projectId: number, preTranslationId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -28,7 +28,7 @@ export namespace Translations {
          */
         buildPseudoTranslation(projectId: number, request: Model.BuildPseudoTranslationFilesRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -37,7 +37,7 @@ export namespace Translations {
          */
         checkPseudoTranslationBuildStatus(projectId: number, pseudoTranslationBuildId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -45,7 +45,7 @@ export namespace Translations {
          */
         downloadPseudoTranslation(projectId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -59,7 +59,7 @@ export namespace Translations {
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -68,7 +68,7 @@ export namespace Translations {
          */
         buildProject(projectId: number, request: Model.BuildRequest): Promise<ResponseObject<Model.Build>> {
             let url = `${this.url}/projects/${projectId}/translations/builds`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -77,7 +77,7 @@ export namespace Translations {
          */
         downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -86,7 +86,7 @@ export namespace Translations {
          */
         checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<Model.Build>> {
             let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -95,7 +95,7 @@ export namespace Translations {
          */
         cancelBuild(projectId: number, buildId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -105,7 +105,7 @@ export namespace Translations {
          */
         uploadTranslation(projectId: number, languageId: number, request: Model.UploadTranslationRequest): Promise<void> {
             let url = `${this.url}/projects/${projectId}/translations/${languageId}`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
     }
 

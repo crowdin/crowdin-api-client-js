@@ -6,7 +6,7 @@ export namespace UploadStorage {
 
         listStorages(): Promise<ResponseList<Model.Storage>> {
             let url = `${this.url}/storages`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -17,7 +17,7 @@ export namespace UploadStorage {
             let url = `${this.url}/storages`;
             let config = this.defaultConfig();
             config.headers['Content-Type'] = contentType;
-            return this.axios.post(url, request, config);
+            return this.post(url, request, config);
         }
 
         /**
@@ -25,7 +25,7 @@ export namespace UploadStorage {
          */
         getStorage(storageId: number): Promise<ResponseObject<Model.Storage>> {
             let url = `${this.url}/storages/${storageId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -33,7 +33,7 @@ export namespace UploadStorage {
          */
         deleteStorage(storageId: number): Promise<void> {
             let url = `${this.url}/storages/${storageId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
     }
 

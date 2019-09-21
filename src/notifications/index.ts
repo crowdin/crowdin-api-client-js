@@ -6,7 +6,7 @@ export namespace Notifications {
 
         listSubscriptions(): Promise<ResponseList<Model.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -14,7 +14,7 @@ export namespace Notifications {
          */
         subscribeToChannel(request: Model.SubscribeToChannel): Promise<ResponseObject<Model.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Notifications {
          */
         getSubscription(subscriptonId: string): Promise<ResponseObject<Model.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -30,7 +30,7 @@ export namespace Notifications {
          */
         removeChannelSubscription(subscriptonId: string): Promise<void> {
             let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
     }

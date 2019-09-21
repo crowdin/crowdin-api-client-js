@@ -14,7 +14,7 @@ export namespace MachineTranslation {
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace MachineTranslation {
          */
         createMt(request: Model.CreateMachineTranslationRequest): Promise<ResponseObject<Model.MachineTranslation>> {
             let url = `${this.url}/mts`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,7 +30,7 @@ export namespace MachineTranslation {
          */
         getMt(mtId: number): Promise<ResponseObject<Model.MachineTranslation>> {
             let url = `${this.url}/mts/${mtId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -38,7 +38,7 @@ export namespace MachineTranslation {
          */
         deleteMt(mtId: number): Promise<void> {
             let url = `${this.url}/mts/${mtId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -47,7 +47,7 @@ export namespace MachineTranslation {
          */
         updateMt(mtId: number, request: PatchRequest[]): Promise<ResponseObject<Model.MachineTranslation>> {
             let url = `${this.url}/mts/${mtId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
     }

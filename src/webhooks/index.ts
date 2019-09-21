@@ -13,7 +13,7 @@ export namespace Webhooks {
             let url = `${this.url}/projects/${projectId}/webhooks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Webhooks {
          */
         addWebhook(projectId: number, request: Model.AddWebhookRequest): Promise<ResponseObject<Model.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -31,7 +31,7 @@ export namespace Webhooks {
          */
         getWebhook(projectId: number, webhookId: number): Promise<ResponseObject<Model.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -40,7 +40,7 @@ export namespace Webhooks {
          */
         deleteWebhook(projectId: number, webhookId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -50,7 +50,7 @@ export namespace Webhooks {
          */
         editWebhook(projectId: number, webhookId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
     }

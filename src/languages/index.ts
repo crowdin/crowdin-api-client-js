@@ -12,7 +12,7 @@ export namespace Languages {
             let url = `${this.url}/languages`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -20,7 +20,7 @@ export namespace Languages {
          */
         getLanguage(languageId: number): Promise<ResponseObject<Model.Language>> {
             let url = `${this.url}/languages/${languageId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
     }

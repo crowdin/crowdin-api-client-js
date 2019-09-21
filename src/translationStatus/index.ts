@@ -17,7 +17,7 @@ export namespace TranslationStatus {
             url = this.addQueryParam(url, 'offset', offset);
             url = this.addQueryParam(url, 'type', type);
             url = this.addQueryParam(url, 'status', status);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -26,7 +26,7 @@ export namespace TranslationStatus {
          */
         getBranchProgress(projectId: number, branchId: number): Promise<ResponseList<Model.Progress>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -35,7 +35,7 @@ export namespace TranslationStatus {
          */
         getDirectoryProgress(projectId: number, directoryId: number): Promise<ResponseList<Model.Progress>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -49,7 +49,7 @@ export namespace TranslationStatus {
             url = this.addQueryParam(url, 'languageIds', languageIds);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -58,7 +58,7 @@ export namespace TranslationStatus {
          */
         getFileProgress(projectId: number, fileId: number): Promise<ResponseList<Model.Progress>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -66,7 +66,7 @@ export namespace TranslationStatus {
          */
         getLanguageProgress(projectId: number): Promise<ResponseList<Model.Progress>> {
             let url = `${this.url}/projects/${projectId}/languages/progress`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
     }

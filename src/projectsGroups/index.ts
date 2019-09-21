@@ -14,7 +14,7 @@ export namespace ProjectsGroups {
             url = this.addQueryParam(url, 'parentId', parentId);
             url = this.addQueryParam(url, 'offset', offset);
             url = this.addQueryParam(url, 'userId', userId);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace ProjectsGroups {
          */
         addGroup(request: Model.AddGroupRequest): Promise<ResponseObject<Model.Group>> {
             let url = `${this.url}/groups`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,7 +30,7 @@ export namespace ProjectsGroups {
          */
         getGroup(groupId: number): Promise<ResponseObject<Model.Group>> {
             let url = `${this.url}/groups/${groupId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -38,7 +38,7 @@ export namespace ProjectsGroups {
          */
         deleteGroup(groupId: number): Promise<void> {
             let url = `${this.url}/groups/${groupId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -47,7 +47,7 @@ export namespace ProjectsGroups {
          */
         editGroup(groupId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Group>> {
             let url = `${this.url}/groups/${groupId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -62,7 +62,7 @@ export namespace ProjectsGroups {
             url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -70,7 +70,7 @@ export namespace ProjectsGroups {
          */
         addProject(request: Model.CreateProjectRequest): Promise<ResponseObject<Model.Project>> {
             let url = `${this.url}/projects`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -78,7 +78,7 @@ export namespace ProjectsGroups {
          */
         getProject(projectId: number): Promise<ResponseObject<Model.Project>> {
             let url = `${this.url}/projects/${projectId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -86,7 +86,7 @@ export namespace ProjectsGroups {
          */
         deleteProject(projectId: number): Promise<void> {
             let url = `${this.url}/projects/${projectId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -95,7 +95,7 @@ export namespace ProjectsGroups {
          */
         editProject(projectId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Project>> {
             let url = `${this.url}/projects/${projectId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -103,7 +103,7 @@ export namespace ProjectsGroups {
          */
         getProjectSettings(projectId: number): Promise<ResponseObject<Model.ProjectSettings>> {
             let url = `${this.url}/projects/${projectId}/settings`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -112,7 +112,7 @@ export namespace ProjectsGroups {
         */
         editProjectSettings(projectId: number, request: PatchRequest[]): Promise<ResponseObject<Model.ProjectSettings>> {
             let url = `${this.url}/projects/${projectId}/settings`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
     }
 

@@ -14,7 +14,7 @@ export namespace Glossaries {
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Glossaries {
          */
         addGlossary(request: Model.CreateGlossaryRequest): Promise<ResponseObject<Model.Glossary>> {
             let url = `${this.url}/glossaries`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -30,7 +30,7 @@ export namespace Glossaries {
          */
         getGlossary(glossaryId: number): Promise<ResponseObject<Model.Glossary>> {
             let url = `${this.url}/glossaries/${glossaryId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -38,7 +38,7 @@ export namespace Glossaries {
          */
         deleteGlossary(glossaryId: number): Promise<void> {
             let url = `${this.url}/glossaries/${glossaryId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -47,7 +47,7 @@ export namespace Glossaries {
          */
         editGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Glossary>> {
             let url = `${this.url}/glossaries/${glossaryId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
 
         /**
@@ -56,7 +56,7 @@ export namespace Glossaries {
          */
         exportGlossary(glossaryId: number, request: Model.ExportGlossaryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -66,7 +66,7 @@ export namespace Glossaries {
         downloadGlossary(glossaryId: number, format?: Model.GlossaryFormat): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/download`;
             url = this.addQueryParam(url, 'format', format);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -75,7 +75,7 @@ export namespace Glossaries {
          */
         checkGlossaryExportStatus(glossaryId: number, exportId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -84,7 +84,7 @@ export namespace Glossaries {
          */
         importGlossaryFile(glossaryId: number, request: Model.GlossaryFile): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/imports`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -93,7 +93,7 @@ export namespace Glossaries {
          */
         checkGlossaryImportStatus(glossaryId: number, importId: string): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/imports/${importId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -107,7 +107,7 @@ export namespace Glossaries {
             url = this.addQueryParam(url, 'userId', userId);
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -116,7 +116,7 @@ export namespace Glossaries {
          */
         addTerm(glossaryId: number, request: Model.CreateTermRequest): Promise<ResponseObject<Model.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -125,7 +125,7 @@ export namespace Glossaries {
          */
         getTerm(glossaryId: number, termId: number): Promise<ResponseObject<Model.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -134,7 +134,7 @@ export namespace Glossaries {
          */
         deleteTerm(glossaryId: number, termId: number): Promise<void> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
-            return this.axios.delete(url, this.defaultConfig());
+            return this.delete(url, this.defaultConfig());
         }
 
         /**
@@ -144,7 +144,7 @@ export namespace Glossaries {
          */
         editTerm(glossaryId: number, termId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
-            return this.axios.patch(url, request, this.defaultConfig());
+            return this.patch(url, request, this.defaultConfig());
         }
     }
 

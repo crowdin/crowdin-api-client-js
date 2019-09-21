@@ -13,7 +13,7 @@ export namespace Reports {
             let url = `${this.url}/projects/${projectId}/supported-reports`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
 
         /**
@@ -22,7 +22,7 @@ export namespace Reports {
          */
         generateReport(projectId: number, request: Model.GenerateReportRequest): Promise<ResponseObject<Model.Report>> {
             let url = `${this.url}/projects/${projectId}/reports`;
-            return this.axios.post(url, request, this.defaultConfig());
+            return this.post(url, request, this.defaultConfig());
         }
 
         /**
@@ -31,7 +31,7 @@ export namespace Reports {
          */
         exportProjectReportRaw(projectId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/projects/${projectId}/reports/${reportId}/download`;
-            return this.axios.get(url, this.defaultConfig());
+            return this.get(url, this.defaultConfig());
         }
     }
 
