@@ -27,6 +27,16 @@ const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials);
 const projects = await projectsGroupsApi.listProjects();
 ```
 
+Or you can create whole client and use needed APIs:
+
+```typescript
+const client = new crowdin.Client(credentials);
+
+const {projectsGroupsApi} = client;
+
+const projects = await projectsGroupsApi.listProjects();
+```
+
 ### List of projects with Fetch API
 
 In addition if you use client in non-Node.js environment you might have a troubles with http calls.
