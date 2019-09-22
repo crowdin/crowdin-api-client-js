@@ -1,16 +1,18 @@
 import { AxisProvider } from './internal/axios/axiosProvider';
 import { AxiosRequestConfig } from 'axios';
 import { URL } from 'url';
+import { FetchClient } from './internal/fetch/fetchClient';
 
 export abstract class CrowdinApi {
 
     private static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
     private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
+    private static readonly FETCH_INSTANCE = new FetchClient();
 
     readonly token: string;
     readonly organization: string;
     readonly url: string;
-    readonly httpClient: HttpClient;
+    readonly config: ClientConfig | undefined;
 
     /**
      * @param credentials credentials
@@ -20,7 +22,7 @@ export abstract class CrowdinApi {
         this.token = credentials.token;
         this.organization = !!credentials.organization ? credentials.organization : 'api';
         this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
-        this.httpClient = !!config && !!config.httpClient ? config.httpClient : CrowdinApi.AXIOS_INSTANCE;
+        this.config = config;
     }
 
     protected addQueryParam(url: string, name: string, value?: any): string {
@@ -33,6 +35,13 @@ export abstract class CrowdinApi {
 
     protected defaultConfig(): any {
         return { headers: { Authorization: `Bearer ${this.token}` } };
+    }
+
+    get httpClient(): HttpClient {
+        if (!!this.config && !!this.config.httpClient && this.config.httpClient === HttpClientType.FETCH) {
+            return CrowdinApi.FETCH_INSTANCE;
+        }
+        return CrowdinApi.AXIOS_INSTANCE;
     }
 
     //Http overrides
@@ -71,13 +80,18 @@ export interface HttpClient {
     patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
 }
 
+export enum HttpClientType {
+    AXIOS = 'axios',
+    FETCH = 'fetch',
+}
+
 export interface Credentials {
     token: string;
     organization?: string;
 }
 
 export interface ClientConfig {
-    httpClient?: HttpClient;
+    httpClient?: HttpClientType;
 }
 
 export interface ResponseList<T> {

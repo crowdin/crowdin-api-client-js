@@ -19,12 +19,24 @@ const credentials: crowdin.Credentials = {
 };
 ```
 
-Later on this object will be used to initialize specific API class.
-
 ### List of projects
 
 ```typescript
 const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials);
+
+const projects = await projectsGroupsApi.listProjects();
+```
+
+### List of projects with Fetch API
+
+In addition if you use client in non-Node.js environment you might have a troubles with http calls.
+This client uses [axios](https://github.com/axios/axios) which internally uses `http` and `https` Node modules.
+So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
+
+```typescript
+const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials, {
+    httpClient: crowdin.HttpClientType.FETCH
+});
 
 const projects = await projectsGroupsApi.listProjects();
 ```
