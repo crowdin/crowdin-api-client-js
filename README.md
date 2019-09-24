@@ -32,7 +32,7 @@ Or you can create whole client and use needed APIs:
 ```typescript
 const client = new crowdin.Client(credentials);
 
-const {projectsGroupsApi} = client;
+const { projectsGroupsApi } = client;
 
 const projects = await projectsGroupsApi.listProjects();
 ```
