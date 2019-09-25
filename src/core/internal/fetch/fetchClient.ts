@@ -1,5 +1,4 @@
-import { HttpClient } from "../..";
-import { AxiosRequestConfig } from "axios";
+import { HttpClient } from '../..';
 
 declare const fetch: Function;
 
@@ -9,26 +8,26 @@ export class FetchClient implements HttpClient {
     private requestIntervalMs = 10;
     private pendingRequests = 0;
 
-    get<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<T> {
+    get<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    delete<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<T> {
+    delete<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    head<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<T> {
+    head<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    post<T>(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<T> {
+    post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    put<T>(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<T> {
+    put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    patch<T>(url: string, data?: any, config?: AxiosRequestConfig | undefined): Promise<T> {
+    patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.request(url, 'GET', config);
     }
 
-    private async request(url: string, method: string, config?: AxiosRequestConfig, data?: any) {
+    private async request(url: string, method: string, config?: { headers: any }, data?: any) {
         let body = undefined;
         if (!!data) {
             if (typeof data === 'object') {

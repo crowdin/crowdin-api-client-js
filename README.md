@@ -45,11 +45,13 @@ So there is an option to use http client based on [Fetch API](https://developer.
 
 ```typescript
 const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials, {
-    httpClient: crowdin.HttpClientType.FETCH
+    httpClientType: crowdin.HttpClientType.FETCH
 });
 
 const projects = await projectsGroupsApi.listProjects();
 ```
+
+Or even pass your own http client as `httpClient` property which should implement `crowdin.HttpClient` interface.
 
 ## Contributing
 
