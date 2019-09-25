@@ -12,19 +12,19 @@ export class FetchClient implements HttpClient {
         return this.request(url, 'GET', config);
     }
     delete<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.request(url, 'GET', config);
+        return this.request(url, 'DELETE', config);
     }
     head<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.request(url, 'GET', config);
+        return this.request(url, 'HEAD', config);
     }
     post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.request(url, 'GET', config);
+        return this.request(url, 'POST', config, data);
     }
     put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.request(url, 'GET', config);
+        return this.request(url, 'PUT', config, data);
     }
     patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.request(url, 'GET', config);
+        return this.request(url, 'PATCH', config, data);
     }
 
     private async request(url: string, method: string, config?: { headers: any }, data?: any) {
@@ -32,6 +32,9 @@ export class FetchClient implements HttpClient {
         if (!!data) {
             if (typeof data === 'object') {
                 body = JSON.stringify(data);
+                config = config || { headers: {} };
+                config.headers = config.headers || {};
+                config.headers['Content-Type'] = 'application/json';
             } else {
                 body = data;
             }
