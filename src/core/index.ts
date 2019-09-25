@@ -38,35 +38,44 @@ export abstract class CrowdinApi {
     }
 
     get httpClient(): HttpClient {
-        if (!!this.config && !!this.config.httpClient && this.config.httpClient === HttpClientType.FETCH) {
-            return CrowdinApi.FETCH_INSTANCE;
+        if (!!this.config) {
+            if (!!this.config.httpClient) {
+                return this.config.httpClient;
+            }
+            if (!!this.config.httpClientType) {
+                switch (this.config.httpClientType) {
+                    case HttpClientType.AXIOS: return CrowdinApi.AXIOS_INSTANCE;
+                    case HttpClientType.FETCH: return CrowdinApi.FETCH_INSTANCE;
+                    default: return CrowdinApi.AXIOS_INSTANCE;
+                }
+            }
         }
         return CrowdinApi.AXIOS_INSTANCE;
     }
 
     //Http overrides
 
-    protected get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
         return this.httpClient.get(url, config);
     }
 
-    protected delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    protected delete<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.httpClient.delete(url, config);
     }
 
-    protected head<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    protected head<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.httpClient.head(url, config);
     }
 
-    protected post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+    protected post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.httpClient.post(url, data, config);
     }
 
-    protected put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+    protected put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.httpClient.put(url, data, config);
     }
 
-    protected patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+    protected patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
         return this.httpClient.patch(url, data, config);
     }
 }
@@ -91,7 +100,8 @@ export interface Credentials {
 }
 
 export interface ClientConfig {
-    httpClient?: HttpClientType;
+    httpClientType?: HttpClientType;
+    httpClient?: HttpClient;
 }
 
 export interface ResponseList<T> {
