@@ -1,8 +1,6 @@
 import { CrowdinApi, ResponseList } from '../core';
 
-export namespace TranslationStatus {
-
-    export class Api extends CrowdinApi {
+export class TranslationStatus extends CrowdinApi {
 
         /**
          * @param projectId project identifier
@@ -11,7 +9,7 @@ export namespace TranslationStatus {
          * @param type defines the issue type
          * @param status defines the issue resolution status
          */
-        listReportedIssues(projectId: number, limit?: number, offset?: number, type?: Model.Type, status?: Model.Status): Promise<ResponseList<Model.Issue>> {
+        listReportedIssues(projectId: number, limit?: number, offset?: number, type?: TranslationStatusModel.Type, status?: TranslationStatusModel.Status): Promise<ResponseList<TranslationStatusModel.Issue>> {
             let url = `${this.url}/projects/${projectId}/issues`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -24,7 +22,7 @@ export namespace TranslationStatus {
          * @param projectId project identifier
          * @param branchId branch identifier
          */
-        getBranchProgress(projectId: number, branchId: number): Promise<ResponseList<Model.Progress>> {
+        getBranchProgress(projectId: number, branchId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
             let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
             return this.get(url, this.defaultConfig());
         }
@@ -33,7 +31,7 @@ export namespace TranslationStatus {
          * @param projectId project identifier
          * @param directoryId directory identifier
          */
-        getDirectoryProgress(projectId: number, directoryId: number): Promise<ResponseList<Model.Progress>> {
+        getDirectoryProgress(projectId: number, directoryId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
             let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
             return this.get(url, this.defaultConfig());
         }
@@ -44,7 +42,7 @@ export namespace TranslationStatus {
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        getProjectProgress(projectId: number, languageIds?: string, limit?: number, offset?: number): Promise<ResponseList<Model.ProjectProgress>> {
+        getProjectProgress(projectId: number, languageIds?: string, limit?: number, offset?: number): Promise<ResponseList<TranslationStatusModel.ProjectProgress>> {
             let url = `${this.url}/projects/${projectId}/export-ready-progress`;
             url = this.addQueryParam(url, 'languageIds', languageIds);
             url = this.addQueryParam(url, 'limit', limit);
@@ -56,7 +54,7 @@ export namespace TranslationStatus {
          * @param projectId project identifier
          * @param fileId file identifier
          */
-        getFileProgress(projectId: number, fileId: number): Promise<ResponseList<Model.Progress>> {
+        getFileProgress(projectId: number, fileId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
             let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
             return this.get(url, this.defaultConfig());
         }
@@ -64,14 +62,14 @@ export namespace TranslationStatus {
         /**
          * @param projectId project identifier
          */
-        getLanguageProgress(projectId: number): Promise<ResponseList<Model.Progress>> {
+        getLanguageProgress(projectId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
             let url = `${this.url}/projects/${projectId}/languages/progress`;
             return this.get(url, this.defaultConfig());
         }
 
     }
 
-    export namespace Model {
+    export namespace TranslationStatusModel {
         export enum Type {
             ALL = 'all',
             GENERAL_QUESTION = 'general_question',
@@ -111,4 +109,3 @@ export namespace TranslationStatus {
             exportReadyProgress: number;
         }
     }
-}

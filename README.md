@@ -14,13 +14,14 @@ npm install ...
 
 <details>
 <summary>Typescript</summary>
+
 ```typescript
 import crowdin, { Credentials } from "crowdin-sdk-2";
 
 // credentials
 const credentials: Credentials = {
-token: "testToken",
-organization: "organizationName"
+  token: "testToken",
+  organization: "organizationName"
 };
 
 // initialization of crowdin client
@@ -28,8 +29,7 @@ const { projectsGroupsApi } = new crowdin(credentials);
 
 // get project list
 const projects = await projectsGroupsApi.listProjects();
-
-````
+```
 
 Or specific API instances:
 
@@ -43,11 +43,11 @@ const credentials: Credentials = {
 };
 
 // initialization of ProjectsGroups
-const projectsGroupsApi = new ProjectsGroups.Api(credentials);
+const projectsGroupsApi = new ProjectsGroups(credentials);
 
 // get project list
 const projects = await projectsGroupsApi.listProjects();
-````
+```
 
 </details>
 
@@ -73,7 +73,7 @@ Or specific API instances:
 import { ProjectsGroups } from "crowdin-sdk-2";
 
 // initialization of ProjectsGroups
-const projectsGroupsApi = new ProjectsGroups.Api({
+const projectsGroupsApi = new ProjectsGroups({
   token: "testToken",
   organization: "organizationName"
 });
@@ -91,8 +91,10 @@ This client uses [axios](https://github.com/axios/axios) which internally uses `
 So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ```typescript
-const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials, {
-  httpClientType: crowdin.HttpClientType.FETCH
+import { ProjectsGroups, HttpClientType } from "crowdin-sdk-2";
+
+const projectsGroupsApi = new ProjectsGroups(credentials, {
+  httpClientType: HttpClientType.FETCH
 });
 
 const projects = await projectsGroupsApi.listProjects();

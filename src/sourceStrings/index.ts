@@ -1,8 +1,6 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace SourceStrings {
-
-    export class Api extends CrowdinApi {
+export class SourceStrings extends CrowdinApi {
 
         /**
          * @param projectId project identifier
@@ -10,7 +8,7 @@ export namespace SourceStrings {
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listProjectStrings(projectId: number, fileId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.String>> {
+        listProjectStrings(projectId: number, fileId?: number, limit?: number, offset?: number): Promise<ResponseList<SourceStringsModel.String>> {
             let url = `${this.url}/projects/${projectId}/strings`;
             url = this.addQueryParam(url, 'fileId', fileId);
             url = this.addQueryParam(url, 'limit', limit);
@@ -22,7 +20,7 @@ export namespace SourceStrings {
          * @param projectId project identifier
          * @param request request body
          */
-        addString(projectId: number, request: Model.CreateStringRequest): Promise<ResponseObject<Model.String>> {
+        addString(projectId: number, request: SourceStringsModel.CreateStringRequest): Promise<ResponseObject<SourceStringsModel.String>> {
             let url = `${this.url}/projects/${projectId}/strings`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -31,7 +29,7 @@ export namespace SourceStrings {
          * @param projectId project identifier
          * @param stringId string identifier
          */
-        getString(projectId: number, stringId: number): Promise<ResponseObject<Model.String>> {
+        getString(projectId: number, stringId: number): Promise<ResponseObject<SourceStringsModel.String>> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -50,13 +48,13 @@ export namespace SourceStrings {
          * @param stringId string identifier
          * @param request request body
          */
-        editString(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<Model.String>> {
+        editString(projectId: number, stringId: number, request: PatchRequest[]): Promise<ResponseObject<SourceStringsModel.String>> {
             let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
             return this.patch(url, request, this.defaultConfig());
         }
     }
 
-    export namespace Model {
+    export namespace SourceStringsModel {
         export interface String {
             id: number;
             projectId: number;
@@ -91,4 +89,3 @@ export namespace SourceStrings {
             ICU = 2,
         }
     }
-}

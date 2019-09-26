@@ -1,18 +1,18 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Glossaries, GlossariesModel, PatchOperation } from '../../src/index';
 
 describe('Glossaries API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Glossaries.Api = new crowdin.Glossaries.Api(credentials);
+    const api: Glossaries = new Glossaries(credentials);
     const glossaryId = 112;
     const glossaryName = 'test';
     const glossaryTerms = 4;
-    const glossaryFormat = crowdin.Glossaries.Model.GlossaryFormat.CSV;
+    const glossaryFormat = GlossariesModel.GlossaryFormat.CSV;
     const glossaryLink = 'test.com';
     const exportId = '1111';
     const importId = '2222';
@@ -88,7 +88,7 @@ describe('Glossaries API', () => {
             .patch(`/glossaries/${glossaryId}`,
                 [{
                     value: glossaryTerms,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/term'
                 }],
                 {
@@ -230,7 +230,7 @@ describe('Glossaries API', () => {
             .patch(`/glossaries/${glossaryId}/terms/${termId}`,
                 [{
                     value: termText,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/text'
                 }],
                 {
@@ -281,7 +281,7 @@ describe('Glossaries API', () => {
 
     it('Edit glossary', async () => {
         const glossary = await api.editGlossary(glossaryId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/term',
             value: glossaryTerms
         }]);
@@ -347,7 +347,7 @@ describe('Glossaries API', () => {
 
     it('Edit term', async () => {
         const term = await api.editTerm(glossaryId, termId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/text',
             value: termText
         }]);

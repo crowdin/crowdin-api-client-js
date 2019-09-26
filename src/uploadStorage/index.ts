@@ -1,10 +1,8 @@
 import { CrowdinApi, ResponseList, ResponseObject } from '../core';
 
-export namespace UploadStorage {
+export class UploadStorage extends CrowdinApi {
 
-    export class Api extends CrowdinApi {
-
-        listStorages(): Promise<ResponseList<Model.Storage>> {
+        listStorages(): Promise<ResponseList<UploadStorageModel.Storage>> {
             let url = `${this.url}/storages`;
             return this.get(url, this.defaultConfig());
         }
@@ -13,7 +11,7 @@ export namespace UploadStorage {
          * @param contentType file content type
          * @param request binary file data
          */
-        addStorage(contentType: string, request: any): Promise<ResponseObject<Model.Storage>> {
+        addStorage(contentType: string, request: any): Promise<ResponseObject<UploadStorageModel.Storage>> {
             let url = `${this.url}/storages`;
             let config = this.defaultConfig();
             config.headers['Content-Type'] = contentType;
@@ -23,7 +21,7 @@ export namespace UploadStorage {
         /**
          * @param storageId storage identifier
          */
-        getStorage(storageId: number): Promise<ResponseObject<Model.Storage>> {
+        getStorage(storageId: number): Promise<ResponseObject<UploadStorageModel.Storage>> {
             let url = `${this.url}/storages/${storageId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -37,9 +35,8 @@ export namespace UploadStorage {
         }
     }
 
-    export namespace Model {
+    export namespace UploadStorageModel {
         export interface Storage {
             id: number;
         }
     }
-}

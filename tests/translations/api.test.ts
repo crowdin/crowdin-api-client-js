@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Translations } from '../../src';
 
 describe('Translations API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Translations.Api = new crowdin.Translations.Api(credentials);
+    const api: Translations = new Translations(credentials);
     const projectId = 2;
     const preTranslationId = '21';
     const pseudoTranslationBuildId = '21';

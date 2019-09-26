@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Notifications } from '../../src';
 
 describe('Notifications API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Notifications.Api = new crowdin.Notifications.Api(credentials);
+    const api: Notifications = new Notifications(credentials);
     const subscriptionId = 'test';
 
     const limit = 25;

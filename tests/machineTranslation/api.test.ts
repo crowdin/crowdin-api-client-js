@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, MachineTranslation, PatchOperation } from '../../src';
 
 describe('Machine Translation engines (MTs) API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.MachineTranslation.Api = new crowdin.MachineTranslation.Api(credentials);
+    const api: MachineTranslation = new MachineTranslation(credentials);
     const mtId = 2;
     const groupId = 3;
     const name = 'test';
@@ -76,7 +76,7 @@ describe('Machine Translation engines (MTs) API', () => {
             .patch(`/mts/${mtId}`,
                 [{
                     value: name,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -122,7 +122,7 @@ describe('Machine Translation engines (MTs) API', () => {
 
     it('Update MT', async () => {
         const mt = await api.updateMt(mtId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: name
         }]);

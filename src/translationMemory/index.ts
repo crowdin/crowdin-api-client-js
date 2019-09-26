@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
 
-export namespace TranslationMemory {
-
-    export class Api extends CrowdinApi {
+export class TranslationMemory extends CrowdinApi {
 
         /**
          * @param groupId group identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listTm(groupId: number, limit?: number, offset?: number): Promise<ResponseList<Model.TranslationMemory>> {
+        listTm(groupId: number, limit?: number, offset?: number): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
             let url = `${this.url}/tms`;
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
@@ -20,7 +18,7 @@ export namespace TranslationMemory {
         /**
          * @param request request body
          */
-        addTm(request: Model.AddTranslationMemoryRequest): Promise<ResponseObject<Model.TranslationMemory>> {
+        addTm(request: TranslationMemoryModel.AddTranslationMemoryRequest): Promise<ResponseObject<TranslationMemoryModel.TranslationMemory>> {
             let url = `${this.url}/tms`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -28,7 +26,7 @@ export namespace TranslationMemory {
         /**
          * @param tmId tm identifier
          */
-        getTm(tmId: number): Promise<ResponseObject<Model.TranslationMemory>> {
+        getTm(tmId: number): Promise<ResponseObject<TranslationMemoryModel.TranslationMemory>> {
             let url = `${this.url}/tms/${tmId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -45,7 +43,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param request request body
          */
-        editTm(tmId: number, request: PatchRequest[]): Promise<ResponseObject<Model.TranslationMemory>> {
+        editTm(tmId: number, request: PatchRequest[]): Promise<ResponseObject<TranslationMemoryModel.TranslationMemory>> {
             let url = `${this.url}/tms/${tmId}`;
             return this.patch(url, request, this.defaultConfig());
         }
@@ -56,7 +54,7 @@ export namespace TranslationMemory {
          * @param targetLanguageId defines a target language in the language pair
          * @param format defines the format of TMs file (default is tmx)
          */
-        downloadTm(tmId: number, sourceLanguageId?: number, targetLanguageId?: number, format?: Model.Format): Promise<ResponseObject<DownloadLink>> {
+        downloadTm(tmId: number, sourceLanguageId?: number, targetLanguageId?: number, format?: TranslationMemoryModel.Format): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/tms/${tmId}/exports`;
             url = this.addQueryParam(url, 'sourceLanguageId', sourceLanguageId);
             url = this.addQueryParam(url, 'targetLanguageId', targetLanguageId);
@@ -68,7 +66,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param request request body
          */
-        exportTm(tmId: number, request: Model.ExportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
+        exportTm(tmId: number, request: TranslationMemoryModel.ExportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/exports`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -86,7 +84,7 @@ export namespace TranslationMemory {
          * @param tmId tm identifier
          * @param request request body
          */
-        importTm(tmId: number, request: Model.ImportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
+        importTm(tmId: number, request: TranslationMemoryModel.ImportTranslationMemoryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/tms/${tmId}/imports`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -101,7 +99,7 @@ export namespace TranslationMemory {
         }
     }
 
-    export namespace Model {
+    export namespace TranslationMemoryModel {
         export interface TranslationMemory {
             id: number;
             groupId: number;
@@ -139,4 +137,3 @@ export namespace TranslationMemory {
             [key: string]: number;
         }
     }
-}

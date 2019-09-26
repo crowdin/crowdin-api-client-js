@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
 
-export namespace Glossaries {
-
-    export class Api extends CrowdinApi {
+export class Glossaries extends CrowdinApi {
 
         /**
          * @param groupId group identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Glossary>> {
+        listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
             let url = `${this.url}/glossaries`;
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'limit', limit);
@@ -20,7 +18,7 @@ export namespace Glossaries {
         /**
          * @param request request body
          */
-        addGlossary(request: Model.CreateGlossaryRequest): Promise<ResponseObject<Model.Glossary>> {
+        addGlossary(request: GlossariesModel.CreateGlossaryRequest): Promise<ResponseObject<GlossariesModel.Glossary>> {
             let url = `${this.url}/glossaries`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -28,7 +26,7 @@ export namespace Glossaries {
         /**
          * @param glossaryId glossary identifier
          */
-        getGlossary(glossaryId: number): Promise<ResponseObject<Model.Glossary>> {
+        getGlossary(glossaryId: number): Promise<ResponseObject<GlossariesModel.Glossary>> {
             let url = `${this.url}/glossaries/${glossaryId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -45,7 +43,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        editGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Glossary>> {
+        editGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<GlossariesModel.Glossary>> {
             let url = `${this.url}/glossaries/${glossaryId}`;
             return this.patch(url, request, this.defaultConfig());
         }
@@ -54,7 +52,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        exportGlossary(glossaryId: number, request: Model.ExportGlossaryRequest): Promise<ResponseObject<Status>> {
+        exportGlossary(glossaryId: number, request: GlossariesModel.ExportGlossaryRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -63,7 +61,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param format defines download format (default is tbx)
          */
-        downloadGlossary(glossaryId: number, format?: Model.GlossaryFormat): Promise<ResponseObject<DownloadLink>> {
+        downloadGlossary(glossaryId: number, format?: GlossariesModel.GlossaryFormat): Promise<ResponseObject<DownloadLink>> {
             let url = `${this.url}/glossaries/${glossaryId}/exports/download`;
             url = this.addQueryParam(url, 'format', format);
             return this.get(url, this.defaultConfig());
@@ -82,7 +80,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        importGlossaryFile(glossaryId: number, request: Model.GlossaryFile): Promise<ResponseObject<Status>> {
+        importGlossaryFile(glossaryId: number, request: GlossariesModel.GlossaryFile): Promise<ResponseObject<Status>> {
             let url = `${this.url}/glossaries/${glossaryId}/imports`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -102,7 +100,7 @@ export namespace Glossaries {
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listTerms(glossaryId: number, userId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Term>> {
+        listTerms(glossaryId: number, userId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms`;
             url = this.addQueryParam(url, 'userId', userId);
             url = this.addQueryParam(url, 'limit', limit);
@@ -114,7 +112,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param request request body
          */
-        addTerm(glossaryId: number, request: Model.CreateTermRequest): Promise<ResponseObject<Model.Term>> {
+        addTerm(glossaryId: number, request: GlossariesModel.CreateTermRequest): Promise<ResponseObject<GlossariesModel.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -123,7 +121,7 @@ export namespace Glossaries {
          * @param glossaryId glossary identifier
          * @param termId term identifier
          */
-        getTerm(glossaryId: number, termId: number): Promise<ResponseObject<Model.Term>> {
+        getTerm(glossaryId: number, termId: number): Promise<ResponseObject<GlossariesModel.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -142,13 +140,13 @@ export namespace Glossaries {
          * @param termId term identifier
          * @param request request body
          */
-        editTerm(glossaryId: number, termId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Term>> {
+        editTerm(glossaryId: number, termId: number, request: PatchRequest[]): Promise<ResponseObject<GlossariesModel.Term>> {
             let url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
             return this.patch(url, request, this.defaultConfig());
         }
     }
 
-    export namespace Model {
+    export namespace GlossariesModel {
         export interface Glossary {
             id: number;
             name: string;
@@ -223,4 +221,3 @@ export namespace Glossaries {
             OTHER = 'other',
         }
     }
-}

@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, ProjectsGroups } from '../../src';
 
 describe('Projects and Groups API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.ProjectsGroups.Api = new crowdin.ProjectsGroups.Api(credentials);
+    const api: ProjectsGroups = new ProjectsGroups(credentials);
     const projectId = 2;
     const groupId = 1;
     const projectName = 'testProject';
@@ -75,7 +75,7 @@ describe('Projects and Groups API', () => {
             .patch(`/groups/${groupId}`,
                 [{
                     value: groupName,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -151,7 +151,7 @@ describe('Projects and Groups API', () => {
             .patch(`/projects/${projectId}`,
                 [{
                     value: projectName,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -181,7 +181,7 @@ describe('Projects and Groups API', () => {
             .patch(`/projects/${projectId}/settings`,
                 [{
                     value: true,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/publicDownloads'
                 }],
                 {
@@ -227,7 +227,7 @@ describe('Projects and Groups API', () => {
 
     it('Edit group', async () => {
         const group = await api.editGroup(groupId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: groupName
         }]);
@@ -265,7 +265,7 @@ describe('Projects and Groups API', () => {
 
     it('Edit project', async () => {
         const project = await api.editProject(projectId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: projectName
         }]);
@@ -280,7 +280,7 @@ describe('Projects and Groups API', () => {
 
     it('Edit project settings', async () => {
         const settings = await api.editProjectSettings(projectId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/publicDownloads',
             value: true
         }]);

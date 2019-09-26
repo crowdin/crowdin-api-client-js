@@ -1,10 +1,8 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace Notifications {
+export class Notifications extends CrowdinApi {
 
-    export class Api extends CrowdinApi {
-
-        listSubscriptions(): Promise<ResponseList<Model.Subscription>> {
+        listSubscriptions(): Promise<ResponseList<NotificationsModel.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions`;
             return this.get(url, this.defaultConfig());
         }
@@ -12,7 +10,7 @@ export namespace Notifications {
         /**
          * @param request request body
          */
-        subscribeToChannel(request: Model.SubscribeToChannel): Promise<ResponseObject<Model.Subscription>> {
+        subscribeToChannel(request: NotificationsModel.SubscribeToChannel): Promise<ResponseObject<NotificationsModel.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -20,7 +18,7 @@ export namespace Notifications {
         /**
          * @param subscriptonId subscripton identifier
          */
-        getSubscription(subscriptonId: string): Promise<ResponseObject<Model.Subscription>> {
+        getSubscription(subscriptonId: string): Promise<ResponseObject<NotificationsModel.Subscription>> {
             let url = `${this.url}/notification-channels/subscriptions/${subscriptonId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -35,7 +33,7 @@ export namespace Notifications {
 
     }
 
-    export namespace Model {
+    export namespace NotificationsModel {
 
         export interface Subscription {
             subscriptionId: string;
@@ -47,4 +45,3 @@ export namespace Notifications {
             subscriptionId: string;
         }
     }
-}

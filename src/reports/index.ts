@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseObject, ResponseList, DownloadLink } from '../core';
 
-export namespace Reports {
-
-    export class Api extends CrowdinApi {
+export class Reports extends CrowdinApi {
 
         /**
          * @param projectId project identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listSupportedReports(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.SupportedReport>> {
+        listSupportedReports(projectId: number, limit?: number, offset?: number): Promise<ResponseList<ReportsModel.SupportedReport>> {
             let url = `${this.url}/projects/${projectId}/supported-reports`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -20,7 +18,7 @@ export namespace Reports {
          * @param projectId project identifier
          * @param request request body
          */
-        generateReport(projectId: number, request: Model.GenerateReportRequest): Promise<ResponseObject<Model.Report>> {
+        generateReport(projectId: number, request: ReportsModel.GenerateReportRequest): Promise<ResponseObject<ReportsModel.Report>> {
             let url = `${this.url}/projects/${projectId}/reports`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -35,7 +33,7 @@ export namespace Reports {
         }
     }
 
-    export namespace Model {
+    export namespace ReportsModel {
         export interface SupportedReport {
             name: string;
             schema: Schema[];
@@ -58,4 +56,3 @@ export namespace Reports {
             description: string;
         }
     }
-}

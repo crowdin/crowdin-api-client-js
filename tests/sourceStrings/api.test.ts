@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, SourceStrings } from '../../src';
 
 describe('Source Strings API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.SourceStrings.Api = new crowdin.SourceStrings.Api(credentials);
+    const api: SourceStrings = new SourceStrings(credentials);
     const projectId = 2;
     const stringIdentifier = '222';
     const stringId = 123;
@@ -78,7 +78,7 @@ describe('Source Strings API', () => {
             .patch(`/projects/${projectId}/strings/${stringId}`,
                 [{
                     value: stringText,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/text'
                 }],
                 {
@@ -128,7 +128,7 @@ describe('Source Strings API', () => {
 
     it('Edit string', async () => {
         const string = await api.editString(projectId, stringId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/text',
             value: stringText
         }]);

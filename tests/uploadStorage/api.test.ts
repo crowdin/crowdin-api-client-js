@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, UploadStorage } from '../../src';
 
 describe('Upload Storage API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.UploadStorage.Api = new crowdin.UploadStorage.Api(credentials);
+    const api: UploadStorage = new UploadStorage(credentials);
     const storageId = 2;
     const contentType = 'text/plain';
     const fileContent = 'test text.';

@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, BooleanInt } from '../core';
 
-export namespace ProjectsGroups {
-
-    export class Api extends CrowdinApi {
+export class ProjectsGroups extends CrowdinApi {
 
         /**
          * @param parentId parent group identifier
          * @param offset starting offset in the collection (default 0)
          * @param userId get user own projects
          */
-        listGroups(parentId?: number, offset?: number, userId?: number): Promise<ResponseList<Model.Group>> {
+        listGroups(parentId?: number, offset?: number, userId?: number): Promise<ResponseList<ProjectsGroupsModel.Group>> {
             let url = `${this.url}/groups`;
             url = this.addQueryParam(url, 'parentId', parentId);
             url = this.addQueryParam(url, 'offset', offset);
@@ -20,7 +18,7 @@ export namespace ProjectsGroups {
         /**
          * @param request request body
          */
-        addGroup(request: Model.AddGroupRequest): Promise<ResponseObject<Model.Group>> {
+        addGroup(request: ProjectsGroupsModel.AddGroupRequest): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
             let url = `${this.url}/groups`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -28,7 +26,7 @@ export namespace ProjectsGroups {
         /**
          * @param group group identifier
          */
-        getGroup(groupId: number): Promise<ResponseObject<Model.Group>> {
+        getGroup(groupId: number): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
             let url = `${this.url}/groups/${groupId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -45,7 +43,7 @@ export namespace ProjectsGroups {
          * @param groupId group identifier
          * @param request request body
          */
-        editGroup(groupId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Group>> {
+        editGroup(groupId: number, request: PatchRequest[]): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
             let url = `${this.url}/groups/${groupId}`;
             return this.patch(url, request, this.defaultConfig());
         }
@@ -56,7 +54,7 @@ export namespace ProjectsGroups {
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listProjects(groupId?: number, hasManagerAccess?: BooleanInt, limit?: number, offset?: number): Promise<ResponseList<Model.Project>> {
+        listProjects(groupId?: number, hasManagerAccess?: BooleanInt, limit?: number, offset?: number): Promise<ResponseList<ProjectsGroupsModel.Project>> {
             let url = `${this.url}/projects`;
             url = this.addQueryParam(url, 'groupId', groupId);
             url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);
@@ -68,7 +66,7 @@ export namespace ProjectsGroups {
         /**
          * @param request request body
          */
-        addProject(request: Model.CreateProjectRequest): Promise<ResponseObject<Model.Project>> {
+        addProject(request: ProjectsGroupsModel.CreateProjectRequest): Promise<ResponseObject<ProjectsGroupsModel.Project>> {
             let url = `${this.url}/projects`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -76,7 +74,7 @@ export namespace ProjectsGroups {
         /**
          * @param projectId project identifier
          */
-        getProject(projectId: number): Promise<ResponseObject<Model.Project>> {
+        getProject(projectId: number): Promise<ResponseObject<ProjectsGroupsModel.Project>> {
             let url = `${this.url}/projects/${projectId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -93,7 +91,7 @@ export namespace ProjectsGroups {
          * @param projectId project identifier
          * @param request request body
          */
-        editProject(projectId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Project>> {
+        editProject(projectId: number, request: PatchRequest[]): Promise<ResponseObject<ProjectsGroupsModel.Project>> {
             let url = `${this.url}/projects/${projectId}`;
             return this.patch(url, request, this.defaultConfig());
         }
@@ -101,7 +99,7 @@ export namespace ProjectsGroups {
         /**
          * @param projectId project identifier
          */
-        getProjectSettings(projectId: number): Promise<ResponseObject<Model.ProjectSettings>> {
+        getProjectSettings(projectId: number): Promise<ResponseObject<ProjectsGroupsModel.ProjectSettings>> {
             let url = `${this.url}/projects/${projectId}/settings`;
             return this.get(url, this.defaultConfig());
         }
@@ -110,13 +108,13 @@ export namespace ProjectsGroups {
         * @param projectId project identifier
         * @param request request body
         */
-        editProjectSettings(projectId: number, request: PatchRequest[]): Promise<ResponseObject<Model.ProjectSettings>> {
+        editProjectSettings(projectId: number, request: PatchRequest[]): Promise<ResponseObject<ProjectsGroupsModel.ProjectSettings>> {
             let url = `${this.url}/projects/${projectId}/settings`;
             return this.patch(url, request, this.defaultConfig());
         }
     }
 
-    export namespace Model {
+    export namespace ProjectsGroupsModel {
         export interface Group {
             id: number;
             visibility: number;
@@ -218,4 +216,3 @@ export namespace ProjectsGroups {
             icu: boolean;
         }
     }
-}

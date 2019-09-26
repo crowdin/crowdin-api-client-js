@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, SourceFiles } from '../../src';
 
 describe('Source Files API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.SourceFiles.Api = new crowdin.SourceFiles.Api(credentials);
+    const api: SourceFiles = new SourceFiles(credentials);
     const projectId = 2;
     const fileName = '1.txt';
     const fileTitle = 'Test file';
@@ -94,7 +94,7 @@ describe('Source Files API', () => {
             .patch(`/projects/${projectId}/branches/${branchId}`,
                 [{
                     value: branchTitle,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/title'
                 }],
                 {
@@ -169,7 +169,7 @@ describe('Source Files API', () => {
             .patch(`/projects/${projectId}/directories/${directoryId}`,
                 [{
                     value: directoryTitle,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/title'
                 }],
                 {
@@ -260,7 +260,7 @@ describe('Source Files API', () => {
             .patch(`/projects/${projectId}/files/${fileId}`,
                 [{
                     value: fileTitle,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/title'
                 }],
                 {
@@ -379,7 +379,7 @@ describe('Source Files API', () => {
 
     it('Edit branch', async () => {
         const branch = await api.editBranch(projectId, branchId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/title',
             value: branchTitle
         }]);
@@ -417,7 +417,7 @@ describe('Source Files API', () => {
 
     it('Edit directory', async () => {
         const directory = await api.editDirectory(projectId, directoryId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/title',
             value: directoryTitle
         }]);
@@ -461,7 +461,7 @@ describe('Source Files API', () => {
 
     it('Edit file', async () => {
         const file = await api.editFile(projectId, fileId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/title',
             value: fileTitle
         }]);
