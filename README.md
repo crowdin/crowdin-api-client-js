@@ -8,20 +8,12 @@ For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/e
 
 
 ## Table of Contents
-* [Requirements](#requirements)
 * [Dependencies](#dependencies)
 * [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Contribution](#contribution)
 * [Seeking Assistance](#seeking-assistance)
 * [License](#license)
-
-## Requirements
-* typescript 3.5.2
-* tslint 5.18.0
-* ts-jest 24.0.2
-* (optional) jest 24.8.0
-* (optional) jest-circus 24.8.0
 
 ## Dependencies
 * Axios 0.19
