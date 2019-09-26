@@ -1,0 +1,26 @@
+jobs:
+  - job: build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '^10.10.0'
+        displayName: 'Install Node.js'
+      - script: npm install
+        displayName: 'Install dependencies'
+      - script: npm run build
+        displayName: 'NPM run build'
+
+  - job: lint
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '^10.10.0'
+        displayName: 'Install Node.js'
+      - script: npm install
+        displayName: 'Install dependencies'
+      - script: npm run lint-ci
+        displayName: 'Run lint'
