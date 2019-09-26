@@ -2,7 +2,7 @@
 
 # Crowdin JavaScript client
 
-The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 that works in both Node.js and browser environments. It provides common services for making API requests.
+The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 that works in any JavaScript environment, including web browsers, workers in web browsers, extensions in web browsers or desktop applications, Node.js etc. It provides common services for making API requests.
 
 For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/enterprise/api/) documentation.
 
