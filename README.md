@@ -119,7 +119,7 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 const projects = await projectsGroupsApi.listProjects();
 ```
 
-Or even pass your own http client as `httpClient` property which should implement `crowdin.HttpClient` interface.
+Or even pass your own http client as `httpClient` property which should implement `HttpClient` interface.
 
 ## Contribution
 We are happy to accept contributions to the Crowdin JavaScript client. To contribute please do the following:
