@@ -1,85 +1,6 @@
 import { AxisProvider } from './internal/axios/axiosProvider';
 import { AxiosRequestConfig } from 'axios';
-import { URL } from 'url';
 import { FetchClient } from './internal/fetch/fetchClient';
-
-export abstract class CrowdinApi {
-
-    private static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
-    private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
-    private static readonly FETCH_INSTANCE = new FetchClient();
-    private static readonly QUERY_PARAM_PATTERN = new RegExp(/\?.+=.*/g);
-
-    readonly token: string;
-    readonly organization: string;
-    readonly url: string;
-    readonly config: ClientConfig | undefined;
-
-    /**
-     * @param credentials credentials
-     * @param config optional configuration of the client
-     */
-    constructor(credentials: Credentials, config?: ClientConfig) {
-        this.token = credentials.token;
-        this.organization = !!credentials.organization ? credentials.organization : 'api';
-        this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
-        this.config = config;
-    }
-
-    protected addQueryParam(url: string, name: string, value?: any): string {
-        if (!!value) {
-            url += CrowdinApi.QUERY_PARAM_PATTERN.test(url) ? '&' : '?';
-            url += `${name}=${value}`;
-        }
-        return url;
-    }
-
-    protected defaultConfig(): any {
-        return { headers: { Authorization: `Bearer ${this.token}` } };
-    }
-
-    get httpClient(): HttpClient {
-        if (!!this.config) {
-            if (!!this.config.httpClient) {
-                return this.config.httpClient;
-            }
-            if (!!this.config.httpClientType) {
-                switch (this.config.httpClientType) {
-                    case HttpClientType.AXIOS: return CrowdinApi.AXIOS_INSTANCE;
-                    case HttpClientType.FETCH: return CrowdinApi.FETCH_INSTANCE;
-                    default: return CrowdinApi.AXIOS_INSTANCE;
-                }
-            }
-        }
-        return CrowdinApi.AXIOS_INSTANCE;
-    }
-
-    //Http overrides
-
-    protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.get(url, config);
-    }
-
-    protected delete<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.delete(url, config);
-    }
-
-    protected head<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.head(url, config);
-    }
-
-    protected post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.post(url, data, config);
-    }
-
-    protected put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.put(url, data, config);
-    }
-
-    protected patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.patch(url, data, config);
-    }
-}
 
 export interface HttpClient {
     get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
@@ -172,4 +93,84 @@ export interface Status {
 
 export interface Attribute {
     [key: string]: string;
+}
+
+export abstract class CrowdinApi {
+    private static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
+    private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
+    private static readonly FETCH_INSTANCE = new FetchClient();
+    private static readonly QUERY_PARAM_PATTERN = new RegExp(/\?.+=.*/g);
+
+    readonly token: string;
+    readonly organization: string;
+    readonly url: string;
+    readonly config: ClientConfig | undefined;
+
+    /**
+     * @param credentials credentials
+     * @param config optional configuration of the client
+     */
+    constructor(credentials: Credentials, config?: ClientConfig) {
+        this.token = credentials.token;
+        this.organization = !!credentials.organization ? credentials.organization : 'api';
+        this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+        this.config = config;
+    }
+
+    protected addQueryParam(url: string, name: string, value?: any): string {
+        if (!!value) {
+            url += CrowdinApi.QUERY_PARAM_PATTERN.test(url) ? '&' : '?';
+            url += `${name}=${value}`;
+        }
+        return url;
+    }
+
+    protected defaultConfig(): any {
+        return { headers: { Authorization: `Bearer ${this.token}` } };
+    }
+
+    get httpClient(): HttpClient {
+        if (!!this.config) {
+            if (!!this.config.httpClient) {
+                return this.config.httpClient;
+            }
+            if (!!this.config.httpClientType) {
+                switch (this.config.httpClientType) {
+                    case HttpClientType.AXIOS:
+                        return CrowdinApi.AXIOS_INSTANCE;
+                    case HttpClientType.FETCH:
+                        return CrowdinApi.FETCH_INSTANCE;
+                    default:
+                        return CrowdinApi.AXIOS_INSTANCE;
+                }
+            }
+        }
+        return CrowdinApi.AXIOS_INSTANCE;
+    }
+
+    //Http overrides
+
+    protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
+        return this.httpClient.get(url, config);
+    }
+
+    protected delete<T>(url: string, config?: { headers: any }): Promise<T> {
+        return this.httpClient.delete(url, config);
+    }
+
+    protected head<T>(url: string, config?: { headers: any }): Promise<T> {
+        return this.httpClient.head(url, config);
+    }
+
+    protected post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+        return this.httpClient.post(url, data, config);
+    }
+
+    protected put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+        return this.httpClient.put(url, data, config);
+    }
+
+    protected patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+        return this.httpClient.patch(url, data, config);
+    }
 }

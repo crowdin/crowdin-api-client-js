@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Languages } from '../../src';
 
 describe('Languages API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Languages = new Languages(credentials);
     const languageId = 2;
@@ -15,35 +14,33 @@ describe('Languages API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/languages', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/languages', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: languageId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: languageId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .get(`/languages/${languageId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/languages/${languageId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    id: languageId
-                }
+                    id: languageId,
+                },
             });
     });
 
@@ -62,5 +59,4 @@ describe('Languages API', () => {
         const language = await api.getLanguage(languageId);
         expect(language.data.id).toBe(languageId);
     });
-
 });

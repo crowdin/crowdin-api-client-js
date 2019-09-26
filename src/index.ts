@@ -33,7 +33,6 @@ export * from './machineTranslation';
 export * from './notifications';
 
 export default class Client {
-
     readonly sourceFilesApi: SourceFiles;
     readonly glossariesApi: Glossaries;
     readonly languagesApi: Languages;

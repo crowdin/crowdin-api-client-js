@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, ProjectsGroups } from '../../src';
 
 describe('Projects and Groups API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: ProjectsGroups = new ProjectsGroups(credentials);
     const projectId = 2;
@@ -19,182 +18,183 @@ describe('Projects and Groups API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/groups', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/groups', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: groupId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: groupId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/groups',
+            .post(
+                '/groups',
                 {
-                    name: groupName
+                    name: groupName,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: groupId
-                }
-            })
-            .get(`/groups/${groupId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: groupId
-                }
-            })
-            .delete(`/groups/${groupId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/groups/${groupId}`,
-                [{
-                    value: groupName,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: groupId,
-                    name: groupName
-                }
+                },
             })
-            .get('/projects', undefined,
+            .get(`/groups/${groupId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: groupId,
+                },
+            })
+            .delete(`/groups/${groupId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/groups/${groupId}`,
+                [
+                    {
+                        value: groupName,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
-                data: [{
-                    data: {
-                        id: projectId,
-                        name: projectName
-                    }
-                }],
+                data: {
+                    id: groupId,
+                    name: groupName,
+                },
+            })
+            .get('/projects', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: projectId,
+                            name: projectName,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/projects',
+            .post(
+                '/projects',
                 {
                     name: projectName,
                     sourceLanguageId: sourceLanguageId,
-                    groupId: groupId
+                    groupId: groupId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: projectId,
-                    name: projectName
-                }
+                    name: projectName,
+                },
             })
-            .get(`/projects/${projectId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: projectId,
-                    name: projectName
-                }
+                    name: projectName,
+                },
             })
-            .delete(`/projects/${projectId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/projects/${projectId}`,
-                [{
-                    value: projectName,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
+            .patch(
+                `/projects/${projectId}`,
+                [
+                    {
+                        value: projectName,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: projectId,
-                    name: projectName
-                }
+                    name: projectName,
+                },
             })
-            .get(`/projects/${projectId}/settings`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    projectId: projectId
-                }
+                    projectId: projectId,
+                },
             })
-            .patch(`/projects/${projectId}/settings`,
-                [{
-                    value: true,
-                    op: PatchOperation.REPLACE,
-                    path: '/publicDownloads'
-                }],
+            .patch(
+                `/projects/${projectId}/settings`,
+                [
+                    {
+                        value: true,
+                        op: PatchOperation.REPLACE,
+                        path: '/publicDownloads',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     projectId: projectId,
-                    publicDownloads: true
-                }
+                    publicDownloads: true,
+                },
             });
     });
 
@@ -211,7 +211,7 @@ describe('Projects and Groups API', () => {
 
     it('Add group', async () => {
         const group = await api.addGroup({
-            name: groupName
+            name: groupName,
         });
         expect(group.data.id).toBe(groupId);
     });
@@ -226,11 +226,13 @@ describe('Projects and Groups API', () => {
     });
 
     it('Edit group', async () => {
-        const group = await api.editGroup(groupId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: groupName
-        }]);
+        const group = await api.editGroup(groupId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: groupName,
+            },
+        ]);
         expect(group.data.id).toBe(groupId);
         expect(group.data.name).toBe(groupName);
     });
@@ -247,7 +249,7 @@ describe('Projects and Groups API', () => {
         const project = await api.addProject({
             name: projectName,
             sourceLanguageId: sourceLanguageId,
-            groupId: groupId
+            groupId: groupId,
         });
         expect(project.data.id).toBe(projectId);
         expect(project.data.name).toBe(projectName);
@@ -264,11 +266,13 @@ describe('Projects and Groups API', () => {
     });
 
     it('Edit project', async () => {
-        const project = await api.editProject(projectId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: projectName
-        }]);
+        const project = await api.editProject(projectId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: projectName,
+            },
+        ]);
         expect(project.data.id).toBe(projectId);
         expect(project.data.name).toBe(projectName);
     });
@@ -279,11 +283,13 @@ describe('Projects and Groups API', () => {
     });
 
     it('Edit project settings', async () => {
-        const settings = await api.editProjectSettings(projectId, [{
-            op: PatchOperation.REPLACE,
-            path: '/publicDownloads',
-            value: true
-        }]);
+        const settings = await api.editProjectSettings(projectId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/publicDownloads',
+                value: true,
+            },
+        ]);
         expect(settings.data.projectId).toBe(projectId);
         expect(settings.data.publicDownloads).toBe(true);
     });

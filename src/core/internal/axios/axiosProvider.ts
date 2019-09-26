@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 import { ErrorResponse } from '../..';
 
 export class AxisProvider {
-
     private static readonly CROWDIN_API_MAX_CONCURRENT_REQUESTS = 15;
     private static readonly CROWDIN_API_REQUESTS_INTERVAL_MS = 10;
 
@@ -14,10 +13,11 @@ export class AxisProvider {
         this.configureResponse();
     }
 
-    private configureRequest() {
+    private configureRequest(): any {
         this.axios.interceptors.request.use(config => {
-            return new Promise((resolve, reject) => {
-                let interval = setInterval(() => {
+            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+            return new Promise(resolve => {
+                const interval = setInterval(() => {
                     if (this.pendingRequests < AxisProvider.CROWDIN_API_MAX_CONCURRENT_REQUESTS) {
                         this.pendingRequests++;
                         clearInterval(interval);
@@ -28,7 +28,7 @@ export class AxisProvider {
         });
     }
 
-    private configureResponse() {
+    private configureResponse(): any {
         this.axios.interceptors.response.use(
             response => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
@@ -40,18 +40,21 @@ export class AxisProvider {
                     return Promise.reject(error.response.data as ErrorResponse);
                 } else {
                     const defaultError: ErrorResponse = {
-                        errors: [{
-                            key: '',
-                            errors: [{
-                                code: '500',
-                                message: 'Request failed.'
-                            }]
-                        }]
+                        errors: [
+                            {
+                                key: '',
+                                errors: [
+                                    {
+                                        code: '500',
+                                        message: 'Request failed.',
+                                    },
+                                ],
+                            },
+                        ],
                     };
                     return Promise.reject(defaultError);
                 }
-
-            }
+            },
         );
     }
 }

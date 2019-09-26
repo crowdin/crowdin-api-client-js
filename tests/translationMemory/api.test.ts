@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, TranslationMemory } from '../../src';
 
 describe('Translation Memory API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: TranslationMemory = new TranslationMemory(credentials);
     const tmId = 2;
@@ -21,144 +20,140 @@ describe('Translation Memory API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/tms', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/tms', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .query({
-                groupId: groupId
+                groupId: groupId,
             })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: tmId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: tmId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/tms',
+            .post(
+                '/tms',
                 {
                     name: name,
-                    groupId: groupId
+                    groupId: groupId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: tmId
-                }
-            })
-            .get(`/tms/${tmId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: tmId
-                }
-            })
-            .delete(`/tms/${tmId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/tms/${tmId}`,
-                [{
-                    value: name,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: tmId,
-                    name: name
-                }
+                },
             })
-            .get(`/tms/${tmId}/exports`, undefined,
+            .get(`/tms/${tmId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: tmId,
+                },
+            })
+            .delete(`/tms/${tmId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/tms/${tmId}`,
+                [
+                    {
+                        value: name,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    url: url
-                }
+                    id: tmId,
+                    name: name,
+                },
             })
-            .post(`/tms/${tmId}/exports`,
+            .get(`/tms/${tmId}/exports`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: url,
+                },
+            })
+            .post(
+                `/tms/${tmId}/exports`,
                 {},
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: exportId
-                }
+                    identifier: exportId,
+                },
             })
-            .get(`/tms/${tmId}/exports/${exportId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/tms/${tmId}/exports/${exportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: exportId
-                }
+                    identifier: exportId,
+                },
             })
-            .post(`/tms/${tmId}/imports`,
+            .post(
+                `/tms/${tmId}/imports`,
                 {
-                    storageId: storageId
+                    storageId: storageId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: importId
-                }
+                    identifier: importId,
+                },
             })
-            .get(`/tms/${tmId}/imports/${importId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/tms/${tmId}/imports/${importId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: importId
-                }
+                    identifier: importId,
+                },
             });
     });
 
@@ -176,7 +171,7 @@ describe('Translation Memory API', () => {
     it('Add TM', async () => {
         const tm = await api.addTm({
             name: name,
-            groupId: groupId
+            groupId: groupId,
         });
         expect(tm.data.id).toBe(tmId);
     });
@@ -191,11 +186,13 @@ describe('Translation Memory API', () => {
     });
 
     it('Update TM', async () => {
-        const tm = await api.editTm(tmId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: name
-        }]);
+        const tm = await api.editTm(tmId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: name,
+            },
+        ]);
         expect(tm.data.id).toBe(tmId);
         expect(tm.data.name).toBe(name);
     });
@@ -217,7 +214,7 @@ describe('Translation Memory API', () => {
 
     it('Import TM', async () => {
         const status = await api.importTm(tmId, {
-            storageId: storageId
+            storageId: storageId,
         });
         expect(status.data.identifier).toBe(importId);
     });

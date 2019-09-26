@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Translations } from '../../src';
 
 describe('Translations API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Translations = new Translations(credentials);
     const projectId = 2;
@@ -24,144 +23,136 @@ describe('Translations API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .post(`/projects/${projectId}/pre-translations`,
+            .post(
+                `/projects/${projectId}/pre-translations`,
                 {
                     languageIds: [],
-                    fileIds: []
+                    fileIds: [],
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: preTranslationId
-                }
+                    identifier: preTranslationId,
+                },
             })
-            .get(`/projects/${projectId}/pre-translations/${preTranslationId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/pre-translations/${preTranslationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: preTranslationId
-                }
+                    identifier: preTranslationId,
+                },
             })
-            .post(`/projects/${projectId}/pseudo-translations/builds`,
+            .post(
+                `/projects/${projectId}/pseudo-translations/builds`,
                 {},
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: pseudoTranslationBuildId
-                }
+                    identifier: pseudoTranslationBuildId,
+                },
             })
-            .get(`/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: pseudoTranslationBuildId
-                }
+                    identifier: pseudoTranslationBuildId,
+                },
             })
-            .get(`/projects/${projectId}/pseudo-translations/builds/download`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/pseudo-translations/builds/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    url: downloadLink
-                }
+                    url: downloadLink,
+                },
             })
-            .get(`/projects/${projectId}/translations/builds`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/translations/builds`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: buildId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: buildId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/translations/builds`,
+            .post(
+                `/projects/${projectId}/translations/builds`,
                 {},
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    id: buildId
-                }
+                    id: buildId,
+                },
             })
-            .get(`/projects/${projectId}/translations/builds/${buildId}/download`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/translations/builds/${buildId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    url: url
-                }
+                    url: url,
+                },
             })
-            .get(`/projects/${projectId}/translations/builds/${buildId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/translations/builds/${buildId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    id: statusId
-                }
+                    id: statusId,
+                },
             })
-            .delete(`/projects/${projectId}/translations/builds/${buildId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/translations/builds/${buildId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .post(`/projects/${projectId}/translations/${languageId}`,
+            .post(
+                `/projects/${projectId}/translations/${languageId}`,
                 {
                     storageId: storageId,
-                    fileId: fileId
+                    fileId: fileId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200);
     });
@@ -173,7 +164,7 @@ describe('Translations API', () => {
     it('Pre-translate', async () => {
         const preTranslation = await api.preTranslate(projectId, {
             fileIds: [],
-            languageIds: []
+            languageIds: [],
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
     });
@@ -227,7 +218,7 @@ describe('Translations API', () => {
     it('Upload Translation', async () => {
         await api.uploadTranslation(projectId, languageId, {
             storageId: storageId,
-            fileId: fileId
+            fileId: fileId,
         });
     });
 });
