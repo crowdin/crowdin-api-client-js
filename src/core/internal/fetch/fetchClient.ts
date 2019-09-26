@@ -3,7 +3,6 @@ import { HttpClient } from '../..';
 declare const fetch: Function;
 
 export class FetchClient implements HttpClient {
-
     private maxConcurrentRequests = 15;
     private requestIntervalMs = 10;
     private pendingRequests = 0;
@@ -27,7 +26,7 @@ export class FetchClient implements HttpClient {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: { headers: any }, data?: any) {
+    private async request(url: string, method: string, config?: { headers: any }, data?: any): Promise<T> {
         let body = undefined;
         if (!!data) {
             if (typeof data === 'object') {
@@ -44,10 +43,10 @@ export class FetchClient implements HttpClient {
         return fetch(url, {
             method: method,
             headers: !!config ? config.headers : {},
-            body: body
+            body: body,
         })
             .then(async (resp: any) => {
-                let json = resp.json();
+                const json = resp.json();
                 if (resp.status >= 200 && resp.status < 300) {
                     return json;
                 } else {
@@ -55,12 +54,13 @@ export class FetchClient implements HttpClient {
                     throw err;
                 }
             })
-            .finally(() => this.pendingRequests = Math.max(0, this.pendingRequests - 1));
+            .finally(() => (this.pendingRequests = Math.max(0, this.pendingRequests - 1)));
     }
 
-    private waitInQueue() {
-        return new Promise((resolve, _reject) => {
-            let interval = setInterval(() => {
+    private waitInQueue(): any {
+        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+        return new Promise(resolve => {
+            const interval = setInterval(() => {
                 if (this.pendingRequests < this.maxConcurrentRequests) {
                     this.pendingRequests++;
                     clearInterval(interval);
@@ -69,5 +69,4 @@ export class FetchClient implements HttpClient {
             }, this.requestIntervalMs);
         });
     }
-
 }

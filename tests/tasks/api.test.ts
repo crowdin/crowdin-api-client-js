@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, Tasks, TasksModel } from '../../src';
 
 describe('Tasks API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Tasks = new Tasks(credentials);
     const projectId = 2;
@@ -15,86 +14,85 @@ describe('Tasks API', () => {
     const languageId = 8;
     const workflowStepId = 40;
     const type = TasksModel.Type.TRANSLATE;
-    const total = 100;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/tasks`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/tasks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: taskId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/tasks`,
+            .post(
+                `/projects/${projectId}/tasks`,
                 {
                     title: taskTitle,
                     languageId: languageId,
                     fileIds: [],
                     type: type,
-                    workflowStepId: workflowStepId
+                    workflowStepId: workflowStepId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: taskId
-                }
-            })
-            .get(`/projects/${projectId}/tasks/${taskId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: taskId
-                }
-            })
-            .delete(`/projects/${projectId}/tasks/${taskId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/projects/${projectId}/tasks/${taskId}`,
-                [{
-                    value: taskTitle,
-                    op: PatchOperation.REPLACE,
-                    path: '/title'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: taskId,
-                    title: taskTitle
-                }
+                },
+            })
+            .get(`/projects/${projectId}/tasks/${taskId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: taskId,
+                },
+            })
+            .delete(`/projects/${projectId}/tasks/${taskId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/tasks/${taskId}`,
+                [
+                    {
+                        value: taskTitle,
+                        op: PatchOperation.REPLACE,
+                        path: '/title',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskId,
+                    title: taskTitle,
+                },
             });
     });
 
@@ -115,7 +113,7 @@ describe('Tasks API', () => {
             languageId: languageId,
             workflowStepId: workflowStepId,
             fileIds: [],
-            type: type
+            type: type,
         });
         expect(task.data.id).toBe(taskId);
     });
@@ -130,13 +128,14 @@ describe('Tasks API', () => {
     });
 
     it('Edit task', async () => {
-        const task = await api.editTask(projectId, taskId, [{
-            op: PatchOperation.REPLACE,
-            path: '/title',
-            value: taskTitle
-        }]);
+        const task = await api.editTask(projectId, taskId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/title',
+                value: taskTitle,
+            },
+        ]);
         expect(task.data.id).toBe(taskId);
         expect(task.data.title).toBe(taskTitle);
     });
-
 });

@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, SourceStrings } from '../../src';
 
 describe('Source Strings API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: SourceStrings = new SourceStrings(credentials);
     const projectId = 2;
@@ -18,80 +17,80 @@ describe('Source Strings API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/strings`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/strings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: stringId,
-                        text: stringText
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: stringId,
+                            text: stringText,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/strings`,
+            .post(
+                `/projects/${projectId}/strings`,
                 {
                     identifier: stringIdentifier,
-                    text: stringText
+                    text: stringText,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: stringId,
-                    text: stringText
-                }
+                    text: stringText,
+                },
             })
-            .get(`/projects/${projectId}/strings/${stringId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/strings/${stringId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: stringId,
-                    text: stringText
-                }
+                    text: stringText,
+                },
             })
-            .delete(`/projects/${projectId}/strings/${stringId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/strings/${stringId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/projects/${projectId}/strings/${stringId}`,
-                [{
-                    value: stringText,
-                    op: PatchOperation.REPLACE,
-                    path: '/text'
-                }],
+            .patch(
+                `/projects/${projectId}/strings/${stringId}`,
+                [
+                    {
+                        value: stringText,
+                        op: PatchOperation.REPLACE,
+                        path: '/text',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: stringId,
-                    text: stringText
-                }
+                    text: stringText,
+                },
             });
     });
 
@@ -110,7 +109,7 @@ describe('Source Strings API', () => {
     it('Add string', async () => {
         const string = await api.addString(projectId, {
             identifier: stringIdentifier,
-            text: stringText
+            text: stringText,
         });
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);
@@ -127,11 +126,13 @@ describe('Source Strings API', () => {
     });
 
     it('Edit string', async () => {
-        const string = await api.editString(projectId, stringId, [{
-            op: PatchOperation.REPLACE,
-            path: '/text',
-            value: stringText
-        }]);
+        const string = await api.editString(projectId, stringId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/text',
+                value: stringText,
+            },
+        ]);
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);
     });

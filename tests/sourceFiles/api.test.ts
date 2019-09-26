@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, SourceFiles } from '../../src';
 
 describe('Source Files API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: SourceFiles = new SourceFiles(credentials);
     const projectId = 2;
@@ -33,194 +32,195 @@ describe('Source Files API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/branches`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/branches`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .query({
-                name: branchName
+                name: branchName,
             })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: branchId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: branchId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/branches`,
+            .post(
+                `/projects/${projectId}/branches`,
                 {
-                    name: branchName
+                    name: branchName,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: branchId,
-                    name: branchName
-                }
-            })
-            .get(`/projects/${projectId}/branches/${branchId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: branchId,
-                    name: branchName
-                }
-            })
-            .delete(`/projects/${projectId}/branches/${branchId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/projects/${projectId}/branches/${branchId}`,
-                [{
-                    value: branchTitle,
-                    op: PatchOperation.REPLACE,
-                    path: '/title'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: branchId,
                     name: branchName,
-                    title: branchTitle
-                }
+                },
             })
-            .get(`/projects/${projectId}/directories`, undefined,
+            .get(`/projects/${projectId}/branches/${branchId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: branchId,
+                    name: branchName,
+                },
+            })
+            .delete(`/projects/${projectId}/branches/${branchId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/branches/${branchId}`,
+                [
+                    {
+                        value: branchTitle,
+                        op: PatchOperation.REPLACE,
+                        path: '/title',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
-                data: [{
-                    data: {
-                        id: directoryId,
-                        name: directoryName
-                    }
-                }],
+                data: {
+                    id: branchId,
+                    name: branchName,
+                    title: branchTitle,
+                },
+            })
+            .get(`/projects/${projectId}/directories`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: directoryId,
+                            name: directoryName,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/directories`,
+            .post(
+                `/projects/${projectId}/directories`,
                 {
-                    name: directoryName
+                    name: directoryName,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: directoryId,
-                    name: directoryName
-                }
-            })
-            .get(`/projects/${projectId}/directories/${directoryId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: directoryId,
-                    name: directoryName
-                }
-            })
-            .delete(`/projects/${projectId}/directories/${directoryId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/projects/${projectId}/directories/${directoryId}`,
-                [{
-                    value: directoryTitle,
-                    op: PatchOperation.REPLACE,
-                    path: '/title'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: directoryId,
                     name: directoryName,
-                    title: directoryTitle
-                }
+                },
             })
-            .get(`/projects/${projectId}/files`, undefined,
+            .get(`/projects/${projectId}/directories/${directoryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: directoryId,
+                    name: directoryName,
+                },
+            })
+            .delete(`/projects/${projectId}/directories/${directoryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/directories/${directoryId}`,
+                [
+                    {
+                        value: directoryTitle,
+                        op: PatchOperation.REPLACE,
+                        path: '/title',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
-                data: [{
-                    data: {
-                        id: fileId,
-                        name: fileName,
-                        attributes: {
-                            mimeType: fileMimeType,
-                            fileSize: fileSize
-                        }
-                    }
-                }],
+                data: {
+                    id: directoryId,
+                    name: directoryName,
+                    title: directoryTitle,
+                },
+            })
+            .get(`/projects/${projectId}/files`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: fileId,
+                            name: fileName,
+                            attributes: {
+                                mimeType: fileMimeType,
+                                fileSize: fileSize,
+                            },
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/files`,
+            .post(
+                `/projects/${projectId}/files`,
                 {
                     name: fileName,
-                    storageId: storageId
+                    storageId: storageId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .query({
-                branchId: branchId
+                branchId: branchId,
             })
             .reply(200, {
                 data: {
@@ -228,46 +228,45 @@ describe('Source Files API', () => {
                     name: fileName,
                     attributes: {
                         mimeType: fileMimeType,
-                        fileSize: fileSize
-                    }
-                }
+                        fileSize: fileSize,
+                    },
+                },
             })
-            .get(`/projects/${projectId}/files/${fileId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/files/${fileId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: fileId,
                     name: fileName,
                     attributes: {
                         mimeType: fileMimeType,
-                        fileSize: fileSize
-                    }
-                }
+                        fileSize: fileSize,
+                    },
+                },
             })
-            .delete(`/projects/${projectId}/files/${fileId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/files/${fileId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/projects/${projectId}/files/${fileId}`,
-                [{
-                    value: fileTitle,
-                    op: PatchOperation.REPLACE,
-                    path: '/title'
-                }],
+            .patch(
+                `/projects/${projectId}/files/${fileId}`,
+                [
+                    {
+                        value: fileTitle,
+                        op: PatchOperation.REPLACE,
+                        path: '/title',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
@@ -276,75 +275,74 @@ describe('Source Files API', () => {
                     title: fileTitle,
                     attributes: {
                         mimeType: fileMimeType,
-                        fileSize: fileSize
-                    }
-                }
+                        fileSize: fileSize,
+                    },
+                },
             })
-            .get(`/projects/${projectId}/files/${fileId}/download`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/files/${fileId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    url: filleRawUrl
-                }
+                    url: filleRawUrl,
+                },
             })
-            .get(`/projects/${projectId}/files/${fileId}/revisions`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/files/${fileId}/revisions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: fileRevisionId,
-                        projectId: projectId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: fileRevisionId,
+                            projectId: projectId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/files/${fileId}/revisions`,
+            .post(
+                `/projects/${projectId}/files/${fileId}/revisions`,
                 {
-                    storageId: storageId
+                    storageId: storageId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
-                data: [{
-                    data: {
-                        id: fileRevisionId,
-                        projectId: projectId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: fileRevisionId,
+                            projectId: projectId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: fileRevisionId,
-                    projectId: projectId
-                }
+                    projectId: projectId,
+                },
             });
     });
 
@@ -361,7 +359,7 @@ describe('Source Files API', () => {
 
     it('Create branch', async () => {
         const branch = await api.createBranch(projectId, {
-            name: branchName
+            name: branchName,
         });
         expect(branch.data.id).toBe(branchId);
         expect(branch.data.name).toBe(branchName);
@@ -378,16 +376,17 @@ describe('Source Files API', () => {
     });
 
     it('Edit branch', async () => {
-        const branch = await api.editBranch(projectId, branchId, [{
-            op: PatchOperation.REPLACE,
-            path: '/title',
-            value: branchTitle
-        }]);
+        const branch = await api.editBranch(projectId, branchId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/title',
+                value: branchTitle,
+            },
+        ]);
         expect(branch.data.id).toBe(branchId);
         expect(branch.data.name).toBe(branchName);
         expect(branch.data.title).toBe(branchTitle);
     });
-
 
     it('List project directories', async () => {
         const directories = await api.listProjectDirectories(projectId);
@@ -399,7 +398,7 @@ describe('Source Files API', () => {
 
     it('Create directory', async () => {
         const directory = await api.createDirectory(projectId, {
-            name: directoryName
+            name: directoryName,
         });
         expect(directory.data.id).toBe(directoryId);
         expect(directory.data.name).toBe(directoryName);
@@ -416,11 +415,13 @@ describe('Source Files API', () => {
     });
 
     it('Edit directory', async () => {
-        const directory = await api.editDirectory(projectId, directoryId, [{
-            op: PatchOperation.REPLACE,
-            path: '/title',
-            value: directoryTitle
-        }]);
+        const directory = await api.editDirectory(projectId, directoryId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/title',
+                value: directoryTitle,
+            },
+        ]);
         expect(directory.data.id).toBe(directoryId);
         expect(directory.data.name).toBe(directoryName);
         expect(directory.data.title).toBe(directoryTitle);
@@ -437,10 +438,14 @@ describe('Source Files API', () => {
     });
 
     it('Create file', async () => {
-        const file = await api.createFile(projectId, {
-            name: fileName,
-            storageId: storageId
-        }, branchId);
+        const file = await api.createFile(
+            projectId,
+            {
+                name: fileName,
+                storageId: storageId,
+            },
+            branchId,
+        );
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
         expect(file.data.attributes.fileSize).toBe(fileSize);
@@ -460,11 +465,13 @@ describe('Source Files API', () => {
     });
 
     it('Edit file', async () => {
-        const file = await api.editFile(projectId, fileId, [{
-            op: PatchOperation.REPLACE,
-            path: '/title',
-            value: fileTitle
-        }]);
+        const file = await api.editFile(projectId, fileId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/title',
+                value: fileTitle,
+            },
+        ]);
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
         expect(file.data.title).toBe(fileTitle);
@@ -487,7 +494,7 @@ describe('Source Files API', () => {
 
     it('Update file', async () => {
         const revisions = await api.updateFile(projectId, fileId, {
-            storageId: storageId
+            storageId: storageId,
         });
         expect(revisions.data.length).toBe(1);
         expect(revisions.data[0].data.id).toBe(fileRevisionId);

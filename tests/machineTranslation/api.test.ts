@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, MachineTranslation, PatchOperation } from '../../src';
 
 describe('Machine Translation engines (MTs) API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: MachineTranslation = new MachineTranslation(credentials);
     const mtId = 2;
@@ -17,79 +16,79 @@ describe('Machine Translation engines (MTs) API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/mts', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/mts', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .query({
-                groupId: groupId
+                groupId: groupId,
             })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: mtId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: mtId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/mts',
+            .post(
+                '/mts',
                 {
-                    name: name
+                    name: name,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: mtId
-                }
-            })
-            .get(`/mts/${mtId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: mtId
-                }
-            })
-            .delete(`/mts/${mtId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/mts/${mtId}`,
-                [{
-                    value: name,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: mtId,
-                    name: name
-                }
+                },
+            })
+            .get(`/mts/${mtId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: mtId,
+                },
+            })
+            .delete(`/mts/${mtId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/mts/${mtId}`,
+                [
+                    {
+                        value: name,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: mtId,
+                    name: name,
+                },
             });
     });
 
@@ -106,7 +105,7 @@ describe('Machine Translation engines (MTs) API', () => {
 
     it('Create MT', async () => {
         const mt = await api.createMt({
-            name: name
+            name: name,
         });
         expect(mt.data.id).toBe(mtId);
     });
@@ -121,13 +120,14 @@ describe('Machine Translation engines (MTs) API', () => {
     });
 
     it('Update MT', async () => {
-        const mt = await api.updateMt(mtId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: name
-        }]);
+        const mt = await api.updateMt(mtId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: name,
+            },
+        ]);
         expect(mt.data.id).toBe(mtId);
         expect(mt.data.name).toBe(name);
     });
-
 });

@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Glossaries, GlossariesModel, PatchOperation } from '../../src/index';
 
 describe('Glossaries API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Glossaries = new Glossaries(credentials);
     const glossaryId = 112;
@@ -25,226 +24,222 @@ describe('Glossaries API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/glossaries', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/glossaries', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .query({
-                groupId: groupId
+                groupId: groupId,
             })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: glossaryId,
-                        name: glossaryName
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: glossaryId,
+                            name: glossaryName,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/glossaries',
+            .post(
+                '/glossaries',
                 {
                     name: glossaryName,
-                    groupId: groupId
+                    groupId: groupId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: glossaryId,
-                    name: glossaryName
-                }
+                    name: glossaryName,
+                },
             })
-            .get(`/glossaries/${glossaryId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/glossaries/${glossaryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: glossaryId,
-                    name: glossaryName
-                }
+                    name: glossaryName,
+                },
             })
-            .delete(`/glossaries/${glossaryId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/glossaries/${glossaryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/glossaries/${glossaryId}`,
-                [{
-                    value: glossaryTerms,
-                    op: PatchOperation.REPLACE,
-                    path: '/term'
-                }],
+            .patch(
+                `/glossaries/${glossaryId}`,
+                [
+                    {
+                        value: glossaryTerms,
+                        op: PatchOperation.REPLACE,
+                        path: '/term',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: glossaryId,
                     name: glossaryName,
-                    terms: glossaryTerms
-                }
+                    terms: glossaryTerms,
+                },
             })
-            .post(`/glossaries/${glossaryId}/exports`,
+            .post(
+                `/glossaries/${glossaryId}/exports`,
                 {
-                    format: glossaryFormat
+                    format: glossaryFormat,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: exportId
-                }
+                    identifier: exportId,
+                },
             })
-            .get(`/glossaries/${glossaryId}/exports/download`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/glossaries/${glossaryId}/exports/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    url: glossaryLink
-                }
+                    url: glossaryLink,
+                },
             })
-            .get(`/glossaries/${glossaryId}/exports/${exportId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/glossaries/${glossaryId}/exports/${exportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: exportId
-                }
+                    identifier: exportId,
+                },
             })
-            .post(`/glossaries/${glossaryId}/imports`,
+            .post(
+                `/glossaries/${glossaryId}/imports`,
                 {
-                    storageId: storageId
+                    storageId: storageId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    identifier: importId
-                }
+                    identifier: importId,
+                },
             })
-            .get(`/glossaries/${glossaryId}/imports/${importId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/glossaries/${glossaryId}/imports/${importId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    identifier: importId
-                }
+                    identifier: importId,
+                },
             })
-            .get(`/glossaries/${glossaryId}/terms`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/glossaries/${glossaryId}/terms`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: termId,
-                        glossaryId: glossaryId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: termId,
+                            glossaryId: glossaryId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/glossaries/${glossaryId}/terms`,
+            .post(
+                `/glossaries/${glossaryId}/terms`,
                 {
                     languageId: termLanguageId,
-                    text: termText
+                    text: termText,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: termId,
-                    glossaryId: glossaryId
-                }
-            })
-            .get(`/glossaries/${glossaryId}/terms/${termId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: termId,
-                    glossaryId: glossaryId
-                }
-            })
-            .delete(`/glossaries/${glossaryId}/terms/${termId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/glossaries/${glossaryId}/terms/${termId}`,
-                [{
-                    value: termText,
-                    op: PatchOperation.REPLACE,
-                    path: '/text'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: termId,
                     glossaryId: glossaryId,
-                    text: termText
-                }
+                },
+            })
+            .get(`/glossaries/${glossaryId}/terms/${termId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: termId,
+                    glossaryId: glossaryId,
+                },
+            })
+            .delete(`/glossaries/${glossaryId}/terms/${termId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/glossaries/${glossaryId}/terms/${termId}`,
+                [
+                    {
+                        value: termText,
+                        op: PatchOperation.REPLACE,
+                        path: '/text',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: termId,
+                    glossaryId: glossaryId,
+                    text: termText,
+                },
             });
     });
 
@@ -263,7 +258,7 @@ describe('Glossaries API', () => {
     it('Add glossary', async () => {
         const glossary = await api.addGlossary({
             name: glossaryName,
-            groupId: groupId
+            groupId: groupId,
         });
         expect(glossary.data.id).toBe(glossaryId);
         expect(glossary.data.name).toBe(glossaryName);
@@ -280,11 +275,13 @@ describe('Glossaries API', () => {
     });
 
     it('Edit glossary', async () => {
-        const glossary = await api.editGlossary(glossaryId, [{
-            op: PatchOperation.REPLACE,
-            path: '/term',
-            value: glossaryTerms
-        }]);
+        const glossary = await api.editGlossary(glossaryId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/term',
+                value: glossaryTerms,
+            },
+        ]);
         expect(glossary.data.id).toBe(glossaryId);
         expect(glossary.data.name).toBe(glossaryName);
         expect(glossary.data.terms).toBe(glossaryTerms);
@@ -292,7 +289,7 @@ describe('Glossaries API', () => {
 
     it('Export glossary', async () => {
         const exportStatus = await api.exportGlossary(glossaryId, {
-            format: glossaryFormat
+            format: glossaryFormat,
         });
         expect(exportStatus.data.identifier).toBe(exportId);
     });
@@ -309,7 +306,7 @@ describe('Glossaries API', () => {
 
     it('Import glossary file', async () => {
         const importStatus = await api.importGlossaryFile(glossaryId, {
-            storageId: storageId
+            storageId: storageId,
         });
         expect(importStatus.data.identifier).toBe(importId);
     });
@@ -329,7 +326,7 @@ describe('Glossaries API', () => {
     it('Add term', async () => {
         const term = await api.addTerm(glossaryId, {
             languageId: termLanguageId,
-            text: termText
+            text: termText,
         });
         expect(term.data.id).toBe(termId);
         expect(term.data.glossaryId).toBe(glossaryId);
@@ -346,11 +343,13 @@ describe('Glossaries API', () => {
     });
 
     it('Edit term', async () => {
-        const term = await api.editTerm(glossaryId, termId, [{
-            op: PatchOperation.REPLACE,
-            path: '/text',
-            value: termText
-        }]);
+        const term = await api.editTerm(glossaryId, termId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/text',
+                value: termText,
+            },
+        ]);
         expect(term.data.id).toBe(termId);
         expect(term.data.glossaryId).toBe(glossaryId);
         expect(term.data.text).toBe(termText);

@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, PatchOperation, Screenshots } from '../../src';
 
 describe('Screenshots API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Screenshots = new Screenshots(credentials);
     const projectId = 2;
@@ -20,189 +19,193 @@ describe('Screenshots API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/screenshots`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/screenshots`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: screenshotId,
-                        name: screenshotName
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: screenshotId,
+                            name: screenshotName,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/screenshots`,
+            .post(
+                `/projects/${projectId}/screenshots`,
                 {
                     storageId: storageId,
-                    name: screenshotName
+                    name: screenshotName,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: screenshotId,
-                    name: screenshotName
-                }
+                    name: screenshotName,
+                },
             })
-            .get(`/projects/${projectId}/screenshots/${screenshotId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/screenshots/${screenshotId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: screenshotId,
-                    name: screenshotName
-                }
+                    name: screenshotName,
+                },
             })
-            .put(`/projects/${projectId}/screenshots/${screenshotId}`,
+            .put(
+                `/projects/${projectId}/screenshots/${screenshotId}`,
                 {
                     storageId: storageId,
-                    name: screenshotName
+                    name: screenshotName,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: screenshotId,
-                    name: screenshotName
-                }
+                    name: screenshotName,
+                },
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/projects/${projectId}/screenshots/${screenshotId}`,
-                [{
-                    value: screenshotName,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
+            .patch(
+                `/projects/${projectId}/screenshots/${screenshotId}`,
+                [
+                    {
+                        value: screenshotName,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: screenshotId,
-                    name: screenshotName
-                }
+                    name: screenshotName,
+                },
             })
-            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: tagId,
-                        screenshotId: screenshotId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: tagId,
+                            screenshotId: screenshotId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .put(`/projects/${projectId}/screenshots/${screenshotId}/tags`,
-                [{
-                    stringId: stringId
-                }],
+            .put(
+                `/projects/${projectId}/screenshots/${screenshotId}/tags`,
+                [
+                    {
+                        stringId: stringId,
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200)
-            .post(`/projects/${projectId}/screenshots/${screenshotId}/tags`,
-                [{
-                    stringId: stringId
-                }],
+            .post(
+                `/projects/${projectId}/screenshots/${screenshotId}/tags`,
+                [
+                    {
+                        stringId: stringId,
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: tagId,
-                    screenshotId: screenshotId
-                }
+                    screenshotId: screenshotId,
+                },
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
                     id: tagId,
-                    screenshotId: screenshotId
-                }
+                    screenshotId: screenshotId,
+                },
             })
-            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200)
-            .patch(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`,
-                [{
-                    value: stringId,
-                    op: PatchOperation.REPLACE,
-                    path: '/stringId'
-                }],
+            .patch(
+                `/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`,
+                [
+                    {
+                        value: stringId,
+                        op: PatchOperation.REPLACE,
+                        path: '/stringId',
+                    },
+                ],
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    id: screenshotId
-                }
+                    id: screenshotId,
+                },
             });
     });
 
@@ -221,7 +224,7 @@ describe('Screenshots API', () => {
     it('Add screenshot', async () => {
         const screenshot = await api.addScreenshot(projectId, {
             name: screenshotName,
-            storageId: storageId
+            storageId: storageId,
         });
         expect(screenshot.data.id).toBe(screenshotId);
         expect(screenshot.data.name).toBe(screenshotName);
@@ -236,7 +239,7 @@ describe('Screenshots API', () => {
     it('Update screenshot', async () => {
         const screenshot = await api.updateScreenshot(projectId, screenshotId, {
             storageId: storageId,
-            name: screenshotName
+            name: screenshotName,
         });
         expect(screenshot.data.id).toBe(screenshotId);
         expect(screenshot.data.name).toBe(screenshotName);
@@ -247,11 +250,13 @@ describe('Screenshots API', () => {
     });
 
     it('Edit screenshot', async () => {
-        const screenshot = await api.editScreenshot(projectId, screenshotId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: screenshotName
-        }]);
+        const screenshot = await api.editScreenshot(projectId, screenshotId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: screenshotName,
+            },
+        ]);
         expect(screenshot.data.id).toBe(screenshotId);
         expect(screenshot.data.name).toBe(screenshotName);
     });
@@ -265,15 +270,19 @@ describe('Screenshots API', () => {
     });
 
     it('Replace tags', async () => {
-        await api.replaceTags(projectId, screenshotId, [{
-            stringId: stringId
-        }]);
+        await api.replaceTags(projectId, screenshotId, [
+            {
+                stringId: stringId,
+            },
+        ]);
     });
 
     it('Add tag', async () => {
-        const tag = await api.addTag(projectId, screenshotId, [{
-            stringId: stringId
-        }]);
+        const tag = await api.addTag(projectId, screenshotId, [
+            {
+                stringId: stringId,
+            },
+        ]);
         expect(tag.data.id).toBe(tagId);
         expect(tag.data.screenshotId).toBe(screenshotId);
     });
@@ -293,11 +302,13 @@ describe('Screenshots API', () => {
     });
 
     it('Update tag', async () => {
-        const tag = await api.updateTag(projectId, screenshotId, tagId, [{
-            op: PatchOperation.REPLACE,
-            path: '/stringId',
-            value: stringId
-        }]);
+        const tag = await api.updateTag(projectId, screenshotId, tagId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/stringId',
+                value: stringId,
+            },
+        ]);
         expect(tag.data.id).toBe(screenshotId);
     });
 });
