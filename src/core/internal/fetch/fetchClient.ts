@@ -1,9 +1,9 @@
 import { HttpClient } from '../..';
-import { RequestOptions } from 'http';
 
 declare const fetch: Function;
 
-interface IRequestConfig extends RequestOptions {
+interface IRequestConfig {
+    headers?: [any];
     mode?: string
 }
 
