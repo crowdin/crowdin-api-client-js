@@ -8,20 +8,12 @@ For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/e
 
 
 ## Table of Contents
-* [Requirements](#requirements)
 * [Dependencies](#dependencies)
 * [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Contribution](#contribution)
 * [Seeking Assistance](#seeking-assistance)
 * [License](#license)
-
-## Requirements
-* typescript 3.5.2
-* tslint 5.18.0
-* ts-jest 24.0.2
-* (optional) jest 24.8.0
-* (optional) jest-circus 24.8.0
 
 ## Dependencies
 * Axios 0.19
@@ -130,7 +122,7 @@ We are happy to accept contributions to the Crowdin JavaScript client. To contri
 5. Submit a pull request with your patch on Github.
 
 ## Seeking Assistance
-If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client/issues).
+If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client-js/issues).
 
 If you've found an error in these samples, please [contact](https://crowdin.com/contacts) our Support Team.
 
