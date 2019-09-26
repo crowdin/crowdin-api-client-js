@@ -79,7 +79,7 @@ Or even pass your own http client as `httpClient` property which should implemen
 ## Contribution
 We are happy to accept contributions to the Crowdin JavaScript client. To contribute please do the following:
 1. Fork the repository on GitHub.
-2. Decide which code you want to submit. A submission should be a set of changes that addresses one issue in the issue tracker. Please file one change per issue, and address one issue per change. If you want to make a change that doesn't have a corresponding issue in the issue tracker, please file a new ticket!
+2. Decide which code you want to submit. Commit your changes and push to the new branch.
 3. Ensure that your code adheres to standard conventions, as used in the rest of the library.
 4. Ensure that there are unit tests for your code.
 5. Submit a pull request with your patch on Github.
