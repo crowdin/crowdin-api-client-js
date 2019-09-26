@@ -35,7 +35,7 @@ npm [TBA]
 <summary>Typescript</summary>
 
 ```typescript
-import crowdin, { Credentials } from 'crowdin-api-client-js';
+import crowdin, { Credentials } from 'crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
@@ -53,7 +53,7 @@ const projects = await projectsGroupsApi.listProjects();
 Or specific API instances:
 
 ```typescript
-import { Credentials, ProjectsGroups } from 'crowdin-api-client-js';
+import { Credentials, ProjectsGroups } from 'crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
@@ -74,7 +74,7 @@ const projects = await projectsGroupsApi.listProjects();
 <summary>Javascript</summary>
 
 ```javascript
-import crowdin from 'crowdin-api-client-js';
+import crowdin from 'crowdin-api-client';
 
 // initialization of crowdin client
 const { projectsGroupsApi } = new crowdin({
@@ -89,7 +89,7 @@ const projects = await projectsGroupsApi.listProjects();
 Or specific API instances:
 
 ```javascript
-import { ProjectsGroups } from 'crowdin-api-client-js';
+import { ProjectsGroups } from 'crowdin-api-client';
 
 // initialization of ProjectsGroups
 const projectsGroupsApi = new ProjectsGroups({
@@ -110,7 +110,7 @@ This client uses [axios](https://github.com/axios/axios) which internally uses `
 So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ```typescript
-import { ProjectsGroups, HttpClientType } from 'crowdin-api-client-js';
+import { ProjectsGroups, HttpClientType } from 'crowdin-api-client';
 
 const projectsGroupsApi = new ProjectsGroups(credentials, {
   httpClientType: HttpClientType.FETCH
@@ -130,7 +130,7 @@ We are happy to accept contributions to the Crowdin JavaScript client. To contri
 5. Submit a pull request with your patch on Github.
 
 ## Seeking Assistance
-If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client-js/issues).
+If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client/issues).
 
 If you've found an error in these samples, please [contact](https://crowdin.com/contacts) our Support Team.
 
