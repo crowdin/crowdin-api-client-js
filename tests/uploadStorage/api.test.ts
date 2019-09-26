@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, UploadStorage } from '../../src';
 
 describe('Upload Storage API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: UploadStorage = new UploadStorage(credentials);
     const storageId = 2;
@@ -17,54 +16,50 @@ describe('Upload Storage API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/storages', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/storages', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: storageId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: storageId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
             .post('/storages', fileContent, {
                 reqheaders: {
                     'Content-Type': contentType,
-                    'Authorization': `Bearer ${api.token}`
-                }
+                    Authorization: `Bearer ${api.token}`,
+                },
             })
             .reply(200, {
                 data: {
-                    id: storageId
-                }
+                    id: storageId,
+                },
             })
-            .get(`/storages/${storageId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/storages/${storageId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    id: storageId
-                }
+                    id: storageId,
+                },
             })
-            .delete(`/storages/${storageId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/storages/${storageId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200);
     });
 

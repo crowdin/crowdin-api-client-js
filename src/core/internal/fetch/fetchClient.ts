@@ -4,35 +4,34 @@ declare const fetch: Function;
 
 interface RequestConfig {
     headers?: any;
-    mode?: string
+    mode?: string;
 }
 
 export class FetchClient implements HttpClient {
-
     private maxConcurrentRequests = 15;
     private requestIntervalMs = 10;
     private pendingRequests = 0;
 
-    get<T>(url: string, config?: { headers: any }): Promise<T> {
+    get(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'GET', config);
     }
-    delete<T>(url: string, config?: { headers: any }): Promise<T> {
+    delete(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'DELETE', config);
     }
-    head<T>(url: string, config?: { headers: any }): Promise<T> {
+    head(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'HEAD', config);
     }
-    post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    post(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'POST', config, data);
     }
-    put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    put(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'PUT', config, data);
     }
-    patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    patch(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: RequestConfig, data?: any) {
+    private async request(url: string, method: string, config?: RequestConfig, data?: any): Promise<any> {
         let body = undefined;
         if (!!data) {
             if (typeof data === 'object') {
@@ -50,10 +49,10 @@ export class FetchClient implements HttpClient {
             method: method,
             headers: !!config ? config.headers : {},
             mode: (config && config.mode) || 'no-cors',
-            body: body
+            body: body,
         })
             .then(async (resp: any) => {
-                let json = resp.json();
+                const json = resp.json();
                 if (resp.status >= 200 && resp.status < 300) {
                     return json;
                 } else {
@@ -61,12 +60,13 @@ export class FetchClient implements HttpClient {
                     throw err;
                 }
             })
-            .finally(() => this.pendingRequests = Math.max(0, this.pendingRequests - 1));
+            .finally(() => (this.pendingRequests = Math.max(0, this.pendingRequests - 1)));
     }
 
-    private waitInQueue() {
-        return new Promise((resolve, _reject) => {
-            let interval = setInterval(() => {
+    private waitInQueue(): any {
+        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+        return new Promise(resolve => {
+            const interval = setInterval(() => {
                 if (this.pendingRequests < this.maxConcurrentRequests) {
                     this.pendingRequests++;
                     clearInterval(interval);
@@ -75,5 +75,4 @@ export class FetchClient implements HttpClient {
             }, this.requestIntervalMs);
         });
     }
-
 }

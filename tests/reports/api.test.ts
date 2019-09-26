@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Reports, ReportsModel } from '../../src';
 
 describe('Reports API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Reports = new Reports(credentials);
     const projectId = 2;
@@ -16,59 +15,58 @@ describe('Reports API', () => {
     const schema: ReportsModel.Schema = {
         description: 'test0',
         name: 'test1',
-        type: 'test2'
+        type: 'test2',
     };
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/supported-reports`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/supported-reports`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        name: reportName
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            name: reportName,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/reports`,
+            .post(
+                `/projects/${projectId}/reports`,
                 {
                     name: reportName,
-                    schema: schema
+                    schema: schema,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     name: reportName,
-                    reportId: reportId
-                }
+                    reportId: reportId,
+                },
             })
-            .get(`/projects/${projectId}/reports/${reportId}/download`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/reports/${reportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    url: downloadLink
-                }
+                    url: downloadLink,
+                },
             });
     });
 
@@ -86,7 +84,7 @@ describe('Reports API', () => {
     it('Generate a report', async () => {
         const report = await api.generateReport(projectId, {
             name: reportName,
-            schema: schema
+            schema: schema,
         });
         expect(report.data.reportId).toBe(reportId);
         expect(report.data.name).toBe(reportName);

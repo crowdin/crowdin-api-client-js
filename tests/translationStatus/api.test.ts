@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, TranslationStatus } from '../../src';
 
 describe('Translation Status API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: TranslationStatus = new TranslationStatus(credentials);
     const projectId = 2;
@@ -21,113 +20,113 @@ describe('Translation Status API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/issues`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: [{
-                    data: {
-                        id: issueId
-                    }
-                }],
-                pagination: {
-                    offset: 0,
-                    limit: limit
-                }
+            .get(`/projects/${projectId}/issues`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
             })
-            .get(`/projects/${projectId}/branches/${branchId}/languages/progress`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
             .reply(200, {
-                data: [{
-                    data: {
-                        phrasesCount: phrasesCount
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: issueId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .get(`/projects/${projectId}/directories/${directoryId}/languages/progress`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: [{
-                    data: {
-                        phrasesCount: phrasesCount
-                    }
-                }],
-                pagination: {
-                    offset: 0,
-                    limit: limit
-                }
+            .get(`/projects/${projectId}/branches/${branchId}/languages/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
             })
-            .get(`/projects/${projectId}/export-ready-progress`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
             .reply(200, {
-                data: [{
-                    data: {
-                        languageId: languageId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            phrasesCount: phrasesCount,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .get(`/projects/${projectId}/files/${fileId}/languages/progress`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: [{
-                    data: {
-                        phrasesCount: phrasesCount
-                    }
-                }],
-                pagination: {
-                    offset: 0,
-                    limit: limit
-                }
+            .get(`/projects/${projectId}/directories/${directoryId}/languages/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
             })
-            .get(`/projects/${projectId}/languages/progress`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
             .reply(200, {
-                data: [{
-                    data: {
-                        phrasesCount: phrasesCount
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            phrasesCount: phrasesCount,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/export-ready-progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            languageId: languageId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/files/${fileId}/languages/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            phrasesCount: phrasesCount,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/languages/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            phrasesCount: phrasesCount,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 

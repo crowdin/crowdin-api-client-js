@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Webhooks, WebhooksModel, PatchOperation } from '../../src/index';
 
 describe('Web-hooks API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Webhooks = new Webhooks(credentials);
     const projectId = 2;
@@ -19,79 +18,79 @@ describe('Web-hooks API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/webhooks`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/projects/${projectId}/webhooks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        id: webhookId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            id: webhookId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post(`/projects/${projectId}/webhooks`,
+            .post(
+                `/projects/${projectId}/webhooks`,
                 {
                     name: name,
                     url: url,
                     events: [],
-                    requestType: requestType
+                    requestType: requestType,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: webhookId
-                }
-            })
-            .get(`/projects/${projectId}/webhooks/${webhookId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200, {
-                data: {
-                    id: webhookId
-                }
-            })
-            .delete(`/projects/${projectId}/webhooks/${webhookId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
-            .reply(200)
-            .patch(`/projects/${projectId}/webhooks/${webhookId}`,
-                [{
-                    value: name,
-                    op: PatchOperation.REPLACE,
-                    path: '/name'
-                }],
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
                     id: webhookId,
-                    name: name
-                }
+                },
+            })
+            .get(`/projects/${projectId}/webhooks/${webhookId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: webhookId,
+                },
+            })
+            .delete(`/projects/${projectId}/webhooks/${webhookId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/webhooks/${webhookId}`,
+                [
+                    {
+                        value: name,
+                        op: PatchOperation.REPLACE,
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: webhookId,
+                    name: name,
+                },
             });
     });
 
@@ -111,7 +110,7 @@ describe('Web-hooks API', () => {
             name: name,
             url: url,
             events: [],
-            requestType: requestType
+            requestType: requestType,
         });
         expect(webhook.data.id).toBe(webhookId);
     });
@@ -126,13 +125,14 @@ describe('Web-hooks API', () => {
     });
 
     it('Edit webhook', async () => {
-        const webhook = await api.editWebhook(projectId, webhookId, [{
-            op: PatchOperation.REPLACE,
-            path: '/name',
-            value: name
-        }]);
+        const webhook = await api.editWebhook(projectId, webhookId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/name',
+                value: name,
+            },
+        ]);
         expect(webhook.data.id).toBe(webhookId);
         expect(webhook.data.name).toBe(name);
     });
-
 });

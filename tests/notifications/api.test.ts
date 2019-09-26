@@ -2,11 +2,10 @@ import * as nock from 'nock';
 import { Credentials, Notifications } from '../../src';
 
 describe('Notifications API', () => {
-
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
-        organization: 'testOrg'
+        organization: 'testOrg',
     };
     const api: Notifications = new Notifications(credentials);
     const subscriptionId = 'test';
@@ -15,58 +14,55 @@ describe('Notifications API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/notification-channels/subscriptions', undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get('/notification-channels/subscriptions', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
-                data: [{
-                    data: {
-                        subscriptionId: subscriptionId
-                    }
-                }],
+                data: [
+                    {
+                        data: {
+                            subscriptionId: subscriptionId,
+                        },
+                    },
+                ],
                 pagination: {
                     offset: 0,
-                    limit: limit
-                }
+                    limit: limit,
+                },
             })
-            .post('/notification-channels/subscriptions',
+            .post(
+                '/notification-channels/subscriptions',
                 {
-                    subscriptionId: subscriptionId
+                    subscriptionId: subscriptionId,
                 },
                 {
                     reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
             )
             .reply(200, {
                 data: {
-                    subscriptionId: subscriptionId
-                }
+                    subscriptionId: subscriptionId,
+                },
             })
-            .get(`/notification-channels/subscriptions/${subscriptionId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .get(`/notification-channels/subscriptions/${subscriptionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200, {
                 data: {
-                    subscriptionId: subscriptionId
-                }
+                    subscriptionId: subscriptionId,
+                },
             })
-            .delete(`/notification-channels/subscriptions/${subscriptionId}`, undefined,
-                {
-                    reqheaders: {
-                        'Authorization': `Bearer ${api.token}`
-                    }
-                }
-            )
+            .delete(`/notification-channels/subscriptions/${subscriptionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
             .reply(200);
     });
 
@@ -83,7 +79,7 @@ describe('Notifications API', () => {
 
     it('Subscribe to channel', async () => {
         const subscription = await api.subscribeToChannel({
-            subscriptionId: subscriptionId
+            subscriptionId: subscriptionId,
         });
         expect(subscription.data.subscriptionId).toBe(subscriptionId);
     });
@@ -96,5 +92,4 @@ describe('Notifications API', () => {
     it('Remove channel subscription', async () => {
         await api.removeChannelSubscription(subscriptionId);
     });
-
 });
