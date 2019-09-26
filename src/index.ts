@@ -32,7 +32,7 @@ export * from './webhooks';
 export * from './machineTranslation';
 export * from './notifications';
 
-export class Client {
+export default class Client {
 
     readonly sourceFilesApi: SourceFiles.Api;
     readonly glossariesApi: Glossaries.Api;

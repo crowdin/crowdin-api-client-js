@@ -6,36 +6,83 @@ For more about Crowdin API v2 see [Crowdin API](https://support.crowdin.com/ente
 
 ## Installation
 
+```
+npm install ...
+```
+
 ## Usage
 
-Start using client by creating `Credentials` object:
-
+<details>
+<summary>Typescript</summary>
 ```typescript
-import * as crowdin from 'crowdin-sdk-2';
+import crowdin, { Credentials } from "crowdin-sdk-2";
 
-const credentials: crowdin.Credentials = {
-    token: 'testToken',
-    organization: 'organizationName'
+// credentials
+const credentials: Credentials = {
+token: "testToken",
+organization: "organizationName"
 };
-```
 
-### List of projects
+// initialization of crowdin client
+const { projectsGroupsApi } = new crowdin(credentials);
+
+// get project list
+const projects = await projectsGroupsApi.listProjects();
+
+````
+
+Or specific API instances:
 
 ```typescript
-const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials);
+import { Credentials, ProjectsGroups } from "crowdin-sdk-2";
 
+// credentials
+const credentials: Credentials = {
+  token: "testToken",
+  organization: "organizationName"
+};
+
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups.Api(credentials);
+
+// get project list
+const projects = await projectsGroupsApi.listProjects();
+````
+
+</details>
+
+<details>
+<summary>Javascript</summary>
+
+```javascript
+import crowdin from "crowdin-sdk-2";
+
+// initialization of crowdin client
+const { projectsGroupsApi } = new crowdin({
+  token: "testToken",
+  organization: "organizationName"
+});
+
+// get project list
 const projects = await projectsGroupsApi.listProjects();
 ```
 
-Or you can create whole client and use needed APIs:
+Or specific API instances:
 
-```typescript
-const client = new crowdin.Client(credentials);
+```javascript
+import { ProjectsGroups } from "crowdin-sdk-2";
 
-const { projectsGroupsApi } = client;
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups.Api({
+  token: "testToken",
+  organization: "organizationName"
+});
 
+// get project list
 const projects = await projectsGroupsApi.listProjects();
 ```
+
+</details>
 
 ### List of projects with Fetch API
 
@@ -45,7 +92,7 @@ So there is an option to use http client based on [Fetch API](https://developer.
 
 ```typescript
 const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials, {
-    httpClientType: crowdin.HttpClientType.FETCH
+  httpClientType: crowdin.HttpClientType.FETCH
 });
 
 const projects = await projectsGroupsApi.listProjects();
