@@ -7,26 +7,26 @@ export class FetchClient implements HttpClient {
     private requestIntervalMs = 10;
     private pendingRequests = 0;
 
-    get<T>(url: string, config?: { headers: any }): Promise<T> {
+    get(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'GET', config);
     }
-    delete<T>(url: string, config?: { headers: any }): Promise<T> {
+    delete(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'DELETE', config);
     }
-    head<T>(url: string, config?: { headers: any }): Promise<T> {
+    head(url: string, config?: { headers: any }): Promise<any> {
         return this.request(url, 'HEAD', config);
     }
-    post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    post(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'POST', config, data);
     }
-    put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    put(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'PUT', config, data);
     }
-    patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    patch(url: string, data?: any, config?: { headers: any }): Promise<any> {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: { headers: any }, data?: any): Promise<T> {
+    private async request(url: string, method: string, config?: { headers: any }, data?: any): Promise<any> {
         let body = undefined;
         if (!!data) {
             if (typeof data === 'object') {
