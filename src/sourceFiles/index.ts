@@ -1,8 +1,6 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
 
-export namespace SourceFiles {
-
-    export class Api extends CrowdinApi {
+export class SourceFiles extends CrowdinApi {
 
         /**
          * @param projectId project identifier
@@ -390,4 +388,3 @@ export namespace SourceFiles {
             UPDATE_AS_UNTRANSLATED = 3,
         }
     }
-}

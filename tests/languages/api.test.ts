@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Languages } from '../../src';
 
 describe('Languages API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Languages.Api = new crowdin.Languages.Api(credentials);
+    const api: Languages = new Languages(credentials);
     const languageId = 2;
 
     const limit = 25;

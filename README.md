@@ -1,4 +1,4 @@
-[<p align="center"><img src="https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png" data-canonical-src="https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png" width="200" height="200" align="center"/></p>](https://crowdin.com)
+[<p align='center'><img src='https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png' data-canonical-src='https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png' width='200' height='200' align='center'/></p>](https://crowdin.com)
 
 # Crowdin JavaScript client
 
@@ -23,34 +23,77 @@ npm [TBA]
 
 ## Quick Start
 
-Start using client by creating `Credentials` object:
+<details>
+<summary>Typescript</summary>
 
 ```typescript
-import * as crowdin from 'crowdin-sdk-2';
+import crowdin, { Credentials } from 'crowdin-api-client';
 
-const credentials: crowdin.Credentials = {
-    token: 'testToken',
-    organization: 'organizationName'
+// credentials
+const credentials: Credentials = {
+  token: 'testToken',
+  organization: 'organizationName'
 };
-```
 
-### List of projects
+// initialization of crowdin client
+const { projectsGroupsApi } = new crowdin(credentials);
 
-```typescript
-const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials);
-
+// get project list
 const projects = await projectsGroupsApi.listProjects();
 ```
 
-Or you can create whole client and use needed APIs:
+Or specific API instances:
 
 ```typescript
-const client = new crowdin.Client(credentials);
+import { Credentials, ProjectsGroups } from 'crowdin-api-client';
 
-const { projectsGroupsApi } = client;
+// credentials
+const credentials: Credentials = {
+  token: 'testToken',
+  organization: 'organizationName'
+};
 
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups(credentials);
+
+// get project list
 const projects = await projectsGroupsApi.listProjects();
 ```
+
+</details>
+
+<details>
+<summary>Javascript</summary>
+
+```javascript
+import crowdin from 'crowdin-api-client';
+
+// initialization of crowdin client
+const { projectsGroupsApi } = new crowdin({
+  token: 'testToken',
+  organization: 'organizationName'
+});
+
+// get project list
+const projects = await projectsGroupsApi.listProjects();
+```
+
+Or specific API instances:
+
+```javascript
+import { ProjectsGroups } from 'crowdin-api-client';
+
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups({
+  token: 'testToken',
+  organization: 'organizationName'
+});
+
+// get project list
+const projects = await projectsGroupsApi.listProjects();
+```
+
+</details>
 
 ### List of projects with Fetch API
 
@@ -59,14 +102,16 @@ This client uses [axios](https://github.com/axios/axios) which internally uses `
 So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ```typescript
-const projectsGroupsApi = new crowdin.ProjectsGroups.Api(credentials, {
-    httpClientType: crowdin.HttpClientType.FETCH
+import { ProjectsGroups, HttpClientType } from 'crowdin-api-client';
+
+const projectsGroupsApi = new ProjectsGroups(credentials, {
+  httpClientType: HttpClientType.FETCH
 });
 
 const projects = await projectsGroupsApi.listProjects();
 ```
 
-Or even pass your own http client as `httpClient` property which should implement `crowdin.HttpClient` interface.
+Or even pass your own http client as `httpClient` property which should implement `HttpClient` interface.
 
 ## Contribution
 We are happy to accept contributions to the Crowdin JavaScript client. To contribute please do the following:
@@ -77,7 +122,7 @@ We are happy to accept contributions to the Crowdin JavaScript client. To contri
 5. Submit a pull request with your patch on Github.
 
 ## Seeking Assistance
-If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client-js/issues).
+If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client/issues).
 
 If you've found an error in these samples, please [contact](https://crowdin.com/contacts) our Support Team.
 

@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace Webhooks {
-
-    export class Api extends CrowdinApi {
+export class Webhooks extends CrowdinApi {
 
         /**
          * @param projectId project identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Webhook>> {
+        listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -20,7 +18,7 @@ export namespace Webhooks {
          * @param projectId project identifier
          * @param request request body
          */
-        addWebhook(projectId: number, request: Model.AddWebhookRequest): Promise<ResponseObject<Model.Webhook>> {
+        addWebhook(projectId: number, request: WebhooksModel.AddWebhookRequest): Promise<ResponseObject<WebhooksModel.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -29,7 +27,7 @@ export namespace Webhooks {
          * @param projectId project identifier
          * @param webhookId webhook identifier
          */
-        getWebhook(projectId: number, webhookId: number): Promise<ResponseObject<Model.Webhook>> {
+        getWebhook(projectId: number, webhookId: number): Promise<ResponseObject<WebhooksModel.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -48,14 +46,14 @@ export namespace Webhooks {
          * @param webhookId webhook identifier
          * @param request request body
          */
-        editWebhook(projectId: number, webhookId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Webhook>> {
+        editWebhook(projectId: number, webhookId: number, request: PatchRequest[]): Promise<ResponseObject<WebhooksModel.Webhook>> {
             let url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
             return this.patch(url, request, this.defaultConfig());
         }
 
     }
 
-    export namespace Model {
+    export namespace WebhooksModel {
 
         export interface Webhook {
             id: number;
@@ -107,4 +105,3 @@ export namespace Webhooks {
             GET = 'GET',
         }
     }
-}

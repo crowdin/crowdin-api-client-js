@@ -1,19 +1,19 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Reports, ReportsModel } from '../../src';
 
 describe('Reports API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Reports.Api = new crowdin.Reports.Api(credentials);
+    const api: Reports = new Reports(credentials);
     const projectId = 2;
     const reportId = '123';
     const reportName = 'testReport';
     const downloadLink = 'test.com';
-    const schema: crowdin.Reports.Model.Schema = {
+    const schema: ReportsModel.Schema = {
         description: 'test0',
         name: 'test1',
         type: 'test2'

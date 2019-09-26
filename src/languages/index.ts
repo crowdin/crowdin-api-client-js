@@ -1,14 +1,12 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace Languages {
-
-    export class Api extends CrowdinApi {
+export class Languages extends CrowdinApi {
 
         /**
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<Model.Language>> {
+        listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<LanguagesModel.Language>> {
             let url = `${this.url}/languages`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -18,14 +16,14 @@ export namespace Languages {
         /**
          * @param languageId language identifier
          */
-        getLanguage(languageId: number): Promise<ResponseObject<Model.Language>> {
+        getLanguage(languageId: number): Promise<ResponseObject<LanguagesModel.Language>> {
             let url = `${this.url}/languages/${languageId}`;
             return this.get(url, this.defaultConfig());
         }
 
     }
 
-    export namespace Model {
+    export namespace LanguagesModel {
         export interface Language {
             id: number;
             organizationId: number;
@@ -54,4 +52,3 @@ export namespace Languages {
             RTL = 'rtl',
         }
     }
-}

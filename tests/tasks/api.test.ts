@@ -1,20 +1,20 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, Tasks, TasksModel } from '../../src';
 
 describe('Tasks API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Tasks.Api = new crowdin.Tasks.Api(credentials);
+    const api: Tasks = new Tasks(credentials);
     const projectId = 2;
     const taskId = 3;
     const taskTitle = 'Test title';
     const languageId = 8;
     const workflowStepId = 40;
-    const type = crowdin.Tasks.Model.Type.TRANSLATE;
+    const type = TasksModel.Type.TRANSLATE;
     const total = 100;
 
     const limit = 25;
@@ -81,7 +81,7 @@ describe('Tasks API', () => {
             .patch(`/projects/${projectId}/tasks/${taskId}`,
                 [{
                     value: taskTitle,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/title'
                 }],
                 {
@@ -131,7 +131,7 @@ describe('Tasks API', () => {
 
     it('Edit task', async () => {
         const task = await api.editTask(projectId, taskId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/title',
             value: taskTitle
         }]);

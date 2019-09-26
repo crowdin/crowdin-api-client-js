@@ -1,15 +1,13 @@
 import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
-export namespace Tasks {
-
-    export class Api extends CrowdinApi {
+export class Tasks extends CrowdinApi {
 
         /**
          * @param projectId project identifier
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listTasks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<Model.Task>> {
+        listTasks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<TasksModel.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks`;
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -20,7 +18,7 @@ export namespace Tasks {
          * @param projectId project identifier
          * @param request request body
          */
-        addTask(projectId: number, request: Model.CreateTaskRequest): Promise<ResponseObject<Model.Task>> {
+        addTask(projectId: number, request: TasksModel.CreateTaskRequest): Promise<ResponseObject<TasksModel.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -29,7 +27,7 @@ export namespace Tasks {
          * @param projectId project identifier
          * @param taskId task identifier
          */
-        getTask(projectId: number, taskId: number): Promise<ResponseObject<Model.Task>> {
+        getTask(projectId: number, taskId: number): Promise<ResponseObject<TasksModel.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -48,14 +46,14 @@ export namespace Tasks {
          * @param taskId task identifier
          * @param request request body
          */
-        editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Task>> {
+        editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<TasksModel.Task>> {
             let url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
             return this.patch(url, request, this.defaultConfig());
         }
 
     }
 
-    export namespace Model {
+    export namespace TasksModel {
         export interface Task {
             id: number;
             projectId: number;
@@ -121,4 +119,3 @@ export namespace Tasks {
             percent: number;
         }
     }
-}

@@ -1,19 +1,19 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, Webhooks, WebhooksModel, PatchOperation } from '../../src/index';
 
 describe('Web-hooks API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Webhooks.Api = new crowdin.Webhooks.Api(credentials);
+    const api: Webhooks = new Webhooks(credentials);
     const projectId = 2;
     const webhookId = 3;
     const name = 'test';
     const url = 'test.com';
-    const requestType = crowdin.Webhooks.Model.RequestType.GET;
+    const requestType = WebhooksModel.RequestType.GET;
 
     const limit = 25;
 
@@ -78,7 +78,7 @@ describe('Web-hooks API', () => {
             .patch(`/projects/${projectId}/webhooks/${webhookId}`,
                 [{
                     value: name,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -127,7 +127,7 @@ describe('Web-hooks API', () => {
 
     it('Edit webhook', async () => {
         const webhook = await api.editWebhook(projectId, webhookId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: name
         }]);

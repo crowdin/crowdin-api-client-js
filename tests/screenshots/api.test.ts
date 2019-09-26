@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, Screenshots } from '../../src';
 
 describe('Screenshots API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.Screenshots.Api = new crowdin.Screenshots.Api(credentials);
+    const api: Screenshots = new Screenshots(credentials);
     const projectId = 2;
     const screenshotId = 23;
     const screenshotName = 'test.png';
@@ -97,7 +97,7 @@ describe('Screenshots API', () => {
             .patch(`/projects/${projectId}/screenshots/${screenshotId}`,
                 [{
                     value: screenshotName,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -190,7 +190,7 @@ describe('Screenshots API', () => {
             .patch(`/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`,
                 [{
                     value: stringId,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/stringId'
                 }],
                 {
@@ -248,7 +248,7 @@ describe('Screenshots API', () => {
 
     it('Edit screenshot', async () => {
         const screenshot = await api.editScreenshot(projectId, screenshotId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: screenshotName
         }]);
@@ -294,7 +294,7 @@ describe('Screenshots API', () => {
 
     it('Update tag', async () => {
         const tag = await api.updateTag(projectId, screenshotId, tagId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/stringId',
             value: stringId
         }]);

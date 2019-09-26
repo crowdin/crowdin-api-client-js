@@ -1,14 +1,12 @@
 import { CrowdinApi, ResponseObject, DownloadLink, Status, ResponseList } from '../core';
 
-export namespace Translations {
-
-    export class Api extends CrowdinApi {
+export class Translations extends CrowdinApi {
 
         /**
          * @param projectId project identifier
          * @param request request body
          */
-        preTranslate(projectId: number, request: Model.PreTranslateRequest): Promise<ResponseObject<Status>> {
+        preTranslate(projectId: number, request: TranslationsModel.PreTranslateRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pre-translations`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -26,7 +24,7 @@ export namespace Translations {
          * @param projectId project identifier
          * @param request request body
          */
-        buildPseudoTranslation(projectId: number, request: Model.BuildPseudoTranslationFilesRequest): Promise<ResponseObject<Status>> {
+        buildPseudoTranslation(projectId: number, request: TranslationsModel.BuildPseudoTranslationFilesRequest): Promise<ResponseObject<Status>> {
             let url = `${this.url}/projects/${projectId}/pseudo-translations/builds`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -54,7 +52,7 @@ export namespace Translations {
          * @param limit maximum number of items to retrieve (default 25)
          * @param offset starting offset in the collection (default 0)
          */
-        listProjectBuilds(projectId: number, branchId?: number, limit?: number, offset?: number): Promise<ResponseList<Model.Build>> {
+        listProjectBuilds(projectId: number, branchId?: number, limit?: number, offset?: number): Promise<ResponseList<TranslationsModel.Build>> {
             let url = `${this.url}/projects/${projectId}/translations/builds`;
             url = this.addQueryParam(url, 'branchId', branchId);
             url = this.addQueryParam(url, 'limit', limit);
@@ -66,7 +64,7 @@ export namespace Translations {
          * @param projectId project identifier
          * @param request request body
          */
-        buildProject(projectId: number, request: Model.BuildRequest): Promise<ResponseObject<Model.Build>> {
+        buildProject(projectId: number, request: TranslationsModel.BuildRequest): Promise<ResponseObject<TranslationsModel.Build>> {
             let url = `${this.url}/projects/${projectId}/translations/builds`;
             return this.post(url, request, this.defaultConfig());
         }
@@ -84,7 +82,7 @@ export namespace Translations {
          * @param projectId project identifier
          * @param buildId build identifier
          */
-        checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<Model.Build>> {
+        checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<TranslationsModel.Build>> {
             let url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
             return this.get(url, this.defaultConfig());
         }
@@ -103,13 +101,13 @@ export namespace Translations {
          * @param languageId language identifier
          * @param request request body
          */
-        uploadTranslation(projectId: number, languageId: number, request: Model.UploadTranslationRequest): Promise<void> {
+        uploadTranslation(projectId: number, languageId: number, request: TranslationsModel.UploadTranslationRequest): Promise<void> {
             let url = `${this.url}/projects/${projectId}/translations/${languageId}`;
             return this.post(url, request, this.defaultConfig());
         }
     }
 
-    export namespace Model {
+    export namespace TranslationsModel {
         export interface PreTranslateRequest {
             languageIds: number[];
             fileIds: number[];
@@ -174,4 +172,3 @@ export namespace Translations {
             autoApproveImported?: boolean;
         }
     }
-}

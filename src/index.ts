@@ -32,39 +32,39 @@ export * from './webhooks';
 export * from './machineTranslation';
 export * from './notifications';
 
-export class Client {
+export default class Client {
 
-    readonly sourceFilesApi: SourceFiles.Api;
-    readonly glossariesApi: Glossaries.Api;
-    readonly languagesApi: Languages.Api;
-    readonly translationsApi: Translations.Api;
-    readonly translationStatusApi: TranslationStatus.Api;
-    readonly projectsGroupsApi: ProjectsGroups.Api;
-    readonly reportsApi: Reports.Api;
-    readonly screenshotsApi: Screenshots.Api;
-    readonly sourceStringsApi: SourceStrings.Api;
-    readonly uploadStorageApi: UploadStorage.Api;
-    readonly tasksApi: Tasks.Api;
-    readonly translationMemoryApi: TranslationMemory.Api;
-    readonly webhooksApi: Webhooks.Api;
-    readonly machineTranslationApi: MachineTranslation.Api;
-    readonly notificationsApi: Notifications.Api;
+    readonly sourceFilesApi: SourceFiles;
+    readonly glossariesApi: Glossaries;
+    readonly languagesApi: Languages;
+    readonly translationsApi: Translations;
+    readonly translationStatusApi: TranslationStatus;
+    readonly projectsGroupsApi: ProjectsGroups;
+    readonly reportsApi: Reports;
+    readonly screenshotsApi: Screenshots;
+    readonly sourceStringsApi: SourceStrings;
+    readonly uploadStorageApi: UploadStorage;
+    readonly tasksApi: Tasks;
+    readonly translationMemoryApi: TranslationMemory;
+    readonly webhooksApi: Webhooks;
+    readonly machineTranslationApi: MachineTranslation;
+    readonly notificationsApi: Notifications;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
-        this.sourceFilesApi = new SourceFiles.Api(credentials, config);
-        this.glossariesApi = new Glossaries.Api(credentials, config);
-        this.languagesApi = new Languages.Api(credentials, config);
-        this.translationsApi = new Translations.Api(credentials, config);
-        this.translationStatusApi = new TranslationStatus.Api(credentials, config);
-        this.projectsGroupsApi = new ProjectsGroups.Api(credentials, config);
-        this.reportsApi = new Reports.Api(credentials, config);
-        this.screenshotsApi = new Screenshots.Api(credentials, config);
-        this.sourceStringsApi = new SourceStrings.Api(credentials, config);
-        this.uploadStorageApi = new UploadStorage.Api(credentials, config);
-        this.tasksApi = new Tasks.Api(credentials, config);
-        this.translationMemoryApi = new TranslationMemory.Api(credentials, config);
-        this.webhooksApi = new Webhooks.Api(credentials, config);
-        this.machineTranslationApi = new MachineTranslation.Api(credentials, config);
-        this.notificationsApi = new Notifications.Api(credentials, config);
+        this.sourceFilesApi = new SourceFiles(credentials, config);
+        this.glossariesApi = new Glossaries(credentials, config);
+        this.languagesApi = new Languages(credentials, config);
+        this.translationsApi = new Translations(credentials, config);
+        this.translationStatusApi = new TranslationStatus(credentials, config);
+        this.projectsGroupsApi = new ProjectsGroups(credentials, config);
+        this.reportsApi = new Reports(credentials, config);
+        this.screenshotsApi = new Screenshots(credentials, config);
+        this.sourceStringsApi = new SourceStrings(credentials, config);
+        this.uploadStorageApi = new UploadStorage(credentials, config);
+        this.tasksApi = new Tasks(credentials, config);
+        this.translationMemoryApi = new TranslationMemory(credentials, config);
+        this.webhooksApi = new Webhooks(credentials, config);
+        this.machineTranslationApi = new MachineTranslation(credentials, config);
+        this.notificationsApi = new Notifications(credentials, config);
     }
 }

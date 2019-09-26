@@ -1,14 +1,14 @@
 import * as nock from 'nock';
-import * as crowdin from '../../src/index';
+import { Credentials, PatchOperation, TranslationMemory } from '../../src';
 
 describe('Translation Memory API', () => {
 
     let scope: nock.Scope;
-    const credentials: crowdin.Credentials = {
+    const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg'
     };
-    const api: crowdin.TranslationMemory.Api = new crowdin.TranslationMemory.Api(credentials);
+    const api: TranslationMemory = new TranslationMemory(credentials);
     const tmId = 2;
     const groupId = 44;
     const storageId = 55;
@@ -81,7 +81,7 @@ describe('Translation Memory API', () => {
             .patch(`/tms/${tmId}`,
                 [{
                     value: name,
-                    op: crowdin.PatchOperation.REPLACE,
+                    op: PatchOperation.REPLACE,
                     path: '/name'
                 }],
                 {
@@ -192,7 +192,7 @@ describe('Translation Memory API', () => {
 
     it('Update TM', async () => {
         const tm = await api.editTm(tmId, [{
-            op: crowdin.PatchOperation.REPLACE,
+            op: PatchOperation.REPLACE,
             path: '/name',
             value: name
         }]);
