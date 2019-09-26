@@ -2,8 +2,8 @@ import { HttpClient } from '../..';
 
 declare const fetch: Function;
 
-interface IRequestConfig {
-    headers?: [any];
+interface RequestConfig {
+    headers?: any;
     mode?: string
 }
 
@@ -32,19 +32,25 @@ export class FetchClient implements HttpClient {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: IRequestConfig, data?: any) {
-        const reqConfig = config || {};
-        const reqData = data || undefined;
-
+    private async request(url: string, method: string, config?: RequestConfig, data?: any) {
+        let body = undefined;
+        if (!!data) {
+            if (typeof data === 'object') {
+                body = JSON.stringify(data);
+                config = config || { headers: {} };
+                config.headers = config.headers || {};
+                config.headers['Content-Type'] = 'application/json';
+            } else {
+                body = data;
+            }
+        }
         await this.waitInQueue();
+
         return fetch(url, {
-            headers: {
-                'Content-Type': 'application/json',
-                ...reqConfig.headers,
-            },
-            mode: reqConfig.mode || 'no-cors',
-            body: typeof reqData === 'object'? JSON.stringify(reqData): reqData,
-            method,
+            method: method,
+            headers: !!config ? config.headers : {},
+            mode: (config && config.mode) || 'no-cors',
+            body: body
         })
             .then(async (resp: any) => {
                 let json = resp.json();
