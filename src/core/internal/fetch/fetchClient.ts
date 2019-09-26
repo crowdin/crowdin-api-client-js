@@ -34,13 +34,13 @@ export class FetchClient implements HttpClient {
 
     private async request(url: string, method: string, config?: IRequestConfig, data?: any) {
         const reqConfig = config || {};
-        const reqData = data || {};
+        const reqData = data || undefined;
 
         await this.waitInQueue();
         return fetch(url, {
             headers: {
+                'Content-Type': 'application/json',
                 ...reqConfig.headers,
-                'Content-Type': 'application/json'
             },
             mode: reqConfig.mode || 'no-cors',
             body: typeof reqData === 'object'? JSON.stringify(reqData): reqData,
