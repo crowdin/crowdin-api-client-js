@@ -1,12 +1,12 @@
 {
-    "name": "crowdin-sdk-2",
+    "name": "crowdin-api-client-js",
     "version": "1.0.0",
-    "description": "NodeJS client library for Crowdin API v2.",
+    "description": "JavaScript library for Crowdin API v2.",
     "main": "out/index.js",
     "types": "out/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/crowdin/crowdin-node-sdk-2.git"
+        "url": "https://github.com/crowdin/crowdin-api-client-js.git"
     },
     "files": [
         "out/**/*"
