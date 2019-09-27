@@ -15,7 +15,7 @@
         "test": "jest --config jestconfig.json",
         "build": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "lint": "eslint --fix '{src,tests}/**/*.{js,ts}'"
+        "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\""
     },
     "keywords": [
         "Crowdin"
