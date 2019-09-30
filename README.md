@@ -6,6 +6,17 @@ The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 t
 
 For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/enterprise/api/) documentation.
 
+## Build Status
+
+[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Basic)?branchName=master&logo=azure-pipelines)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=4&branchName=master)
+![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)
+[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?logo=azure-pipelines)](https://img.shields.io/github/license/crowdin/crowdin-api-client-js)
+
+| Azure CI (Linux) | Azure CI (Windows) | Azure CI (MacOS) |
+|--------------------|------------------|------------------|
+|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Ubuntu)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Windows)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(MacOS)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
+|![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/6/master)|![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/8/master)|![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/7/master)
+|![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/6/master)|![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/6/master)|![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/7/master)
 
 ## Table of Contents
 * [Dependencies](#dependencies)

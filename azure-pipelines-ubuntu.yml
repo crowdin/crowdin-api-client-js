@@ -1,0 +1,34 @@
+jobs:
+  - job: Linux
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      maxParallel: 4
+      matrix:
+        node-12:
+          node_version: ^12.2.0
+        node-10:
+          node_version: ^10.10.0
+        node-8:
+          node_version: ^8.12.0
+        node-6:
+          node_version: ^6.14.4
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: $(node_version)
+        displayName: 'Install Node.js $(node_version)'
+      - script: npm install
+        displayName: 'Install dependencies'
+      - script: npm run build
+        displayName: NPM run build
+      - script: npm run test
+        displayName: 'NPM run test'
+      - script: npm run test-coverage
+        displayName: 'Run tests with coverage'
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'cobertura'
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+        condition: succeededOrFailed()
+        displayName: 'Publish coverage results'

@@ -15,7 +15,9 @@
         "test": "jest --config jestconfig.json",
         "build": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\""
+        "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\"",
+        "lint-ci": "eslint \"{src,tests}/**/*.{js,ts}\"",
+        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html"
     },
     "keywords": [
         "Crowdin"
@@ -36,7 +38,8 @@
         "nock": "^10.0.6",
         "prettier": "^1.18.2",
         "ts-jest": "^24.0.2",
-        "typescript": "^3.5.2"
+        "typescript": "^3.5.2",
+        "jest-junit": "^8.0.0"
     },
     "dependencies": {
         "@types/node": "^12.0.10",
@@ -51,6 +54,12 @@
         "*.js": [
             "eslint --fix",
             "git add"
+        ]
+    },
+    "jest": {
+        "coverageReporters": [
+            "text",
+            "cobertura"
         ]
     }
 }
