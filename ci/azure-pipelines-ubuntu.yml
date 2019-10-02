@@ -1,5 +1,5 @@
 jobs:
-  - template: ci/templates/jobs.yml
+  - template: templates/jobs.yml
     parameters:
       name: Linux
       vmImage: 'ubuntu-latest'
