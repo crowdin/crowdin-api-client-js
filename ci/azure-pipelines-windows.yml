@@ -1,0 +1,5 @@
+jobs:
+  - template: ci/templates/jobs.yml
+    parameters:
+      name: Windows
+      vmImage: 'vs2017-win2016'
