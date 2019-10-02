@@ -1,0 +1,22 @@
+jobs:
+  - job: artifacts
+    steps:
+      - script: npm pack
+        displayName: 'Package for npm release'
+      - task: CopyFiles@2
+        inputs:
+          targetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+        displayName: 'Publish build artifacts'
+
+  - job: publish
+    dependsOn: artifacts
+    steps:
+      - task: Npm@1
+        inputs:
+          commands: publish
+          publishEndpoint: 'npm-connection'
+        condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+        displayName: 'Publish to NPM'

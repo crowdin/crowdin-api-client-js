@@ -1,7 +1,12 @@
+parameters:
+  name: ''
+  vmImage: ''
+  generateCoverage: true
+
 jobs:
-  - job: Windows
+  - job: ${{ parameters.name }}
     pool:
-      vmImage: vs2017-win2016
+      vmImage: ${{ parameters.vmImage }}
     strategy:
       maxParallel: 4
       matrix:
@@ -25,10 +30,11 @@ jobs:
       - script: npm run test
         displayName: 'NPM run test'
       - script: npm run test-coverage
+        condition: eq('${{ parameters.generateCoverage }}', 'true')
         displayName: 'Run tests with coverage'
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: 'cobertura'
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-        condition: succeededOrFailed()
+        condition: eq('${{ parameters.generateCoverage }}', 'true')
         displayName: 'Publish coverage results'

@@ -1,0 +1,24 @@
+stages:
+  - stage: Tests
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+    jobs:
+    - template: templates/jobs.yml
+      parameters:
+        name: Linux
+        vmImage: 'ubuntu-latest'
+        generateCoverage: false
+    - template: templates/jobs.yml
+      parameters:
+        name: Windows
+        vmImage: 'vs2017-win2016'
+        generateCoverage: false
+    - template: templates/jobs.yml
+      parameters:
+        name: macOS
+        vmImage: 'macOS 10.13'
+        generateCoverage: false
+  - stage: Publish
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+    dependsOn: Tests
+    jobs:
+      - template: templates/publish.yml

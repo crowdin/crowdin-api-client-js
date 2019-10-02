@@ -1,0 +1,5 @@
+jobs:
+  - template: ci/templates/jobs.yml
+    parameters:
+      name: macOS
+      vmImage: 'macOS 10.13'
