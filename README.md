@@ -8,6 +8,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
 
+![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client)
 ![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)
 ![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)
 [![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?logo=azure-pipelines)](https://img.shields.io/github/license/crowdin/crowdin-api-client-js)
