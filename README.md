@@ -30,7 +30,8 @@ For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/e
 * Axios 0.19
 
 ## Installation
-npm [TBA]
+
+`npm i @crowdin/crowdin-api-client`
 
 ## Quick Start
 
