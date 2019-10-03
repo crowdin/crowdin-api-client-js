@@ -4,7 +4,9 @@
 
 The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 that works in any JavaScript environment, including web browsers, workers in web browsers, extensions in web browsers or desktop applications, Node.js etc. It provides common services for making API requests.
 
-For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/enterprise/api/) documentation.
+Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
+
+For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
 
 ![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)
 ![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)
@@ -27,6 +29,7 @@ For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/e
 * [License](#license)
 
 ## Dependencies
+* @types/node 12.0
 * Axios 0.19
 
 ## Installation
