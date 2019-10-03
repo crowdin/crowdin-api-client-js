@@ -6,11 +6,11 @@ The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 t
 
 For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/enterprise/api/) documentation.
 
-## Build Status
-
-[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Basic)?branchName=master&logo=azure-pipelines)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=4&branchName=master)
+![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)
 ![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)
 [![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?logo=azure-pipelines)](https://img.shields.io/github/license/crowdin/crowdin-api-client-js)
+
+## Build Status
 
 | Azure CI (Linux) | Azure CI (Windows) | Azure CI (MacOS) |
 |--------------------|------------------|------------------|
