@@ -1,3 +1,10 @@
+trigger:
+  branches:
+    include:
+      - refs/tags/*
+    exclude:
+      - refs/heads/*
+
 stages:
   - stage: Tests
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
