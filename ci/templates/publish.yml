@@ -11,12 +11,12 @@ jobs:
           pathtoPublish: $(Build.ArtifactStagingDirectory)
         displayName: 'Publish build artifacts'
 
-  - job: publish
+  - job: npm
     dependsOn: artifacts
     steps:
       - task: Npm@1
         inputs:
-          commands: publish
+          command: publish
           publishEndpoint: 'npm-connection'
         condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
         displayName: 'Publish to NPM'
