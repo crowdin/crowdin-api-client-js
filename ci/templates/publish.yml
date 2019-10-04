@@ -1,6 +1,8 @@
 jobs:
   - job: artifacts
     steps:
+      - script: npm run build
+        displayName: 'Build'
       - script: npm pack
         displayName: 'Package for npm release'
       - task: CopyFiles@2
