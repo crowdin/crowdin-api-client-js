@@ -4,22 +4,34 @@
 
 The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 that works in any JavaScript environment, including web browsers, workers in web browsers, extensions in web browsers or desktop applications, Node.js etc. It provides common services for making API requests.
 
-For more about Crowdin API v2 see [Crowdin API v2](https://support.crowdin.com/enterprise/api/) documentation.
+Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
+For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
+
+[![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/issues)
+[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?logo=azure-pipelines)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
+
+## Build Status
+
+| Azure CI (Linux) | Azure CI (Windows) | Azure CI (MacOS) |
+|--------------------|------------------|------------------|
+|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Ubuntu)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Windows)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(MacOS)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
+|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/6/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/8/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/7/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
+|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/6/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/8/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/7/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
 
 ## Table of Contents
-* [Dependencies](#dependencies)
 * [Installation](#installation)
 * [Quick Start](#quick-start)
 * [Contribution](#contribution)
 * [Seeking Assistance](#seeking-assistance)
 * [License](#license)
 
-## Dependencies
-* Axios 0.19
-
 ## Installation
-npm [TBA]
+
+`npm i @crowdin/crowdin-api-client`
 
 ## Quick Start
 

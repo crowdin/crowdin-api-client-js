@@ -1,0 +1,12 @@
+trigger:
+  branches:
+    include:
+      - refs/heads/*
+    exclude:
+      - refs/tags/*
+
+jobs:
+  - template: templates/jobs.yml
+    parameters:
+      name: Windows
+      vmImage: 'vs2017-win2016'
