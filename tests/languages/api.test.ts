@@ -55,7 +55,7 @@ describe('Languages API', () => {
                     localeCode: localeCode,
                     threeLettersCode: threeLettersCode,
                     textDirection: textDirection,
-                    pluralCategoryNames: []
+                    pluralCategoryNames: [],
                 },
                 {
                     reqheaders: {
@@ -65,7 +65,7 @@ describe('Languages API', () => {
             )
             .reply(200, {
                 data: {
-                    id: languageId
+                    id: languageId,
                 },
             })
             .delete(`/languages/${languageId}`, undefined, {
@@ -92,7 +92,7 @@ describe('Languages API', () => {
             .reply(200, {
                 data: {
                     id: languageId,
-                    name: name
+                    name: name,
                 },
             });
     });
@@ -120,7 +120,7 @@ describe('Languages API', () => {
             localeCode: localeCode,
             pluralCategoryNames: [],
             textDirection: textDirection,
-            threeLettersCode: threeLettersCode
+            threeLettersCode: threeLettersCode,
         });
         expect(language.data.id).toBe(languageId);
     });
@@ -130,11 +130,13 @@ describe('Languages API', () => {
     });
 
     it('Edit custom language', async () => {
-        const language = await api.editCustomLanguage(languageId, [{
-            value: name,
-            op: PatchOperation.REPLACE,
-            path: '/name'
-        }]);
+        const language = await api.editCustomLanguage(languageId, [
+            {
+                value: name,
+                op: PatchOperation.REPLACE,
+                path: '/name',
+            },
+        ]);
         expect(language.data.id).toBe(languageId);
         expect(language.data.name).toBe(name);
     });
