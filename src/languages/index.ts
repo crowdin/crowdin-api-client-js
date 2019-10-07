@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
 
 export class Languages extends CrowdinApi {
     /**
@@ -13,11 +13,36 @@ export class Languages extends CrowdinApi {
     }
 
     /**
+     * @param request request body
+     */
+    addCustomLanguage(request: LanguagesModel.AddLanguageRequest): Promise<ResponseObject<LanguagesModel.Language>> {
+        const url = `${this.url}/languages`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param languageId language identifier
      */
     getLanguage(languageId: number): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages/${languageId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param languageId language identifier
+     */
+    deleteCustomLanguage(languageId: number): Promise<void> {
+        const url = `${this.url}/languages/${languageId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param languageId language identifier
+     * @param request request body
+     */
+    editCustomLanguage(languageId: number, request: PatchRequest[]): Promise<ResponseObject<LanguagesModel.Language>> {
+        const url = `${this.url}/languages/${languageId}`;
+        return this.patch(url, request, this.defaultConfig());
     }
 }
 
@@ -43,6 +68,17 @@ export namespace LanguagesModel {
         androidCode: string;
         osxCode: string;
         osxLocale: string;
+    }
+
+    export interface AddLanguageRequest {
+        name: string;
+        dialectOf?: number;
+        code: string;
+        localeCode: string;
+        twoLettersCode?: string;
+        threeLettersCode: string;
+        textDirection: TextDirection;
+        pluralCategoryNames: string[];
     }
 
     export enum TextDirection {

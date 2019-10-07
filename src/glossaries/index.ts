@@ -132,6 +132,22 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @param languageId languageId identifier
+     * @param translationOfTermId term translation identifier
+     */
+    clearGlossary(
+        glossaryId: number,
+        languageId?: number,
+        translationOfTermId?: number,
+    ): Promise<ResponseObject<GlossariesModel.Term>> {
+        let url = `${this.url}/glossaries/${glossaryId}/terms`;
+        url = this.addQueryParam(url, 'languageId', languageId);
+        url = this.addQueryParam(url, 'translationOfTermId', translationOfTermId);
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param glossaryId glossary identifier
      * @param termId term identifier
      */
     getTerm(glossaryId: number, termId: number): Promise<ResponseObject<GlossariesModel.Term>> {

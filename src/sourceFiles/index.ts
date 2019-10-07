@@ -12,7 +12,7 @@ export class SourceFiles extends CrowdinApi {
         name?: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<Model.Branch>> {
+    ): Promise<ResponseList<SourceFilesModel.Branch>> {
         let url = `${this.url}/projects/${projectId}/branches`;
         url = this.addQueryParam(url, 'name', name);
         url = this.addQueryParam(url, 'limit', limit);
@@ -24,7 +24,10 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param request request body
      */
-    createBranch(projectId: number, request: Model.CreateBranchRequest): Promise<ResponseObject<Model.Branch>> {
+    createBranch(
+        projectId: number,
+        request: SourceFilesModel.CreateBranchRequest,
+    ): Promise<ResponseObject<SourceFilesModel.Branch>> {
         const url = `${this.url}/projects/${projectId}/branches`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -33,7 +36,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param branchId branch identifier
      */
-    getBranch(projectId: number, branchId: number): Promise<ResponseObject<Model.Branch>> {
+    getBranch(projectId: number, branchId: number): Promise<ResponseObject<SourceFilesModel.Branch>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -52,7 +55,11 @@ export class SourceFiles extends CrowdinApi {
      * @param branchId branch identifier
      * @param request request body
      */
-    editBranch(projectId: number, branchId: number, request: PatchRequest[]): Promise<ResponseObject<Model.Branch>> {
+    editBranch(
+        projectId: number,
+        branchId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<SourceFilesModel.Branch>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -70,7 +77,7 @@ export class SourceFiles extends CrowdinApi {
         directoryId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<Model.Directory>> {
+    ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
@@ -85,8 +92,8 @@ export class SourceFiles extends CrowdinApi {
      */
     createDirectory(
         projectId: number,
-        request: Model.CreateDirectoryRequest,
-    ): Promise<ResponseObject<Model.Directory>> {
+        request: SourceFilesModel.CreateDirectoryRequest,
+    ): Promise<ResponseObject<SourceFilesModel.Directory>> {
         const url = `${this.url}/projects/${projectId}/directories`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -95,7 +102,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param directoryId directory identifier
      */
-    getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<Model.Directory>> {
+    getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<SourceFilesModel.Directory>> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -118,7 +125,7 @@ export class SourceFiles extends CrowdinApi {
         projectId: number,
         directoryId: number,
         request: PatchRequest[],
-    ): Promise<ResponseObject<Model.Directory>> {
+    ): Promise<ResponseObject<SourceFilesModel.Directory>> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -137,7 +144,7 @@ export class SourceFiles extends CrowdinApi {
         directoryId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<Model.File>> {
+    ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
@@ -154,10 +161,10 @@ export class SourceFiles extends CrowdinApi {
      */
     createFile(
         projectId: number,
-        request: Model.CreateFileRequest,
+        request: SourceFilesModel.CreateFileRequest,
         branchId?: number,
         directoryId?: number,
-    ): Promise<ResponseObject<Model.File>> {
+    ): Promise<ResponseObject<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
@@ -168,7 +175,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      */
-    getFile(projectId: number, fileId: number): Promise<ResponseObject<Model.File>> {
+    getFile(projectId: number, fileId: number): Promise<ResponseObject<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -187,7 +194,11 @@ export class SourceFiles extends CrowdinApi {
      * @param fileId file identifier
      * @param request request body
      */
-    editFile(projectId: number, fileId: number, request: PatchRequest[]): Promise<ResponseObject<Model.File>> {
+    editFile(
+        projectId: number,
+        fileId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -212,7 +223,7 @@ export class SourceFiles extends CrowdinApi {
         fileId: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<Model.FileRevision>> {
+    ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
         let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
         url = this.addQueryParam(url, 'limit', limit);
         url = this.addQueryParam(url, 'offset', offset);
@@ -224,11 +235,25 @@ export class SourceFiles extends CrowdinApi {
      * @param fileId file identifier
      * @param request request body
      */
+    restoreFileToRevision(
+        projectId: number,
+        fileId: number,
+        request: SourceFilesModel.RestoreFileRevisionRequest,
+    ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
+        return this.put(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param request request body
+     */
     updateFile(
         projectId: number,
         fileId: number,
-        request: Model.CreateFileRevisionRequest,
-    ): Promise<ResponseList<Model.FileRevision>> {
+        request: SourceFilesModel.CreateFileRevisionRequest,
+    ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -238,13 +263,17 @@ export class SourceFiles extends CrowdinApi {
      * @param fileId file identifier
      * @param revision revision number
      */
-    getFileRevision(projectId: number, fileId: number, revision: number): Promise<ResponseObject<Model.FileRevision>> {
+    getFileRevision(
+        projectId: number,
+        fileId: number,
+        revision: number,
+    ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revision}`;
         return this.get(url, this.defaultConfig());
     }
 }
 
-export namespace Model {
+export namespace SourceFilesModel {
     export interface Branch {
         id: number;
         projectId: number;
@@ -330,6 +359,10 @@ export namespace Model {
         translationChunks: number;
         info: any;
         date: string;
+    }
+
+    export interface RestoreFileRevisionRequest {
+        revision: number;
     }
 
     export interface CreateFileRevisionRequest {

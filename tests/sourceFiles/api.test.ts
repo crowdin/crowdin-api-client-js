@@ -308,6 +308,23 @@ describe('Source Files API', () => {
                     limit: limit,
                 },
             })
+            .put(
+                `/projects/${projectId}/files/${fileId}/revisions`,
+                {
+                    revision: fileRevisionId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: fileRevisionId,
+                    projectId: projectId,
+                },
+            })
             .post(
                 `/projects/${projectId}/files/${fileId}/revisions`,
                 {
@@ -320,17 +337,9 @@ describe('Source Files API', () => {
                 },
             )
             .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: fileRevisionId,
-                            projectId: projectId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
+                data: {
+                    id: fileRevisionId,
+                    projectId: projectId,
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined, {
@@ -492,14 +501,20 @@ describe('Source Files API', () => {
         expect(revisions.pagination.limit).toBe(limit);
     });
 
+    it('Restore file to revision', async () => {
+        const revision = await api.restoreFileToRevision(projectId, fileId, {
+            revision: fileRevisionId,
+        });
+        expect(revision.data.id).toBe(fileRevisionId);
+        expect(revision.data.projectId).toBe(projectId);
+    });
+
     it('Update file', async () => {
-        const revisions = await api.updateFile(projectId, fileId, {
+        const revision = await api.updateFile(projectId, fileId, {
             storageId: storageId,
         });
-        expect(revisions.data.length).toBe(1);
-        expect(revisions.data[0].data.id).toBe(fileRevisionId);
-        expect(revisions.data[0].data.projectId).toBe(projectId);
-        expect(revisions.pagination.limit).toBe(limit);
+        expect(revision.data.id).toBe(fileRevisionId);
+        expect(revision.data.projectId).toBe(projectId);
     });
 
     it('Get file revision', async () => {

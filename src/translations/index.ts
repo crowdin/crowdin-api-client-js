@@ -21,38 +21,6 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request request body
-     */
-    buildPseudoTranslation(
-        projectId: number,
-        request: TranslationsModel.BuildPseudoTranslationFilesRequest,
-    ): Promise<ResponseObject<Status>> {
-        const url = `${this.url}/projects/${projectId}/pseudo-translations/builds`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param pseudoTranslationBuildId pseudo translation build identifier, consists of 36 characters
-     */
-    checkPseudoTranslationBuildStatus(
-        projectId: number,
-        pseudoTranslationBuildId: string,
-    ): Promise<ResponseObject<Status>> {
-        const url = `${this.url}/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     */
-    downloadPseudoTranslation(projectId: number): Promise<ResponseObject<DownloadLink>> {
-        const url = `${this.url}/projects/${projectId}/pseudo-translations/builds/download`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -146,13 +114,6 @@ export namespace TranslationsModel {
         EXCEPT_AUTO_SUBSTITUTED = 'exceptAutoSubstituted',
         PERFECT_MATCH_ONLY = 'perfectMatchOnly',
         NONE = 'none',
-    }
-
-    export interface BuildPseudoTranslationFilesRequest {
-        prefix?: string;
-        suffix?: string;
-        lengthTransformation?: number;
-        charTransformation?: CharTransformation;
     }
 
     export enum CharTransformation {

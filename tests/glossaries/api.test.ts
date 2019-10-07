@@ -202,6 +202,17 @@ describe('Glossaries API', () => {
                     glossaryId: glossaryId,
                 },
             })
+            .delete(`/glossaries/${glossaryId}/terms`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204, {
+                data: {
+                    id: termId,
+                    glossaryId: glossaryId,
+                },
+            })
             .get(`/glossaries/${glossaryId}/terms/${termId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -328,6 +339,12 @@ describe('Glossaries API', () => {
             languageId: termLanguageId,
             text: termText,
         });
+        expect(term.data.id).toBe(termId);
+        expect(term.data.glossaryId).toBe(glossaryId);
+    });
+
+    it('Clear glossary', async () => {
+        const term = await api.clearGlossary(glossaryId);
         expect(term.data.id).toBe(termId);
         expect(term.data.glossaryId).toBe(glossaryId);
     });

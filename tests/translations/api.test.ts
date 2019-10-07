@@ -10,8 +10,6 @@ describe('Translations API', () => {
     const api: Translations = new Translations(credentials);
     const projectId = 2;
     const preTranslationId = '21';
-    const pseudoTranslationBuildId = '21';
-    const downloadLink = 'test.com';
     const buildId = 1223;
     const statusId = 222;
     const url = 'test.com';
@@ -48,40 +46,6 @@ describe('Translations API', () => {
             .reply(200, {
                 data: {
                     identifier: preTranslationId,
-                },
-            })
-            .post(
-                `/projects/${projectId}/pseudo-translations/builds`,
-                {},
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    identifier: pseudoTranslationBuildId,
-                },
-            })
-            .get(`/projects/${projectId}/pseudo-translations/builds/${pseudoTranslationBuildId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    identifier: pseudoTranslationBuildId,
-                },
-            })
-            .get(`/projects/${projectId}/pseudo-translations/builds/download`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    url: downloadLink,
                 },
             })
             .get(`/projects/${projectId}/translations/builds`, undefined, {
@@ -172,21 +136,6 @@ describe('Translations API', () => {
     it('Pre-translation status', async () => {
         const preTranslation = await api.preTranslationStatus(projectId, preTranslationId);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
-    });
-
-    it('Build pseudo-translation', async () => {
-        const pseudoTranslation = await api.buildPseudoTranslation(projectId, {});
-        expect(pseudoTranslation.data.identifier).toBe(pseudoTranslationBuildId);
-    });
-
-    it('Check pseudo-translation build status', async () => {
-        const pseudoTranslation = await api.checkPseudoTranslationBuildStatus(projectId, pseudoTranslationBuildId);
-        expect(pseudoTranslation.data.identifier).toBe(pseudoTranslationBuildId);
-    });
-
-    it('Download pseudo-translation', async () => {
-        const downloadLinkResp = await api.downloadPseudoTranslation(projectId);
-        expect(downloadLinkResp.data.url).toBe(downloadLink);
     });
 
     it('List project builds', async () => {
