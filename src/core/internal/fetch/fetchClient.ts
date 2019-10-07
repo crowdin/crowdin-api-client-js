@@ -1,4 +1,4 @@
-import { HttpClient } from '../..';
+import { HttpClient, RequestConfig } from '../..';
 
 declare const fetch: Function;
 
@@ -26,7 +26,7 @@ export class FetchClient implements HttpClient {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: { headers: any }, data?: any): Promise<any> {
+    private async request(url: string, method: string, config?: RequestConfig, data?: any): Promise<any> {
         let body = undefined;
         if (!!data) {
             if (typeof data === 'object') {
@@ -43,6 +43,7 @@ export class FetchClient implements HttpClient {
         return fetch(url, {
             method: method,
             headers: !!config ? config.headers : {},
+            mode: (config && config.mode) || 'no-cors',
             body: body,
         })
             .then(async (resp: any) => {
