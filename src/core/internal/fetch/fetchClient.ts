@@ -1,11 +1,6 @@
-import { HttpClient } from '../..';
+import { HttpClient, RequestConfig } from '../..';
 
 declare const fetch: Function;
-
-interface RequestConfig {
-    headers?: any;
-    mode?: string;
-}
 
 export class FetchClient implements HttpClient {
     private maxConcurrentRequests = 15;
