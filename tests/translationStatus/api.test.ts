@@ -127,6 +127,24 @@ describe('Translation Status API', () => {
                     offset: 0,
                     limit: limit,
                 },
+            })
+            .get(`/projects/${projectId}/qa-check`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            languageId: languageId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -174,5 +192,12 @@ describe('Translation Status API', () => {
         expect(progress.data.length).toBe(1);
         expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
+    });
+
+    it('List QA Check Issues', async () => {
+        const qaChecks = await api.listQaCheckIssues(projectId);
+        expect(qaChecks.data.length).toBe(1);
+        expect(qaChecks.data[0].data.languageId).toBe(languageId);
+        expect(qaChecks.pagination.limit).toBe(limit);
     });
 });
