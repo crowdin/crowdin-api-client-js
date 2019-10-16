@@ -1,7 +1,6 @@
 parameters:
   name: ''
   vmImage: ''
-  generateCoverage: true
 
 jobs:
   - job: ${{ parameters.name }}
@@ -29,12 +28,3 @@ jobs:
         displayName: NPM run build
       - script: npm run test
         displayName: 'NPM run test'
-      - script: npm run test-coverage
-        condition: eq('${{ parameters.generateCoverage }}', 'true')
-        displayName: 'Run tests with coverage'
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: 'cobertura'
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-        condition: eq('${{ parameters.generateCoverage }}', 'true')
-        displayName: 'Publish coverage results'
