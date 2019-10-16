@@ -8,12 +8,13 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
 
-[![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/issues)
 [![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
 
+[![Codecov branch](https://img.shields.io/codecov/c/gh/crowdin/crowdin-api-client-js/master?logo=codecov)](https://codecov.io/gh/crowdin/crowdin-api-client-js)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/commits/master)
 [![GitHub Release Date](https://img.shields.io/github/release-date/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/releases)
@@ -25,7 +26,6 @@ For more about Crowdin API see the [documentation](https://support.crowdin.com/e
 |--------------------|------------------|------------------|
 |[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Ubuntu)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Windows)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(MacOS)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
 |[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/6/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/8/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/7/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
-|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/6/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/8/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-api-client-js/7/master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
 
 ## Table of Contents
 * [Installation](#installation)
@@ -150,4 +150,8 @@ Copyright © 2019 Crowdin
 The Crowdin JavaScript client is licensed under the MIT License. 
 See the LICENSE.md file distributed with this work for additional 
 information regarding copyright ownership.
+
+Except as contained in the LICENSE file, the name(s) of the above copyright
+holders shall not be used in advertising or otherwise to promote the sale,
+use or other dealings in this Software without prior written authorization.
 </pre>
