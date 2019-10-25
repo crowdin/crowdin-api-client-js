@@ -15,7 +15,7 @@ describe('Translations API', () => {
     const url = 'test.com';
     const storageId = '5';
     const fileId = 51;
-    const languageId = 66;
+    const languageId = 'uk';
 
     const limit = 25;
 

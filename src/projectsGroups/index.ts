@@ -126,7 +126,6 @@ export class ProjectsGroups extends CrowdinApi {
 export namespace ProjectsGroupsModel {
     export interface Group {
         id: number;
-        visibility: number;
         name: string;
         description: string;
         parentId: number;
@@ -148,8 +147,8 @@ export namespace ProjectsGroupsModel {
         id: number;
         groupId: number;
         userId: number;
-        sourceLanguageId: number;
-        targetLanguageIds: number[];
+        sourceLanguageId: string;
+        targetLanguageIds: string[];
         joinPolicy: string;
         languageAccessPolicy: string;
         type: number;
@@ -172,11 +171,11 @@ export namespace ProjectsGroupsModel {
         name: string;
         type?: Type;
         groupId: number;
-        targetLanguageIds?: number[];
+        targetLanguageIds?: string[];
         templateId?: number;
         vendorId?: number;
         mtEngineId?: number;
-        sourceLanguageId: number;
+        sourceLanguageId: string;
         description?: string;
     }
 
@@ -193,6 +192,7 @@ export namespace ProjectsGroupsModel {
         inContext: boolean;
         pseudoLanguageId: number;
         qaCheckIsActive: boolean;
+        lowestQualityProjectGoalId: number;
         qaCheckCategories: CheckCategories;
     }
 

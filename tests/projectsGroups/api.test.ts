@@ -12,7 +12,7 @@ describe('Projects and Groups API', () => {
     const groupId = 1;
     const projectName = 'testProject';
     const groupName = 'testGroup';
-    const sourceLanguageId = 1;
+    const sourceLanguageId = 'uk';
 
     const limit = 25;
 

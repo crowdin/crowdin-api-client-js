@@ -1,22 +1,6 @@
-import { CrowdinApi, ResponseObject, ResponseList, DownloadLink } from '../core';
+import { CrowdinApi, ResponseObject, DownloadLink } from '../core';
 
 export class Reports extends CrowdinApi {
-    /**
-     * @param projectId project identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
-     */
-    listSupportedReports(
-        projectId: number,
-        limit?: number,
-        offset?: number,
-    ): Promise<ResponseList<ReportsModel.SupportedReport>> {
-        let url = `${this.url}/projects/${projectId}/supported-reports`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
-    }
-
     /**
      * @param projectId project identifier
      * @param request request body
@@ -33,21 +17,16 @@ export class Reports extends CrowdinApi {
      * @param projectId project identifier
      * @param reportId report identifier
      */
-    exportProjectReportRaw(projectId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
+    downloadReport(projectId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/reports/${reportId}/download`;
         return this.get(url, this.defaultConfig());
     }
 }
 
 export namespace ReportsModel {
-    export interface SupportedReport {
-        name: string;
-        schema: Schema[];
-    }
-
     export interface GenerateReportRequest {
         name: string;
-        schema: Schema;
+        schema: CostEstimateSchema | TranslationCostSchema | TopMembersSchema;
     }
 
     export interface Report {
@@ -56,9 +35,90 @@ export namespace ReportsModel {
         report: any;
     }
 
-    export interface Schema {
-        name: string;
+    export interface CostEstimateSchema {
+        unit: Unit;
+        currency: Currency;
+        languageId: string;
+        format: Format;
+        stepTypes: Array<TranslateStep | ProofreadStep>;
+    }
+
+    export interface TranslationCostSchema {
+        unit: Unit;
+        currency: Currency;
+        format: Format;
+        groupBy: GroupBy;
+        stepTypes: Array<TranslateStep | ProofreadStep>;
+    }
+
+    export interface TopMembersSchema {
+        unit: Unit;
+        languageId: string;
+        format: Format;
+    }
+
+    export enum Unit {
+        STRINGS = 'strings',
+        WORDS = 'words',
+        CHARS = 'chars',
+        CHARS_WITH_SPACES = 'chars_with_spaces',
+    }
+
+    export enum Currency {
+        USD = 'USD',
+        EUR = 'EUR',
+        JPY = 'JPY',
+        GBP = 'GBP',
+        AUD = 'AUD',
+        CAD = 'CAD',
+        CHF = 'CHF',
+        CNY = 'CNY',
+        SEK = 'SEK',
+        NZD = 'NZD',
+        MXN = 'MXN',
+        SGD = 'SGD',
+        HKD = 'HKD',
+        NOK = 'NOK',
+        KRW = 'KRW',
+        TRY = 'TRY',
+        RUB = 'RUB',
+        INR = 'INR',
+        BRL = 'BRL',
+        ZAR = 'ZAR',
+        GEL = 'GEL',
+        UAH = 'UAH',
+    }
+
+    export enum Format {
+        XLSX = 'xlsx',
+        CSV = 'csv',
+    }
+
+    export interface TranslateStep {
         type: string;
-        description: string;
+        mode: string;
+        calculateInternalFuzzyMatches: boolean;
+        regularRates: RegularRates[];
+    }
+
+    export interface ProofreadStep {
+        type: string;
+        mode: string;
+        regularRates: RegularRates[];
+    }
+
+    export interface RegularRates {
+        mode: Mode;
+        value: number;
+    }
+
+    export enum Mode {
+        NO_MATCH = 'no_match',
+        TM_MATCH = 'tm_match',
+    }
+
+    export enum GroupBy {
+        USER = 'user',
+        LANGUAGE = 'language',
     }
 }

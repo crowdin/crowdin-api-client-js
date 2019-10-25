@@ -90,7 +90,6 @@ export namespace SourceStringsModel {
         text: string;
         context?: string;
         isHidden?: boolean;
-        type?: Type;
         maxLength?: number;
     }
 

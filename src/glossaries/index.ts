@@ -54,7 +54,7 @@ export class Glossaries extends CrowdinApi {
     exportGlossary(
         glossaryId: number,
         request: GlossariesModel.ExportGlossaryRequest,
-    ): Promise<ResponseObject<Status>> {
+    ): Promise<ResponseObject<Status<GlossariesModel.GlossaryExportStatusAttribute>>> {
         const url = `${this.url}/glossaries/${glossaryId}/exports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -76,7 +76,10 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param exportId export identifier
      */
-    checkGlossaryExportStatus(glossaryId: number, exportId: string): Promise<ResponseObject<Status>> {
+    checkGlossaryExportStatus(
+        glossaryId: number,
+        exportId: string,
+    ): Promise<ResponseObject<Status<GlossariesModel.GlossaryExportStatusAttribute>>> {
         const url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -85,7 +88,10 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param request request body
      */
-    importGlossaryFile(glossaryId: number, request: GlossariesModel.GlossaryFile): Promise<ResponseObject<Status>> {
+    importGlossaryFile(
+        glossaryId: number,
+        request: GlossariesModel.GlossaryFile,
+    ): Promise<ResponseObject<Status<GlossariesModel.GlossaryImportStatusAttribute>>> {
         const url = `${this.url}/glossaries/${glossaryId}/imports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -94,7 +100,10 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param importId import identifier
      */
-    checkGlossaryImportStatus(glossaryId: number, importId: string): Promise<ResponseObject<Status>> {
+    checkGlossaryImportStatus(
+        glossaryId: number,
+        importId: string,
+    ): Promise<ResponseObject<Status<GlossariesModel.GlossaryImportStatusAttribute>>> {
         const url = `${this.url}/glossaries/${glossaryId}/imports/${importId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -186,7 +195,7 @@ export namespace GlossariesModel {
         groupId: number;
         userId: number;
         terms: number;
-        languageIds: number[];
+        languageIds: string[];
         projectIds: number[];
         createdAt: string;
     }
@@ -200,6 +209,22 @@ export namespace GlossariesModel {
         format: GlossaryFormat;
     }
 
+    export interface GlossaryExportStatusAttribute {
+        format: string;
+        organizationId: number;
+        glossaryId: number;
+    }
+
+    export interface GlossaryImportStatusAttribute {
+        storageId: number;
+        scheme: any;
+        firstLineContainsHeader: boolean;
+        organizationId: number;
+        userId: number;
+        glossaryId: number;
+        progressKey: string;
+    }
+
     export interface GlossaryFile {
         storageId: number;
         scheme?: GlossaryFileScheme;
@@ -210,7 +235,7 @@ export namespace GlossariesModel {
         id: number;
         userId: number;
         glossaryId: number;
-        languageId: number;
+        languageId: string;
         text: string;
         description: string;
         partOfSpeech: string;
@@ -220,10 +245,11 @@ export namespace GlossariesModel {
     }
 
     export interface CreateTermRequest {
-        languageId: number;
+        languageId: string;
         text: string;
         description?: string;
         partOfSpeech?: PartOfSpeech;
+        translationOfTermId?: number;
     }
 
     export enum GlossaryFormat {

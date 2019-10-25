@@ -63,12 +63,18 @@ export namespace MachineTranslationModel {
         groupId: number;
         name: string;
         type: number;
-        credentials: string[];
+        credentials: Credentials;
         projectIds: number[];
+    }
+
+    export interface Credentials {
+        [key: string]: number;
     }
 
     export interface CreateMachineTranslationRequest {
         name: string;
         groupId?: number;
+        type: string;
+        credentials: string[];
     }
 }

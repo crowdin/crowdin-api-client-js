@@ -5,7 +5,10 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param request request body
      */
-    preTranslate(projectId: number, request: TranslationsModel.PreTranslateRequest): Promise<ResponseObject<Status>> {
+    preTranslate(
+        projectId: number,
+        request: TranslationsModel.PreTranslateRequest,
+    ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -14,7 +17,10 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param preTranslationId pre translation identifier
      */
-    preTranslationStatus(projectId: number, preTranslationId: string): Promise<ResponseObject<Status>> {
+    preTranslationStatus(
+        projectId: number,
+        preTranslationId: string,
+    ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -84,7 +90,7 @@ export class Translations extends CrowdinApi {
      */
     uploadTranslation(
         projectId: number,
-        languageId: number,
+        languageId: string,
         request: TranslationsModel.UploadTranslationRequest,
     ): Promise<void> {
         const url = `${this.url}/projects/${projectId}/translations/${languageId}`;
@@ -94,7 +100,7 @@ export class Translations extends CrowdinApi {
 
 export namespace TranslationsModel {
     export interface PreTranslateRequest {
-        languageIds: number[];
+        languageIds: string[];
         fileIds: number[];
         method?: Method;
         engineId?: number;
@@ -102,6 +108,19 @@ export namespace TranslationsModel {
         duplicateTranslations?: boolean;
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
+    }
+
+    export interface PreTranslationStatusAttributes {
+        languageIds: string[];
+        fileIds: number[];
+        method: Method;
+        autoApproveOption: AutoApproveOption;
+        duplicateTranslations: boolean;
+        translateUntranslatedOnly: boolean;
+        translateWithPerfectMatchOnly: boolean;
+        organizationId: number;
+        projectId: number;
+        userId: number;
     }
 
     export enum Method {
@@ -126,7 +145,7 @@ export namespace TranslationsModel {
         id: number;
         projectId: number;
         branchId: number;
-        languagesId: number[];
+        languagesId: string[];
         status: string;
         progress: Progress;
     }
@@ -139,7 +158,7 @@ export namespace TranslationsModel {
 
     export interface BuildRequest {
         branchId?: number;
-        targetLanguagesId?: number[];
+        targetLanguageIds?: string[];
     }
 
     export interface UploadTranslationRequest {
