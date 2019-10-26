@@ -83,11 +83,11 @@ export enum BooleanInt {
     FALSE = 0,
 }
 
-export interface Status {
+export interface Status<T> {
     identifier: string;
     status: string;
     progress: number;
-    attributes: Attribute[];
+    attributes: T;
     createdAt: string;
     updatedAt: string;
     startedAt: string;

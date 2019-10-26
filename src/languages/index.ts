@@ -23,7 +23,7 @@ export class Languages extends CrowdinApi {
     /**
      * @param languageId language identifier
      */
-    getLanguage(languageId: number): Promise<ResponseObject<LanguagesModel.Language>> {
+    getLanguage(languageId: string): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages/${languageId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -31,7 +31,7 @@ export class Languages extends CrowdinApi {
     /**
      * @param languageId language identifier
      */
-    deleteCustomLanguage(languageId: number): Promise<void> {
+    deleteCustomLanguage(languageId: string): Promise<void> {
         const url = `${this.url}/languages/${languageId}`;
         return this.delete(url, this.defaultConfig());
     }
@@ -40,7 +40,7 @@ export class Languages extends CrowdinApi {
      * @param languageId language identifier
      * @param request request body
      */
-    editCustomLanguage(languageId: number, request: PatchRequest[]): Promise<ResponseObject<LanguagesModel.Language>> {
+    editCustomLanguage(languageId: string, request: PatchRequest[]): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages/${languageId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -48,26 +48,20 @@ export class Languages extends CrowdinApi {
 
 export namespace LanguagesModel {
     export interface Language {
-        id: number;
-        organizationId: number;
+        id: string;
         name: string;
-        dialectOf: number;
-        textDirection: TextDirection;
-        internalCode: string;
         editorCode: string;
-        crowdinCode: string;
-        code: string;
-        pluralCategoryNames: string[];
-        pluralRules: string;
-        pluralExamples: string[];
-        iso6391: string;
         twoLettersCode: string;
-        iso6393: string;
         threeLettersCode: string;
         locale: string;
         androidCode: string;
         osxCode: string;
         osxLocale: string;
+        pluralCategoryNames: string[];
+        pluralRules: string;
+        pluralExamples: string[];
+        textDirection: TextDirection;
+        dialectOf: number;
     }
 
     export interface AddLanguageRequest {

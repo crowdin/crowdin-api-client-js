@@ -65,8 +65,8 @@ export namespace WebhooksModel {
         name: string;
         url: string;
         events: Event[];
-        headers: any;
-        payload: any;
+        headers: string[];
+        payload: string[];
         isActive: boolean;
         requestType: RequestType;
         contentType: ContentType;
@@ -79,7 +79,7 @@ export namespace WebhooksModel {
         url: string;
         isActive?: boolean;
         contentType?: ContentType;
-        events?: Event[];
+        events: Event[];
         headers?: any;
         requestType: RequestType;
         payload?: any;

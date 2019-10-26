@@ -11,6 +11,7 @@ describe('Machine Translation engines (MTs) API', () => {
     const mtId = 2;
     const groupId = 3;
     const name = 'test';
+    const type = 'type';
 
     const limit = 25;
 
@@ -41,6 +42,8 @@ describe('Machine Translation engines (MTs) API', () => {
                 '/mts',
                 {
                     name: name,
+                    type: type,
+                    credentials: [],
                 },
                 {
                     reqheaders: {
@@ -106,6 +109,8 @@ describe('Machine Translation engines (MTs) API', () => {
     it('Create MT', async () => {
         const mt = await api.createMt({
             name: name,
+            type: type,
+            credentials: [],
         });
         expect(mt.data.id).toBe(mtId);
     });

@@ -8,7 +8,7 @@ describe('Languages API', () => {
         organization: 'testOrg',
     };
     const api: Languages = new Languages(credentials);
-    const languageId = 2;
+    const languageId = 'es';
     const name = 'Test';
     const code = '12';
     const localeCode = 't';

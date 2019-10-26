@@ -11,7 +11,7 @@ describe('Tasks API', () => {
     const projectId = 2;
     const taskId = 3;
     const taskTitle = 'Test title';
-    const languageId = 8;
+    const languageId = 'fr';
     const workflowStepId = 40;
     const type = TasksModel.Type.TRANSLATE;
 

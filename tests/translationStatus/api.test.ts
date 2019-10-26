@@ -14,7 +14,7 @@ describe('Translation Status API', () => {
     const fileId = 5;
     const phrasesCount = 10;
     const issueId = 21;
-    const languageId = 1111;
+    const languageId = 'uk';
 
     const limit = 25;
 

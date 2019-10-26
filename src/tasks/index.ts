@@ -62,8 +62,8 @@ export namespace TasksModel {
         assignees: Assignee[];
         fileIds: number[];
         progress: Progress;
-        sourceLanguageId: number;
-        targetLanguageId: number;
+        sourceLanguageId: string;
+        targetLanguageId: string;
         description: string;
         hash: string;
         translationUrl: string;
@@ -82,7 +82,7 @@ export namespace TasksModel {
         status?: Status;
         title: string;
         description?: string;
-        languageId: number;
+        languageId: string;
         fileIds: number[];
         type: Type;
         splitFiles?: boolean;
@@ -93,12 +93,8 @@ export namespace TasksModel {
     }
 
     export enum Status {
-        TO_DO = 0,
-        IN_PROGRESS = 1,
-        DONE = 2,
-        CLOSED = 3,
-        ARCHIVED = 4,
-        OVERDUE = 5,
+        TODO = 'todo',
+        IN_PROGRESS = 'in_progress',
     }
 
     export enum Type {

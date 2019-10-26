@@ -79,7 +79,7 @@ export class TranslationMemory extends CrowdinApi {
     exportTm(
         tmId: number,
         request: TranslationMemoryModel.ExportTranslationMemoryRequest,
-    ): Promise<ResponseObject<Status>> {
+    ): Promise<ResponseObject<Status<TranslationMemoryModel.ExportTranslationMemoryAttribute>>> {
         const url = `${this.url}/tms/${tmId}/exports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -88,7 +88,10 @@ export class TranslationMemory extends CrowdinApi {
      * @param tmId tm identifier
      * @param exportId export identifier
      */
-    checkExportStatus(tmId: number, exportId: string): Promise<ResponseObject<Status>> {
+    checkExportStatus(
+        tmId: number,
+        exportId: string,
+    ): Promise<ResponseObject<Status<TranslationMemoryModel.ExportTranslationMemoryAttribute>>> {
         const url = `${this.url}/tms/${tmId}/exports/${exportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -100,7 +103,7 @@ export class TranslationMemory extends CrowdinApi {
     importTm(
         tmId: number,
         request: TranslationMemoryModel.ImportTranslationMemoryRequest,
-    ): Promise<ResponseObject<Status>> {
+    ): Promise<ResponseObject<Status<TranslationMemoryModel.ImportTranslationMemoryAttribute>>> {
         const url = `${this.url}/tms/${tmId}/imports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -109,7 +112,10 @@ export class TranslationMemory extends CrowdinApi {
      * @param tmId tm identifier
      * @param importId import identifier
      */
-    checkImportStatus(tmId: number, importId: string): Promise<ResponseObject<Status>> {
+    checkImportStatus(
+        tmId: number,
+        importId: string,
+    ): Promise<ResponseObject<Status<TranslationMemoryModel.ImportTranslationMemoryAttribute>>> {
         const url = `${this.url}/tms/${tmId}/imports/${importId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -120,7 +126,7 @@ export namespace TranslationMemoryModel {
         id: number;
         groupId: number;
         name: string;
-        languageIds: number[];
+        languageIds: string[];
         segmentsCount: number;
         defaultProjectId: number;
         projectIds: number[];
@@ -141,6 +147,24 @@ export namespace TranslationMemoryModel {
         storageId: number;
         firstLineContainsHeader?: boolean;
         scheme?: Scheme;
+    }
+
+    export interface ExportTranslationMemoryAttribute {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        format: string;
+        tmId: number;
+        userId: number;
+    }
+
+    export interface ImportTranslationMemoryAttribute {
+        tmId: number;
+        storageId: number;
+        firstLineContainsHeader: number;
+        scheme: Scheme;
+        organizationId: number;
+        progressKey: string;
+        userId: number;
     }
 
     export enum Format {

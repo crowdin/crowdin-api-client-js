@@ -18,7 +18,7 @@ describe('Glossaries API', () => {
     const storageId = 1232131;
     const termId = 5555;
     const termText = 'en';
-    const termLanguageId = 90;
+    const termLanguageId = 'fr';
     const limit = 25;
     const groupId = 111;
 

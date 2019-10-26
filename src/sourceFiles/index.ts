@@ -280,7 +280,6 @@ export namespace SourceFilesModel {
         name: string;
         title: string;
         exportPattern: string;
-        status: number;
         priority: Priority;
         createdAt: string;
         updatedAt: string;
@@ -294,9 +293,9 @@ export namespace SourceFilesModel {
     }
 
     export enum Priority {
-        LOW = 0,
-        NORMAL = 1,
-        HIGH = 2,
+        LOW = 'low',
+        NORMAL = 'normal',
+        HIGH = 'high',
     }
 
     export interface Directory {
@@ -307,8 +306,7 @@ export namespace SourceFilesModel {
         name: string;
         title: string;
         exportPattern: string;
-        status: number;
-        priority: number;
+        priority: Priority;
         createdAt: string;
         updatedAt: string;
     }
@@ -327,13 +325,13 @@ export namespace SourceFilesModel {
         projectId: number;
         branchId: number;
         directoryId: number;
-        languageId: number;
+        languageId: string;
         name: string;
         title: string;
         type: string;
         revision: number;
-        status: number;
-        priority: number;
+        status: string;
+        priority: Priority;
         attributes: FileAttributes;
         exportPattern: string;
         createdAt: string;

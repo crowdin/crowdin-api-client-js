@@ -126,14 +126,14 @@ export namespace TranslationStatusModel {
         text: string;
         userId: number;
         stringId: number;
-        languageId: number;
+        languageId: string;
         type: string;
         status: string;
         createdAt: string;
     }
 
     export interface Progress {
-        languageId: number;
+        languageId: string;
         phrasesCount: number;
         phrasesTranslatedCount: number;
         phrasesApprovedCount: number;
@@ -142,7 +142,7 @@ export namespace TranslationStatusModel {
     }
 
     export interface ProjectProgress {
-        languageId: number;
+        languageId: string;
         exportReadyProgress: number;
     }
 
@@ -202,7 +202,7 @@ export namespace TranslationStatusModel {
 
     export interface QaCheck {
         stringId: number;
-        languageId: number;
+        languageId: string;
         category: Category;
         categoryDescription: string;
         validation: Validation;
