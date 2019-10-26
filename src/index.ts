@@ -13,6 +13,7 @@ import { Tasks } from './tasks';
 import { TranslationMemory } from './translationMemory';
 import { Webhooks } from './webhooks';
 import { MachineTranslation } from './machineTranslation';
+import { StringTranslations } from './stringTranslations';
 
 export * from './core';
 export * from './sourceFiles';
@@ -29,6 +30,7 @@ export * from './tasks';
 export * from './translationMemory';
 export * from './webhooks';
 export * from './machineTranslation';
+export * from './stringTranslations';
 
 export default class Client {
     readonly sourceFilesApi: SourceFiles;
@@ -45,6 +47,7 @@ export default class Client {
     readonly translationMemoryApi: TranslationMemory;
     readonly webhooksApi: Webhooks;
     readonly machineTranslationApi: MachineTranslation;
+    readonly stringTranslationsApi: StringTranslations;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -61,5 +64,6 @@ export default class Client {
         this.translationMemoryApi = new TranslationMemory(credentials, config);
         this.webhooksApi = new Webhooks(credentials, config);
         this.machineTranslationApi = new MachineTranslation(credentials, config);
+        this.stringTranslationsApi = new StringTranslations(credentials, config);
     }
 }
