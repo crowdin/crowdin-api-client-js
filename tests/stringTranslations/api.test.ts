@@ -42,7 +42,7 @@ describe('String Translations API', () => {
             .post(
                 `/projects/${projectId}/approvals`,
                 {
-                    translationId: translationId
+                    translationId: translationId,
                 },
                 {
                     reqheaders: {
@@ -78,7 +78,7 @@ describe('String Translations API', () => {
             })
             .query({
                 stringId: stringId,
-                languageId: languageId
+                languageId: languageId,
             })
             .reply(200, {
                 data: [
@@ -141,8 +141,7 @@ describe('String Translations API', () => {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
-            },
-            )
+            })
             .reply(200, {
                 data: {
                     id: translationId,
@@ -170,7 +169,7 @@ describe('String Translations API', () => {
                 `/projects/${projectId}/votes`,
                 {
                     mark: mark,
-                    translationId: translationId
+                    translationId: translationId,
                 },
                 {
                     reqheaders: {
@@ -214,7 +213,7 @@ describe('String Translations API', () => {
 
     it('Add Approval', async () => {
         const approval = await api.addApproval(projectId, {
-            translationId: translationId
+            translationId: translationId,
         });
         expect(approval.data.id).toBe(approvalId);
     });
@@ -239,7 +238,7 @@ describe('String Translations API', () => {
         const translation = await api.addTranslation(projectId, {
             languageId: languageId,
             stringId: stringId,
-            text: text
+            text: text,
         });
         expect(translation.data.id).toBe(translationId);
     });
@@ -272,7 +271,7 @@ describe('String Translations API', () => {
     it('Add Vote', async () => {
         const vote = await api.addVote(projectId, {
             translationId: translationId,
-            mark: mark
+            mark: mark,
         });
         expect(vote.data.id).toBe(voteId);
     });
