@@ -56,7 +56,19 @@ const credentials: Credentials = {
 const { projectsGroupsApi } = new crowdin(credentials);
 
 // get project list
-const projects = await projectsGroupsApi.listProjects();
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+
+// You can also use async/wait. Add `async` keyword to your outer function/method
+async function getProjects() {
+  try {
+    const projects = await projectsGroupsApi.listProjects();
+    console.log(projects);
+  } catch (error) {
+    console.error(error);
+  }
+}
 ```
 
 Or specific API instances:
@@ -74,7 +86,9 @@ const credentials: Credentials = {
 const projectsGroupsApi = new ProjectsGroups(credentials);
 
 // get project list
-const projects = await projectsGroupsApi.listProjects();
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
 ```
 
 </details>
@@ -92,7 +106,19 @@ const { projectsGroupsApi } = new crowdin({
 });
 
 // get project list
-const projects = await projectsGroupsApi.listProjects();
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+
+// You can also use async/wait. Add `async` keyword to your outer function/method
+async function getProjects() {
+  try {
+    const projects = await projectsGroupsApi.listProjects();
+    console.log(projects);
+  } catch (error) {
+    console.error(error);
+  }
+}
 ```
 
 Or specific API instances:
@@ -107,7 +133,9 @@ const projectsGroupsApi = new ProjectsGroups({
 });
 
 // get project list
-const projects = await projectsGroupsApi.listProjects();
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
 ```
 
 </details>
@@ -124,8 +152,6 @@ import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
 const projectsGroupsApi = new ProjectsGroups(credentials, {
   httpClientType: HttpClientType.FETCH
 });
-
-const projects = await projectsGroupsApi.listProjects();
 ```
 
 Or even pass your own http client as `httpClient` property which should implement `HttpClient` interface.
