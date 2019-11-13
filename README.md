@@ -8,17 +8,15 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
 
-[![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
-[![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
-[![npm collaborators](https://img.shields.io/npm/collaborators/@crowdin/crowdin-api-client)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
-[![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/issues)
-[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client?cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
+[![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/issues)
+[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
 
-[![Codecov branch](https://img.shields.io/codecov/c/gh/crowdin/crowdin-api-client-js/master?logo=codecov)](https://codecov.io/gh/crowdin/crowdin-api-client-js)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/pulse)
-[![GitHub last commit](https://img.shields.io/github/last-commit/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/commits/master)
-[![GitHub Release Date](https://img.shields.io/github/release-date/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/releases)
-[![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-js)](https://github.com/crowdin/crowdin-api-client-js/graphs/contributors)
+[![codecov](https://codecov.io/gh/crowdin/crowdin-api-client-js/branch/master/graph/badge.svg)](https://codecov.io/gh/crowdin/crowdin-api-client-js)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/pulse)
+[![GitHub Release Date](https://img.shields.io/github/release-date/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/releases)
+[![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/graphs/contributors)
 
 ## Build Status
 
