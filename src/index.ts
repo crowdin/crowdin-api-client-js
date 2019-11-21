@@ -14,6 +14,9 @@ import { TranslationMemory } from './translationMemory';
 import { Webhooks } from './webhooks';
 import { MachineTranslation } from './machineTranslation';
 import { StringTranslations } from './stringTranslations';
+import { Workflows } from './workflows';
+import { Users } from './users';
+import { Vendors } from './vendors';
 
 export * from './core';
 export * from './sourceFiles';
@@ -31,6 +34,9 @@ export * from './translationMemory';
 export * from './webhooks';
 export * from './machineTranslation';
 export * from './stringTranslations';
+export * from './workflows';
+export * from './users';
+export * from './vendors';
 
 export default class Client {
     readonly sourceFilesApi: SourceFiles;
@@ -48,6 +54,9 @@ export default class Client {
     readonly webhooksApi: Webhooks;
     readonly machineTranslationApi: MachineTranslation;
     readonly stringTranslationsApi: StringTranslations;
+    readonly workflowsApi: Workflows;
+    readonly usersApi: Users;
+    readonly vendorsApi: Vendors;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -65,5 +74,8 @@ export default class Client {
         this.webhooksApi = new Webhooks(credentials, config);
         this.machineTranslationApi = new MachineTranslation(credentials, config);
         this.stringTranslationsApi = new StringTranslations(credentials, config);
+        this.workflowsApi = new Workflows(credentials, config);
+        this.usersApi = new Users(credentials, config);
+        this.vendorsApi = new Vendors(credentials, config);
     }
 }

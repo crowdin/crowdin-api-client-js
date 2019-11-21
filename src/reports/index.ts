@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseObject, DownloadLink } from '../core';
+import { CrowdinApi, ResponseObject, DownloadLink, Status } from '../core';
 
 export class Reports extends CrowdinApi {
     /**
@@ -8,9 +8,21 @@ export class Reports extends CrowdinApi {
     generateReport(
         projectId: number,
         request: ReportsModel.GenerateReportRequest,
-    ): Promise<ResponseObject<ReportsModel.Report>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/reports`;
         return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param reportId report identifier
+     */
+    checkReportStatus(
+        projectId: number,
+        reportId: string,
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/reports/${reportId}`;
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -29,10 +41,12 @@ export namespace ReportsModel {
         schema: CostEstimateSchema | TranslationCostSchema | TopMembersSchema;
     }
 
-    export interface Report {
-        name: string;
-        reportId: string;
-        report: any;
+    export interface ReportStatusAttributes {
+        organizationId: number;
+        projectId: number;
+        format: Format;
+        reportName: string;
+        schema: any;
     }
 
     export interface CostEstimateSchema {
