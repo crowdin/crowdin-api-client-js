@@ -308,10 +308,10 @@ describe('Source Files API', () => {
                     limit: limit,
                 },
             })
-            .put(
-                `/projects/${projectId}/files/${fileId}/revisions`,
+            .post(
+                `/projects/${projectId}/files/${fileId}/restore`,
                 {
-                    revision: fileRevisionId,
+                    revisionId: fileRevisionId,
                 },
                 {
                     reqheaders: {
@@ -321,12 +321,16 @@ describe('Source Files API', () => {
             )
             .reply(200, {
                 data: {
-                    id: fileRevisionId,
-                    projectId: projectId,
+                    id: fileId,
+                    name: fileName,
+                    attributes: {
+                        mimeType: fileMimeType,
+                        fileSize: fileSize,
+                    },
                 },
             })
             .post(
-                `/projects/${projectId}/files/${fileId}/revisions`,
+                `/projects/${projectId}/files/${fileId}/update`,
                 {
                     storageId: storageId,
                 },
@@ -338,8 +342,12 @@ describe('Source Files API', () => {
             )
             .reply(200, {
                 data: {
-                    id: fileRevisionId,
-                    projectId: projectId,
+                    id: fileId,
+                    name: fileName,
+                    attributes: {
+                        mimeType: fileMimeType,
+                        fileSize: fileSize,
+                    },
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined, {
@@ -502,19 +510,23 @@ describe('Source Files API', () => {
     });
 
     it('Restore file to revision', async () => {
-        const revision = await api.restoreFileToRevision(projectId, fileId, {
-            revision: fileRevisionId,
+        const file = await api.restoreFileToRevision(projectId, fileId, {
+            revisionId: fileRevisionId,
         });
-        expect(revision.data.id).toBe(fileRevisionId);
-        expect(revision.data.projectId).toBe(projectId);
+        expect(file.data.id).toBe(fileId);
+        expect(file.data.name).toBe(fileName);
+        expect(file.data.attributes.fileSize).toBe(fileSize);
+        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Update file', async () => {
-        const revision = await api.updateFile(projectId, fileId, {
+        const file = await api.updateFile(projectId, fileId, {
             storageId: storageId,
         });
-        expect(revision.data.id).toBe(fileRevisionId);
-        expect(revision.data.projectId).toBe(projectId);
+        expect(file.data.id).toBe(fileId);
+        expect(file.data.name).toBe(fileName);
+        expect(file.data.attributes.fileSize).toBe(fileSize);
+        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Get file revision', async () => {

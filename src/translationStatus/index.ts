@@ -47,19 +47,13 @@ export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param languageIds language identifier for filter
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
      */
     getProjectProgress(
         projectId: number,
         languageIds?: string,
-        limit?: number,
-        offset?: number,
-    ): Promise<ResponseList<TranslationStatusModel.ProjectProgress>> {
-        let url = `${this.url}/projects/${projectId}/export-ready-progress`;
+    ): Promise<ResponseList<TranslationStatusModel.Progress>> {
+        let url = `${this.url}/projects/${projectId}/languages/progress`;
         url = this.addQueryParam(url, 'languageIds', languageIds);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         return this.get(url, this.defaultConfig());
     }
 
@@ -69,14 +63,6 @@ export class TranslationStatus extends CrowdinApi {
      */
     getFileProgress(projectId: number, fileId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     */
-    getLanguageProgress(projectId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
-        const url = `${this.url}/projects/${projectId}/languages/progress`;
         return this.get(url, this.defaultConfig());
     }
 
@@ -139,11 +125,6 @@ export namespace TranslationStatusModel {
         phrasesApprovedCount: number;
         phrasesTranslatedProgress: number;
         phrasesApprovedProgress: number;
-    }
-
-    export interface ProjectProgress {
-        languageId: string;
-        exportReadyProgress: number;
     }
 
     export enum Category {

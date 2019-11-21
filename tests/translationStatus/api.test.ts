@@ -74,25 +74,7 @@ describe('Translation Status API', () => {
                     limit: limit,
                 },
             })
-            .get(`/projects/${projectId}/export-ready-progress`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            languageId: languageId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .get(`/projects/${projectId}/files/${fileId}/languages/progress`, undefined, {
+            .get(`/projects/${projectId}/languages/progress`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -110,7 +92,7 @@ describe('Translation Status API', () => {
                     limit: limit,
                 },
             })
-            .get(`/projects/${projectId}/languages/progress`, undefined, {
+            .get(`/projects/${projectId}/files/${fileId}/languages/progress`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -176,19 +158,12 @@ describe('Translation Status API', () => {
     it('Get project progress', async () => {
         const progress = await api.getProjectProgress(projectId);
         expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.languageId).toBe(languageId);
+        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
     });
 
     it('Get file progress', async () => {
         const progress = await api.getFileProgress(projectId, fileId);
-        expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
-        expect(progress.pagination.limit).toBe(limit);
-    });
-
-    it('Get language progress', async () => {
-        const progress = await api.getLanguageProgress(projectId);
         expect(progress.data.length).toBe(1);
         expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);

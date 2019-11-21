@@ -34,8 +34,17 @@ describe('Reports API', () => {
             )
             .reply(200, {
                 data: {
-                    name: reportName,
-                    reportId: reportId,
+                    identifier: reportId,
+                },
+            })
+            .get(`/projects/${projectId}/reports/${reportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: reportId,
                 },
             })
             .get(`/projects/${projectId}/reports/${reportId}/download`, undefined, {
@@ -59,8 +68,12 @@ describe('Reports API', () => {
             name: reportName,
             schema: schema,
         });
-        expect(report.data.reportId).toBe(reportId);
-        expect(report.data.name).toBe(reportName);
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Check Report Generation Status', async () => {
+        const report = await api.checkReportStatus(projectId, reportId);
+        expect(report.data.identifier).toBe(reportId);
     });
 
     it('Download report', async () => {

@@ -5,7 +5,7 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param request request body
      */
-    preTranslate(
+    applyPreTranslation(
         projectId: number,
         request: TranslationsModel.PreTranslateRequest,
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
@@ -23,6 +23,20 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param request request body
+     */
+    buildProjectFileTranslation(
+        projectId: number,
+        fileId: number,
+        request: TranslationsModel.BuildProjectFileTranslationRequest,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/translations/builds/files/${fileId}`;
+        return this.post(url, request, this.defaultConfig());
     }
 
     /**
@@ -108,6 +122,12 @@ export namespace TranslationsModel {
         duplicateTranslations?: boolean;
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
+        markAddedTranslationsAsDone?: boolean;
+    }
+
+    export interface BuildProjectFileTranslationRequest {
+        targetLanguageId: string;
+        exportAsXliff?: boolean;
     }
 
     export interface PreTranslationStatusAttributes {
@@ -167,5 +187,6 @@ export namespace TranslationsModel {
         importDuplicates?: boolean;
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
+        markAddedTranslationsAsDone?: boolean;
     }
 }

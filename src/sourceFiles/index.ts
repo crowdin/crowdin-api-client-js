@@ -239,9 +239,9 @@ export class SourceFiles extends CrowdinApi {
         projectId: number,
         fileId: number,
         request: SourceFilesModel.RestoreFileRevisionRequest,
-    ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
-        return this.put(url, request, this.defaultConfig());
+    ): Promise<ResponseObject<SourceFilesModel.File>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/restore`;
+        return this.post(url, request, this.defaultConfig());
     }
 
     /**
@@ -253,8 +253,8 @@ export class SourceFiles extends CrowdinApi {
         projectId: number,
         fileId: number,
         request: SourceFilesModel.CreateFileRevisionRequest,
-    ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
+    ): Promise<ResponseObject<SourceFilesModel.File>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/update`;
         return this.post(url, request, this.defaultConfig());
     }
 
@@ -329,7 +329,7 @@ export namespace SourceFilesModel {
         name: string;
         title: string;
         type: string;
-        revision: number;
+        revisionId: number;
         status: string;
         priority: Priority;
         attributes: FileAttributes;
@@ -352,7 +352,6 @@ export namespace SourceFilesModel {
     export interface FileRevision {
         id: number;
         projectId: number;
-        revision: number;
         revertTo: number;
         translationChunks: number;
         info: any;
@@ -360,7 +359,7 @@ export namespace SourceFilesModel {
     }
 
     export interface RestoreFileRevisionRequest {
-        revision: number;
+        revisionId: number;
     }
 
     export interface CreateFileRevisionRequest {

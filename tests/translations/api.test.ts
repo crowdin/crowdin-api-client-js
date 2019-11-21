@@ -48,6 +48,22 @@ describe('Translations API', () => {
                     identifier: preTranslationId,
                 },
             })
+            .post(
+                `/projects/${projectId}/translations/builds/files/${fileId}`,
+                {
+                    targetLanguageId: languageId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    url: url,
+                },
+            })
             .get(`/projects/${projectId}/translations/builds`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -125,8 +141,8 @@ describe('Translations API', () => {
         scope.done();
     });
 
-    it('Pre-translate', async () => {
-        const preTranslation = await api.preTranslate(projectId, {
+    it('Apply Pre-Translation', async () => {
+        const preTranslation = await api.applyPreTranslation(projectId, {
             fileIds: [],
             languageIds: [],
         });
@@ -136,6 +152,13 @@ describe('Translations API', () => {
     it('Pre-translation status', async () => {
         const preTranslation = await api.preTranslationStatus(projectId, preTranslationId);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Build Project File Translation', async () => {
+        const preTranslation = await api.buildProjectFileTranslation(projectId, fileId, {
+            targetLanguageId: languageId,
+        });
+        expect(preTranslation.data.url).toBe(url);
     });
 
     it('List project builds', async () => {
