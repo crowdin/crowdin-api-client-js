@@ -34,7 +34,11 @@ For more about Crowdin API see the [documentation](https://support.crowdin.com/e
 
 ## Installation
 
-`npm i @crowdin/crowdin-api-client`
+### npm
+  `npm i @crowdin/crowdin-api-client`
+
+### yarn
+  `yarn add @crowdin/crowdin-api-client`
 
 ## Quick Start
 
