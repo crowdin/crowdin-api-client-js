@@ -6,7 +6,7 @@ The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 t
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
-For more about Crowdin API see the [documentation](https://support.crowdin.com/enterprise/api/).
+For more about Crowdin API v2 see the [documentation](https://support.crowdin.com/api/v2/).
 
 [![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client?cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
@@ -50,8 +50,8 @@ import crowdin, { Credentials } from '@crowdin/crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
-  token: 'testToken',
-  organization: 'organizationName'
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
 };
 
 // initialization of crowdin client
@@ -80,8 +80,8 @@ import { Credentials, ProjectsGroups } from '@crowdin/crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
-  token: 'testToken',
-  organization: 'organizationName'
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
 };
 
 // initialization of ProjectsGroups
@@ -103,8 +103,8 @@ import crowdin from '@crowdin/crowdin-api-client';
 
 // initialization of crowdin client
 const { projectsGroupsApi } = new crowdin({
-  token: 'testToken',
-  organization: 'organizationName'
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
 });
 
 // get project list
@@ -130,8 +130,8 @@ import { ProjectsGroups } from '@crowdin/crowdin-api-client';
 
 // initialization of ProjectsGroups
 const projectsGroupsApi = new ProjectsGroups({
-  token: 'testToken',
-  organization: 'organizationName'
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
 });
 
 // get project list
@@ -141,6 +141,8 @@ projectsGroupsApi.listProjects()
 ```
 
 </details>
+
+You can generate Personal Access Token in your Crowdin Account Settings.
 
 ### List of projects with Fetch API
 
