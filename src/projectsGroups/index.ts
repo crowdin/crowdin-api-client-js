@@ -190,7 +190,7 @@ export namespace ProjectsGroupsModel {
         publicDownloads: boolean;
         useGlobalTm: boolean;
         inContext: boolean;
-        pseudoLanguageId: number;
+        jiptPseudoLanguageId: number;
         qaCheckIsActive: boolean;
         lowestQualityProjectGoalId: number;
         qaCheckCategories: CheckCategories;
