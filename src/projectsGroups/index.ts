@@ -194,6 +194,7 @@ export namespace ProjectsGroupsModel {
         qaCheckIsActive: boolean;
         lowestQualityProjectGoalId: number;
         qaCheckCategories: CheckCategories;
+        languageMapping: LanguageMapping;
     }
 
     export enum Type {
@@ -223,5 +224,20 @@ export namespace ProjectsGroupsModel {
         wrongTranslation: boolean;
         spellcheck: boolean;
         icu: boolean;
+    }
+
+    export interface LanguageMapping {
+        [key: string]: LanguageMappingEntity;
+    }
+
+    export interface LanguageMappingEntity {
+        name: string;
+        two_letters_code: string;
+        three_letters_code: string;
+        locale: string;
+        locale_with_underscore: string;
+        android_code: string;
+        osx_code: string;
+        osx_locale: string;
     }
 }

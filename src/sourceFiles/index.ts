@@ -302,7 +302,7 @@ export namespace SourceFilesModel {
         id: number;
         projectId: number;
         branchId: number;
-        parentId: number;
+        directoryId: number;
         name: string;
         title: string;
         exportPattern: string;
@@ -313,7 +313,7 @@ export namespace SourceFilesModel {
 
     export interface CreateDirectoryRequest {
         branchId?: number;
-        parentId?: number;
+        directoryId?: number;
         name: string;
         title?: string;
         exportPattern?: string;
