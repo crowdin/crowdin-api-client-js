@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { ErrorResponse } from '../..';
+import { ValidationErrorResponse, CommonErrorResponse } from '../..';
 
 export class AxisProvider {
     private static readonly CROWDIN_API_MAX_CONCURRENT_REQUESTS = 15;
@@ -37,20 +37,17 @@ export class AxisProvider {
             error => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
                 if (!!error.response && !!error.response.data) {
-                    return Promise.reject(error.response.data as ErrorResponse);
+                    if (error.response.status === 400) {
+                        return Promise.reject(error.response.data as ValidationErrorResponse);
+                    } else {
+                        return Promise.reject(error.response.data as CommonErrorResponse);
+                    }
                 } else {
-                    const defaultError: ErrorResponse = {
-                        errors: [
-                            {
-                                key: '',
-                                errors: [
-                                    {
-                                        code: '500',
-                                        message: 'Request failed.',
-                                    },
-                                ],
-                            },
-                        ],
+                    const defaultError: CommonErrorResponse = {
+                        error: {
+                            code: 500,
+                            message: 'Request failed',
+                        },
                     };
                     return Promise.reject(defaultError);
                 }

@@ -261,14 +261,14 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
-     * @param revision revision number
+     * @param revisionId revision identifier
      */
     getFileRevision(
         projectId: number,
         fileId: number,
-        revision: number,
+        revisionId: number,
     ): Promise<ResponseObject<SourceFilesModel.FileRevision>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revision}`;
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revisionId}`;
         return this.get(url, this.defaultConfig());
     }
 }
@@ -332,10 +332,20 @@ export namespace SourceFilesModel {
         revisionId: number;
         status: string;
         priority: Priority;
-        attributes: FileAttributes;
-        exportPattern: string;
+        importOptions: ImportOptions;
+        exportOptions: ExportOptions;
         createdAt: string;
         updatedAt: string;
+    }
+
+    export interface ExportOptions {
+        exportPattern: string;
+    }
+
+    export interface ImportOptions {
+        firstLineContainsHeader: boolean;
+        importTranslations: boolean;
+        scheme: Scheme;
     }
 
     export interface CreateFileRequest {
@@ -352,10 +362,21 @@ export namespace SourceFilesModel {
     export interface FileRevision {
         id: number;
         projectId: number;
-        revertTo: number;
-        translationChunks: number;
-        info: any;
+        fileId: number;
+        restoreToRevision: number;
+        info: FileRevisionInfo;
         date: string;
+    }
+
+    export interface FileRevisionInfo {
+        added: FileRevisionInfoAttribute;
+        deleted: FileRevisionInfoAttribute;
+        updated: FileRevisionInfoAttribute;
+    }
+
+    export interface FileRevisionInfoAttribute {
+        strings: number;
+        words: number;
     }
 
     export interface RestoreFileRevisionRequest {
@@ -368,11 +389,6 @@ export namespace SourceFilesModel {
         firstLineContainsHeader?: boolean;
         updateOption?: UpdateOption;
         escapeQuotes?: EscapeQuotes;
-    }
-
-    export interface FileAttributes {
-        mimeType: string;
-        fileSize: 0;
     }
 
     export enum FileType {
