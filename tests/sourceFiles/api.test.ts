@@ -11,8 +11,6 @@ describe('Source Files API', () => {
     const projectId = 2;
     const fileName = '1.txt';
     const fileTitle = 'Test file';
-    const fileMimeType = 'application/xml';
-    const fileSize = 300;
 
     const filleRawUrl = 'test.com';
     const fileRevisionId = 888;
@@ -195,10 +193,6 @@ describe('Source Files API', () => {
                         data: {
                             id: fileId,
                             name: fileName,
-                            attributes: {
-                                mimeType: fileMimeType,
-                                fileSize: fileSize,
-                            },
                         },
                     },
                 ],
@@ -226,10 +220,6 @@ describe('Source Files API', () => {
                 data: {
                     id: fileId,
                     name: fileName,
-                    attributes: {
-                        mimeType: fileMimeType,
-                        fileSize: fileSize,
-                    },
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}`, undefined, {
@@ -241,10 +231,6 @@ describe('Source Files API', () => {
                 data: {
                     id: fileId,
                     name: fileName,
-                    attributes: {
-                        mimeType: fileMimeType,
-                        fileSize: fileSize,
-                    },
                 },
             })
             .delete(`/projects/${projectId}/files/${fileId}`, undefined, {
@@ -273,10 +259,6 @@ describe('Source Files API', () => {
                     id: fileId,
                     name: fileName,
                     title: fileTitle,
-                    attributes: {
-                        mimeType: fileMimeType,
-                        fileSize: fileSize,
-                    },
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}/download`, undefined, {
@@ -323,10 +305,6 @@ describe('Source Files API', () => {
                 data: {
                     id: fileId,
                     name: fileName,
-                    attributes: {
-                        mimeType: fileMimeType,
-                        fileSize: fileSize,
-                    },
                 },
             })
             .post(
@@ -344,10 +322,6 @@ describe('Source Files API', () => {
                 data: {
                     id: fileId,
                     name: fileName,
-                    attributes: {
-                        mimeType: fileMimeType,
-                        fileSize: fileSize,
-                    },
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined, {
@@ -449,8 +423,6 @@ describe('Source Files API', () => {
         expect(files.data.length).toBe(1);
         expect(files.data[0].data.id).toBe(fileId);
         expect(files.data[0].data.name).toBe(fileName);
-        expect(files.data[0].data.attributes.fileSize).toBe(fileSize);
-        expect(files.data[0].data.attributes.mimeType).toBe(fileMimeType);
         expect(files.pagination.limit).toBe(limit);
     });
 
@@ -465,16 +437,12 @@ describe('Source Files API', () => {
         );
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
-        expect(file.data.attributes.fileSize).toBe(fileSize);
-        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Get file', async () => {
         const file = await api.getFile(projectId, fileId);
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
-        expect(file.data.attributes.fileSize).toBe(fileSize);
-        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Delete file', async () => {
@@ -492,8 +460,6 @@ describe('Source Files API', () => {
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
         expect(file.data.title).toBe(fileTitle);
-        expect(file.data.attributes.fileSize).toBe(fileSize);
-        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Download file', async () => {
@@ -515,8 +481,6 @@ describe('Source Files API', () => {
         });
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
-        expect(file.data.attributes.fileSize).toBe(fileSize);
-        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Update file', async () => {
@@ -525,8 +489,6 @@ describe('Source Files API', () => {
         });
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
-        expect(file.data.attributes.fileSize).toBe(fileSize);
-        expect(file.data.attributes.mimeType).toBe(fileMimeType);
     });
 
     it('Get file revision', async () => {

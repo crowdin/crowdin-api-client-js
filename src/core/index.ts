@@ -44,17 +44,21 @@ export interface Pagination {
     limit: number;
 }
 
-export interface ErrorResponse {
+export interface ValidationErrorResponse {
     errors: ErrorKey[];
+}
+
+export interface CommonErrorResponse {
+    error: Error<number>;
 }
 
 export interface ErrorKey {
     key: string;
-    errors: Error[];
+    errors: Error<string>[];
 }
 
-export interface Error {
-    code: string;
+export interface Error<T> {
+    code: T;
     message: string;
 }
 
