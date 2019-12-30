@@ -163,17 +163,17 @@ export namespace TranslationsModel {
 
     export interface Build {
         id: number;
-        projectId: number;
-        branchId: number;
-        languagesId: string[];
         status: string;
-        progress: Progress;
+        progress: number;
+        attributes: Attribute[];
     }
 
-    export interface Progress {
-        percent: number;
-        currentLanguageId: string;
-        currentFileId: string;
+    export interface Attribute {
+        projectId: number;
+        branchId: number;
+        targetLanguagesId: string[];
+        exportTranslatedOnly: boolean;
+        exportApprovedOnly: boolean;
     }
 
     export interface BuildRequest {

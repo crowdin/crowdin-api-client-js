@@ -9,7 +9,7 @@ describe('Upload Storage API', () => {
     };
     const api: UploadStorage = new UploadStorage(credentials);
     const storageId = 2;
-    const contentType = 'text/plain';
+    const fileName = 'words.txt';
     const fileContent = 'test text.';
 
     const limit = 25;
@@ -36,7 +36,7 @@ describe('Upload Storage API', () => {
             })
             .post('/storages', fileContent, {
                 reqheaders: {
-                    'Content-Type': contentType,
+                    'Crowdin-API-FileName': fileName,
                     Authorization: `Bearer ${api.token}`,
                 },
             })
@@ -75,7 +75,7 @@ describe('Upload Storage API', () => {
     });
 
     it('Add storage', async () => {
-        const storage = await api.addStorage(contentType, fileContent);
+        const storage = await api.addStorage(fileName, fileContent);
         expect(storage.data.id).toBe(storageId);
     });
 
