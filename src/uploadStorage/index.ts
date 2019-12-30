@@ -37,5 +37,6 @@ export class UploadStorage extends CrowdinApi {
 export namespace UploadStorageModel {
     export interface Storage {
         id: number;
+        fileName: string;
     }
 }
