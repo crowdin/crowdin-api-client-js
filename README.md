@@ -175,7 +175,7 @@ If you've found an error in these samples, please [contact](https://crowdin.com/
 
 ## License
 <pre>
-Copyright © 2019 Crowdin
+Copyright © 2020 Crowdin
 
 The Crowdin JavaScript client is licensed under the MIT License. 
 See the LICENSE.md file distributed with this work for additional 
