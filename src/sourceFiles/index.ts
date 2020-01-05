@@ -156,18 +156,12 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @param branchId get files of branch. You can set branchId or directoryId, not both
-     * @param directoryId get files of directory. You can set branchId or directoryId, not both
      */
     createFile(
         projectId: number,
         request: SourceFilesModel.CreateFileRequest,
-        branchId?: number,
-        directoryId?: number,
     ): Promise<ResponseObject<SourceFilesModel.File>> {
-        let url = `${this.url}/projects/${projectId}/files`;
-        url = this.addQueryParam(url, 'branchId', branchId);
-        url = this.addQueryParam(url, 'directoryId', directoryId);
+        const url = `${this.url}/projects/${projectId}/files`;
         return this.post(url, request, this.defaultConfig());
     }
 
@@ -178,6 +172,20 @@ export class SourceFiles extends CrowdinApi {
     getFile(projectId: number, fileId: number): Promise<ResponseObject<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param request request body
+     */
+    updateOrRestoreFile(
+        projectId: number,
+        fileId: number,
+        request: SourceFilesModel.UpdateOrRestoreFileRequest,
+    ): Promise<ResponseObject<SourceFilesModel.File>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}`;
+        return this.put(url, request, this.defaultConfig());
     }
 
     /**
@@ -228,34 +236,6 @@ export class SourceFiles extends CrowdinApi {
         url = this.addQueryParam(url, 'limit', limit);
         url = this.addQueryParam(url, 'offset', offset);
         return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param fileId file identifier
-     * @param request request body
-     */
-    restoreFileToRevision(
-        projectId: number,
-        fileId: number,
-        request: SourceFilesModel.RestoreFileRevisionRequest,
-    ): Promise<ResponseObject<SourceFilesModel.File>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/restore`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param fileId file identifier
-     * @param request request body
-     */
-    updateFile(
-        projectId: number,
-        fileId: number,
-        request: SourceFilesModel.CreateFileRevisionRequest,
-    ): Promise<ResponseObject<SourceFilesModel.File>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/update`;
-        return this.post(url, request, this.defaultConfig());
     }
 
     /**
@@ -325,7 +305,6 @@ export namespace SourceFilesModel {
         projectId: number;
         branchId: number;
         directoryId: number;
-        languageId: string;
         name: string;
         title: string;
         type: string;
@@ -349,12 +328,19 @@ export namespace SourceFilesModel {
     }
 
     export interface CreateFileRequest {
-        branchId?: number;
-        directoryId?: number;
         storageId: number;
         name: string;
+        branchId?: number;
+        directoryId?: number;
         title?: string;
         type?: FileType;
+        importOptions?: SpreadsheetImportOptions | XmlImportOptions;
+        exportOptions?: GeneralExportOptions | PropertyExportOptions;
+    }
+
+    export interface UpdateOrRestoreFileRequest {
+        storageId: number;
+        updateOption?: UpdateOption;
         importOptions?: SpreadsheetImportOptions | XmlImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
     }
@@ -377,18 +363,6 @@ export namespace SourceFilesModel {
     export interface FileRevisionInfoAttribute {
         strings: number;
         words: number;
-    }
-
-    export interface RestoreFileRevisionRequest {
-        revisionId: number;
-    }
-
-    export interface CreateFileRevisionRequest {
-        storageId: number;
-        scheme?: Scheme;
-        firstLineContainsHeader?: boolean;
-        updateOption?: UpdateOption;
-        escapeQuotes?: EscapeQuotes;
     }
 
     export enum FileType {
@@ -466,8 +440,8 @@ export namespace SourceFilesModel {
     }
 
     export enum UpdateOption {
-        UPDATE_ONLY = 1,
-        UPDATE_AS_UNAPPROVED = 2,
-        UPDATE_AS_UNTRANSLATED = 3,
+        CLEAR_TRANSLATIONS_AND_APPROVALS = 'clear_translations_and_approvals',
+        KEEP_TRANSLATIONS = 'keep_translations',
+        KEEP_TRANSLATIONS_AND_APPROVALS = 'keep_translations_and_approvals',
     }
 }

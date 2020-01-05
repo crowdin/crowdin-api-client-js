@@ -213,9 +213,6 @@ describe('Source Files API', () => {
                     },
                 },
             )
-            .query({
-                branchId: branchId,
-            })
             .reply(200, {
                 data: {
                     id: fileId,
@@ -227,6 +224,23 @@ describe('Source Files API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
+            .reply(200, {
+                data: {
+                    id: fileId,
+                    name: fileName,
+                },
+            })
+            .put(
+                `/projects/${projectId}/files/${fileId}`,
+                {
+                    storageId: storageId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
             .reply(200, {
                 data: {
                     id: fileId,
@@ -288,40 +302,6 @@ describe('Source Files API', () => {
                 pagination: {
                     offset: 0,
                     limit: limit,
-                },
-            })
-            .post(
-                `/projects/${projectId}/files/${fileId}/restore`,
-                {
-                    revisionId: fileRevisionId,
-                },
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: fileId,
-                    name: fileName,
-                },
-            })
-            .post(
-                `/projects/${projectId}/files/${fileId}/update`,
-                {
-                    storageId: storageId,
-                },
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: fileId,
-                    name: fileName,
                 },
             })
             .get(`/projects/${projectId}/files/${fileId}/revisions/${fileRevisionId}`, undefined, {
@@ -427,20 +407,22 @@ describe('Source Files API', () => {
     });
 
     it('Create file', async () => {
-        const file = await api.createFile(
-            projectId,
-            {
-                name: fileName,
-                storageId: storageId,
-            },
-            branchId,
-        );
+        const file = await api.createFile(projectId, {
+            name: fileName,
+            storageId: storageId,
+        });
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
     });
 
     it('Get file', async () => {
         const file = await api.getFile(projectId, fileId);
+        expect(file.data.id).toBe(fileId);
+        expect(file.data.name).toBe(fileName);
+    });
+
+    it('Update or Restore File', async () => {
+        const file = await api.updateOrRestoreFile(projectId, fileId, { storageId });
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
     });
@@ -473,22 +455,6 @@ describe('Source Files API', () => {
         expect(revisions.data[0].data.id).toBe(fileRevisionId);
         expect(revisions.data[0].data.projectId).toBe(projectId);
         expect(revisions.pagination.limit).toBe(limit);
-    });
-
-    it('Restore file to revision', async () => {
-        const file = await api.restoreFileToRevision(projectId, fileId, {
-            revisionId: fileRevisionId,
-        });
-        expect(file.data.id).toBe(fileId);
-        expect(file.data.name).toBe(fileName);
-    });
-
-    it('Update file', async () => {
-        const file = await api.updateFile(projectId, fileId, {
-            storageId: storageId,
-        });
-        expect(file.data.id).toBe(fileId);
-        expect(file.data.name).toBe(fileName);
     });
 
     it('Get file revision', async () => {
