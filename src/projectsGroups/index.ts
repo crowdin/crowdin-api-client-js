@@ -80,7 +80,9 @@ export class ProjectsGroups extends CrowdinApi {
     /**
      * @param projectId project identifier
      */
-    getProject(projectId: number): Promise<ResponseObject<ProjectsGroupsModel.Project>> {
+    getProject(
+        projectId: number,
+    ): Promise<ResponseObject<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         const url = `${this.url}/projects/${projectId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -97,28 +99,11 @@ export class ProjectsGroups extends CrowdinApi {
      * @param projectId project identifier
      * @param request request body
      */
-    editProject(projectId: number, request: PatchRequest[]): Promise<ResponseObject<ProjectsGroupsModel.Project>> {
-        const url = `${this.url}/projects/${projectId}`;
-        return this.patch(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     */
-    getProjectSettings(projectId: number): Promise<ResponseObject<ProjectsGroupsModel.ProjectSettings>> {
-        const url = `${this.url}/projects/${projectId}/settings`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param request request body
-     */
-    editProjectSettings(
+    editProject(
         projectId: number,
         request: PatchRequest[],
-    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectSettings>> {
-        const url = `${this.url}/projects/${projectId}/settings`;
+    ): Promise<ResponseObject<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
+        const url = `${this.url}/projects/${projectId}`;
         return this.patch(url, request, this.defaultConfig());
     }
 }
@@ -179,8 +164,7 @@ export namespace ProjectsGroupsModel {
         description?: string;
     }
 
-    export interface ProjectSettings {
-        projectId: number;
+    export interface ProjectSettings extends Project {
         translateDuplicates: number;
         isMtAllowed: boolean;
         autoSubstitution: boolean;
@@ -190,10 +174,10 @@ export namespace ProjectsGroupsModel {
         publicDownloads: boolean;
         useGlobalTm: boolean;
         inContext: boolean;
-        jiptPseudoLanguageId: number;
+        inContextPseudoLanguageId: string;
         qaCheckIsActive: boolean;
-        lowestQualityProjectGoalId: number;
         qaCheckCategories: CheckCategories;
+        customQaCheckIds: string[];
         languageMapping: LanguageMapping;
     }
 
