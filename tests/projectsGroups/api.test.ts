@@ -164,37 +164,6 @@ describe('Projects and Groups API', () => {
                     id: projectId,
                     name: projectName,
                 },
-            })
-            .get(`/projects/${projectId}/settings`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    projectId: projectId,
-                },
-            })
-            .patch(
-                `/projects/${projectId}/settings`,
-                [
-                    {
-                        value: true,
-                        op: PatchOperation.REPLACE,
-                        path: '/publicDownloads',
-                    },
-                ],
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    projectId: projectId,
-                    publicDownloads: true,
-                },
             });
     });
 
@@ -275,22 +244,5 @@ describe('Projects and Groups API', () => {
         ]);
         expect(project.data.id).toBe(projectId);
         expect(project.data.name).toBe(projectName);
-    });
-
-    it('Get project settings', async () => {
-        const settings = await api.getProjectSettings(projectId);
-        expect(settings.data.projectId).toBe(projectId);
-    });
-
-    it('Edit project settings', async () => {
-        const settings = await api.editProjectSettings(projectId, [
-            {
-                op: PatchOperation.REPLACE,
-                path: '/publicDownloads',
-                value: true,
-            },
-        ]);
-        expect(settings.data.projectId).toBe(projectId);
-        expect(settings.data.publicDownloads).toBe(true);
     });
 });
