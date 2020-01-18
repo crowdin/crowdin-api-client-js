@@ -1,15 +1,22 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, BooleanInt } from '../core';
 
 export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      */
-    listTasks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<TasksModel.Task>> {
+    listTasks(
+        projectId: number,
+        limit?: number,
+        offset?: number,
+        status?: TasksModel.Status,
+    ): Promise<ResponseList<TasksModel.Task>> {
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'limit', limit);
         url = this.addQueryParam(url, 'offset', offset);
+        url = this.addQueryParam(url, 'status', status);
         return this.get(url, this.defaultConfig());
     }
 
@@ -49,6 +56,41 @@ export class Tasks extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
+     * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
+     */
+    listUserTasks(
+        limit?: number,
+        offset?: number,
+        status?: TasksModel.Status,
+        isArchived?: BooleanInt,
+    ): Promise<ResponseList<TasksModel.UserTask>> {
+        let url = `${this.url}/user/tasks`;
+        url = this.addQueryParam(url, 'limit', limit);
+        url = this.addQueryParam(url, 'offset', offset);
+        url = this.addQueryParam(url, 'status', status);
+        url = this.addQueryParam(url, 'isArchived', isArchived);
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param request request body
+     */
+    editTaskArchivedStatus(
+        projectId: number,
+        taskId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<TasksModel.UserTask>> {
+        let url = `${this.url}/user/tasks/${taskId}`;
+        url = this.addQueryParam(url, 'projectId', projectId);
+        return this.patch(url, request, this.defaultConfig());
+    }
 }
 
 export namespace TasksModel {
@@ -77,6 +119,10 @@ export namespace TasksModel {
         updatedAt: string;
     }
 
+    export interface UserTask extends Task {
+        isArchived: boolean;
+    }
+
     export interface CreateTaskRequest {
         workflowStepId: number;
         status?: Status;
@@ -95,6 +141,8 @@ export namespace TasksModel {
     export enum Status {
         TODO = 'todo',
         IN_PROGRESS = 'in_progress',
+        DONE = 'done',
+        CLOSED = 'closed',
     }
 
     export enum Type {

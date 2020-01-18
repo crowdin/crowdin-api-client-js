@@ -47,7 +47,9 @@ describe('Translation Status API', () => {
                 data: [
                     {
                         data: {
-                            phrasesCount: phrasesCount,
+                            phrases: {
+                                total: phrasesCount,
+                            },
                         },
                     },
                 ],
@@ -65,7 +67,9 @@ describe('Translation Status API', () => {
                 data: [
                     {
                         data: {
-                            phrasesCount: phrasesCount,
+                            phrases: {
+                                total: phrasesCount,
+                            },
                         },
                     },
                 ],
@@ -83,7 +87,9 @@ describe('Translation Status API', () => {
                 data: [
                     {
                         data: {
-                            phrasesCount: phrasesCount,
+                            phrases: {
+                                total: phrasesCount,
+                            },
                         },
                     },
                 ],
@@ -101,7 +107,9 @@ describe('Translation Status API', () => {
                 data: [
                     {
                         data: {
-                            phrasesCount: phrasesCount,
+                            phrases: {
+                                total: phrasesCount,
+                            },
                         },
                     },
                 ],
@@ -144,28 +152,28 @@ describe('Translation Status API', () => {
     it('Get branch progress', async () => {
         const progress = await api.getBranchProgress(projectId, branchId);
         expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
     });
 
     it('Get directory progress', async () => {
         const progress = await api.getDirectoryProgress(projectId, directoryId);
         expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
     });
 
     it('Get project progress', async () => {
         const progress = await api.getProjectProgress(projectId);
         expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
     });
 
     it('Get file progress', async () => {
         const progress = await api.getFileProgress(projectId, fileId);
         expect(progress.data.length).toBe(1);
-        expect(progress.data[0].data.phrasesCount).toBe(phrasesCount);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
     });
 
