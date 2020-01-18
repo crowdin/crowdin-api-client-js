@@ -120,11 +120,16 @@ export namespace TranslationStatusModel {
 
     export interface Progress {
         languageId: string;
-        phrasesCount: number;
-        phrasesTranslatedCount: number;
-        phrasesApprovedCount: number;
-        phrasesTranslatedProgress: number;
-        phrasesApprovedProgress: number;
+        words: Words;
+        phrases: Words;
+        translationProgress: number;
+        approvalProgress: number;
+    }
+
+    export interface Words {
+        total: number;
+        translated: number;
+        approved: number;
     }
 
     export enum Category {
