@@ -93,6 +93,45 @@ describe('Tasks API', () => {
                     id: taskId,
                     title: taskTitle,
                 },
+            })
+            .get('/user/tasks', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/user/tasks/${taskId}?projectId=${projectId}`,
+                [
+                    {
+                        value: taskTitle,
+                        op: PatchOperation.REPLACE,
+                        path: '/title',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskId,
+                    title: taskTitle,
+                },
             });
     });
 
@@ -129,6 +168,25 @@ describe('Tasks API', () => {
 
     it('Edit task', async () => {
         const task = await api.editTask(projectId, taskId, [
+            {
+                op: PatchOperation.REPLACE,
+                path: '/title',
+                value: taskTitle,
+            },
+        ]);
+        expect(task.data.id).toBe(taskId);
+        expect(task.data.title).toBe(taskTitle);
+    });
+
+    it('List User Tasks', async () => {
+        const tasks = await api.listUserTasks();
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+        expect(tasks.pagination.limit).toBe(limit);
+    });
+
+    it('Edit Task Archived Status', async () => {
+        const task = await api.editTaskArchivedStatus(projectId, taskId, [
             {
                 op: PatchOperation.REPLACE,
                 path: '/title',
