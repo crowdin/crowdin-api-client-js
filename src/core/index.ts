@@ -104,7 +104,7 @@ export interface Attribute {
 }
 
 export abstract class CrowdinApi {
-    private static readonly CROWDIN_URL_SUFFIX: string = 'crowdin.com/api/v2';
+    private static readonly CROWDIN_URL_SUFFIX: string = 'api.crowdin.com/api/v2';
     private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
     private static readonly FETCH_INSTANCE = new FetchClient();
     private static readonly QUERY_PARAM_PATTERN = new RegExp(/\?.+=.*/g);
@@ -120,8 +120,14 @@ export abstract class CrowdinApi {
      */
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.token = credentials.token;
-        this.organization = !!credentials.organization ? credentials.organization : 'api';
-        this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+        this.organization = !!credentials.organization ? credentials.organization : '';
+
+        if (!!this.organization) {
+            this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+        } else {
+            this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+        }
+
         this.config = config;
     }
 
