@@ -110,7 +110,7 @@ export abstract class CrowdinApi {
     private static readonly QUERY_PARAM_PATTERN = new RegExp(/\?.+=.*/g);
 
     readonly token: string;
-    readonly organization: string;
+    readonly organization?: string;
     readonly url: string;
     readonly config: ClientConfig | undefined;
 
@@ -120,7 +120,7 @@ export abstract class CrowdinApi {
      */
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.token = credentials.token;
-        this.organization = !!credentials.organization ? credentials.organization : '';
+        this.organization = credentials.organization;
 
         if (!!this.organization) {
             this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
