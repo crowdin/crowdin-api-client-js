@@ -28,6 +28,7 @@ export interface Credentials {
 export interface ClientConfig {
     httpClientType?: HttpClientType;
     httpClient?: HttpClient;
+    userAgent?: string;
 }
 
 export interface ResponseList<T> {
@@ -140,7 +141,15 @@ export abstract class CrowdinApi {
     }
 
     protected defaultConfig(): any {
-        return { headers: { Authorization: `Bearer ${this.token}` } };
+        const config: any = {
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+            },
+        };
+        if (!!this.config && !!this.config.userAgent) {
+            config.headers['User-Agent'] = this.config.userAgent;
+        }
+        return config;
     }
 
     get httpClient(): HttpClient {
