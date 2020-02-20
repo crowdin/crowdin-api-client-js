@@ -29,7 +29,7 @@ export interface ClientConfig {
     httpClientType?: HttpClientType;
     httpClient?: HttpClient;
     userAgent?: string;
-    integrationUserAgen?: string;
+    integrationUserAgent?: string;
 }
 
 export interface ResponseList<T> {
@@ -151,8 +151,8 @@ export abstract class CrowdinApi {
             if (!!this.config.userAgent) {
                 config.headers['User-Agent'] = this.config.userAgent;
             }
-            if (!!this.config.integrationUserAgen) {
-                config.headers['X-Crowdin-Integrations-User-Agent'] = this.config.integrationUserAgen;
+            if (!!this.config.integrationUserAgent) {
+                config.headers['X-Crowdin-Integrations-User-Agent'] = this.config.integrationUserAgent;
             }
         }
         return config;
