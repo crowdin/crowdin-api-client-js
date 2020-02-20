@@ -71,7 +71,7 @@ export namespace SourceStringsModel {
         projectId: number;
         fileId: number;
         identifier: string;
-        text: string;
+        text: string | PluralText;
         type: Type;
         context: string;
         maxLength: number;
@@ -91,6 +91,15 @@ export namespace SourceStringsModel {
         context?: string;
         isHidden?: boolean;
         maxLength?: number;
+    }
+
+    export interface PluralText {
+        zero?: string;
+        one?: string;
+        two?: string;
+        few?: string;
+        many?: string;
+        other?: string;
     }
 
     export enum Type {
