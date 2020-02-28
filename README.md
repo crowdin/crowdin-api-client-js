@@ -160,6 +160,28 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 
 Or even pass your own http client as `httpClient` property which should implement `HttpClient` interface.
 
+### Retry configuration
+
+There is a possibility to configure client invoke http calls with retry mechanism.
+
+```typescript
+import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
+
+const projectsGroupsApi = new ProjectsGroups(credentials, {
+  retryConfig: {
+    retries: 2, // amount of retries (gte 1)
+    waitInterval: 100, // wait interval in ms between retries
+    conditions: [ // array of conditions which will check if retry should not be applied
+      {
+        test(error) {
+          return error.code === 40
+        }
+      }
+    ]
+  }
+});
+```
+
 ## Contribution
 We are happy to accept contributions to the Crowdin JavaScript client. To contribute please do the following:
 1. Fork the repository on GitHub.

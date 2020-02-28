@@ -1,5 +1,6 @@
 import { AxisProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
+import { RetryConfig, RetryService } from './internal/retry';
 
 export interface RequestConfig {
     headers?: any;
@@ -30,6 +31,7 @@ export interface ClientConfig {
     httpClient?: HttpClient;
     userAgent?: string;
     integrationUserAgent?: string;
+    retryConfig?: RetryConfig;
 }
 
 export interface ResponseList<T> {
@@ -115,6 +117,7 @@ export abstract class CrowdinApi {
     readonly organization?: string;
     readonly url: string;
     readonly config: ClientConfig | undefined;
+    readonly retryService: RetryService;
 
     /**
      * @param credentials credentials
@@ -129,6 +132,18 @@ export abstract class CrowdinApi {
         } else {
             this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
         }
+
+        let retryConfig: RetryConfig;
+        if (!!config && !!config.retryConfig) {
+            retryConfig = config.retryConfig;
+        } else {
+            retryConfig = {
+                waitInterval: 0,
+                retries: 0,
+                conditions: [],
+            };
+        }
+        this.retryService = new RetryService(retryConfig);
 
         this.config = config;
     }
@@ -180,26 +195,26 @@ export abstract class CrowdinApi {
     //Http overrides
 
     protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.get(url, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.get(url, config));
     }
 
     protected delete<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.delete(url, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.delete(url, config));
     }
 
     protected head<T>(url: string, config?: { headers: any }): Promise<T> {
-        return this.httpClient.head(url, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.head(url, config));
     }
 
     protected post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.post(url, data, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.post(url, data, config));
     }
 
     protected put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.put(url, data, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.put(url, data, config));
     }
 
     protected patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
-        return this.httpClient.patch(url, data, config);
+        return this.retryService.executeAsyncFunc(() => this.httpClient.patch(url, data, config));
     }
 }
