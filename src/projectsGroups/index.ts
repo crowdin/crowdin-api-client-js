@@ -58,7 +58,7 @@ export class ProjectsGroups extends CrowdinApi {
         hasManagerAccess?: BooleanInt,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<ProjectsGroupsModel.Project>> {
+    ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', groupId);
         url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);

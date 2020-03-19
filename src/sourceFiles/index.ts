@@ -311,20 +311,10 @@ export namespace SourceFilesModel {
         revisionId: number;
         status: string;
         priority: Priority;
-        importOptions: ImportOptions;
-        exportOptions: ExportOptions;
+        importOptions: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
+        exportOptions: GeneralExportOptions | PropertyExportOptions;
         createdAt: string;
         updatedAt: string;
-    }
-
-    export interface ExportOptions {
-        exportPattern: string;
-    }
-
-    export interface ImportOptions {
-        firstLineContainsHeader: boolean;
-        importTranslations: boolean;
-        scheme: Scheme;
     }
 
     export interface CreateFileRequest {
@@ -334,14 +324,14 @@ export namespace SourceFilesModel {
         directoryId?: number;
         title?: string;
         type?: FileType;
-        importOptions?: SpreadsheetImportOptions | XmlImportOptions;
+        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
     }
 
     export interface UpdateOrRestoreFileRequest {
         storageId: number;
         updateOption?: UpdateOption;
-        importOptions?: SpreadsheetImportOptions | XmlImportOptions;
+        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
     }
 
@@ -421,6 +411,10 @@ export namespace SourceFilesModel {
         translateAttributes: boolean;
         contentSegmentation: boolean;
         translatableElements: string[];
+    }
+
+    export interface OtherImportOptions {
+        contentSegmentation: boolean;
     }
 
     export interface GeneralExportOptions {
