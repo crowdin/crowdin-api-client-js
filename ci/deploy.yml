@@ -20,7 +20,7 @@ stages:
     - template: templates/jobs.yml
       parameters:
         name: macOS
-        vmImage: 'macOS 10.13'
+        vmImage: 'macOS 10.14'
   - stage: Publish
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
     dependsOn: Tests
