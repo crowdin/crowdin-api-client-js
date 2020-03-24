@@ -182,7 +182,7 @@ export namespace TranslationsModel {
     }
 
     export interface UploadTranslationRequest {
-        storageId: string;
+        storageId: number;
         fileId: number;
         importDuplicates?: boolean;
         importEqSuggestions?: boolean;

@@ -13,7 +13,7 @@ describe('Translations API', () => {
     const buildId = 1223;
     const statusId = 222;
     const url = 'test.com';
-    const storageId = '5';
+    const storageId = 5;
     const fileId = 51;
     const languageId = 'uk';
 
