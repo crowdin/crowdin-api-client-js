@@ -13,7 +13,6 @@ describe('Translation Status API', () => {
     const directoryId = 4;
     const fileId = 5;
     const phrasesCount = 10;
-    const issueId = 21;
     const languageId = 'uk';
 
     const limit = 25;
@@ -26,24 +25,6 @@ describe('Translation Status API', () => {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application:json',
                 'Access-Control-Allow-Headers': 'Authorization',
-            })
-            .get(`/projects/${projectId}/issues`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: issueId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
             })
             .get(`/projects/${projectId}/branches/${branchId}/languages/progress`, undefined, {
                 reqheaders: {
@@ -66,6 +47,26 @@ describe('Translation Status API', () => {
                 },
             })
             .get(`/projects/${projectId}/directories/${directoryId}/languages/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            phrases: {
+                                total: phrasesCount,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/languages/${languageId}/progress`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -149,13 +150,6 @@ describe('Translation Status API', () => {
         scope.done();
     });
 
-    it('List reported issues', async () => {
-        const issues = await api.listReportedIssues(projectId);
-        expect(issues.data.length).toBe(1);
-        expect(issues.data[0].data.id).toBe(issueId);
-        expect(issues.pagination.limit).toBe(limit);
-    });
-
     it('Get branch progress', async () => {
         const progress = await api.getBranchProgress(projectId, branchId);
         expect(progress.data.length).toBe(1);
@@ -165,6 +159,13 @@ describe('Translation Status API', () => {
 
     it('Get directory progress', async () => {
         const progress = await api.getDirectoryProgress(projectId, directoryId);
+        expect(progress.data.length).toBe(1);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
+        expect(progress.pagination.limit).toBe(limit);
+    });
+
+    it('Get language progress', async () => {
+        const progress = await api.getLanguageProgress(projectId, languageId);
         expect(progress.data.length).toBe(1);
         expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
