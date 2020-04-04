@@ -3,31 +3,12 @@ import { CrowdinApi, ResponseList } from '../core';
 export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
-     * @param type defines the issue type
-     * @param status defines the issue resolution status
-     */
-    listReportedIssues(
-        projectId: number,
-        limit?: number,
-        offset?: number,
-        type?: TranslationStatusModel.Type,
-        status?: TranslationStatusModel.Status,
-    ): Promise<ResponseList<TranslationStatusModel.Issue>> {
-        let url = `${this.url}/projects/${projectId}/issues`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        url = this.addQueryParam(url, 'type', type);
-        url = this.addQueryParam(url, 'status', status);
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
      * @param branchId branch identifier
      */
-    getBranchProgress(projectId: number, branchId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
+    getBranchProgress(
+        projectId: number,
+        branchId: number,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
         return this.get(url, this.defaultConfig());
     }
@@ -39,7 +20,7 @@ export class TranslationStatus extends CrowdinApi {
     getDirectoryProgress(
         projectId: number,
         directoryId: number,
-    ): Promise<ResponseList<TranslationStatusModel.Progress>> {
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
         return this.get(url, this.defaultConfig());
     }
@@ -51,7 +32,7 @@ export class TranslationStatus extends CrowdinApi {
     getProjectProgress(
         projectId: number,
         languageIds?: string,
-    ): Promise<ResponseList<TranslationStatusModel.Progress>> {
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         let url = `${this.url}/projects/${projectId}/languages/progress`;
         url = this.addQueryParam(url, 'languageIds', languageIds);
         return this.get(url, this.defaultConfig());
@@ -61,7 +42,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      */
-    getFileProgress(projectId: number, fileId: number): Promise<ResponseList<TranslationStatusModel.Progress>> {
+    getFileProgress(projectId: number, fileId: number): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
         return this.get(url, this.defaultConfig());
     }
@@ -93,37 +74,13 @@ export class TranslationStatus extends CrowdinApi {
 }
 
 export namespace TranslationStatusModel {
-    export enum Type {
-        ALL = 'all',
-        GENERAL_QUESTION = 'general_question',
-        TRANSLATION_MISTAKE = 'translation_mistake',
-        CONTEXT_REQUEST = 'context_request',
-        SOURCE_MISTAKE = 'source_mistake',
-    }
-
-    export enum Status {
-        ALL = 'all',
-        RESOLVED = 'resolved',
-        UNRESOLVED = 'unresolved',
-    }
-
-    export interface Issue {
-        id: number;
-        text: string;
-        userId: number;
-        stringId: number;
-        languageId: string;
-        type: string;
-        status: string;
-        createdAt: string;
-    }
-
-    export interface Progress {
+    export interface LanguageProgress {
         languageId: string;
         words: Words;
         phrases: Words;
         translationProgress: number;
         approvalProgress: number;
+        eTag: string;
     }
 
     export interface Words {
@@ -194,6 +151,6 @@ export namespace TranslationStatusModel {
         validation: Validation;
         validationDescription: string;
         pluralId: number;
-        text: number;
+        text: string;
     }
 }
