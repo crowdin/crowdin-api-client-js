@@ -66,6 +66,26 @@ describe('Translation Status API', () => {
                     limit: limit,
                 },
             })
+            .get(`/projects/${projectId}/languages/${languageId}/progress`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            phrases: {
+                                total: phrasesCount,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get(`/projects/${projectId}/languages/progress`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -139,6 +159,13 @@ describe('Translation Status API', () => {
 
     it('Get directory progress', async () => {
         const progress = await api.getDirectoryProgress(projectId, directoryId);
+        expect(progress.data.length).toBe(1);
+        expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
+        expect(progress.pagination.limit).toBe(limit);
+    });
+
+    it('Get language progress', async () => {
+        const progress = await api.getLanguageProgress(projectId, languageId);
         expect(progress.data.length).toBe(1);
         expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
         expect(progress.pagination.limit).toBe(limit);
