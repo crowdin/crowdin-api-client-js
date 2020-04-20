@@ -18,6 +18,7 @@ import { Workflows } from './workflows';
 import { Users } from './users';
 import { Vendors } from './vendors';
 import { Issues } from './issues';
+import { Teams } from './teams';
 
 export * from './core';
 export * from './sourceFiles';
@@ -39,6 +40,7 @@ export * from './workflows';
 export * from './users';
 export * from './vendors';
 export * from './issues';
+export * from './teams';
 
 export default class Client {
     readonly sourceFilesApi: SourceFiles;
@@ -60,6 +62,7 @@ export default class Client {
     readonly usersApi: Users;
     readonly vendorsApi: Vendors;
     readonly issuesApi: Issues;
+    readonly teamsApi: Teams;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -81,5 +84,6 @@ export default class Client {
         this.usersApi = new Users(credentials, config);
         this.vendorsApi = new Vendors(credentials, config);
         this.issuesApi = new Issues(credentials, config);
+        this.teamsApi = new Teams(credentials, config);
     }
 }
