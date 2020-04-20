@@ -1,4 +1,5 @@
 {
+    "testEnvironment": "node",
     "testRunner": "jest-circus/runner",
     "transform": {
         "^.+\\.(t|j)sx?$": "ts-jest"

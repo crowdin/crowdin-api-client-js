@@ -17,13 +17,6 @@ describe('Source Strings API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .persist()
-            .intercept(/.*/, 'OPTIONS')
-            .reply(200, (undefined as unknown) as string, {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application:json',
-                'Access-Control-Allow-Headers': 'Authorization',
-            })
             .get(`/projects/${projectId}/strings`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
