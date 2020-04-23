@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, Pagination } from '../core';
+import { CrowdinApi, Pagination, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Teams extends CrowdinApi {
     /**
@@ -116,7 +116,7 @@ export namespace TeamsModel {
         id: number;
         hasManagerAccess: boolean;
         hasAccessToAllWorkflowSteps: boolean;
-        permissions: number;
+        permissions: any;
     }
 
     export interface Team {
