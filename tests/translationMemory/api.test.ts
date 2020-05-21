@@ -95,7 +95,7 @@ describe('Translation Memory API', () => {
                     name: name,
                 },
             })
-            .get(`/tms/${tmId}/exports`, undefined, {
+            .get(`/tms/${tmId}/exports/${exportId}/download`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -198,7 +198,7 @@ describe('Translation Memory API', () => {
     });
 
     it('Download TM', async () => {
-        const link = await api.downloadTm(tmId);
+        const link = await api.downloadTm(tmId, exportId);
         expect(link.data.url).toBe(url);
     });
 
