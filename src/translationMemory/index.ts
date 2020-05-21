@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
+import { CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject, Status } from '../core';
 
 export class TranslationMemory extends CrowdinApi {
     /**
@@ -55,20 +55,10 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
-     * @param sourceLanguageId defines a source language in the language pair
-     * @param targetLanguageId defines a target language in the language pair
-     * @param format defines the format of TMs file (default is tmx)
+     * @param exportId export identifier
      */
-    downloadTm(
-        tmId: number,
-        sourceLanguageId?: number,
-        targetLanguageId?: number,
-        format?: TranslationMemoryModel.Format,
-    ): Promise<ResponseObject<DownloadLink>> {
-        let url = `${this.url}/tms/${tmId}/exports`;
-        url = this.addQueryParam(url, 'sourceLanguageId', sourceLanguageId);
-        url = this.addQueryParam(url, 'targetLanguageId', targetLanguageId);
-        url = this.addQueryParam(url, 'format', format);
+    downloadTm(tmId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/tms/${tmId}/exports/${exportId}/download`;
         return this.get(url, this.defaultConfig());
     }
 
@@ -125,16 +115,18 @@ export namespace TranslationMemoryModel {
     export interface TranslationMemory {
         id: number;
         groupId: number;
+        userId: number;
         name: string;
         languageIds: string[];
         segmentsCount: number;
         defaultProjectId: number;
         projectIds: number[];
+        createdAt: string;
     }
 
     export interface AddTranslationMemoryRequest {
         name: string;
-        groupId: number;
+        groupId?: number;
     }
 
     export interface ExportTranslationMemoryRequest {
