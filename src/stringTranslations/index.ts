@@ -212,6 +212,7 @@ export namespace StringTranslationsModel {
         pluralCategoryName: string;
         user: User;
         rating: number;
+        createdAt: string;
     }
 
     export interface AddStringTranslationRequest {

@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, BooleanInt } from '../core';
+import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class ProjectsGroups extends CrowdinApi {
     /**
@@ -134,9 +134,7 @@ export namespace ProjectsGroupsModel {
         userId: number;
         sourceLanguageId: string;
         targetLanguageIds: string[];
-        joinPolicy: string;
-        languageAccessPolicy: string;
-        type: number;
+        languageAccessPolicy: LanguageAccessPolicy;
         name: string;
         cname: string;
         identifier: string;
@@ -146,38 +144,49 @@ export namespace ProjectsGroupsModel {
         background: string;
         isExternal: boolean;
         externalType: string;
-        advancedWorkflowId: number;
+        workflowId: number;
         hasCrowdsourcing: boolean;
+        publicDownloads: boolean;
         createdAt: string;
         updatedAt: string;
+        lastActivity: string;
     }
 
     export interface CreateProjectRequest {
         name: string;
-        type?: Type;
-        groupId: number;
-        targetLanguageIds?: string[];
+        sourceLanguageId: string;
         templateId?: number;
+        groupId?: number;
+        targetLanguageIds?: string[];
         vendorId?: number;
         mtEngineId?: number;
-        sourceLanguageId: string;
         description?: string;
+        delayedWorkflowStart?: boolean;
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        exportApprovedOnly?: boolean;
+        type?: Type;
+        cname?: string;
+        languageAccessPolicy?: LanguageAccessPolicy;
+        visibility?: JoinPolicy;
+        identifier?: string;
     }
 
     export interface ProjectSettings extends Project {
         translateDuplicates: number;
         isMtAllowed: boolean;
         autoSubstitution: boolean;
-        exportTranslatedOnly: boolean;
+        skipUntranslatedStrings: boolean;
+        skipUntranslatedFiles: boolean;
         exportApprovedOnly: boolean;
         autoTranslateDialects: boolean;
-        publicDownloads: boolean;
         useGlobalTm: boolean;
         inContext: boolean;
         inContextPseudoLanguageId: string;
+        isSuspended: string;
         qaCheckIsActive: boolean;
         qaCheckCategories: CheckCategories;
-        customQaCheckIds: string[];
+        customQaCheckIds: number[];
         languageMapping: LanguageMapping;
     }
 

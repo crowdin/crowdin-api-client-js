@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Screenshots extends CrowdinApi {
     /**
@@ -179,6 +179,7 @@ export namespace ScreenshotsModel {
     export interface CreateScreenshotRequest {
         storageId: number;
         name: string;
+        autoTag?: boolean;
     }
 
     export interface Tag {

@@ -1,46 +1,48 @@
 import { ClientConfig, Credentials } from './core';
-import { SourceFiles } from './sourceFiles';
+import { Distributions } from './distributions';
 import { Glossaries } from './glossaries';
+import { Issues } from './issues';
 import { Languages } from './languages';
-import { Translations } from './translations';
-import { TranslationStatus } from './translationStatus';
+import { MachineTranslation } from './machineTranslation';
 import { ProjectsGroups } from './projectsGroups';
 import { Reports } from './reports';
 import { Screenshots } from './screenshots';
+import { SourceFiles } from './sourceFiles';
 import { SourceStrings } from './sourceStrings';
-import { UploadStorage } from './uploadStorage';
-import { Tasks } from './tasks';
-import { TranslationMemory } from './translationMemory';
-import { Webhooks } from './webhooks';
-import { MachineTranslation } from './machineTranslation';
 import { StringTranslations } from './stringTranslations';
-import { Workflows } from './workflows';
+import { Tasks } from './tasks';
+import { Teams } from './teams';
+import { TranslationMemory } from './translationMemory';
+import { Translations } from './translations';
+import { TranslationStatus } from './translationStatus';
+import { UploadStorage } from './uploadStorage';
 import { Users } from './users';
 import { Vendors } from './vendors';
-import { Issues } from './issues';
-import { Teams } from './teams';
+import { Webhooks } from './webhooks';
+import { Workflows } from './workflows';
 
 export * from './core';
-export * from './sourceFiles';
+export * from './distributions';
 export * from './glossaries';
+export * from './issues';
 export * from './languages';
-export * from './translations';
-export * from './translationStatus';
+export * from './machineTranslation';
 export * from './projectsGroups';
 export * from './reports';
 export * from './screenshots';
+export * from './sourceFiles';
 export * from './sourceStrings';
-export * from './uploadStorage';
-export * from './tasks';
-export * from './translationMemory';
-export * from './webhooks';
-export * from './machineTranslation';
 export * from './stringTranslations';
-export * from './workflows';
+export * from './tasks';
+export * from './teams';
+export * from './translationMemory';
+export * from './translations';
+export * from './translationStatus';
+export * from './uploadStorage';
 export * from './users';
 export * from './vendors';
-export * from './issues';
-export * from './teams';
+export * from './webhooks';
+export * from './workflows';
 
 export default class Client {
     readonly sourceFilesApi: SourceFiles;
@@ -63,6 +65,7 @@ export default class Client {
     readonly vendorsApi: Vendors;
     readonly issuesApi: Issues;
     readonly teamsApi: Teams;
+    readonly distributionsApi: Distributions;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -85,5 +88,6 @@ export default class Client {
         this.vendorsApi = new Vendors(credentials, config);
         this.issuesApi = new Issues(credentials, config);
         this.teamsApi = new Teams(credentials, config);
+        this.distributionsApi = new Distributions(credentials, config);
     }
 }

@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink, Status } from '../core';
+import { CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject, Status } from '../core';
 
 export class Glossaries extends CrowdinApi {
     /**
@@ -202,7 +202,7 @@ export namespace GlossariesModel {
 
     export interface CreateGlossaryRequest {
         name: string;
-        groupId: number;
+        groupId?: number;
     }
 
     export interface ExportGlossaryRequest {
