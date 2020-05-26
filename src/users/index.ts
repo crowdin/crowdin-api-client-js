@@ -36,6 +36,16 @@ export class Users extends CrowdinApi {
         const url = `${this.url}/user`;
         return this.get(url, this.defaultConfig());
     }
+
+    listProjectMembers(projectId: number): Promise<ResponseList<UsersModel.ProjectMember>> {
+        const url = `${this.url}/projects/${projectId}/members`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    getMemberInfo(projectId: number, memberId: number): Promise<ResponseObject<UsersModel.ProjectMember>> {
+        const url = `${this.url}/projects/${projectId}/members/${memberId}`;
+        return this.get(url, this.defaultConfig());
+    }
 }
 
 export namespace UsersModel {
@@ -63,5 +73,14 @@ export namespace UsersModel {
     export enum TwoFactor {
         ENABLED = 'enabled',
         DISABLED = 'disabled',
+    }
+
+    export interface ProjectMember {
+        id: number;
+        username: string;
+        fullName: string;
+        avatarUrl: string;
+        joinedAt: string;
+        timezone: string;
     }
 }

@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, BooleanInt } from '../core';
+import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Tasks extends CrowdinApi {
     /**
@@ -132,6 +132,8 @@ export namespace TasksModel {
         fileIds: number[];
         type: Type;
         splitFiles?: boolean;
+        skipAssignedStrings?: boolean;
+        skipUntranslatedStrings?: boolean;
         assignees?: Assignee[];
         deadline?: string;
         dateFrom?: string;

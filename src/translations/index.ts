@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseObject, DownloadLink, Status, ResponseList } from '../core';
+import { CrowdinApi, DownloadLink, ResponseList, ResponseObject, Status } from '../core';
 
 export class Translations extends CrowdinApi {
     /**
@@ -64,7 +64,7 @@ export class Translations extends CrowdinApi {
      */
     buildProject(
         projectId: number,
-        request: TranslationsModel.BuildRequest,
+        request: TranslationsModel.BuildRequest | TranslationsModel.PseudoBuildRequest,
     ): Promise<ResponseObject<TranslationsModel.Build>> {
         const url = `${this.url}/projects/${projectId}/translations/builds`;
         return this.post(url, request, this.defaultConfig());
@@ -128,6 +128,9 @@ export namespace TranslationsModel {
     export interface BuildProjectFileTranslationRequest {
         targetLanguageId: string;
         exportAsXliff?: boolean;
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        exportApprovedOnly?: boolean;
     }
 
     export interface PreTranslationStatusAttributes {
@@ -172,19 +175,30 @@ export namespace TranslationsModel {
         projectId: number;
         branchId: number;
         targetLanguagesId: string[];
-        exportTranslatedOnly: boolean;
+        skipUntranslatedStrings: boolean;
         exportApprovedOnly: boolean;
+        skipUntranslatedFiles: boolean;
     }
 
     export interface BuildRequest {
         branchId?: number;
         targetLanguageIds?: string[];
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        exportApprovedOnly?: boolean;
+    }
+
+    export interface PseudoBuildRequest {
+        pseudo: boolean;
+        prefix?: string;
+        suffix?: string;
+        lengthTransformation?: number;
+        charTransformation?: string;
     }
 
     export interface UploadTranslationRequest {
         storageId: number;
         fileId: number;
-        importDuplicates?: boolean;
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         markAddedTranslationsAsDone?: boolean;

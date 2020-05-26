@@ -5,6 +5,20 @@ All notable changes to the Crowdin API Client will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0]
+
+### Added
+
+- Distributions API
+
+### Updated
+
+- Glossaries API (minor changes)
+- Projects API (minor changes)
+- Screenshots API (minor changes)
+- Tasks API (minor changes)
+- Translations API (minor changes)
+- Users API (new methods)
 
 ## [1.7.0]
 
