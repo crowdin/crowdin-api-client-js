@@ -131,6 +131,7 @@ export namespace TranslationsModel {
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
+        exportWithMinApprovalsCount?: number;
     }
 
     export interface PreTranslationStatusAttributes {
@@ -177,6 +178,7 @@ export namespace TranslationsModel {
         targetLanguagesId: string[];
         skipUntranslatedStrings: boolean;
         exportApprovedOnly: boolean;
+        exportWithMinApprovalsCount: number;
         skipUntranslatedFiles: boolean;
     }
 
@@ -186,6 +188,7 @@ export namespace TranslationsModel {
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
+        exportWithMinApprovalsCount?: number;
     }
 
     export interface PseudoBuildRequest {
