@@ -165,6 +165,7 @@ export namespace ProjectsGroupsModel {
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
+        exportWithMinApprovalsCount?: number;
         type?: Type;
         cname?: string;
         languageAccessPolicy?: LanguageAccessPolicy;
@@ -179,6 +180,7 @@ export namespace ProjectsGroupsModel {
         skipUntranslatedStrings: boolean;
         skipUntranslatedFiles: boolean;
         exportApprovedOnly: boolean;
+        exportWithMinApprovalsCount: number;
         autoTranslateDialects: boolean;
         useGlobalTm: boolean;
         inContext: boolean;
