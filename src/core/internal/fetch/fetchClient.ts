@@ -47,6 +47,9 @@ export class FetchClient implements HttpClient {
             body: body,
         })
             .then(async (resp: any) => {
+                if (resp.status === 204) {
+                    return {};
+                }
                 const text = await resp.text();
                 const json = text ? JSON.parse(text) : {};
                 if (resp.status >= 200 && resp.status < 300) {
