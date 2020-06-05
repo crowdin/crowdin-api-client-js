@@ -29,7 +29,7 @@ export class FetchClient implements HttpClient {
     private async request(url: string, method: string, config?: RequestConfig, data?: any): Promise<any> {
         let body = undefined;
         if (!!data) {
-            if (typeof data === 'object' && !Buffer.isBuffer(data)) {
+            if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
                 config = config || { headers: {} };
                 config.headers = config.headers || {};
@@ -47,15 +47,25 @@ export class FetchClient implements HttpClient {
             body: body,
         })
             .then(async (resp: any) => {
-                const json = resp.json();
+                const text = await resp.text();
+                const json = text ? JSON.parse(text) : {};
                 if (resp.status >= 200 && resp.status < 300) {
                     return json;
                 } else {
-                    const err = await json;
-                    throw err;
+                    throw json;
                 }
             })
             .finally(() => (this.pendingRequests = Math.max(0, this.pendingRequests - 1)));
+    }
+
+    private isBuffer(data: any): boolean {
+        if (typeof ArrayBuffer === 'function') {
+            return ArrayBuffer.isView(data);
+        } else if (typeof Buffer === 'function') {
+            return Buffer.isBuffer(data);
+        } else {
+            return false;
+        }
     }
 
     private waitInQueue(): any {
