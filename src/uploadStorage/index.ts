@@ -1,8 +1,14 @@
 import { CrowdinApi, ResponseList, ResponseObject } from '../core';
 
 export class UploadStorage extends CrowdinApi {
-    listStorages(): Promise<ResponseList<UploadStorageModel.Storage>> {
-        const url = `${this.url}/storages`;
+    /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     */
+    listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>> {
+        let url = `${this.url}/storages`;
+        url = this.addQueryParam(url, 'limit', limit);
+        url = this.addQueryParam(url, 'offset', offset);
         return this.get(url, this.defaultConfig());
     }
 
