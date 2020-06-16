@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest, DownloadLink } from '../core';
+import { CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class SourceFiles extends CrowdinApi {
     /**
@@ -130,6 +130,11 @@ export class SourceFiles extends CrowdinApi {
         return this.patch(url, request, this.defaultConfig());
     }
 
+    listProjectFiles(
+        projectId: number,
+        request: SourceFilesModel.ListProjectFilesRequest,
+    ): Promise<ResponseList<SourceFilesModel.File>>;
+
     /**
      *
      * @param projectId project identifier
@@ -137,6 +142,7 @@ export class SourceFiles extends CrowdinApi {
      * @param directoryId list directory files (Note! You can either list files for the specified directory (directoryId) in the same request)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param recursion use to list files recursively
      */
     listProjectFiles(
         projectId: number,
@@ -144,12 +150,29 @@ export class SourceFiles extends CrowdinApi {
         directoryId?: number,
         limit?: number,
         offset?: number,
+        recursion?: any,
+    ): Promise<ResponseList<SourceFilesModel.File>>;
+
+    listProjectFiles(
+        projectId: number,
+        branchIdOrRequest?: number | SourceFilesModel.ListProjectFilesRequest,
+        directoryId?: number,
+        limit?: number,
+        offset?: number,
+        recursion?: any,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
-        url = this.addQueryParam(url, 'branchId', branchId);
-        url = this.addQueryParam(url, 'directoryId', directoryId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
+        let request: SourceFilesModel.ListProjectFilesRequest;
+        if (branchIdOrRequest && typeof branchIdOrRequest === 'object') {
+            request = branchIdOrRequest;
+        } else {
+            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion };
+        }
+        url = this.addQueryParam(url, 'branchId', request.branchId);
+        url = this.addQueryParam(url, 'directoryId', request.directoryId);
+        url = this.addQueryParam(url, 'limit', request.limit);
+        url = this.addQueryParam(url, 'offset', request.offset);
+        url = this.addQueryParam(url, 'recursion', request.recursion);
         return this.get(url, this.defaultConfig());
     }
 
@@ -298,6 +321,14 @@ export namespace SourceFilesModel {
         title?: string;
         exportPattern?: string;
         priority?: Priority;
+    }
+
+    export interface ListProjectFilesRequest {
+        branchId?: number;
+        directoryId?: number;
+        limit?: number;
+        offset?: number;
+        recursion?: any;
     }
 
     export interface File {
