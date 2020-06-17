@@ -83,7 +83,7 @@ export class Distributions extends CrowdinApi {
         hash: string,
     ): Promise<ResponseObject<DistributionsModel.DistributionRelease>> {
         const url = `${this.url}/projects/${projectId}/distributions/${hash}/release`;
-        return this.post(url, undefined, this.defaultConfig());
+        return this.post(url, {}, this.defaultConfig());
     }
 }
 

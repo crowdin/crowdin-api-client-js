@@ -24,6 +24,7 @@ export enum HttpClientType {
 export interface Credentials {
     token: string;
     organization?: string;
+    baseUrl?: string;
 }
 
 export interface ClientConfig {
@@ -127,10 +128,14 @@ export abstract class CrowdinApi {
         this.token = credentials.token;
         this.organization = credentials.organization;
 
-        if (!!this.organization) {
-            this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+        if (!!credentials.baseUrl) {
+            this.url = credentials.baseUrl;
         } else {
-            this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+            if (!!this.organization) {
+                this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+            } else {
+                this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+            }
         }
 
         let retryConfig: RetryConfig;
