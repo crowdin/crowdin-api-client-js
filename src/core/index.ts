@@ -50,20 +50,24 @@ export interface Pagination {
 }
 
 export interface ValidationErrorResponse {
-    errors: ErrorKey[];
+    errors: ErrorHolder[];
 }
 
 export interface CommonErrorResponse {
-    error: Error<number>;
+    error: Error;
+}
+
+export interface ErrorHolder {
+    error: ErrorKey;
 }
 
 export interface ErrorKey {
     key: string;
-    errors: Error<string>[];
+    errors: Error[];
 }
 
-export interface Error<T> {
-    code: T;
+export interface Error {
+    code: string;
     message: string;
 }
 
