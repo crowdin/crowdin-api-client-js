@@ -15,11 +15,19 @@ export class UploadStorage extends CrowdinApi {
     /**
      * @param fileName file name
      * @param request binary file data
+     * @param contentType content type header
      */
-    addStorage(fileName: string, request: any): Promise<ResponseObject<UploadStorageModel.Storage>> {
+    addStorage(
+        fileName: string,
+        request: any,
+        contentType?: string,
+    ): Promise<ResponseObject<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages`;
         const config = this.defaultConfig();
         config.headers['Crowdin-API-FileName'] = fileName;
+        if (!!contentType) {
+            config.headers['Content-Type'] = contentType;
+        }
         return this.post(url, request, config);
     }
 
