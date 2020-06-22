@@ -169,7 +169,7 @@ import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
 
 const projectsGroupsApi = new ProjectsGroups(credentials, {
   retryConfig: {
-    retries: 2, // amount of retries (gte 1)
+    retries: 2, // amount of retries (gte 0)
     waitInterval: 100, // wait interval in ms between retries
     conditions: [ // array of conditions which will check if retry should not be applied
       {
