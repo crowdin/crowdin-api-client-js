@@ -25,6 +25,8 @@ describe('Source Files API', () => {
 
     const directoryId = 444;
 
+    const buildId = 121212;
+
     const fileId = 321;
     const limit = 25;
 
@@ -314,6 +316,69 @@ describe('Source Files API', () => {
                     id: fileRevisionId,
                     projectId: projectId,
                 },
+            })
+            .get(`/projects/${projectId}/strings/reviewed-builds`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: buildId,
+                            attributes: {
+                                branchId: branchId,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/strings/reviewed-builds`,
+                {
+                    branchId: branchId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: buildId,
+                    attributes: {
+                        branchId: branchId,
+                    },
+                },
+            })
+            .get(`/projects/${projectId}/strings/reviewed-builds/${buildId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: buildId,
+                    attributes: {
+                        branchId: branchId,
+                    },
+                },
+            })
+            .get(`/projects/${projectId}/strings/reviewed-builds/${buildId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: filleRawUrl,
+                },
             });
     });
 
@@ -461,5 +526,32 @@ describe('Source Files API', () => {
         const revision = await api.getFileRevision(projectId, fileId, fileRevisionId);
         expect(revision.data.id).toBe(fileRevisionId);
         expect(revision.data.projectId).toBe(projectId);
+    });
+
+    it('List reviewed source files builds', async () => {
+        const builds = await api.listReviewedSourceFilesBuild(projectId);
+        expect(builds.data.length).toBe(1);
+        expect(builds.data[0].data.id).toBe(buildId);
+        expect(builds.data[0].data.attributes.branchId).toBe(branchId);
+        expect(builds.pagination.limit).toBe(limit);
+    });
+
+    it('Build reviewed source files', async () => {
+        const build = await api.buildReviewedSourceFiles(projectId, {
+            branchId,
+        });
+        expect(build.data.id).toBe(buildId);
+        expect(build.data.attributes.branchId).toBe(branchId);
+    });
+
+    it('Check reviewed source files build status', async () => {
+        const build = await api.checkReviewedSourceFilesBuildStatus(projectId, buildId);
+        expect(build.data.id).toBe(buildId);
+        expect(build.data.attributes.branchId).toBe(branchId);
+    });
+
+    it('Download reviewed source files', async () => {
+        const file = await api.downloadReviewedSourceFiles(projectId, buildId);
+        expect(file.data.url).toBe(filleRawUrl);
     });
 });
