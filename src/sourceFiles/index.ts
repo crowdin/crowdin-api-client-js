@@ -274,6 +274,58 @@ export class SourceFiles extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions/${revisionId}`;
         return this.get(url, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId filter builds by branchId
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     */
+    listReviewedSourceFilesBuild(
+        projectId: number,
+        branchId?: number,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
+        let url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
+        url = this.addQueryParam(url, 'branchId', branchId);
+        url = this.addQueryParam(url, 'limit', limit);
+        url = this.addQueryParam(url, 'offset', offset);
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     */
+    buildReviewedSourceFiles(
+        projectId: number,
+        request: SourceFilesModel.BuildReviewedSourceFilesRequest,
+    ): Promise<ResponseObject<SourceFilesModel.ReviewedSourceFilesBuild>> {
+        const url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     */
+    checkReviewedSourceFilesBuildStatus(
+        projectId: number,
+        buildId: number,
+    ): Promise<ResponseObject<SourceFilesModel.ReviewedSourceFilesBuild>> {
+        const url = `${this.url}/projects/${projectId}/strings/reviewed-builds/${buildId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     */
+    downloadReviewedSourceFiles(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/strings/reviewed-builds/${buildId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
 }
 
 export namespace SourceFilesModel {
@@ -468,5 +520,22 @@ export namespace SourceFilesModel {
         CLEAR_TRANSLATIONS_AND_APPROVALS = 'clear_translations_and_approvals',
         KEEP_TRANSLATIONS = 'keep_translations',
         KEEP_TRANSLATIONS_AND_APPROVALS = 'keep_translations_and_approvals',
+    }
+
+    export interface ReviewedSourceFilesBuild {
+        id: number;
+        projectId: number;
+        status: string;
+        progress: number;
+        attributes: ReviewedSourceFilesBuildAttributes;
+    }
+
+    export interface ReviewedSourceFilesBuildAttributes {
+        branchId: number;
+        targetLanguageId: string;
+    }
+
+    export interface BuildReviewedSourceFilesRequest {
+        branchId: number;
     }
 }

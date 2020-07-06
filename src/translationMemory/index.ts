@@ -155,7 +155,6 @@ export namespace TranslationMemoryModel {
         firstLineContainsHeader: number;
         scheme: Scheme;
         organizationId: number;
-        progressKey: string;
         userId: number;
     }
 
