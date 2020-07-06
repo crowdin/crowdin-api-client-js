@@ -71,6 +71,24 @@ describe('String Translations API', () => {
                 },
             })
             .reply(200)
+            .get(`/projects/${projectId}/languages/${languageId}/translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            stringId: stringId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get(`/projects/${projectId}/translations`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -225,6 +243,13 @@ describe('String Translations API', () => {
 
     it('Remove Approval', async () => {
         await api.removeApproval(projectId, approvalId);
+    });
+
+    it('List Language Translations', async () => {
+        const translations = await api.listLanguageTranslations(projectId, languageId);
+        expect(translations.data.length).toBe(1);
+        expect(translations.data[0].data.stringId).toBe(stringId);
+        expect(translations.pagination.limit).toBe(limit);
     });
 
     it('List String Translations', async () => {

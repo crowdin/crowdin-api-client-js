@@ -58,6 +58,30 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param languageId language identifier
+     * @param stringIds filter translations by stringIds
+     * @param fileId filter translations by fileId
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     */
+    listLanguageTranslations(
+        projectId: number,
+        languageId: string,
+        stringIds?: string,
+        fileId?: number,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<StringTranslationsModel.LanguageTranslation>> {
+        let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
+        url = this.addQueryParam(url, 'stringIds', stringIds);
+        url = this.addQueryParam(url, 'fileId', fileId);
+        url = this.addQueryParam(url, 'limit', limit);
+        url = this.addQueryParam(url, 'offset', offset);
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -213,6 +237,13 @@ export namespace StringTranslationsModel {
         user: User;
         rating: number;
         createdAt: string;
+    }
+
+    export interface LanguageTranslation {
+        stringId: number;
+        contentType: string;
+        translationId: number;
+        text: string;
     }
 
     export interface AddStringTranslationRequest {
