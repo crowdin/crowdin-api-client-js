@@ -222,7 +222,6 @@ export namespace GlossariesModel {
         organizationId: number;
         userId: number;
         glossaryId: number;
-        progressKey: string;
     }
 
     export interface GlossaryFile {

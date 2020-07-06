@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class SourceStrings extends CrowdinApi {
     /**
@@ -6,17 +6,20 @@ export class SourceStrings extends CrowdinApi {
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param filter filter strings by text and context
      */
     listProjectStrings(
         projectId: number,
         fileId?: number,
         limit?: number,
         offset?: number,
+        filter?: string,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
         url = this.addQueryParam(url, 'fileId', fileId);
         url = this.addQueryParam(url, 'limit', limit);
         url = this.addQueryParam(url, 'offset', offset);
+        url = this.addQueryParam(url, 'filter', filter);
         return this.get(url, this.defaultConfig());
     }
 
@@ -78,7 +81,6 @@ export namespace SourceStringsModel {
         isHidden: boolean;
         revision: number;
         hasPlurals: boolean;
-        plurals: any;
         isIcu: boolean;
         createdAt: string;
         updatedAt: string;
