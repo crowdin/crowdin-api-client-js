@@ -5,16 +5,16 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     listScreenshots(
         projectId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
-        let url = `${this.url}/projects/${projectId}/screenshots`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/screenshots`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -80,17 +80,17 @@ export class Screenshots extends CrowdinApi {
      * @param screenshotId screenshot identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     listScreenshotTags(
         projectId: number,
         screenshotId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
-        let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**

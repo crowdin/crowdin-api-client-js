@@ -5,17 +5,17 @@ export class TranslationMemory extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     listTm(
         groupId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
         let url = `${this.url}/tms`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**

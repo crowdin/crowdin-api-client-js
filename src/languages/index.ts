@@ -1,15 +1,18 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Languages extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
-    listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<LanguagesModel.Language>> {
-        let url = `${this.url}/languages`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+    listSupportedLanguages(
+        limit?: number,
+        offset?: number,
+        fetchAll?: boolean,
+    ): Promise<ResponseList<LanguagesModel.Language>> {
+        const url = `${this.url}/languages`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**

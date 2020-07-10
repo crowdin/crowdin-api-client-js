@@ -6,17 +6,17 @@ export class TranslationStatus extends CrowdinApi {
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     getBranchProgress(
         projectId: number,
         branchId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -24,17 +24,17 @@ export class TranslationStatus extends CrowdinApi {
      * @param directoryId directory identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     getDirectoryProgress(
         projectId: number,
         directoryId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -42,17 +42,17 @@ export class TranslationStatus extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     getLanguageProgress(
         projectId: number,
         languageId: string,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
-        let url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -60,18 +60,18 @@ export class TranslationStatus extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param languageIds language identifier for filter
+     * @param fetchAll fetch all without pagination
      */
     getProjectProgress(
         projectId: number,
         limit?: number,
         offset?: number,
         languageIds?: string,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         let url = `${this.url}/projects/${projectId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -79,17 +79,17 @@ export class TranslationStatus extends CrowdinApi {
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     getFileProgress(
         projectId: number,
         fileId: number,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -99,6 +99,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param category defines the issue category
      * @param validation defines the QA check issue validation type
      * @param languageIds filter progress by languageId
+     * @param fetchAll fetch all without pagination
      */
     listQaCheckIssues(
         projectId: number,
@@ -107,14 +108,13 @@ export class TranslationStatus extends CrowdinApi {
         category?: TranslationStatusModel.Category,
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
+        fetchAll?: boolean,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-check`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'category', category);
         url = this.addQueryParam(url, 'validation', validation);
         url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset, fetchAll);
     }
 }
 

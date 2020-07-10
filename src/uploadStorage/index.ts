@@ -914,12 +914,15 @@ export class UploadStorage extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
-    listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>> {
-        let url = `${this.url}/storages`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+    listStorages(
+        limit?: number,
+        offset?: number,
+        fetchAll?: boolean,
+    ): Promise<ResponseList<UploadStorageModel.Storage>> {
+        const url = `${this.url}/storages`;
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -938,8 +941,13 @@ export class UploadStorage extends CrowdinApi {
         if (!!contentType) {
             config.headers['Content-Type'] = contentType;
         } else {
-            const fileExtrension = !!fileName && fileName.length > 0 ? fileName.split('.').pop() || '' : '';
-            config.headers['Content-Type'] = mimetypes[fileExtrension];
+            const fileNameParts = fileName.split('.');
+            let contentType;
+            if (fileNameParts.length > 1) {
+                const fileExtrension = fileNameParts[fileNameParts.length - 1];
+                contentType = mimetypes[fileExtrension];
+            }
+            config.headers['Content-Type'] = contentType || 'application/octet-stream';
         }
         return this.post(url, request, config);
     }

@@ -5,13 +5,20 @@ export class ProjectsGroups extends CrowdinApi {
      * @param parentId parent group identifier
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param fetchAll fetch all without pagination
      */
-    listGroups(parentId?: number, offset?: number, userId?: number): Promise<ResponseList<ProjectsGroupsModel.Group>> {
+    listGroups(
+        parentId?: number,
+        offset?: number,
+        userId?: number,
+        limit?: number,
+        fetchAll?: boolean,
+    ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
         let url = `${this.url}/groups`;
         url = this.addQueryParam(url, 'parentId', parentId);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'userId', userId);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**
@@ -52,19 +59,19 @@ export class ProjectsGroups extends CrowdinApi {
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fetchAll fetch all without pagination
      */
     listProjects(
         groupId?: number,
         hasManagerAccess?: BooleanInt,
         limit?: number,
         offset?: number,
+        fetchAll?: boolean,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', groupId);
         url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset, fetchAll);
     }
 
     /**

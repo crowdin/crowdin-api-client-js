@@ -200,6 +200,46 @@ export abstract class CrowdinApi {
         return CrowdinApi.AXIOS_INSTANCE;
     }
 
+    protected async getList<T = any>(
+        url: string,
+        limit?: number,
+        offset?: number,
+        fetchAll?: boolean,
+        config?: { headers: any },
+    ): Promise<ResponseList<T>> {
+        const conf = config || this.defaultConfig();
+        if (fetchAll) {
+            return this.fetchAll(url, conf);
+        } else {
+            url = this.addQueryParam(url, 'limit', limit);
+            url = this.addQueryParam(url, 'offset', offset);
+            return this.get(url, conf);
+        }
+    }
+
+    protected async fetchAll<T = any>(url: string, config?: { headers: any }): Promise<ResponseList<T>> {
+        const limit = 500;
+        let offset = 0;
+        let resp: ResponseList<T> | undefined;
+        for (;;) {
+            let urlWithPagination = this.addQueryParam(url, 'limit', limit);
+            urlWithPagination = this.addQueryParam(urlWithPagination, 'offset', offset);
+            const e: ResponseList<T> = await this.get(urlWithPagination, config);
+            if (!resp) {
+                resp = e;
+            } else {
+                resp.data = resp.data.concat(e.data);
+                resp.pagination.limit += e.data.length;
+            }
+            if (e.data.length < limit) {
+                break;
+            } else {
+                offset += limit;
+            }
+        }
+        return resp;
+    }
+
     //Http overrides
 
     protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
