@@ -218,15 +218,10 @@ export abstract class CrowdinApi {
     ): Promise<ResponseList<T>> {
         const conf = config || this.defaultConfig();
         if (this.fetchAllFlag) {
-            try {
-                const resp = await this.fetchAll(url, conf);
-                return resp;
-            } catch (e) {
-                throw e;
-            } finally {
-                this.fetchAllFlag = false;
-                this.maxLimit = undefined;
-            }
+            this.fetchAllFlag = false;
+            const maxAmount = this.maxLimit;
+            this.maxLimit = undefined;
+            return await this.fetchAll(url, conf, maxAmount);
         } else {
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -234,8 +229,15 @@ export abstract class CrowdinApi {
         }
     }
 
-    protected async fetchAll<T = any>(url: string, config?: { headers: any }): Promise<ResponseList<T>> {
-        const limit = 500;
+    protected async fetchAll<T = any>(
+        url: string,
+        config: { headers: any },
+        maxAmount?: number,
+    ): Promise<ResponseList<T>> {
+        let limit = 500;
+        if (!!maxAmount && maxAmount < limit) {
+            limit = maxAmount;
+        }
         let offset = 0;
         let resp: ResponseList<T> | undefined;
         for (;;) {
@@ -248,10 +250,15 @@ export abstract class CrowdinApi {
                 resp.data = resp.data.concat(e.data);
                 resp.pagination.limit += e.data.length;
             }
-            if (e.data.length < limit || (!!this.maxLimit && resp.data.length >= this.maxLimit)) {
+            if (e.data.length < limit || (!!maxAmount && resp.data.length >= maxAmount)) {
                 break;
             } else {
                 offset += limit;
+            }
+            if (!!maxAmount) {
+                if (maxAmount < resp.data.length + limit) {
+                    limit = maxAmount - resp.data.length;
+                }
             }
         }
         return resp;
