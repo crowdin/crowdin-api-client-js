@@ -238,7 +238,7 @@ export abstract class CrowdinApi {
         const limit = 500;
         let offset = 0;
         let resp: ResponseList<T> | undefined;
-        for (; ;) {
+        for (;;) {
             let urlWithPagination = this.addQueryParam(url, 'limit', limit);
             urlWithPagination = this.addQueryParam(urlWithPagination, 'offset', offset);
             const e: ResponseList<T> = await this.get(urlWithPagination, config);
