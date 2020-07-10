@@ -11,10 +11,8 @@ export class Distributions extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<DistributionsModel.Distribution>> {
-        let url = `${this.url}/projects/${projectId}/distributions`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/distributions`;
+        return this.getList(url, limit, offset);
     }
 
     /**

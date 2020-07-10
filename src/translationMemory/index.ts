@@ -13,9 +13,7 @@ export class TranslationMemory extends CrowdinApi {
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
         let url = `${this.url}/tms`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

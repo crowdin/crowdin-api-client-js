@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class MachineTranslation extends CrowdinApi {
     /**
@@ -13,9 +13,7 @@ export class MachineTranslation extends CrowdinApi {
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
         let url = `${this.url}/mts`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

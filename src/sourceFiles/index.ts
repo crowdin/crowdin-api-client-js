@@ -15,9 +15,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.Branch>> {
         let url = `${this.url}/projects/${projectId}/branches`;
         url = this.addQueryParam(url, 'name', name);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -81,9 +79,7 @@ export class SourceFiles extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/directories`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -170,10 +166,8 @@ export class SourceFiles extends CrowdinApi {
         }
         url = this.addQueryParam(url, 'branchId', request.branchId);
         url = this.addQueryParam(url, 'directoryId', request.directoryId);
-        url = this.addQueryParam(url, 'limit', request.limit);
-        url = this.addQueryParam(url, 'offset', request.offset);
         url = this.addQueryParam(url, 'recursion', request.recursion);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -255,10 +249,8 @@ export class SourceFiles extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
-        let url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -289,9 +281,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
         let url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
         url = this.addQueryParam(url, 'branchId', branchId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

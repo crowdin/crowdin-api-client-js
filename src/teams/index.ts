@@ -18,10 +18,8 @@ export class Teams extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>> {
-        let url = `${this.url}/teams`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/teams`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -63,10 +61,8 @@ export class Teams extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      */
     teamMembersList(teamId: number, limit?: number, offset?: number): Promise<ResponseList<TeamsModel.TeamMember>> {
-        let url = `${this.url}/teams/${teamId}/members`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/teams/${teamId}/members`;
+        return this.getList(url, limit, offset);
     }
 
     /**

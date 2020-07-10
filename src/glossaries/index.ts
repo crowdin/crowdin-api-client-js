@@ -9,9 +9,7 @@ export class Glossaries extends CrowdinApi {
     listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
         let url = `${this.url}/glossaries`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -122,9 +120,7 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         url = this.addQueryParam(url, 'userId', userId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

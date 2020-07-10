@@ -21,9 +21,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'translationId', translationId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -71,13 +69,15 @@ export class StringTranslations extends CrowdinApi {
         fileId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<StringTranslationsModel.LanguageTranslation>> {
+    ): Promise<
+        ResponseList<
+            StringTranslationsModel.PlainLanguageTranslation | StringTranslationsModel.PluralLanguageTranslation
+        >
+    > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
         url = this.addQueryParam(url, 'stringIds', stringIds);
         url = this.addQueryParam(url, 'fileId', fileId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -97,9 +97,7 @@ export class StringTranslations extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -179,9 +177,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'translationId', translationId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -239,11 +235,23 @@ export namespace StringTranslationsModel {
         createdAt: string;
     }
 
-    export interface LanguageTranslation {
+    export interface PlainLanguageTranslation {
         stringId: number;
         contentType: string;
         translationId: number;
         text: string;
+    }
+
+    export interface PluralLanguageTranslation {
+        stringId: number;
+        contentType: string;
+        plurals: Plural[];
+    }
+
+    export interface Plural {
+        translationId: number;
+        text: string;
+        pluralForm: string;
     }
 
     export interface AddStringTranslationRequest {

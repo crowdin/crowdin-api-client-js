@@ -19,9 +19,7 @@ export class Users extends CrowdinApi {
         url = this.addQueryParam(url, 'status', status);
         url = this.addQueryParam(url, 'search', search);
         url = this.addQueryParam(url, 'twoFactor', twoFactor);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

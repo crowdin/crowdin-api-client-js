@@ -13,10 +13,8 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -31,10 +29,8 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -49,10 +45,8 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
-        let url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -68,10 +62,8 @@ export class TranslationStatus extends CrowdinApi {
         languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         let url = `${this.url}/projects/${projectId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -86,10 +78,8 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        let url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -109,12 +99,10 @@ export class TranslationStatus extends CrowdinApi {
         languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-check`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'category', category);
         url = this.addQueryParam(url, 'validation', validation);
         url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 }
 

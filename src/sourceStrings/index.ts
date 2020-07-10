@@ -17,10 +17,8 @@ export class SourceStrings extends CrowdinApi {
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
         url = this.addQueryParam(url, 'fileId', fileId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'filter', filter);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

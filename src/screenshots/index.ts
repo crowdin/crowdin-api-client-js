@@ -11,10 +11,8 @@ export class Screenshots extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
-        let url = `${this.url}/projects/${projectId}/screenshots`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/screenshots`;
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -87,10 +85,8 @@ export class Screenshots extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
-        let url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
+        return this.getList(url, limit, offset);
     }
 
     /**

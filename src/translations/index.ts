@@ -53,9 +53,7 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseList<TranslationsModel.Build>> {
         let url = `${this.url}/projects/${projectId}/translations/builds`;
         url = this.addQueryParam(url, 'branchId', branchId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

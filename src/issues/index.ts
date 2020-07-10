@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject, PatchRequest } from '../core';
+import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Issues extends CrowdinApi {
     /**
@@ -16,11 +16,9 @@ export class Issues extends CrowdinApi {
         status?: IssuesModel.Status,
     ): Promise<ResponseList<IssuesModel.Issue>> {
         let url = `${this.url}/projects/${projectId}/issues`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
         url = this.addQueryParam(url, 'type', type);
         url = this.addQueryParam(url, 'status', status);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**

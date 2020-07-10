@@ -6,10 +6,8 @@ export class Vendors extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      */
     listVendors(limit?: number, offset?: number): Promise<ResponseList<VendorsModel.Vendor>> {
-        let url = `${this.url}/vendors`;
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        const url = `${this.url}/vendors`;
+        return this.getList(url, limit, offset);
     }
 }
 
