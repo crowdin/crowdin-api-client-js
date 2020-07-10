@@ -6,18 +6,16 @@ export class Tasks extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
-     * @param fetchAll fetch all without pagination
      */
     listTasks(
         projectId: number,
         limit?: number,
         offset?: number,
         status?: TasksModel.Status,
-        fetchAll?: boolean,
     ): Promise<ResponseList<TasksModel.Task>> {
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'status', status);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -62,19 +60,17 @@ export class Tasks extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
-     * @param fetchAll fetch all without pagination
      */
     listUserTasks(
         limit?: number,
         offset?: number,
         status?: TasksModel.Status,
         isArchived?: BooleanInt,
-        fetchAll?: boolean,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
         url = this.addQueryParam(url, 'status', status);
         url = this.addQueryParam(url, 'isArchived', isArchived);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

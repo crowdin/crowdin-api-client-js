@@ -7,7 +7,6 @@ export class Users extends CrowdinApi {
      * @param twoFactor filter users by two-factor authentication status
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listUsers(
         status?: UsersModel.Status,
@@ -15,13 +14,12 @@ export class Users extends CrowdinApi {
         twoFactor?: UsersModel.TwoFactor,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
         url = this.addQueryParam(url, 'status', status);
         url = this.addQueryParam(url, 'search', search);
         url = this.addQueryParam(url, 'twoFactor', twoFactor);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

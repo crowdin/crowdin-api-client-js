@@ -5,16 +5,14 @@ export class Distributions extends CrowdinApi {
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listDistributions(
         projectId: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<DistributionsModel.Distribution>> {
         const url = `${this.url}/projects/${projectId}/distributions`;
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

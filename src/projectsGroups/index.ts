@@ -6,19 +6,17 @@ export class ProjectsGroups extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
      * @param limit maximum number of items to retrieve (default 25)
-     * @param fetchAll fetch all without pagination
      */
     listGroups(
         parentId?: number,
         offset?: number,
         userId?: number,
         limit?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
         let url = `${this.url}/groups`;
         url = this.addQueryParam(url, 'parentId', parentId);
         url = this.addQueryParam(url, 'userId', userId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -59,19 +57,17 @@ export class ProjectsGroups extends CrowdinApi {
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listProjects(
         groupId?: number,
         hasManagerAccess?: BooleanInt,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', groupId);
         url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

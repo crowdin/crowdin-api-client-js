@@ -914,15 +914,10 @@ export class UploadStorage extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
-    listStorages(
-        limit?: number,
-        offset?: number,
-        fetchAll?: boolean,
-    ): Promise<ResponseList<UploadStorageModel.Storage>> {
+    listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages`;
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

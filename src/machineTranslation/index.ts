@@ -5,17 +5,15 @@ export class MachineTranslation extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listMts(
         groupId: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
         let url = `${this.url}/mts`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

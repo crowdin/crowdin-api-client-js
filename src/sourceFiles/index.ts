@@ -15,9 +15,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.Branch>> {
         let url = `${this.url}/projects/${projectId}/branches`;
         url = this.addQueryParam(url, 'name', name);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -81,9 +79,7 @@ export class SourceFiles extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/directories`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
-        url = this.addQueryParam(url, 'limit', limit);
-        url = this.addQueryParam(url, 'offset', offset);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -151,7 +147,6 @@ export class SourceFiles extends CrowdinApi {
         limit?: number,
         offset?: number,
         recursion?: any,
-        fetchAll?: boolean,
     ): Promise<ResponseList<SourceFilesModel.File>>;
 
     listProjectFiles(
@@ -161,19 +156,18 @@ export class SourceFiles extends CrowdinApi {
         limit?: number,
         offset?: number,
         recursion?: any,
-        fetchAll?: boolean,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
         let request: SourceFilesModel.ListProjectFilesRequest;
         if (branchIdOrRequest && typeof branchIdOrRequest === 'object') {
             request = branchIdOrRequest;
         } else {
-            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion, fetchAll };
+            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion };
         }
         url = this.addQueryParam(url, 'branchId', request.branchId);
         url = this.addQueryParam(url, 'directoryId', request.directoryId);
         url = this.addQueryParam(url, 'recursion', request.recursion);
-        return this.getList(url, request.limit, request.offset, request.fetchAll);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -248,17 +242,15 @@ export class SourceFiles extends CrowdinApi {
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listFileRevisions(
         projectId: number,
         fileId: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -280,18 +272,16 @@ export class SourceFiles extends CrowdinApi {
      * @param branchId filter builds by branchId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listReviewedSourceFilesBuild(
         projectId: number,
         branchId?: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
         let url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
         url = this.addQueryParam(url, 'branchId', branchId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -381,7 +371,6 @@ export namespace SourceFilesModel {
         limit?: number;
         offset?: number;
         recursion?: any;
-        fetchAll?: boolean;
     }
 
     export interface File {

@@ -5,17 +5,11 @@ export class Glossaries extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
-    listGlossaries(
-        groupId: number,
-        limit?: number,
-        offset?: number,
-        fetchAll?: boolean,
-    ): Promise<ResponseList<GlossariesModel.Glossary>> {
+    listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
         let url = `${this.url}/glossaries`;
         url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -117,18 +111,16 @@ export class Glossaries extends CrowdinApi {
      * @param userId list user glossaries
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listTerms(
         glossaryId: number,
         userId?: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         url = this.addQueryParam(url, 'userId', userId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**

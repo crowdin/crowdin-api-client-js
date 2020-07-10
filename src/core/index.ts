@@ -123,6 +123,8 @@ export abstract class CrowdinApi {
     readonly config: ClientConfig | undefined;
     readonly retryService: RetryService;
 
+    protected fetchAllFlag = false;
+
     /**
      * @param credentials credentials
      * @param config optional configuration of the client
@@ -200,16 +202,23 @@ export abstract class CrowdinApi {
         return CrowdinApi.AXIOS_INSTANCE;
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    public withFetchAll() {
+        this.fetchAllFlag = true;
+        return this;
+    }
+
     protected async getList<T = any>(
         url: string,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
         config?: { headers: any },
     ): Promise<ResponseList<T>> {
         const conf = config || this.defaultConfig();
-        if (fetchAll) {
-            return this.fetchAll(url, conf);
+        if (this.fetchAllFlag) {
+            const resp = await this.fetchAll(url, conf);
+            this.fetchAllFlag = false;
+            return resp;
         } else {
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);

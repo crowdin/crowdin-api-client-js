@@ -8,7 +8,6 @@ export class StringTranslations extends CrowdinApi {
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listTranslationApprovals(
         projectId: number,
@@ -17,13 +16,12 @@ export class StringTranslations extends CrowdinApi {
         translationId?: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'translationId', translationId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -63,7 +61,6 @@ export class StringTranslations extends CrowdinApi {
      * @param fileId filter translations by fileId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listLanguageTranslations(
         projectId: number,
@@ -72,7 +69,6 @@ export class StringTranslations extends CrowdinApi {
         fileId?: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<
         ResponseList<
             StringTranslationsModel.PlainLanguageTranslation | StringTranslationsModel.PluralLanguageTranslation
@@ -81,7 +77,7 @@ export class StringTranslations extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
         url = this.addQueryParam(url, 'stringIds', stringIds);
         url = this.addQueryParam(url, 'fileId', fileId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -90,7 +86,6 @@ export class StringTranslations extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listStringTranslations(
         projectId: number,
@@ -98,12 +93,11 @@ export class StringTranslations extends CrowdinApi {
         languageId: string,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
@@ -170,7 +164,6 @@ export class StringTranslations extends CrowdinApi {
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @param fetchAll fetch all without pagination
      */
     listTranslationVotes(
         projectId: number,
@@ -179,13 +172,12 @@ export class StringTranslations extends CrowdinApi {
         translationId?: number,
         limit?: number,
         offset?: number,
-        fetchAll?: boolean,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'translationId', translationId);
-        return this.getList(url, limit, offset, fetchAll);
+        return this.getList(url, limit, offset);
     }
 
     /**
