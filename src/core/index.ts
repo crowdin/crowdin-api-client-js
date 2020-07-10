@@ -124,6 +124,7 @@ export abstract class CrowdinApi {
     readonly retryService: RetryService;
 
     protected fetchAllFlag = false;
+    protected maxLimit: number | undefined;
 
     /**
      * @param credentials credentials
@@ -203,8 +204,9 @@ export abstract class CrowdinApi {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    public withFetchAll() {
+    public withFetchAll(maxLimit?: number) {
         this.fetchAllFlag = true;
+        this.maxLimit = maxLimit;
         return this;
     }
 
@@ -216,9 +218,15 @@ export abstract class CrowdinApi {
     ): Promise<ResponseList<T>> {
         const conf = config || this.defaultConfig();
         if (this.fetchAllFlag) {
-            const resp = await this.fetchAll(url, conf);
-            this.fetchAllFlag = false;
-            return resp;
+            try {
+                const resp = await this.fetchAll(url, conf);
+                return resp;
+            } catch (e) {
+                throw e;
+            } finally {
+                this.fetchAllFlag = false;
+                this.maxLimit = undefined;
+            }
         } else {
             url = this.addQueryParam(url, 'limit', limit);
             url = this.addQueryParam(url, 'offset', offset);
@@ -230,7 +238,7 @@ export abstract class CrowdinApi {
         const limit = 500;
         let offset = 0;
         let resp: ResponseList<T> | undefined;
-        for (;;) {
+        for (; ;) {
             let urlWithPagination = this.addQueryParam(url, 'limit', limit);
             urlWithPagination = this.addQueryParam(urlWithPagination, 'offset', offset);
             const e: ResponseList<T> = await this.get(urlWithPagination, config);
@@ -240,7 +248,7 @@ export abstract class CrowdinApi {
                 resp.data = resp.data.concat(e.data);
                 resp.pagination.limit += e.data.length;
             }
-            if (e.data.length < limit) {
+            if (e.data.length < limit || (!!this.maxLimit && resp.data.length >= this.maxLimit)) {
                 break;
             } else {
                 offset += limit;

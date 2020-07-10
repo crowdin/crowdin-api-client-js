@@ -160,6 +160,34 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 
 Or even pass your own http client as `httpClient` property which should implement `HttpClient` interface.
 
+### Fetch all records
+
+It is possible to fetch all records from paginatable methods (where we have limit and offset in arguments).
+
+```javascript
+import { ProjectsGroups } from '@crowdin/crowdin-api-client';
+
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups({
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
+});
+
+// get all projects
+projectsGroupsApi
+  .withFetchAll()
+  .listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+
+// get projects but not more than 1000
+projectsGroupsApi
+  .withFetchAll(1000)
+  .listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+```
+
 ### Retry configuration
 
 There is a possibility to configure client invoke http calls with retry mechanism.
