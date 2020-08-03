@@ -98,7 +98,7 @@ export class TranslationStatus extends CrowdinApi {
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
-        let url = `${this.url}/projects/${projectId}/qa-check`;
+        let url = `${this.url}/projects/${projectId}/qa-checks`;
         url = this.addQueryParam(url, 'category', category);
         url = this.addQueryParam(url, 'validation', validation);
         url = this.addQueryParam(url, 'languageIds', languageIds);

@@ -52,9 +52,28 @@ export namespace IssuesModel {
         text: string;
         userId: number;
         stringId: number;
+        user: User;
+        string: string;
         languageId: string;
         type: Type;
         status: Status;
         createdAt: string;
+    }
+
+    export interface User {
+        id: number;
+        username: string;
+        fullName: string;
+        avatarUrl: string;
+    }
+
+    export interface String {
+        id: number;
+        text: string;
+        type: string;
+        hasPlurals: boolean;
+        isIcu: boolean;
+        context: string;
+        fileId: number;
     }
 }

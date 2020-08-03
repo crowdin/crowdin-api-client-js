@@ -1,4 +1,4 @@
-import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Tasks extends CrowdinApi {
     /**
@@ -25,6 +25,11 @@ export class Tasks extends CrowdinApi {
     addTask(projectId: number, request: TasksModel.CreateTaskRequest): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks`;
         return this.post(url, request, this.defaultConfig());
+    }
+
+    exportTaskStrings(projectId: number, taskId: number): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/exports`;
+        return this.post(url, undefined, this.defaultConfig());
     }
 
     /**
@@ -120,7 +125,7 @@ export namespace TasksModel {
     }
 
     export interface CreateTaskRequest {
-        workflowStepId: number;
+        workflowStepId?: number;
         status?: Status;
         title: string;
         description?: string;

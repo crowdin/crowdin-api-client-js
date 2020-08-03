@@ -104,8 +104,20 @@ export class Translations extends CrowdinApi {
         projectId: number,
         languageId: string,
         request: TranslationsModel.UploadTranslationRequest,
-    ): Promise<void> {
+    ): Promise<ResponseObject<TranslationsModel.UploadTranslationResponse>> {
         const url = `${this.url}/projects/${projectId}/translations/${languageId}`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     */
+    exportProjectTranslation(
+        projectId: number,
+        request: TranslationsModel.ExportProjectTranslationRequest,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/translations/exports`;
         return this.post(url, request, this.defaultConfig());
     }
 }
@@ -140,9 +152,6 @@ export namespace TranslationsModel {
         duplicateTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
-        organizationId: number;
-        projectId: number;
-        userId: number;
     }
 
     export enum Method {
@@ -203,5 +212,23 @@ export namespace TranslationsModel {
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         markAddedTranslationsAsDone?: boolean;
+    }
+
+    export interface UploadTranslationResponse {
+        projectId: number;
+        storageId: number;
+        languageId: string;
+        fileId: number;
+    }
+
+    export interface ExportProjectTranslationRequest {
+        targetLanguageId: string;
+        format?: string;
+        branchIds?: number[];
+        directoryIds?: number[];
+        fileIds?: number[];
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        exportWithMinApprovalsCount?: number;
     }
 }

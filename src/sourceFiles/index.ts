@@ -384,6 +384,7 @@ export namespace SourceFilesModel {
         revisionId: number;
         status: string;
         priority: Priority;
+        path: string;
         importOptions: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions: GeneralExportOptions | PropertyExportOptions;
         createdAt: string;

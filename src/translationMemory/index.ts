@@ -53,6 +53,14 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     */
+    clearTm(tmId: number): Promise<void> {
+        const url = `${this.url}/tms/${tmId}/segments`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
      * @param exportId export identifier
      */
     downloadTm(tmId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
@@ -143,8 +151,6 @@ export namespace TranslationMemoryModel {
         sourceLanguageId: string;
         targetLanguageId: string;
         format: string;
-        tmId: number;
-        userId: number;
     }
 
     export interface ImportTranslationMemoryAttribute {
@@ -152,8 +158,6 @@ export namespace TranslationMemoryModel {
         storageId: number;
         firstLineContainsHeader: number;
         scheme: Scheme;
-        organizationId: number;
-        userId: number;
     }
 
     export enum Format {

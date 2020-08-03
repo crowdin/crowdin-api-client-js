@@ -15,6 +15,8 @@ describe('Tasks API', () => {
     const workflowStepId = 40;
     const type = TasksModel.Type.TRANSLATE;
 
+    const link = 'test.com';
+
     const limit = 25;
 
     beforeAll(() => {
@@ -55,6 +57,16 @@ describe('Tasks API', () => {
             .reply(200, {
                 data: {
                     id: taskId,
+                },
+            })
+            .post(`/projects/${projectId}/tasks/${taskId}/exports`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
                 },
             })
             .get(`/projects/${projectId}/tasks/${taskId}`, undefined, {
@@ -155,6 +167,11 @@ describe('Tasks API', () => {
             type: type,
         });
         expect(task.data.id).toBe(taskId);
+    });
+
+    it('Export task strings', async () => {
+        const res = await api.exportTaskStrings(projectId, taskId);
+        expect(res.data.url).toBe(link);
     });
 
     it('Get task', async () => {
