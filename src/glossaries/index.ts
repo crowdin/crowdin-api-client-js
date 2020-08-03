@@ -207,17 +207,12 @@ export namespace GlossariesModel {
 
     export interface GlossaryExportStatusAttribute {
         format: string;
-        organizationId: number;
-        glossaryId: number;
     }
 
     export interface GlossaryImportStatusAttribute {
         storageId: number;
         scheme: any;
         firstLineContainsHeader: boolean;
-        organizationId: number;
-        userId: number;
-        glossaryId: number;
     }
 
     export interface GlossaryFile {

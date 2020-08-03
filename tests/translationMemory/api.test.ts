@@ -95,6 +95,12 @@ describe('Translation Memory API', () => {
                     name: name,
                 },
             })
+            .delete(`/tms/${tmId}/segments`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
             .get(`/tms/${tmId}/exports/${exportId}/download`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -195,6 +201,10 @@ describe('Translation Memory API', () => {
         ]);
         expect(tm.data.id).toBe(tmId);
         expect(tm.data.name).toBe(name);
+    });
+
+    it('Clear TM', async () => {
+        await api.clearTm(tmId);
     });
 
     it('Download TM', async () => {

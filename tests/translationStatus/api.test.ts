@@ -119,7 +119,7 @@ describe('Translation Status API', () => {
                     limit: limit,
                 },
             })
-            .get(`/projects/${projectId}/qa-check`, undefined, {
+            .get(`/projects/${projectId}/qa-checks`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },

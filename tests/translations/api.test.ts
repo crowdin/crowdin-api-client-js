@@ -134,7 +134,30 @@ describe('Translations API', () => {
                     },
                 },
             )
-            .reply(200);
+            .reply(200, {
+                data: {
+                    fileId,
+                    storageId,
+                    languageId,
+                    projectId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/translations/exports`,
+                {
+                    targetLanguageId: languageId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    url: url,
+                },
+            });
     });
 
     afterAll(() => {
@@ -188,9 +211,20 @@ describe('Translations API', () => {
     });
 
     it('Upload Translation', async () => {
-        await api.uploadTranslation(projectId, languageId, {
+        const res = await api.uploadTranslation(projectId, languageId, {
             storageId: storageId,
             fileId: fileId,
         });
+        expect(res.data.fileId).toBe(fileId);
+        expect(res.data.languageId).toBe(languageId);
+        expect(res.data.projectId).toBe(projectId);
+        expect(res.data.storageId).toBe(storageId);
+    });
+
+    it('Export Project Translation', async () => {
+        const res = await api.exportProjectTranslation(projectId, {
+            targetLanguageId: languageId,
+        });
+        expect(res.data.url).toBe(url);
     });
 });

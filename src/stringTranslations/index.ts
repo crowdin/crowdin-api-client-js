@@ -8,6 +8,7 @@ export class StringTranslations extends CrowdinApi {
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param fileId file identifier
      */
     listTranslationApprovals(
         projectId: number,
@@ -16,11 +17,13 @@ export class StringTranslations extends CrowdinApi {
         translationId?: number,
         limit?: number,
         offset?: number,
+        fileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'translationId', translationId);
+        url = this.addQueryParam(url, 'fileId', fileId);
         return this.getList(url, limit, offset);
     }
 
@@ -154,7 +157,7 @@ export class StringTranslations extends CrowdinApi {
         translationId: number,
     ): Promise<ResponseObject<StringTranslationsModel.StringTranslation>> {
         const url = `${this.url}/projects/${projectId}/translations/${translationId}/restore`;
-        return this.post(url, undefined, this.defaultConfig());
+        return this.put(url, undefined, this.defaultConfig());
     }
 
     /**

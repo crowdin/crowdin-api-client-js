@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseObject, DownloadLink, Status } from '../core';
+import { CrowdinApi, DownloadLink, ResponseObject, Status } from '../core';
 
 export class Reports extends CrowdinApi {
     /**
@@ -42,8 +42,6 @@ export namespace ReportsModel {
     }
 
     export interface ReportStatusAttributes {
-        organizationId: number;
-        projectId: number;
         format: Format;
         reportName: string;
         schema: any;
