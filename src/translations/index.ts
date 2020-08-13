@@ -62,7 +62,7 @@ export class Translations extends CrowdinApi {
      */
     buildProject(
         projectId: number,
-        request: TranslationsModel.BuildRequest | TranslationsModel.PseudoBuildRequest,
+        request: TranslationsModel.BuildRequest | TranslationsModel.PseudoBuildRequest = {},
     ): Promise<ResponseObject<TranslationsModel.Build>> {
         const url = `${this.url}/projects/${projectId}/translations/builds`;
         return this.post(url, request, this.defaultConfig());

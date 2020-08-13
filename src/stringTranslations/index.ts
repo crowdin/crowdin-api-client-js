@@ -157,7 +157,7 @@ export class StringTranslations extends CrowdinApi {
         translationId: number,
     ): Promise<ResponseObject<StringTranslationsModel.StringTranslation>> {
         const url = `${this.url}/projects/${projectId}/translations/${translationId}/restore`;
-        return this.put(url, undefined, this.defaultConfig());
+        return this.put(url, {}, this.defaultConfig());
     }
 
     /**
