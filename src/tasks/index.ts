@@ -29,7 +29,7 @@ export class Tasks extends CrowdinApi {
 
     exportTaskStrings(projectId: number, taskId: number): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}/exports`;
-        return this.post(url, undefined, this.defaultConfig());
+        return this.post(url, {}, this.defaultConfig());
     }
 
     /**
@@ -131,7 +131,6 @@ export namespace TasksModel {
         description?: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
         splitFiles?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;

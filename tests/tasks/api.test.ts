@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, Tasks, TasksModel } from '../../src';
+import { Credentials, PatchOperation, Tasks } from '../../src';
 
 describe('Tasks API', () => {
     let scope: nock.Scope;
@@ -13,8 +13,6 @@ describe('Tasks API', () => {
     const taskTitle = 'Test title';
     const languageId = 'fr';
     const workflowStepId = 40;
-    const type = TasksModel.Type.TRANSLATE;
-
     const link = 'test.com';
 
     const limit = 25;
@@ -45,7 +43,6 @@ describe('Tasks API', () => {
                     title: taskTitle,
                     languageId: languageId,
                     fileIds: [],
-                    type: type,
                     workflowStepId: workflowStepId,
                 },
                 {
@@ -59,11 +56,15 @@ describe('Tasks API', () => {
                     id: taskId,
                 },
             })
-            .post(`/projects/${projectId}/tasks/${taskId}/exports`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
+            .post(
+                `/projects/${projectId}/tasks/${taskId}/exports`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
                 },
-            })
+            )
             .reply(200, {
                 data: {
                     url: link,
@@ -164,7 +165,6 @@ describe('Tasks API', () => {
             languageId: languageId,
             workflowStepId: workflowStepId,
             fileIds: [],
-            type: type,
         });
         expect(task.data.id).toBe(taskId);
     });

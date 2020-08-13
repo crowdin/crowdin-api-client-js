@@ -155,11 +155,15 @@ describe('String Translations API', () => {
                 },
             })
             .reply(200)
-            .put(`/projects/${projectId}/translations/${translationId}/restore`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
+            .put(
+                `/projects/${projectId}/translations/${translationId}/restore`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
                 },
-            })
+            )
             .reply(200, {
                 data: {
                     id: translationId,
