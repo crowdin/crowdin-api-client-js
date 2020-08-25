@@ -1,4 +1,5 @@
 import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { LanguagesModel } from '../languages';
 
 export class ProjectsGroups extends CrowdinApi {
     /**
@@ -153,6 +154,7 @@ export namespace ProjectsGroupsModel {
         createdAt: string;
         updatedAt: string;
         lastActivity: string;
+        targetLanguages: LanguagesModel.Language[];
     }
 
     export interface CreateProjectRequest {
