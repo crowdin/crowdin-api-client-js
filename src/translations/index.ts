@@ -29,14 +29,20 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
+     * @param eTag eTag 'If-None-Match' header
      */
     buildProjectFileTranslation(
         projectId: number,
         fileId: number,
         request: TranslationsModel.BuildProjectFileTranslationRequest,
-    ): Promise<ResponseObject<DownloadLink>> {
+        eTag?: string,
+    ): Promise<ResponseObject<TranslationsModel.BuildProjectFileTranslationResponse>> {
         const url = `${this.url}/projects/${projectId}/translations/builds/files/${fileId}`;
-        return this.post(url, request, this.defaultConfig());
+        const config = this.defaultConfig();
+        if (!!eTag) {
+            config.headers['If-None-Match'] = eTag;
+        }
+        return this.post(url, request, config);
     }
 
     /**
@@ -142,6 +148,10 @@ export namespace TranslationsModel {
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
         exportWithMinApprovalsCount?: number;
+    }
+
+    export interface BuildProjectFileTranslationResponse extends DownloadLink {
+        etag: string;
     }
 
     export interface PreTranslationStatusAttributes {
