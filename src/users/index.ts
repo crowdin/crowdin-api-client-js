@@ -35,9 +35,28 @@ export class Users extends CrowdinApi {
         return this.get(url, this.defaultConfig());
     }
 
-    listProjectMembers(projectId: number): Promise<ResponseList<UsersModel.ProjectMember>> {
-        const url = `${this.url}/projects/${projectId}/members`;
-        return this.get(url, this.defaultConfig());
+    /**
+     *
+     * @param projectId project identifier
+     * @param search search users by firstName, lastName or username
+     * @param role defines role type
+     * @param languageId language identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     */
+    listProjectMembers(
+        projectId: number,
+        search?: string,
+        role?: UsersModel.Role,
+        languageId?: string,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<UsersModel.ProjectMember>> {
+        let url = `${this.url}/projects/${projectId}/members`;
+        url = this.addQueryParam(url, 'search', search);
+        url = this.addQueryParam(url, 'role', role);
+        url = this.addQueryParam(url, 'languageId', languageId);
+        return this.getList(url, limit, offset);
     }
 
     getMemberInfo(projectId: number, memberId: number): Promise<ResponseObject<UsersModel.ProjectMember>> {
@@ -77,8 +96,18 @@ export namespace UsersModel {
         id: number;
         username: string;
         fullName: string;
+        role: Role;
+        permissions: any;
         avatarUrl: string;
         joinedAt: string;
         timezone: string;
+    }
+
+    export enum Role {
+        ALL = 'all',
+        MANAGER = 'manager',
+        PROOFREADER = 'proofreader',
+        TRANSLATOR = 'translator',
+        BLOCKED = 'blocked',
     }
 }
