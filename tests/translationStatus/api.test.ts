@@ -71,6 +71,7 @@ describe('Translation Status API', () => {
                             phrases: {
                                 total: phrasesCount,
                             },
+                            fileId: fileId,
                         },
                     },
                 ],
@@ -161,6 +162,7 @@ describe('Translation Status API', () => {
         const progress = await api.getLanguageProgress(projectId, languageId);
         expect(progress.data.length).toBe(1);
         expect(progress.data[0].data.phrases.total).toBe(phrasesCount);
+        expect(progress.data[0].data.fileId).toBe(fileId);
         expect(progress.pagination.limit).toBe(limit);
     });
 

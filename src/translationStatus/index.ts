@@ -117,7 +117,7 @@ export namespace TranslationStatusModel {
     }
 
     export interface FileProgress {
-        fileId: string;
+        fileId: number;
         words: Words;
         phrases: Words;
         translationProgress: number;
