@@ -235,6 +235,7 @@ export namespace TranslationsModel {
     export interface ExportProjectTranslationRequest {
         targetLanguageId: string;
         format?: string;
+        labelIds?: number[];
         branchIds?: number[];
         directoryIds?: number[];
         fileIds?: number[];

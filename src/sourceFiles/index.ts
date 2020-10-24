@@ -199,7 +199,7 @@ export class SourceFiles extends CrowdinApi {
     updateOrRestoreFile(
         projectId: number,
         fileId: number,
-        request: SourceFilesModel.UpdateOrRestoreFileRequest,
+        request: SourceFilesModel.ReplaceFileFromStorageRequest | SourceFilesModel.RestoreFile,
     ): Promise<ResponseObject<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
         return this.put(url, request, this.defaultConfig());
@@ -400,13 +400,20 @@ export namespace SourceFilesModel {
         type?: FileType;
         importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
+        attachLabelIds?: number[];
     }
 
-    export interface UpdateOrRestoreFileRequest {
+    export interface ReplaceFileFromStorageRequest {
         storageId: number;
         updateOption?: UpdateOption;
         importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
+        attachLabelIds?: number[];
+        detachLabelIds?: number[];
+    }
+
+    export interface RestoreFile {
+        revisionId: number;
     }
 
     export interface FileRevision {
