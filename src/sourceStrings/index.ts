@@ -1,12 +1,20 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class SourceStrings extends CrowdinApi {
+    listProjectStrings(
+        projectId: number,
+        request: SourceStringsModel.ListProjectStringsRequest,
+    ): Promise<ResponseList<SourceStringsModel.String>>;
+
     /**
      * @param projectId project identifier
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param filter filter strings by text and context
+     * @param denormalizePlaceholders enable denormalize placeholders
+     * @param labelIds filter strings by labelIds
+     * @param scope specify field to be the target of filtering
      */
     listProjectStrings(
         projectId: number,
@@ -14,11 +22,34 @@ export class SourceStrings extends CrowdinApi {
         limit?: number,
         offset?: number,
         filter?: string,
+        denormalizePlaceholders?: BooleanInt,
+        labelIds?: string,
+        scope?: SourceStringsModel.Scope,
+    ): Promise<ResponseList<SourceStringsModel.String>>;
+
+    listProjectStrings(
+        projectId: number,
+        fileIdOrRequest?: number | SourceStringsModel.ListProjectStringsRequest,
+        limit?: number,
+        offset?: number,
+        filter?: string,
+        denormalizePlaceholders?: BooleanInt,
+        labelIds?: string,
+        scope?: SourceStringsModel.Scope,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
-        url = this.addQueryParam(url, 'fileId', fileId);
-        url = this.addQueryParam(url, 'filter', filter);
-        return this.getList(url, limit, offset);
+        let request: SourceStringsModel.ListProjectStringsRequest;
+        if (fileIdOrRequest && typeof fileIdOrRequest === 'object') {
+            request = fileIdOrRequest;
+        } else {
+            request = { fileId: fileIdOrRequest, limit, offset, filter, denormalizePlaceholders, labelIds, scope };
+        }
+        url = this.addQueryParam(url, 'fileId', request.fileId);
+        url = this.addQueryParam(url, 'filter', request.filter);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', request.denormalizePlaceholders);
+        url = this.addQueryParam(url, 'labelIds', request.labelIds);
+        url = this.addQueryParam(url, 'scope', request.scope);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -67,6 +98,16 @@ export class SourceStrings extends CrowdinApi {
 }
 
 export namespace SourceStringsModel {
+    export interface ListProjectStringsRequest {
+        fileId?: number;
+        limit?: number;
+        offset?: number;
+        filter?: string;
+        denormalizePlaceholders?: BooleanInt;
+        labelIds?: string;
+        scope?: SourceStringsModel.Scope;
+    }
+
     export interface String {
         id: number;
         projectId: number;
@@ -80,6 +121,7 @@ export namespace SourceStringsModel {
         revision: number;
         hasPlurals: boolean;
         isIcu: boolean;
+        labelIds: number[];
         createdAt: string;
         updatedAt: string;
     }
@@ -106,5 +148,11 @@ export namespace SourceStringsModel {
         TEXT = 0,
         ASSET = 1,
         ICU = 2,
+    }
+
+    export enum Scope {
+        IDENTIFIER = 'identifier',
+        TEXT = 'text',
+        CONTEXT = 'context',
     }
 }
