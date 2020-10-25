@@ -3,6 +3,7 @@ import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
 import { Glossaries } from './glossaries';
 import { Issues } from './issues';
+import { Labels } from './labels';
 import { Languages } from './languages';
 import { MachineTranslation } from './machineTranslation';
 import { ProjectsGroups } from './projectsGroups';
@@ -27,6 +28,7 @@ export * from './dictionaries';
 export * from './distributions';
 export * from './glossaries';
 export * from './issues';
+export * from './labels';
 export * from './languages';
 export * from './machineTranslation';
 export * from './projectsGroups';
@@ -69,6 +71,7 @@ export default class Client {
     readonly teamsApi: Teams;
     readonly distributionsApi: Distributions;
     readonly dictionariesApi: Dictionaries;
+    readonly labelsApi: Labels;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -93,5 +96,6 @@ export default class Client {
         this.teamsApi = new Teams(credentials, config);
         this.distributionsApi = new Distributions(credentials, config);
         this.dictionariesApi = new Dictionaries(credentials, config);
+        this.labelsApi = new Labels(credentials, config);
     }
 }
