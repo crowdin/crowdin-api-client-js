@@ -183,7 +183,7 @@ describe('Labels API', () => {
         expect(strings.data[0].data.id).toBe(stringId);
     });
 
-    it('Unassign Label to Strings', async () => {
+    it('Unassign Label from Strings', async () => {
         const strings = await api.unassignLabelFromString(projectId, labelId, `${stringId}`);
         expect(strings.pagination.limit).toBe(limit);
         expect(strings.data.length).toBe(1);
