@@ -1,4 +1,5 @@
 import { ClientConfig, Credentials } from './core';
+import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
 import { Glossaries } from './glossaries';
 import { Issues } from './issues';
@@ -22,6 +23,7 @@ import { Webhooks } from './webhooks';
 import { Workflows } from './workflows';
 
 export * from './core';
+export * from './dictionaries';
 export * from './distributions';
 export * from './glossaries';
 export * from './issues';
@@ -66,6 +68,7 @@ export default class Client {
     readonly issuesApi: Issues;
     readonly teamsApi: Teams;
     readonly distributionsApi: Distributions;
+    readonly dictionariesApi: Dictionaries;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -89,5 +92,6 @@ export default class Client {
         this.issuesApi = new Issues(credentials, config);
         this.teamsApi = new Teams(credentials, config);
         this.distributionsApi = new Distributions(credentials, config);
+        this.dictionariesApi = new Dictionaries(credentials, config);
     }
 }

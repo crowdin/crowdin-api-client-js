@@ -72,7 +72,7 @@ export interface Error {
 }
 
 export interface PatchRequest {
-    value: any;
+    value?: any;
     op: PatchOperation;
     path: string;
 }
