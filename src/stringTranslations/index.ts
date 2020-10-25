@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, ResponseList, ResponseObject } from '../core';
 
 export class StringTranslations extends CrowdinApi {
     /**
@@ -64,6 +64,8 @@ export class StringTranslations extends CrowdinApi {
      * @param fileId filter translations by fileId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param labelIds filter translations by fileId
+     * @param denormalizePlaceholders enable denormalize placeholders
      */
     listLanguageTranslations(
         projectId: number,
@@ -72,14 +74,20 @@ export class StringTranslations extends CrowdinApi {
         fileId?: number,
         limit?: number,
         offset?: number,
+        labelIds?: string,
+        denormalizePlaceholders?: BooleanInt,
     ): Promise<
         ResponseList<
-            StringTranslationsModel.PlainLanguageTranslation | StringTranslationsModel.PluralLanguageTranslation
+            | StringTranslationsModel.PlainLanguageTranslation
+            | StringTranslationsModel.PluralLanguageTranslation
+            | StringTranslationsModel.IcuLanguageTranslation
         >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
         url = this.addQueryParam(url, 'stringIds', stringIds);
         url = this.addQueryParam(url, 'fileId', fileId);
+        url = this.addQueryParam(url, 'labelIds', labelIds);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', denormalizePlaceholders);
         return this.getList(url, limit, offset);
     }
 
@@ -89,6 +97,7 @@ export class StringTranslations extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param denormalizePlaceholders enable denormalize placeholders
      */
     listStringTranslations(
         projectId: number,
@@ -96,10 +105,12 @@ export class StringTranslations extends CrowdinApi {
         languageId: string,
         limit?: number,
         offset?: number,
+        denormalizePlaceholders?: BooleanInt,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', denormalizePlaceholders);
         return this.getList(url, limit, offset);
     }
 
@@ -243,6 +254,8 @@ export namespace StringTranslationsModel {
         contentType: string;
         translationId: number;
         text: string;
+        user: User;
+        createdAt: string;
     }
 
     export interface PluralLanguageTranslation {
@@ -251,10 +264,21 @@ export namespace StringTranslationsModel {
         plurals: Plural[];
     }
 
+    export interface IcuLanguageTranslation {
+        stringId: number;
+        contentType: string;
+        translationId: number;
+        text: string;
+        user: User;
+        createdAt: string;
+    }
+
     export interface Plural {
         translationId: number;
         text: string;
         pluralForm: string;
+        user: User;
+        createdAt: string;
     }
 
     export interface AddStringTranslationRequest {
@@ -279,7 +303,9 @@ export namespace StringTranslationsModel {
 
     export interface User {
         id: number;
-        login: string;
+        username: string;
+        fullName: string;
+        avatarUrl: string;
     }
 
     export enum Mark {

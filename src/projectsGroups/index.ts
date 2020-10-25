@@ -176,6 +176,8 @@ export namespace ProjectsGroupsModel {
         languageAccessPolicy?: LanguageAccessPolicy;
         visibility?: JoinPolicy;
         identifier?: string;
+        normalizePlaceholder?: boolean;
+        saveMetaInfoInSource?: boolean;
     }
 
     export interface ProjectSettings extends Project {
@@ -188,6 +190,8 @@ export namespace ProjectsGroupsModel {
         exportWithMinApprovalsCount: number;
         autoTranslateDialects: boolean;
         useGlobalTm: boolean;
+        normalizePlaceholder: boolean;
+        saveMetaInfoInSource: boolean;
         inContext: boolean;
         inContextPseudoLanguageId: string;
         isSuspended: string;
@@ -195,6 +199,7 @@ export namespace ProjectsGroupsModel {
         qaCheckCategories: CheckCategories;
         customQaCheckIds: number[];
         languageMapping: LanguageMapping;
+        inContextPseudoLanguage: LanguagesModel.Language;
     }
 
     export enum Type {

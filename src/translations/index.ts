@@ -180,6 +180,7 @@ export namespace TranslationsModel {
         ASIAN = 'asian',
         EUROPEAN = 'european',
         ARABIC = 'arabic',
+        CYRILLIC = 'cyrillic',
     }
 
     export interface Build {
@@ -213,7 +214,7 @@ export namespace TranslationsModel {
         prefix?: string;
         suffix?: string;
         lengthTransformation?: number;
-        charTransformation?: string;
+        charTransformation?: CharTransformation;
     }
 
     export interface UploadTranslationRequest {
@@ -234,6 +235,7 @@ export namespace TranslationsModel {
     export interface ExportProjectTranslationRequest {
         targetLanguageId: string;
         format?: string;
+        labelIds?: number[];
         branchIds?: number[];
         directoryIds?: number[];
         fileIds?: number[];

@@ -10,11 +10,62 @@ describe('Users API', () => {
     const api: Users = new Users(credentials);
     const id = 2;
     const projectId = 24;
+    const memberId = 78;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .post(
+                `/projects/${projectId}/members`,
+                {
+                    userIds: [id],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                added: [
+                    {
+                        data: {
+                            id: memberId,
+                        },
+                    },
+                ],
+            })
+            .get(`/projects/${projectId}/members/${memberId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: memberId,
+                },
+            })
+            .put(
+                `/projects/${projectId}/members/${memberId}`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: memberId,
+                },
+            })
+            .delete(`/projects/${projectId}/members/${memberId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
             .get('/users', undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -85,6 +136,28 @@ describe('Users API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('Add Project Member', async () => {
+        const resp = await api.addProjectMember(projectId, {
+            userIds: [id],
+        });
+        expect(resp.added.length).toBe(1);
+        expect(resp.added[0].data.id).toBe(memberId);
+    });
+
+    it('Get Project Member Permissions', async () => {
+        const resp = await api.getProjectMemberPermissions(projectId, memberId);
+        expect(resp.data.id).toBe(memberId);
+    });
+
+    it('Replace Project Member Permissions', async () => {
+        const resp = await api.replaceProjectMemberPermissions(projectId, memberId, {});
+        expect(resp.data.id).toBe(memberId);
+    });
+
+    it('Delete Member From Project', async () => {
+        await api.deleteMemberFromProject(projectId, memberId);
     });
 
     it('List Users', async () => {

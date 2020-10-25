@@ -1,6 +1,56 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, Pagination, ResponseList, ResponseObject } from '../core';
 
 export class Users extends CrowdinApi {
+    /**
+     *
+     * @param projectId project identifier
+     * @param request request body
+     */
+    addProjectMember(
+        projectId: number,
+        request: UsersModel.AddProjectMemberRequest,
+    ): Promise<UsersModel.AddProjectMemberResponse> {
+        const url = `${this.url}/projects/${projectId}/members`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     *
+     * @param projectId project identifier
+     * @param memberId member identifier
+     */
+    getProjectMemberPermissions(
+        projectId: number,
+        memberId: number,
+    ): Promise<ResponseObject<UsersModel.ProjectMemberPermissions>> {
+        const url = `${this.url}/projects/${projectId}/members/${memberId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     *
+     * @param projectId project identifier
+     * @param memberId member identifier
+     */
+    replaceProjectMemberPermissions(
+        projectId: number,
+        memberId: number,
+        request: UsersModel.ReplaceProjectMemberRequest,
+    ): Promise<ResponseObject<UsersModel.ProjectMemberPermissions>> {
+        const url = `${this.url}/projects/${projectId}/members/${memberId}`;
+        return this.put(url, request, this.defaultConfig());
+    }
+
+    /**
+     *
+     * @param projectId project identifier
+     * @param memberId member identifier
+     */
+    deleteMemberFromProject(projectId: number, memberId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/members/${memberId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
     /**
      * @param status filter users by status
      * @param search search users by firstName, lastName, username, email
@@ -59,6 +109,11 @@ export class Users extends CrowdinApi {
         return this.getList(url, limit, offset);
     }
 
+    /**
+     *
+     * @param projectId project identifier
+     * @param memberId member identifier
+     */
     getMemberInfo(projectId: number, memberId: number): Promise<ResponseObject<UsersModel.ProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.get(url, this.defaultConfig());
@@ -109,5 +164,41 @@ export namespace UsersModel {
         PROOFREADER = 'proofreader',
         TRANSLATOR = 'translator',
         BLOCKED = 'blocked',
+    }
+
+    export interface ProjectMemberPermissions {
+        id: number;
+        username: string;
+        firstName: string;
+        lastName: string;
+        isManager: boolean;
+        managerOfGroup: Manager;
+        accessToAllWorkflowSteps: boolean;
+        permissions: any;
+        givenAccessAt: string;
+    }
+
+    export interface Manager {
+        id: number;
+        name: string;
+    }
+
+    export interface AddProjectMemberRequest {
+        userIds: number[];
+        accessToAllWorkflowSteps?: boolean;
+        managerAccess?: boolean;
+        permissions?: any;
+    }
+
+    export interface AddProjectMemberResponse {
+        skipped: ResponseObject<ProjectMemberPermissions>[];
+        added: ResponseObject<ProjectMemberPermissions>[];
+        pagination: Pagination;
+    }
+
+    export interface ReplaceProjectMemberRequest {
+        accessToAllWorkflowSteps?: boolean;
+        managerAccess?: boolean;
+        permissions?: any;
     }
 }
