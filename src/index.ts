@@ -11,6 +11,7 @@ import { Reports } from './reports';
 import { Screenshots } from './screenshots';
 import { SourceFiles } from './sourceFiles';
 import { SourceStrings } from './sourceStrings';
+import { StringComments } from './stringComments';
 import { StringTranslations } from './stringTranslations';
 import { Tasks } from './tasks';
 import { Teams } from './teams';
@@ -36,6 +37,7 @@ export * from './reports';
 export * from './screenshots';
 export * from './sourceFiles';
 export * from './sourceStrings';
+export * from './stringComments';
 export * from './stringTranslations';
 export * from './tasks';
 export * from './teams';
@@ -67,11 +69,15 @@ export default class Client {
     readonly workflowsApi: Workflows;
     readonly usersApi: Users;
     readonly vendorsApi: Vendors;
+    /**
+     * @deprecated
+     */
     readonly issuesApi: Issues;
     readonly teamsApi: Teams;
     readonly distributionsApi: Distributions;
     readonly dictionariesApi: Dictionaries;
     readonly labelsApi: Labels;
+    readonly stringCommentsApi: StringComments;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -97,5 +103,6 @@ export default class Client {
         this.distributionsApi = new Distributions(credentials, config);
         this.dictionariesApi = new Dictionaries(credentials, config);
         this.labelsApi = new Labels(credentials, config);
+        this.stringCommentsApi = new StringComments(credentials, config);
     }
 }

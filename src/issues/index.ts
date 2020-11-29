@@ -1,5 +1,8 @@
 import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * @deprecated
+ */
 export class Issues extends CrowdinApi {
     /**
      * @param projectId project identifier
@@ -32,6 +35,9 @@ export class Issues extends CrowdinApi {
     }
 }
 
+/**
+ * @deprecated
+ */
 export namespace IssuesModel {
     export enum Type {
         ALL = 'all',
