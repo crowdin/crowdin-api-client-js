@@ -106,21 +106,47 @@ export class Glossaries extends CrowdinApi {
         return this.get(url, this.defaultConfig());
     }
 
+    listTerms(
+        glossaryId: number,
+        request: GlossariesModel.ListTermsRequest,
+    ): Promise<ResponseList<GlossariesModel.Term>>;
+
     /**
      * @param glossaryId glossary identifier
      * @param userId list user glossaries
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param languageId term language identifier
+     * @param translationOfTermId filter terms by termId
      */
     listTerms(
         glossaryId: number,
         userId?: number,
         limit?: number,
         offset?: number,
+        languageId?: string,
+        translationOfTermId?: number,
+    ): Promise<ResponseList<GlossariesModel.Term>>;
+
+    listTerms(
+        glossaryId: number,
+        userIdOrRequest?: number | GlossariesModel.ListTermsRequest,
+        limit?: number,
+        offset?: number,
+        languageId?: string,
+        translationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        url = this.addQueryParam(url, 'userId', userId);
-        return this.getList(url, limit, offset);
+        let request: GlossariesModel.ListTermsRequest;
+        if (userIdOrRequest && typeof userIdOrRequest === 'object') {
+            request = userIdOrRequest;
+        } else {
+            request = { userId: userIdOrRequest, limit, offset, languageId, translationOfTermId };
+        }
+        url = this.addQueryParam(url, 'userId', request.userId);
+        url = this.addQueryParam(url, 'languageId', request.languageId);
+        url = this.addQueryParam(url, 'translationOfTermId', request.translationOfTermId);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -219,6 +245,14 @@ export namespace GlossariesModel {
         storageId: number;
         scheme?: GlossaryFileScheme;
         firstLineContainsHeader?: boolean;
+    }
+
+    export interface ListTermsRequest {
+        userId?: number;
+        limit?: number;
+        offset?: number;
+        languageId?: string;
+        translationOfTermId?: number;
     }
 
     export interface Term {
