@@ -59,14 +59,10 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
-     * @param format defines download format (default is tbx)
+     * @param exportId export identifier
      */
-    downloadGlossary(
-        glossaryId: number,
-        format?: GlossariesModel.GlossaryFormat,
-    ): Promise<ResponseObject<DownloadLink>> {
-        let url = `${this.url}/glossaries/${glossaryId}/exports/download`;
-        url = this.addQueryParam(url, 'format', format);
+    downloadGlossary(glossaryId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}/download`;
         return this.get(url, this.defaultConfig());
     }
 
