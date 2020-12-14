@@ -119,7 +119,7 @@ describe('Glossaries API', () => {
                     identifier: exportId,
                 },
             })
-            .get(`/glossaries/${glossaryId}/exports/download`, undefined, {
+            .get(`/glossaries/${glossaryId}/exports/${exportId}/download`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -306,7 +306,7 @@ describe('Glossaries API', () => {
     });
 
     it('Download glossary', async () => {
-        const link = await api.downloadGlossary(glossaryId);
+        const link = await api.downloadGlossary(glossaryId, exportId);
         expect(link.data.url).toBe(glossaryLink);
     });
 
