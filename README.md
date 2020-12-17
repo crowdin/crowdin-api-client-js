@@ -10,6 +10,8 @@ For more about Crowdin API v2 see the documentation:
 - [Crowdin](https://support.crowdin.com/api/v2/)
 - [Crowdin Enterprise](https://support.crowdin.com/enterprise/api/)
 
+## Status
+
 [![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client?cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/issues)
