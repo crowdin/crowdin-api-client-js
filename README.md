@@ -32,8 +32,8 @@ For more about Crowdin API v2 see the documentation:
 ## Table of Contents
 * [Installation](#installation)
 * [Quick Start](#quick-start)
-* [Contribution](#contribution)
 * [Seeking Assistance](#seeking-assistance)
+* [Contributing](#contributing)
 * [License](#license)
 
 ## Installation
@@ -214,23 +214,18 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 });
 ```
 
-## Contribution
-We are happy to accept contributions to the Crowdin JavaScript client. To contribute please do the following:
-1. Fork the repository on GitHub.
-2. Decide which code you want to submit. Commit your changes and push to the new branch.
-3. Ensure that your code adheres to standard conventions, as used in the rest of the library.
-4. Ensure that there are unit tests for your code.
-5. Submit a pull request with your patch on Github.
-
 ## Seeking Assistance
-If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client-js/issues).
 
-If you've found an error in these samples, please [contact](https://crowdin.com/contacts) our Support Team.
+If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
+
+Need help working with Crowdin JavaScript client or have any questions? [Contact](https://crowdin.com/contacts) Customer Success Service.
+
+## Contributing
+
+If you want to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
 
 ## License
 <pre>
-Copyright © 2020 Crowdin
-
 The Crowdin JavaScript client is licensed under the MIT License. 
 See the LICENSE.md file distributed with this work for additional 
 information regarding copyright ownership.
