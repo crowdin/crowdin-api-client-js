@@ -52,8 +52,8 @@ export class RetryService {
         }
     }
 
-    private wait(): Promise<any> {
-        return new Promise((res): void => {
+    private wait(): Promise<void> {
+        return new Promise<void>((res): void => {
             setTimeout(() => res(), this.config.waitInterval);
         });
     }
