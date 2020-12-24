@@ -71,9 +71,8 @@ export class FetchClient implements HttpClient {
         }
     }
 
-    private waitInQueue(): any {
-        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-        return new Promise(resolve => {
+    private waitInQueue(): Promise<void> {
+        return new Promise<void>(resolve => {
             const interval = setInterval(() => {
                 if (this.pendingRequests < this.maxConcurrentRequests) {
                     this.pendingRequests++;
