@@ -112,6 +112,7 @@ export namespace SourceStringsModel {
         id: number;
         projectId: number;
         fileId: number;
+        branchId: number;
         identifier: string;
         text: string | PluralText;
         type: Type;

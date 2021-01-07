@@ -401,6 +401,7 @@ export namespace SourceFilesModel {
         importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
         attachLabelIds?: number[];
+        excludedTargetLanguages?: string[];
     }
 
     export interface ReplaceFileFromStorageRequest {

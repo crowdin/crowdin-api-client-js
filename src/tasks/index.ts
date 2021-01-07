@@ -147,6 +147,7 @@ export namespace TasksModel {
         skipUntranslatedStrings?: boolean;
         assignees?: Assignee[];
         deadline?: string;
+        labelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -160,6 +161,7 @@ export namespace TasksModel {
         status?: Status;
         description?: string;
         expertise?: Expertise;
+        labelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -178,6 +180,7 @@ export namespace TasksModel {
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
+        labelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -192,6 +195,7 @@ export namespace TasksModel {
         description?: string;
         expertise?: Expertise;
         subject?: Subject;
+        labelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
