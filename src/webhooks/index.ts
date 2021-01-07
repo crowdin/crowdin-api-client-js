@@ -66,6 +66,7 @@ export namespace WebhooksModel {
         headers: string[];
         payload: string[];
         isActive: boolean;
+        batchingEnabled: boolean;
         requestType: RequestType;
         contentType: ContentType;
         createdAt: string;
@@ -76,6 +77,7 @@ export namespace WebhooksModel {
         name: string;
         url: string;
         isActive?: boolean;
+        batchingEnabled?: boolean;
         contentType?: ContentType;
         events: Event[];
         headers?: any;

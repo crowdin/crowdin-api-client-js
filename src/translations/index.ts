@@ -223,6 +223,7 @@ export namespace TranslationsModel {
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         markAddedTranslationsAsDone?: boolean;
+        translateHidden?: boolean;
     }
 
     export interface UploadTranslationResponse {
