@@ -139,6 +139,7 @@ export class SourceFiles extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param recursion use to list files recursively
+     * @param filter use to filter files by name
      */
     listProjectFiles(
         projectId: number,
@@ -147,6 +148,7 @@ export class SourceFiles extends CrowdinApi {
         limit?: number,
         offset?: number,
         recursion?: any,
+        filter?: string,
     ): Promise<ResponseList<SourceFilesModel.File>>;
 
     listProjectFiles(
@@ -156,17 +158,19 @@ export class SourceFiles extends CrowdinApi {
         limit?: number,
         offset?: number,
         recursion?: any,
+        filter?: string,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
         let request: SourceFilesModel.ListProjectFilesRequest;
         if (branchIdOrRequest && typeof branchIdOrRequest === 'object') {
             request = branchIdOrRequest;
         } else {
-            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion };
+            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion, filter };
         }
         url = this.addQueryParam(url, 'branchId', request.branchId);
         url = this.addQueryParam(url, 'directoryId', request.directoryId);
         url = this.addQueryParam(url, 'recursion', request.recursion);
+        url = this.addQueryParam(url, 'filter', request.filter);
         return this.getList(url, request.limit, request.offset);
     }
 
@@ -371,6 +375,7 @@ export namespace SourceFilesModel {
         limit?: number;
         offset?: number;
         recursion?: any;
+        filter?: string;
     }
 
     export interface File {
