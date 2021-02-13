@@ -19,10 +19,13 @@ describe('String Comments API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get(`/projects/${projectId}/strings/${stringId}/comments`, undefined, {
+            .get(`/projects/${projectId}/comments`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
+            })
+            .query({
+                stringId,
             })
             .reply(200, {
                 data: [
@@ -38,11 +41,12 @@ describe('String Comments API', () => {
                 },
             })
             .post(
-                `/projects/${projectId}/strings/${stringId}/comments`,
+                `/projects/${projectId}/comments`,
                 {
                     text,
                     type,
                     targetLanguageId: languageId,
+                    stringId,
                 },
                 {
                     reqheaders: {
@@ -55,7 +59,7 @@ describe('String Comments API', () => {
                     id: stringCommentId,
                 },
             })
-            .get(`/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`, undefined, {
+            .get(`/projects/${projectId}/comments/${stringCommentId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
@@ -65,14 +69,14 @@ describe('String Comments API', () => {
                     id: stringCommentId,
                 },
             })
-            .delete(`/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`, undefined, {
+            .delete(`/projects/${projectId}/comments/${stringCommentId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
             .reply(200)
             .patch(
-                `/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`,
+                `/projects/${projectId}/comments/${stringCommentId}`,
                 [
                     {
                         value: type,
@@ -106,25 +110,26 @@ describe('String Comments API', () => {
     });
 
     it('Add string comment', async () => {
-        const comment = await api.addStringComment(projectId, stringId, {
+        const comment = await api.addStringComment(projectId, {
             text,
             targetLanguageId: languageId,
             type,
+            stringId,
         });
         expect(comment.data.id).toBe(stringCommentId);
     });
 
     it('Get string comment', async () => {
-        const comment = await api.getStringComment(projectId, stringId, stringCommentId);
+        const comment = await api.getStringComment(projectId, stringCommentId);
         expect(comment.data.id).toBe(stringCommentId);
     });
 
     it('Delete string comment', async () => {
-        await api.deleteStringComment(projectId, stringId, stringCommentId);
+        await api.deleteStringComment(projectId, stringCommentId);
     });
 
     it('Edit string comment', async () => {
-        const comment = await api.editStringComment(projectId, stringId, stringCommentId, [
+        const comment = await api.editStringComment(projectId, stringCommentId, [
             {
                 op: PatchOperation.REPLACE,
                 path: '/type',

@@ -3,7 +3,6 @@ import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core'
 export class StringComments extends CrowdinApi {
     listStringComments(
         projectId: number,
-        stringId: number,
         request?: StringCommentsModel.ListStringCommentsRequest,
     ): Promise<ResponseList<StringCommentsModel.StringComment>>;
 
@@ -17,7 +16,7 @@ export class StringComments extends CrowdinApi {
      */
     listStringComments(
         projectId: number,
-        stringId: number,
+        stringId?: number,
         type?: StringCommentsModel.Type,
         targetLanguageId?: string,
         issueType?: StringCommentsModel.IssueType,
@@ -26,19 +25,20 @@ export class StringComments extends CrowdinApi {
 
     listStringComments(
         projectId: number,
-        stringId: number,
-        typeOrRequest?: StringCommentsModel.Type | StringCommentsModel.ListStringCommentsRequest,
+        stringIdOrRequest?: number | StringCommentsModel.ListStringCommentsRequest,
+        type?: StringCommentsModel.Type,
         targetLanguageId?: string,
         issueType?: StringCommentsModel.IssueType,
         issueStatus?: StringCommentsModel.IssueStatus,
     ): Promise<ResponseList<StringCommentsModel.StringComment>> {
-        let url = `${this.url}/projects/${projectId}/strings/${stringId}/comments`;
+        let url = `${this.url}/projects/${projectId}/comments`;
         let request: StringCommentsModel.ListStringCommentsRequest;
-        if (typeOrRequest && typeof typeOrRequest === 'object') {
-            request = typeOrRequest;
+        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
+            request = stringIdOrRequest;
         } else {
-            request = { type: typeOrRequest, targetLanguageId, issueStatus, issueType };
+            request = { stringId: stringIdOrRequest, type, targetLanguageId, issueStatus, issueType };
         }
+        url = this.addQueryParam(url, 'stringId', request.stringId);
         url = this.addQueryParam(url, 'type', request.type);
         url = this.addQueryParam(url, 'targetLanguageId', request.targetLanguageId);
         url = this.addQueryParam(url, 'issueType', request.issueType);
@@ -48,61 +48,55 @@ export class StringComments extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param stringId string identifier
      * @param request request body
      */
     addStringComment(
         projectId: number,
-        stringId: number,
         request: StringCommentsModel.AddStringCommentRequest,
     ): Promise<ResponseObject<StringCommentsModel.StringComment>> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}/comments`;
+        const url = `${this.url}/projects/${projectId}/comments`;
         return this.post(url, request, this.defaultConfig());
     }
 
     /**
      * @param projectId project identifier
-     * @param stringId string identifier
      * @param stringCommentId string comment identifier
      */
     getStringComment(
         projectId: number,
-        stringId: number,
         stringCommentId: number,
     ): Promise<ResponseObject<StringCommentsModel.StringComment>> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`;
+        const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}`;
         return this.get(url, this.defaultConfig());
     }
 
     /**
      * @param projectId project identifier
-     * @param stringId string identifier
      * @param stringCommentId string comment identifier
      */
-    deleteStringComment(projectId: number, stringId: number, stringCommentId: number): Promise<void> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`;
+    deleteStringComment(projectId: number, stringCommentId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}`;
         return this.delete(url, this.defaultConfig());
     }
 
     /**
      * @param projectId project identifier
-     * @param stringId string identifier
      * @param stringCommentId string comment identifier
      * @param request request body
      */
     editStringComment(
         projectId: number,
-        stringId: number,
         stringCommentId: number,
         request: PatchRequest[],
     ): Promise<ResponseObject<StringCommentsModel.StringComment>> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}/comments/${stringCommentId}`;
+        const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}`;
         return this.patch(url, request, this.defaultConfig());
     }
 }
 
 export namespace StringCommentsModel {
     export interface ListStringCommentsRequest {
+        stringId?: number;
         limit?: number;
         offset?: number;
         type?: Type;
@@ -122,6 +116,9 @@ export namespace StringCommentsModel {
         type: Type;
         issueType: IssueType;
         issueStatus: IssueStatus;
+        resolverId: number;
+        resolver: User;
+        resolvedAt: string;
         createdAt: string;
     }
 
@@ -143,11 +140,11 @@ export namespace StringCommentsModel {
     }
 
     export interface AddStringCommentRequest {
+        stringId: number;
         text: string;
         targetLanguageId: string;
         type: Type;
         issueType?: IssueType;
-        issueStatus?: IssueStatus;
     }
 
     export enum Type {
