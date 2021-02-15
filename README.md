@@ -32,6 +32,7 @@ For more about Crowdin API v2 see the documentation:
 ## Table of Contents
 * [Installation](#installation)
 * [Quick Start](#quick-start)
+* [Over-The-Air Content Delivery](#over-the-air-content-delivery)
 * [Seeking Assistance](#seeking-assistance)
 * [Contributing](#contributing)
 * [License](#license)
@@ -213,6 +214,10 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
   }
 });
 ```
+
+## Over-The-Air Content Delivery
+
+You can also use the [Crowdin OTA Client JS](https://github.com/crowdin/ota-client-js) library to send the translated content to your web apps via content delivery. Crowdin Content Delivery uses a CDN vault that mirrors your project’s translated content. The updated translations will become available to users much faster.
 
 ## Seeking Assistance
 
