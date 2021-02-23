@@ -153,7 +153,7 @@ You can generate Personal Access Token in your Crowdin Account Settings.
 
 In addition if you use client in non-Node.js environment you might have a troubles with http calls.
 This client uses [axios](https://github.com/axios/axios) which internally uses `http` and `https` Node modules.
-So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
+So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (keep in mind that `fetch` should be available in global scope).
 
 ```typescript
 import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
