@@ -101,7 +101,7 @@ projectsGroupsApi.listProjects()
 </details>
 
 <details>
-<summary>Javascript</summary>
+<summary>Javascript ES6 modules</summary>
 
 ```javascript
 import crowdin from '@crowdin/crowdin-api-client';
@@ -132,6 +132,53 @@ Or specific API instances:
 
 ```javascript
 import { ProjectsGroups } from '@crowdin/crowdin-api-client';
+
+// initialization of ProjectsGroups
+const projectsGroupsApi = new ProjectsGroups({
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
+});
+
+// get project list
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+```
+
+</details>
+
+<details>
+<summary>Javascript CommonJS</summary>
+
+```javascript
+const crowdin = require('@crowdin/crowdin-api-client').default;
+
+// initialization of crowdin client
+const { projectsGroupsApi } = new crowdin({
+  token: 'personalAccessToken',
+  organization: 'organizationName' // optional
+});
+
+// get project list
+projectsGroupsApi.listProjects()
+  .then(projects => console.log(projects))
+  .catch(error => console.error(error));
+
+// You can also use async/wait. Add `async` keyword to your outer function/method
+async function getProjects() {
+  try {
+    const projects = await projectsGroupsApi.listProjects();
+    console.log(projects);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+Or specific API instances:
+
+```javascript
+const crowdin = require('@crowdin/crowdin-api-client').default;
 
 // initialization of ProjectsGroups
 const projectsGroupsApi = new ProjectsGroups({
