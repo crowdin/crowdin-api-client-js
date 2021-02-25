@@ -178,7 +178,7 @@ async function getProjects() {
 Or specific API instances:
 
 ```javascript
-const crowdin = require('@crowdin/crowdin-api-client').default;
+const ProjectsGroups = require('@crowdin/crowdin-api-client').ProjectsGroups;
 
 // initialization of ProjectsGroups
 const projectsGroupsApi = new ProjectsGroups({
