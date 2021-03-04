@@ -264,6 +264,8 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 
 ## Over-The-Air Content Delivery
 
+:dizzy: Recommended for translations delivery to your website or mobile application.
+
 You can also use the [Crowdin OTA Client JS](https://github.com/crowdin/ota-client-js) library to send the translated content to your web apps via content delivery. Crowdin Content Delivery uses a CDN vault that mirrors your project’s translated content. The updated translations will become available to users much faster.
 
 ## Seeking Assistance
