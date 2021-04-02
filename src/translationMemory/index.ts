@@ -7,7 +7,7 @@ export class TranslationMemory extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      */
     listTm(
-        groupId: number,
+        groupId?: number,
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {

@@ -6,7 +6,7 @@ export class Glossaries extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      */
-    listGlossaries(groupId: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
+    listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
         let url = `${this.url}/glossaries`;
         url = this.addQueryParam(url, 'groupId', groupId);
         return this.getList(url, limit, offset);

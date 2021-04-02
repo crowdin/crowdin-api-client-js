@@ -7,7 +7,7 @@ export class MachineTranslation extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      */
     listMts(
-        groupId: number,
+        groupId?: number,
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
