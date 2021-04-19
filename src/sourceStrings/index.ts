@@ -15,6 +15,7 @@ export class SourceStrings extends CrowdinApi {
      * @param denormalizePlaceholders enable denormalize placeholders
      * @param labelIds filter strings by labelIds
      * @param scope specify field to be the target of filtering
+     * @param croql filter strings by CroQL (Can't be used with `labelIds`, `filter` or `scope` in same request)
      */
     listProjectStrings(
         projectId: number,
@@ -25,6 +26,7 @@ export class SourceStrings extends CrowdinApi {
         denormalizePlaceholders?: BooleanInt,
         labelIds?: string,
         scope?: SourceStringsModel.Scope,
+        croql?: string,
     ): Promise<ResponseList<SourceStringsModel.String>>;
 
     listProjectStrings(
@@ -36,19 +38,30 @@ export class SourceStrings extends CrowdinApi {
         denormalizePlaceholders?: BooleanInt,
         labelIds?: string,
         scope?: SourceStringsModel.Scope,
+        croql?: string,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
         let request: SourceStringsModel.ListProjectStringsRequest;
         if (fileIdOrRequest && typeof fileIdOrRequest === 'object') {
             request = fileIdOrRequest;
         } else {
-            request = { fileId: fileIdOrRequest, limit, offset, filter, denormalizePlaceholders, labelIds, scope };
+            request = {
+                fileId: fileIdOrRequest,
+                limit,
+                offset,
+                filter,
+                denormalizePlaceholders,
+                labelIds,
+                scope,
+                croql,
+            };
         }
         url = this.addQueryParam(url, 'fileId', request.fileId);
         url = this.addQueryParam(url, 'filter', request.filter);
         url = this.addQueryParam(url, 'denormalizePlaceholders', request.denormalizePlaceholders);
         url = this.addQueryParam(url, 'labelIds', request.labelIds);
         url = this.addQueryParam(url, 'scope', request.scope);
+        url = this.addQueryParam(url, 'croql', request.croql);
         return this.getList(url, request.limit, request.offset);
     }
 
@@ -106,6 +119,7 @@ export namespace SourceStringsModel {
         denormalizePlaceholders?: BooleanInt;
         labelIds?: string;
         scope?: SourceStringsModel.Scope;
+        croql?: string;
     }
 
     export interface String {

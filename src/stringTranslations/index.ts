@@ -66,6 +66,7 @@ export class StringTranslations extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param labelIds filter translations by fileId
      * @param denormalizePlaceholders enable denormalize placeholders
+     * @param croql filter translations by CroQL (Can't be used with `stringIds`, `labelIds` or `fileId` in same request)
      */
     listLanguageTranslations(
         projectId: number,
@@ -76,6 +77,7 @@ export class StringTranslations extends CrowdinApi {
         offset?: number,
         labelIds?: string,
         denormalizePlaceholders?: BooleanInt,
+        croql?: string,
     ): Promise<
         ResponseList<
             | StringTranslationsModel.PlainLanguageTranslation
@@ -88,6 +90,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'fileId', fileId);
         url = this.addQueryParam(url, 'labelIds', labelIds);
         url = this.addQueryParam(url, 'denormalizePlaceholders', denormalizePlaceholders);
+        url = this.addQueryParam(url, 'croql', croql);
         return this.getList(url, limit, offset);
     }
 
