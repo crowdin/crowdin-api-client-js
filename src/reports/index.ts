@@ -2,6 +2,67 @@ import { CrowdinApi, DownloadLink, ResponseObject, Status } from '../core';
 
 export class Reports extends CrowdinApi {
     /**
+     * @param groupId group identifier
+     * @param request request body
+     */
+    generateGroupReport(
+        groupId: number,
+        request: ReportsModel.GenerateGroupReportRequest,
+    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+        const url = `${this.url}/groups/${groupId}/reports`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param reportId report identifier
+     */
+    checkGroupReportStatus(
+        groupId: number,
+        reportId: string,
+    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+        const url = `${this.url}/groups/${groupId}/reports/${reportId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param reportId report identifier
+     */
+    downloadGroupReport(groupId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/groups/${groupId}/reports/${reportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param request request body
+     */
+    generateOrganizationReport(
+        request: ReportsModel.GenerateGroupReportRequest,
+    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+        const url = `${this.url}/reports`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param reportId report identifier
+     */
+    checkOrganizationReportStatus(
+        reportId: string,
+    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+        const url = `${this.url}/reports/${reportId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param reportId report identifier
+     */
+    downloadOrganizationReport(reportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/reports/${reportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param projectId project identifier
      * @param request request body
      */
@@ -36,6 +97,11 @@ export class Reports extends CrowdinApi {
 }
 
 export namespace ReportsModel {
+    export interface GenerateGroupReportRequest {
+        name: string;
+        schema: GroupTranslationCostSchema | GroupTopMembersSchema;
+    }
+
     export interface GenerateReportRequest {
         name: string;
         schema:
@@ -46,10 +112,34 @@ export namespace ReportsModel {
             | ContributionRawDataSchema;
     }
 
+    export interface GroupReportStatusAttributes extends ReportStatusAttributes {
+        projectIds: number[];
+    }
+
     export interface ReportStatusAttributes {
         format: Format;
         reportName: string;
         schema: any;
+    }
+
+    export interface GroupTranslationCostSchema {
+        projectIds?: number[];
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        groupBy?: GroupBy;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface GroupTopMembersSchema {
+        projectIds?: number[];
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        groupBy?: GroupBy;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
     export interface CostEstimateSchema {
