@@ -16,9 +16,9 @@ export class RetryService {
 
     /**
      *
-     * @param func function to execute (should return {@link promise})
+     * @param func function to execute
      */
-    async executeAsyncFunc(func: Function): Promise<any> {
+    async executeAsyncFunc<T>(func: () => Promise<T>): Promise<T> {
         for (let i = 0; i <= this.config.retries; i++) {
             try {
                 const result = await func();
@@ -31,13 +31,14 @@ export class RetryService {
                 await this.wait();
             }
         }
+        throw new Error('Wrong retry configuration. Failed to retrieve value.');
     }
 
     /**
      *
      * @param func function to execute
      */
-    async executeSyncFunc(func: Function): Promise<any> {
+    async executeSyncFunc<T>(func: () => T): Promise<T> {
         for (let i = 0; i <= this.config.retries; i++) {
             try {
                 const result = func();
@@ -50,6 +51,7 @@ export class RetryService {
                 await this.wait();
             }
         }
+        throw new Error('Wrong retry configuration. Failed to retrieve value.');
     }
 
     private wait(): Promise<void> {

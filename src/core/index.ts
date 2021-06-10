@@ -265,7 +265,7 @@ export abstract class CrowdinApi {
 
     //Http overrides
 
-    protected get<T = any>(url: string, config?: { headers: any }): Promise<T> {
+    protected get<T>(url: string, config?: { headers: any }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.get(url, config));
     }
 
