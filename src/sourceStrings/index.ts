@@ -148,6 +148,7 @@ export namespace SourceStringsModel {
         context?: string;
         isHidden?: boolean;
         maxLength?: number;
+        labelIds?: number[];
     }
 
     export interface PluralText {

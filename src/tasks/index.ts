@@ -114,6 +114,7 @@ export namespace TasksModel {
         assignedTeams: AssignedTeam[];
         fileIds: number[];
         progress: Progress;
+        translateProgress: Progress;
         sourceLanguageId: string;
         targetLanguageId: string;
         description: string;
