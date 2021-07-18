@@ -394,6 +394,7 @@ export namespace SourceFilesModel {
         exportOptions: GeneralExportOptions | PropertyExportOptions;
         createdAt: string;
         updatedAt: string;
+        excludedTargetLanguages: string[];
     }
 
     export interface CreateFileRequest {
@@ -498,10 +499,12 @@ export namespace SourceFilesModel {
         translateAttributes: boolean;
         contentSegmentation: boolean;
         translatableElements: string[];
+        srxStorageId: number;
     }
 
     export interface OtherImportOptions {
         contentSegmentation: boolean;
+        srxStorageId: number;
     }
 
     export interface GeneralExportOptions {

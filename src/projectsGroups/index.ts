@@ -166,6 +166,12 @@ export namespace ProjectsGroupsModel {
         vendorId?: number;
         mtEngineId?: number;
         description?: string;
+        translateDuplicates?: TranslateDuplicates;
+        isMtAllowed?: boolean;
+        autoSubstitution?: boolean;
+        autoTranslateDialects?: boolean;
+        publicDownloads?: boolean;
+        useGlobalTm?: boolean;
         delayedWorkflowStart?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
@@ -178,12 +184,20 @@ export namespace ProjectsGroupsModel {
         identifier?: string;
         normalizePlaceholder?: boolean;
         saveMetaInfoInSource?: boolean;
+        inContext?: boolean;
+        inContextProcessHiddenStrings?: boolean;
+        inContextPseudoLanguageId?: string;
+        qaCheckIsActive?: boolean;
+        qaCheckCategories?: CheckCategories;
+        customQaCheckIds?: number[];
+        languageMapping?: LanguageMapping;
     }
 
     export interface ProjectSettings extends Project {
-        translateDuplicates: number;
+        translateDuplicates: TranslateDuplicates;
         isMtAllowed: boolean;
         autoSubstitution: boolean;
+        exportTranslatedOnly: boolean;
         skipUntranslatedStrings: boolean;
         skipUntranslatedFiles: boolean;
         exportApprovedOnly: boolean;
@@ -193,6 +207,7 @@ export namespace ProjectsGroupsModel {
         normalizePlaceholder: boolean;
         saveMetaInfoInSource: boolean;
         inContext: boolean;
+        inContextProcessHiddenStrings: string;
         inContextPseudoLanguageId: string;
         isSuspended: string;
         qaCheckIsActive: boolean;
@@ -200,6 +215,7 @@ export namespace ProjectsGroupsModel {
         customQaCheckIds: number[];
         languageMapping: LanguageMapping;
         inContextPseudoLanguage: LanguagesModel.Language;
+        delayedWorkflowStart: boolean;
     }
 
     export enum Type {
@@ -229,6 +245,8 @@ export namespace ProjectsGroupsModel {
         wrongTranslation: boolean;
         spellcheck: boolean;
         icu: boolean;
+        terms: boolean;
+        duplicate: boolean;
     }
 
     export interface LanguageMapping {
@@ -244,5 +262,14 @@ export namespace ProjectsGroupsModel {
         android_code: string;
         osx_code: string;
         osx_locale: string;
+    }
+
+    export enum TranslateDuplicates {
+        SHOW = 0,
+        HIDE_REGULAR_DETECTION = 1,
+        SHOW_AUTO_TRANSLATE = 2,
+        SHOW_WITHIN_VERION_BRANCH_REGULAR_DETECTION = 3,
+        HIDE_STRICT_DETECTION = 4,
+        SHOW_WITHIN_VERION_BRANCH_STRICT_DETECTION = 5,
     }
 }

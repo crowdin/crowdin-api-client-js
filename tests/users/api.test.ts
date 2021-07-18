@@ -16,6 +16,24 @@ describe('Users API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/projects/${projectId}/members`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: id,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(
                 `/projects/${projectId}/members`,
                 {
@@ -103,39 +121,17 @@ describe('Users API', () => {
                 data: {
                     id: id,
                 },
-            })
-            .get(`/projects/${projectId}/members`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: id,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .get(`/projects/${projectId}/members/${id}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    id: id,
-                },
             });
     });
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('List Project Members', async () => {
+        const members = await api.listProjectMembers(projectId);
+        expect(members.data.length).toBe(1);
+        expect(members.data[0].data.id).toBe(id);
     });
 
     it('Add Project Member', async () => {
@@ -174,17 +170,6 @@ describe('Users API', () => {
 
     it('Get Authenticated User', async () => {
         const user = await api.getAuthenticatedUser();
-        expect(user.data.id).toBe(id);
-    });
-
-    it('List Project Members', async () => {
-        const members = await api.listProjectMembers(projectId);
-        expect(members.data.length).toBe(1);
-        expect(members.data[0].data.id).toBe(id);
-    });
-
-    it('Get Member Info', async () => {
-        const user = await api.getMemberInfo(projectId, id);
         expect(user.data.id).toBe(id);
     });
 });

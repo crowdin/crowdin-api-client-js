@@ -4,6 +4,30 @@ export class Users extends CrowdinApi {
     /**
      *
      * @param projectId project identifier
+     * @param search search users by firstName, lastName or username
+     * @param role defines role type
+     * @param languageId language identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     */
+    listProjectMembers(
+        projectId: number,
+        search?: string,
+        role?: UsersModel.Role,
+        languageId?: string,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<UsersModel.ProjectMember>> {
+        let url = `${this.url}/projects/${projectId}/members`;
+        url = this.addQueryParam(url, 'search', search);
+        url = this.addQueryParam(url, 'role', role);
+        url = this.addQueryParam(url, 'languageId', languageId);
+        return this.getList(url, limit, offset);
+    }
+
+    /**
+     *
+     * @param projectId project identifier
      * @param request request body
      */
     addProjectMember(
@@ -22,7 +46,7 @@ export class Users extends CrowdinApi {
     getProjectMemberPermissions(
         projectId: number,
         memberId: number,
-    ): Promise<ResponseObject<UsersModel.ProjectMemberPermissions>> {
+    ): Promise<ResponseObject<UsersModel.ProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -36,7 +60,7 @@ export class Users extends CrowdinApi {
         projectId: number,
         memberId: number,
         request: UsersModel.ReplaceProjectMemberRequest,
-    ): Promise<ResponseObject<UsersModel.ProjectMemberPermissions>> {
+    ): Promise<ResponseObject<UsersModel.ProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.put(url, request, this.defaultConfig());
     }
@@ -84,40 +108,6 @@ export class Users extends CrowdinApi {
         const url = `${this.url}/user`;
         return this.get(url, this.defaultConfig());
     }
-
-    /**
-     *
-     * @param projectId project identifier
-     * @param search search users by firstName, lastName or username
-     * @param role defines role type
-     * @param languageId language identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
-     */
-    listProjectMembers(
-        projectId: number,
-        search?: string,
-        role?: UsersModel.Role,
-        languageId?: string,
-        limit?: number,
-        offset?: number,
-    ): Promise<ResponseList<UsersModel.ProjectMember>> {
-        let url = `${this.url}/projects/${projectId}/members`;
-        url = this.addQueryParam(url, 'search', search);
-        url = this.addQueryParam(url, 'role', role);
-        url = this.addQueryParam(url, 'languageId', languageId);
-        return this.getList(url, limit, offset);
-    }
-
-    /**
-     *
-     * @param projectId project identifier
-     * @param memberId member identifier
-     */
-    getMemberInfo(projectId: number, memberId: number): Promise<ResponseObject<UsersModel.ProjectMember>> {
-        const url = `${this.url}/projects/${projectId}/members/${memberId}`;
-        return this.get(url, this.defaultConfig());
-    }
 }
 
 export namespace UsersModel {
@@ -151,11 +141,22 @@ export namespace UsersModel {
         id: number;
         username: string;
         fullName: string;
+        firstName: string;
+        lastName: string;
+        isManager: boolean;
+        managerOfGroup: Group;
+        accessToAllWorkflowSteps: boolean;
         role: Role;
         permissions: any;
         avatarUrl: string;
         joinedAt: string;
         timezone: string;
+        givenAccessAt: string;
+    }
+
+    export interface Group {
+        id: number;
+        name: string;
     }
 
     export enum Role {
@@ -166,23 +167,6 @@ export namespace UsersModel {
         BLOCKED = 'blocked',
     }
 
-    export interface ProjectMemberPermissions {
-        id: number;
-        username: string;
-        firstName: string;
-        lastName: string;
-        isManager: boolean;
-        managerOfGroup: Manager;
-        accessToAllWorkflowSteps: boolean;
-        permissions: any;
-        givenAccessAt: string;
-    }
-
-    export interface Manager {
-        id: number;
-        name: string;
-    }
-
     export interface AddProjectMemberRequest {
         userIds: number[];
         accessToAllWorkflowSteps?: boolean;
@@ -191,8 +175,8 @@ export namespace UsersModel {
     }
 
     export interface AddProjectMemberResponse {
-        skipped: ResponseObject<ProjectMemberPermissions>[];
-        added: ResponseObject<ProjectMemberPermissions>[];
+        skipped: ResponseObject<ProjectMember>[];
+        added: ResponseObject<ProjectMember>[];
         pagination: Pagination;
     }
 
