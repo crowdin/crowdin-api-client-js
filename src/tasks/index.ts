@@ -25,6 +25,7 @@ export class Tasks extends CrowdinApi {
     addTask(
         projectId: number,
         request:
+            | TasksModel.CreateTaskEnterpriseRequest
             | TasksModel.CreateTaskRequest
             | TasksModel.CreateTaskVendorOhtRequest
             | TasksModel.CreateTaskVendorGengoRequest
@@ -135,20 +136,35 @@ export namespace TasksModel {
         isArchived: boolean;
     }
 
-    export interface CreateTaskRequest {
-        workflowStepId?: number;
-        status?: Status;
+    export interface CreateTaskEnterpriseRequest {
+        workflowStepId: number;
         title: string;
-        description?: string;
         languageId: string;
         fileIds: number[];
-        type?: Type;
+        status?: Status;
+        description?: string;
+        splitFiles?: boolean;
+        skipAssignedStrings?: boolean;
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+        labelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskRequest {
+        title: string;
+        languageId: string;
+        fileIds: number[];
+        type: Type;
+        status?: Status;
+        description?: string;
         splitFiles?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
-        assignees?: Assignee[];
-        deadline?: string;
         labelIds?: number[];
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -163,6 +179,7 @@ export namespace TasksModel {
         description?: string;
         expertise?: Expertise;
         labelIds?: number[];
+        includeUntranslatedStringsOnly?: boolean;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -199,6 +216,11 @@ export namespace TasksModel {
         labelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
+    }
+
+    export interface CreateTaskAssignee {
+        id: number;
+        wordsCount?: number;
     }
 
     export enum Status {
