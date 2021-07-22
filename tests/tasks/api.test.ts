@@ -14,6 +14,7 @@ describe('Tasks API', () => {
     const languageId = 'fr';
     const workflowStepId = 40;
     const link = 'test.com';
+    const assigneeId = 1212;
 
     const limit = 25;
 
@@ -44,6 +45,11 @@ describe('Tasks API', () => {
                     languageId: languageId,
                     fileIds: [],
                     workflowStepId: workflowStepId,
+                    assignees: [
+                        {
+                            id: assigneeId,
+                        },
+                    ],
                 },
                 {
                     reqheaders: {
@@ -165,6 +171,11 @@ describe('Tasks API', () => {
             languageId: languageId,
             workflowStepId: workflowStepId,
             fileIds: [],
+            assignees: [
+                {
+                    id: assigneeId,
+                },
+            ],
         });
         expect(task.data.id).toBe(taskId);
     });
