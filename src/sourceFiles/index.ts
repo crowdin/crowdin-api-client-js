@@ -68,6 +68,7 @@ export class SourceFiles extends CrowdinApi {
      * @param directoryId filter directories by directoryId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param filter use to filter directories by name
      */
     listProjectDirectories(
         projectId: number,
@@ -75,10 +76,12 @@ export class SourceFiles extends CrowdinApi {
         directoryId?: number,
         limit?: number,
         offset?: number,
+        filter?: string,
     ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
         url = this.addQueryParam(url, 'branchId', branchId);
         url = this.addQueryParam(url, 'directoryId', directoryId);
+        url = this.addQueryParam(url, 'filter', filter);
         return this.getList(url, limit, offset);
     }
 
