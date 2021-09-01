@@ -28,7 +28,7 @@ export class SourceStrings extends CrowdinApi {
         labelIds?: string,
         scope?: SourceStringsModel.Scope,
         croql?: string,
-        branchId?: string,
+        branchId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>>;
 
     listProjectStrings(
@@ -41,7 +41,7 @@ export class SourceStrings extends CrowdinApi {
         labelIds?: string,
         scope?: SourceStringsModel.Scope,
         croql?: string,
-        branchId?: string,
+        branchId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
         let request: SourceStringsModel.ListProjectStringsRequest;
@@ -125,7 +125,7 @@ export namespace SourceStringsModel {
         labelIds?: string;
         scope?: SourceStringsModel.Scope;
         croql?: string;
-        branchId?: string;
+        branchId?: number;
     }
 
     export interface String {
