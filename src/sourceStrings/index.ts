@@ -17,6 +17,7 @@ export class SourceStrings extends CrowdinApi {
      * @param scope specify field to be the target of filtering
      * @param croql filter strings by CroQL (Can't be used with `labelIds`, `filter` or `scope` in same request)
      * @param branchId filter by branch identifier
+     * @param directoryId filter by directory identifier
      */
     listProjectStrings(
         projectId: number,
@@ -29,6 +30,7 @@ export class SourceStrings extends CrowdinApi {
         scope?: SourceStringsModel.Scope,
         croql?: string,
         branchId?: number,
+        directoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>>;
 
     listProjectStrings(
@@ -42,6 +44,7 @@ export class SourceStrings extends CrowdinApi {
         scope?: SourceStringsModel.Scope,
         croql?: string,
         branchId?: number,
+        directoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
         let request: SourceStringsModel.ListProjectStringsRequest;
@@ -58,6 +61,7 @@ export class SourceStrings extends CrowdinApi {
                 scope,
                 croql,
                 branchId,
+                directoryId,
             };
         }
         url = this.addQueryParam(url, 'fileId', request.fileId);
@@ -67,6 +71,7 @@ export class SourceStrings extends CrowdinApi {
         url = this.addQueryParam(url, 'scope', request.scope);
         url = this.addQueryParam(url, 'croql', request.croql);
         url = this.addQueryParam(url, 'branchId', request.branchId);
+        url = this.addQueryParam(url, 'directoryId', request.directoryId);
         return this.getList(url, request.limit, request.offset);
     }
 
@@ -126,6 +131,7 @@ export namespace SourceStringsModel {
         scope?: SourceStringsModel.Scope;
         croql?: string;
         branchId?: number;
+        directoryId?: number;
     }
 
     export interface String {
