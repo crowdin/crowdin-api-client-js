@@ -15,6 +15,8 @@ describe('Translations API', () => {
     const url = 'test.com';
     const storageId = 5;
     const fileId = 51;
+    const directoryId = 61;
+    const progress = 50;
     const languageId = 'uk';
 
     const limit = 25;
@@ -46,6 +48,22 @@ describe('Translations API', () => {
             .reply(200, {
                 data: {
                     identifier: preTranslationId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/translations/builds/directories/${directoryId}`,
+                {
+                    targetLanguageIds: [languageId],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    progress,
                 },
             })
             .post(
@@ -175,6 +193,13 @@ describe('Translations API', () => {
     it('Pre-translation status', async () => {
         const preTranslation = await api.preTranslationStatus(projectId, preTranslationId);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Build Project Direcotry Translation', async () => {
+        const result = await api.buildProjectDirectoryTranslation(projectId, directoryId, {
+            targetLanguageIds: [languageId],
+        });
+        expect(result.data.progress).toBe(progress);
     });
 
     it('Build Project File Translation', async () => {

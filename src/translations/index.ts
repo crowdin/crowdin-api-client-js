@@ -27,6 +27,21 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param request request body
+     */
+    buildProjectDirectoryTranslation(
+        projectId: number,
+        directoryId: number,
+        request: TranslationsModel.BuildProjectDirectoryTranslationRequest,
+    ): Promise<ResponseObject<TranslationsModel.BuildProjectDirectoryTranslationResponse>> {
+        const url = `${this.url}/projects/${projectId}/translations/builds/directories/${directoryId}`;
+        const config = this.defaultConfig();
+        return this.post(url, request, config);
+    }
+
+    /**
+     * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
      * @param eTag eTag 'If-None-Match' header
@@ -139,6 +154,29 @@ export namespace TranslationsModel {
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
         markAddedTranslationsAsDone?: boolean;
+    }
+
+    export interface BuildProjectDirectoryTranslationRequest {
+        targetLanguageIds?: string[];
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        exportApprovedOnly?: boolean;
+        exportWithMinApprovalsCount?: number;
+    }
+
+    export interface BuildProjectDirectoryTranslationResponse {
+        id: number;
+        projectId: number;
+        status: BuildStatus;
+        progress: number;
+    }
+
+    export enum BuildStatus {
+        CREATED = 'created',
+        IN_PROGRESS = 'inProgress',
+        CANCELED = 'canceled',
+        FAILED = 'failed',
+        FINISHED = 'finished',
     }
 
     export interface BuildProjectFileTranslationRequest {
