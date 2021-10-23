@@ -18,13 +18,29 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
         fileId?: number,
+    ): Promise<ResponseList<StringTranslationsModel.Approval>>;
+
+    listTranslationApprovals(
+        projectId: number,
+        stringIdOrRequest?: number | StringTranslationsModel.ListTranslationApprovalsRequest,
+        languageId?: string,
+        translationId?: number,
+        limit?: number,
+        offset?: number,
+        fileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
-        url = this.addQueryParam(url, 'stringId', stringId);
-        url = this.addQueryParam(url, 'languageId', languageId);
-        url = this.addQueryParam(url, 'translationId', translationId);
-        url = this.addQueryParam(url, 'fileId', fileId);
-        return this.getList(url, limit, offset);
+        let request: StringTranslationsModel.ListTranslationApprovalsRequest;
+        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
+            request = stringIdOrRequest;
+        } else {
+            request = { stringId: stringIdOrRequest, languageId, translationId, limit, offset, fileId };
+        }
+        url = this.addQueryParam(url, 'stringId', request.stringId);
+        url = this.addQueryParam(url, 'languageId', request.languageId);
+        url = this.addQueryParam(url, 'translationId', request.translationId);
+        url = this.addQueryParam(url, 'fileId', request.fileId);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -84,14 +100,46 @@ export class StringTranslations extends CrowdinApi {
             | StringTranslationsModel.PluralLanguageTranslation
             | StringTranslationsModel.IcuLanguageTranslation
         >
+    >;
+
+    listLanguageTranslations(
+        projectId: number,
+        languageId: string,
+        stringIdsOrRequest?: string | StringTranslationsModel.ListLanguageTranslationsRequest,
+        fileId?: number,
+        limit?: number,
+        offset?: number,
+        labelIds?: string,
+        denormalizePlaceholders?: BooleanInt,
+        croql?: string,
+    ): Promise<
+        ResponseList<
+            | StringTranslationsModel.PlainLanguageTranslation
+            | StringTranslationsModel.PluralLanguageTranslation
+            | StringTranslationsModel.IcuLanguageTranslation
+        >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
-        url = this.addQueryParam(url, 'stringIds', stringIds);
-        url = this.addQueryParam(url, 'fileId', fileId);
-        url = this.addQueryParam(url, 'labelIds', labelIds);
-        url = this.addQueryParam(url, 'denormalizePlaceholders', denormalizePlaceholders);
-        url = this.addQueryParam(url, 'croql', croql);
-        return this.getList(url, limit, offset);
+        let request: StringTranslationsModel.ListLanguageTranslationsRequest;
+        if (stringIdsOrRequest && typeof stringIdsOrRequest === 'object') {
+            request = stringIdsOrRequest;
+        } else {
+            request = {
+                stringIds: stringIdsOrRequest,
+                fileId,
+                limit,
+                offset,
+                labelIds,
+                denormalizePlaceholders,
+                croql,
+            };
+        }
+        url = this.addQueryParam(url, 'stringIds', request.stringIds);
+        url = this.addQueryParam(url, 'fileId', request.fileId);
+        url = this.addQueryParam(url, 'labelIds', request.labelIds);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', request.denormalizePlaceholders);
+        url = this.addQueryParam(url, 'croql', request.croql);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -189,12 +237,27 @@ export class StringTranslations extends CrowdinApi {
         translationId?: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<StringTranslationsModel.Vote>>;
+
+    listTranslationVotes(
+        projectId: number,
+        stringIdOrRequest?: number | StringTranslationsModel.ListTranslationVotesRequest,
+        languageId?: string,
+        translationId?: number,
+        limit?: number,
+        offset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
-        url = this.addQueryParam(url, 'stringId', stringId);
-        url = this.addQueryParam(url, 'languageId', languageId);
-        url = this.addQueryParam(url, 'translationId', translationId);
-        return this.getList(url, limit, offset);
+        let request: StringTranslationsModel.ListTranslationVotesRequest;
+        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
+            request = stringIdOrRequest;
+        } else {
+            request = { stringId: stringIdOrRequest, languageId, translationId, limit, offset };
+        }
+        url = this.addQueryParam(url, 'stringId', request.stringId);
+        url = this.addQueryParam(url, 'languageId', request.languageId);
+        url = this.addQueryParam(url, 'translationId', request.translationId);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -229,6 +292,15 @@ export class StringTranslations extends CrowdinApi {
 }
 
 export namespace StringTranslationsModel {
+    export interface ListTranslationApprovalsRequest {
+        stringId?: number;
+        languageId?: string;
+        translationId?: number;
+        limit?: number;
+        offset?: number;
+        fileId?: number;
+    }
+
     export interface Approval {
         id: number;
         user: User;
@@ -250,6 +322,16 @@ export namespace StringTranslationsModel {
         user: User;
         rating: number;
         createdAt: string;
+    }
+
+    export interface ListLanguageTranslationsRequest {
+        stringIds?: string;
+        fileId?: number;
+        limit?: number;
+        offset?: number;
+        labelIds?: string;
+        denormalizePlaceholders?: BooleanInt;
+        croql?: string;
     }
 
     export interface PlainLanguageTranslation {
@@ -289,6 +371,14 @@ export namespace StringTranslationsModel {
         languageId: string;
         text: string;
         pluralCategoryName?: string;
+    }
+
+    export interface ListTranslationVotesRequest {
+        stringId?: number;
+        languageId?: string;
+        translationId?: number;
+        limit?: number;
+        offset?: number;
     }
 
     export interface Vote {

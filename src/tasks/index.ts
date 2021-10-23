@@ -79,11 +79,24 @@ export class Tasks extends CrowdinApi {
         offset?: number,
         status?: TasksModel.Status,
         isArchived?: BooleanInt,
+    ): Promise<ResponseList<TasksModel.UserTask>>;
+
+    listUserTasks(
+        limitOrRequest?: number | TasksModel.ListUserTasksRequest,
+        offset?: number,
+        status?: TasksModel.Status,
+        isArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
-        url = this.addQueryParam(url, 'status', status);
-        url = this.addQueryParam(url, 'isArchived', isArchived);
-        return this.getList(url, limit, offset);
+        let request: TasksModel.ListUserTasksRequest;
+        if (limitOrRequest && typeof limitOrRequest === 'object') {
+            request = limitOrRequest;
+        } else {
+            request = { limit: limitOrRequest, offset, status, isArchived };
+        }
+        url = this.addQueryParam(url, 'status', request.status);
+        url = this.addQueryParam(url, 'isArchived', request.isArchived);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -130,6 +143,13 @@ export namespace TasksModel {
         buyUrl: string;
         createdAt: string;
         updatedAt: string;
+    }
+
+    export interface ListUserTasksRequest {
+        limit?: number;
+        offset?: number;
+        status?: Status;
+        isArchived?: BooleanInt;
     }
 
     export interface UserTask extends Task {

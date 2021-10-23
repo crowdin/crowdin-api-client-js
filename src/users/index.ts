@@ -17,12 +17,27 @@ export class Users extends CrowdinApi {
         languageId?: string,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<UsersModel.ProjectMember>>;
+
+    listProjectMembers(
+        projectId: number,
+        searchOrRequest?: string | UsersModel.ListProjectMembersRequest,
+        role?: UsersModel.Role,
+        languageId?: string,
+        limit?: number,
+        offset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        url = this.addQueryParam(url, 'search', search);
-        url = this.addQueryParam(url, 'role', role);
-        url = this.addQueryParam(url, 'languageId', languageId);
-        return this.getList(url, limit, offset);
+        let request: UsersModel.ListProjectMembersRequest;
+        if (searchOrRequest && typeof searchOrRequest === 'object') {
+            request = searchOrRequest;
+        } else {
+            request = { search: searchOrRequest, role, languageId, limit, offset };
+        }
+        url = this.addQueryParam(url, 'search', request.search);
+        url = this.addQueryParam(url, 'role', request.role);
+        url = this.addQueryParam(url, 'languageId', request.languageId);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -88,12 +103,26 @@ export class Users extends CrowdinApi {
         twoFactor?: UsersModel.TwoFactor,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<UsersModel.User>>;
+
+    listUsers(
+        statusOrRequest?: UsersModel.Status | UsersModel.ListUsersRequest,
+        search?: string,
+        twoFactor?: UsersModel.TwoFactor,
+        limit?: number,
+        offset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        url = this.addQueryParam(url, 'status', status);
-        url = this.addQueryParam(url, 'search', search);
-        url = this.addQueryParam(url, 'twoFactor', twoFactor);
-        return this.getList(url, limit, offset);
+        let request: UsersModel.ListUsersRequest;
+        if (statusOrRequest && typeof statusOrRequest === 'object') {
+            request = statusOrRequest;
+        } else {
+            request = { status: statusOrRequest, search, twoFactor, limit, offset };
+        }
+        url = this.addQueryParam(url, 'status', request.status);
+        url = this.addQueryParam(url, 'search', request.search);
+        url = this.addQueryParam(url, 'twoFactor', request.twoFactor);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -111,6 +140,22 @@ export class Users extends CrowdinApi {
 }
 
 export namespace UsersModel {
+    export interface ListProjectMembersRequest {
+        search?: string;
+        role?: Role;
+        languageId?: string;
+        limit?: number;
+        offset?: number;
+    }
+
+    export interface ListUsersRequest {
+        status?: Status;
+        search?: string;
+        twoFactor?: TwoFactor;
+        limit?: number;
+        offset?: number;
+    }
+
     export interface User {
         id: number;
         username: string;

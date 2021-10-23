@@ -79,13 +79,29 @@ export class SourceFiles extends CrowdinApi {
         offset?: number,
         filter?: string,
         recursion?: string,
+    ): Promise<ResponseList<SourceFilesModel.Directory>>;
+
+    listProjectDirectories(
+        projectId: number,
+        branchIdOrRequest?: number | SourceFilesModel.ListProjectDirectoriesRequest,
+        directoryId?: number,
+        limit?: number,
+        offset?: number,
+        filter?: string,
+        recursion?: string,
     ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
-        url = this.addQueryParam(url, 'branchId', branchId);
-        url = this.addQueryParam(url, 'directoryId', directoryId);
-        url = this.addQueryParam(url, 'filter', filter);
-        url = this.addQueryParam(url, 'recursion', recursion);
-        return this.getList(url, limit, offset);
+        let request: SourceFilesModel.ListProjectDirectoriesRequest;
+        if (branchIdOrRequest && typeof branchIdOrRequest === 'object') {
+            request = branchIdOrRequest;
+        } else {
+            request = { branchId: branchIdOrRequest, directoryId, limit, offset, recursion, filter };
+        }
+        url = this.addQueryParam(url, 'branchId', request.branchId);
+        url = this.addQueryParam(url, 'directoryId', request.directoryId);
+        url = this.addQueryParam(url, 'filter', request.filter);
+        url = this.addQueryParam(url, 'recursion', request.recursion);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -351,6 +367,15 @@ export namespace SourceFilesModel {
         LOW = 'low',
         NORMAL = 'normal',
         HIGH = 'high',
+    }
+
+    export interface ListProjectDirectoriesRequest {
+        branchId?: number;
+        directoryId?: number;
+        limit?: number;
+        offset?: number;
+        filter?: string;
+        recursion?: string;
     }
 
     export interface Directory {
