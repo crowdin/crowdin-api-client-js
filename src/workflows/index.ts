@@ -10,10 +10,22 @@ export class Workflows extends CrowdinApi {
         groupId?: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<WorkflowModel.Workflow>>;
+
+    listWorkflowTemplates(
+        groupIdOrRequest?: number | WorkflowModel.ListWorkflowTemplatesRequest,
+        limit?: number,
+        offset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset);
+        let request: WorkflowModel.ListWorkflowTemplatesRequest;
+        if (groupIdOrRequest && typeof groupIdOrRequest === 'object') {
+            request = groupIdOrRequest;
+        } else {
+            request = { groupId: groupIdOrRequest, limit, offset };
+        }
+        url = this.addQueryParam(url, 'groupId', request.groupId);
+        return this.getList(url, request.limit, request.offset);
     }
 
     /**
@@ -26,6 +38,12 @@ export class Workflows extends CrowdinApi {
 }
 
 export namespace WorkflowModel {
+    export interface ListWorkflowTemplatesRequest {
+        groupId?: number;
+        limit?: number;
+        offset?: number;
+    }
+
     export interface Workflow {
         id: number;
         title: string;

@@ -97,12 +97,27 @@ export class TranslationStatus extends CrowdinApi {
         category?: TranslationStatusModel.Category,
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
+    ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
+
+    listQaCheckIssues(
+        projectId: number,
+        limitOrRequest?: number | TranslationStatusModel.ListQaCheckIssuesRequest,
+        offset?: number,
+        category?: TranslationStatusModel.Category,
+        validation?: TranslationStatusModel.Validation,
+        languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-checks`;
-        url = this.addQueryParam(url, 'category', category);
-        url = this.addQueryParam(url, 'validation', validation);
-        url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.getList(url, limit, offset);
+        let request: TranslationStatusModel.ListQaCheckIssuesRequest;
+        if (limitOrRequest && typeof limitOrRequest === 'object') {
+            request = limitOrRequest;
+        } else {
+            request = { limit: limitOrRequest, offset, category, validation, languageIds };
+        }
+        url = this.addQueryParam(url, 'category', request.category);
+        url = this.addQueryParam(url, 'validation', request.validation);
+        url = this.addQueryParam(url, 'languageIds', request.languageIds);
+        return this.getList(url, request.limit, request.offset);
     }
 }
 
@@ -183,6 +198,14 @@ export namespace TranslationStatusModel {
         WRONG_TRANSLATION_ISSUE_CHECK = 'wrong_translation_issue_check',
         SPELLCHECK = 'spellcheck',
         ICU_CHECK = 'icu_check',
+    }
+
+    export interface ListQaCheckIssuesRequest {
+        limit?: number;
+        offset?: number;
+        category?: Category;
+        validation?: Validation;
+        languageIds?: string;
     }
 
     export interface QaCheck {
