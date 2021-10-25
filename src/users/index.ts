@@ -205,11 +205,10 @@ export namespace UsersModel {
         accessToAllWorkflowSteps: boolean;
         permissions: {
             [key: string]: {
-                workflowStepIds: number[]
-            }
+                workflowStepIds: number[];
+            };
         };
         givenAccessAt: string;
-
     }
 
     export interface Group {
