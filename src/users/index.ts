@@ -17,7 +17,7 @@ export class Users extends CrowdinApi {
         languageId?: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<UsersModel.ProjectMember>>;
+    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
 
     listProjectMembers(
         projectId: number,
@@ -26,7 +26,7 @@ export class Users extends CrowdinApi {
         languageId?: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<UsersModel.ProjectMember>> {
+    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
         let request: UsersModel.ListProjectMembersRequest;
         if (searchOrRequest && typeof searchOrRequest === 'object') {
@@ -186,17 +186,30 @@ export namespace UsersModel {
         id: number;
         username: string;
         fullName: string;
+        role: Role;
+        permissions: {
+            [key: string]: LanguageRole | string;
+        };
+        avatarUrl: string;
+        joinedAt: string;
+        timezone: string;
+    }
+
+    export interface EnterpriseProjectMember {
+        id: number;
+        username: string;
         firstName: string;
         lastName: string;
         isManager: boolean;
         managerOfGroup: Group;
         accessToAllWorkflowSteps: boolean;
-        role: Role;
-        permissions: any;
-        avatarUrl: string;
-        joinedAt: string;
-        timezone: string;
+        permissions: {
+            [key: string]: {
+                workflowStepIds: number[]
+            }
+        };
         givenAccessAt: string;
+
     }
 
     export interface Group {
@@ -206,10 +219,17 @@ export namespace UsersModel {
 
     export enum Role {
         ALL = 'all',
+        OWNER = 'owner',
         MANAGER = 'manager',
         PROOFREADER = 'proofreader',
         TRANSLATOR = 'translator',
         BLOCKED = 'blocked',
+    }
+
+    export enum LanguageRole {
+        PROOFREADER = 'proofreader',
+        TRANSLATOR = 'translator',
+        DENIED = 'denied',
     }
 
     export interface AddProjectMemberRequest {
