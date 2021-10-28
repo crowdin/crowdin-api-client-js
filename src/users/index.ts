@@ -204,7 +204,7 @@ export namespace UsersModel {
         managerOfGroup: Group;
         accessToAllWorkflowSteps: boolean;
         permissions: {
-            [key: string]: {
+            [lang: string]: {
                 workflowStepIds: number[];
             };
         };
