@@ -188,7 +188,7 @@ export namespace UsersModel {
         fullName: string;
         role: Role;
         permissions: {
-            [key: string]: LanguageRole | string;
+            [lang: string]: LanguageRole | string;
         };
         avatarUrl: string;
         joinedAt: string;
