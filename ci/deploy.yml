@@ -16,11 +16,11 @@ stages:
     - template: templates/jobs.yml
       parameters:
         name: Windows
-        vmImage: 'vs2017-win2016'
+        vmImage: 'windows-latest'
     - template: templates/jobs.yml
       parameters:
         name: macOS
-        vmImage: 'macOS 10.14'
+        vmImage: 'macOS-latest'
   - stage: Publish
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
     dependsOn: Tests

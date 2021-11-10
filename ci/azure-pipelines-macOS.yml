@@ -9,4 +9,4 @@ jobs:
   - template: templates/jobs.yml
     parameters:
       name: macOS
-      vmImage: 'macOS 10.14'
+      vmImage: 'macOS-latest'
