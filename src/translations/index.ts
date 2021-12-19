@@ -249,6 +249,7 @@ export namespace TranslationsModel {
 
     export interface PseudoBuildRequest {
         pseudo: boolean;
+        branchId?: number;
         prefix?: string;
         suffix?: string;
         lengthTransformation?: number;
