@@ -123,6 +123,7 @@ export namespace TranslationMemoryModel {
         groupId: number;
         userId: number;
         name: string;
+        languageId: string;
         languageIds: string[];
         segmentsCount: number;
         defaultProjectId: number;
@@ -132,6 +133,7 @@ export namespace TranslationMemoryModel {
 
     export interface AddTranslationMemoryRequest {
         name: string;
+        languageId: string;
         groupId?: number;
     }
 

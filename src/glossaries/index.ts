@@ -213,6 +213,7 @@ export namespace GlossariesModel {
         groupId: number;
         userId: number;
         terms: number;
+        languageId: string;
         languageIds: string[];
         projectIds: number[];
         createdAt: string;
@@ -220,6 +221,7 @@ export namespace GlossariesModel {
 
     export interface CreateGlossaryRequest {
         name: string;
+        languageId: string;
         groupId?: number;
     }
 
