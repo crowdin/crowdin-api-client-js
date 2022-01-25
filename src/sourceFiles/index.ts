@@ -511,6 +511,7 @@ export namespace SourceFilesModel {
         SBV = 'sbv',
         VTT = 'vtt',
         SRT = 'srt',
+        ARB = 'arb',
     }
 
     export interface SpreadsheetImportOptions {

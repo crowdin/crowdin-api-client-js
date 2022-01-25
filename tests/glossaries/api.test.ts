@@ -51,6 +51,7 @@ describe('Glossaries API', () => {
                 {
                     name: glossaryName,
                     groupId: groupId,
+                    languageId: termLanguageId,
                 },
                 {
                     reqheaders: {
@@ -270,6 +271,7 @@ describe('Glossaries API', () => {
         const glossary = await api.addGlossary({
             name: glossaryName,
             groupId: groupId,
+            languageId: termLanguageId,
         });
         expect(glossary.data.id).toBe(glossaryId);
         expect(glossary.data.name).toBe(glossaryName);

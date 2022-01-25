@@ -15,6 +15,7 @@ describe('Translation Memory API', () => {
     const importId = '4';
     const name = 'test';
     const url = 'test.com';
+    const languageId = 'fr';
 
     const limit = 25;
 
@@ -44,8 +45,9 @@ describe('Translation Memory API', () => {
             .post(
                 '/tms',
                 {
-                    name: name,
-                    groupId: groupId,
+                    name,
+                    groupId,
+                    languageId,
                 },
                 {
                     reqheaders: {
@@ -176,8 +178,9 @@ describe('Translation Memory API', () => {
 
     it('Add TM', async () => {
         const tm = await api.addTm({
-            name: name,
-            groupId: groupId,
+            name,
+            groupId,
+            languageId,
         });
         expect(tm.data.id).toBe(tmId);
     });
@@ -224,7 +227,7 @@ describe('Translation Memory API', () => {
 
     it('Import TM', async () => {
         const status = await api.importTm(tmId, {
-            storageId: storageId,
+            storageId,
         });
         expect(status.data.identifier).toBe(importId);
     });
