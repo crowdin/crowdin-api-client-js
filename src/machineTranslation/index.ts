@@ -53,6 +53,19 @@ export class MachineTranslation extends CrowdinApi {
         const url = `${this.url}/mts/${mtId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     *
+     * @param mtId mt identifier
+     * @param request request body
+     */
+    translate(
+        mtId: number,
+        request: MachineTranslationModel.TranslateRequest,
+    ): Promise<ResponseObject<MachineTranslationModel.TranslateResponse>> {
+        const url = `${this.url}/mts/${mtId}/translations`;
+        return this.post(url, request, this.defaultConfig());
+    }
 }
 
 export namespace MachineTranslationModel {
@@ -74,5 +87,24 @@ export namespace MachineTranslationModel {
         groupId?: number;
         type: string;
         credentials: string[];
+    }
+
+    export interface TranslateRequest {
+        languageRecognitionProvider?: LanguageRecognitionProvider;
+        sourceLanguageId?: string;
+        targetLanguageId: string;
+        strings?: string[];
+    }
+
+    export interface TranslateResponse {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        strings: string[];
+        translations: string[];
+    }
+
+    export enum LanguageRecognitionProvider {
+        CROWDIN = 'crowdin',
+        ENGINE = 'engine',
     }
 }

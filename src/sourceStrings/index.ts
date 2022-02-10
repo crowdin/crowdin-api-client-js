@@ -144,6 +144,8 @@ export namespace SourceStringsModel {
         type: Type;
         context: string;
         maxLength: number;
+        isDuplicate: boolean;
+        masterStringId: boolean;
         isHidden: boolean;
         revision: number;
         hasPlurals: boolean;

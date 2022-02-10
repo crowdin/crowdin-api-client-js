@@ -12,6 +12,7 @@ describe('Machine Translation engines (MTs) API', () => {
     const groupId = 3;
     const name = 'test';
     const type = 'type';
+    const lang = 'us';
 
     const limit = 25;
 
@@ -92,6 +93,22 @@ describe('Machine Translation engines (MTs) API', () => {
                     id: mtId,
                     name: name,
                 },
+            })
+            .post(
+                `/mts/${mtId}/translations`,
+                {
+                    targetLanguageId: lang,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    targetLanguageId: lang,
+                },
             });
     });
 
@@ -134,5 +151,12 @@ describe('Machine Translation engines (MTs) API', () => {
         ]);
         expect(mt.data.id).toBe(mtId);
         expect(mt.data.name).toBe(name);
+    });
+
+    it('Translate via MT', async () => {
+        const translations = await api.translate(mtId, {
+            targetLanguageId: lang,
+        });
+        expect(translations.data.targetLanguageId).toBe(lang);
     });
 });
