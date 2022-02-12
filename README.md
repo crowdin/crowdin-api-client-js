@@ -51,7 +51,7 @@ For more about Crowdin API v2 see the documentation:
 <summary>Typescript</summary>
 
 ```typescript
-import crowdin, { Credentials } from '@crowdin/crowdin-api-client';
+import crowdin, { Credentials, SourceFilesModel } from '@crowdin/crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
@@ -60,7 +60,12 @@ const credentials: Credentials = {
 };
 
 // initialization of crowdin client
-const { projectsGroupsApi } = new crowdin(credentials);
+const {
+  projectsGroupsApi,
+  uploadStorageApi,
+  sourceFilesApi,
+  translationsApi
+} = new crowdin(credentials);
 
 // get project list
 projectsGroupsApi.listProjects()
@@ -75,6 +80,40 @@ async function getProjects() {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Create file with json content to translate
+async function createFile() {
+  const projectId = 123;
+  const fileData = {
+    title: 'Example',
+    description: 'Some Text'
+  };
+  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const file = await sourceFilesApi.createFile(projectId, {
+    name: 'file1.json',
+    title: 'Sample file',
+    storageId: storage.data.id,
+    type: SourceFilesModel.FileType.JSON
+  });
+  console.log(file);
+}
+
+// Download translations
+async function downloadTranslations() {
+  const projectId = 123;
+  const fileId = 456;
+  const language = 'de';
+  const downloadLink = await translationsApi.buildProjectFileTranslation(
+    projectId,
+    fileId,
+    {
+      targetLanguageId: language
+    }
+  );
+  const response = await fetch(downloadLink.data.url);
+  const translations = await response.json();
+  console.log(translations);
 }
 ```
 
@@ -104,10 +143,15 @@ projectsGroupsApi.listProjects()
 <summary>Javascript ES6 modules</summary>
 
 ```javascript
-import crowdin from '@crowdin/crowdin-api-client';
+import crowdin, { SourceFilesModel } from '@crowdin/crowdin-api-client';
 
 // initialization of crowdin client
-const { projectsGroupsApi } = new crowdin({
+const {
+  projectsGroupsApi,
+  uploadStorageApi,
+  sourceFilesApi,
+  translationsApi
+} = new crowdin({
   token: 'personalAccessToken',
   organization: 'organizationName' // optional
 });
@@ -125,6 +169,40 @@ async function getProjects() {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Create file with json content to translate
+async function createFile() {
+  const projectId = 123;
+  const fileData = {
+    title: 'Example',
+    description: 'Some Text'
+  };
+  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const file = await sourceFilesApi.createFile(projectId, {
+    name: 'file1.json',
+    title: 'Sample file',
+    storageId: storage.data.id,
+    type: SourceFilesModel.FileType.JSON
+  });
+  console.log(file);
+}
+
+// Download translations
+async function downloadTranslations() {
+  const projectId = 123;
+  const fileId = 456;
+  const language = 'de';
+  const downloadLink = await translationsApi.buildProjectFileTranslation(
+    projectId,
+    fileId,
+    {
+      targetLanguageId: language
+    }
+  );
+  const response = await fetch(downloadLink.data.url);
+  const translations = await response.json();
+  console.log(translations);
 }
 ```
 
@@ -151,10 +229,15 @@ projectsGroupsApi.listProjects()
 <summary>Javascript CommonJS</summary>
 
 ```javascript
-const crowdin = require('@crowdin/crowdin-api-client').default;
+const crowdin = require('@crowdin/crowdin-api-client');
 
 // initialization of crowdin client
-const { projectsGroupsApi } = new crowdin({
+const {
+  projectsGroupsApi,
+  uploadStorageApi,
+  sourceFilesApi,
+  translationsApi
+} = new crowdin.default({
   token: 'personalAccessToken',
   organization: 'organizationName' // optional
 });
@@ -172,6 +255,40 @@ async function getProjects() {
   } catch (error) {
     console.error(error);
   }
+}
+
+// Create file with json content to translate
+async function createFile() {
+  const projectId = 123;
+  const fileData = {
+    title: 'Example',
+    description: 'Some Text'
+  };
+  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const file = await sourceFilesApi.createFile(projectId, {
+    name: 'file1.json',
+    title: 'Sample file',
+    storageId: storage.data.id,
+    type: crowdin.SourceFilesModel.FileType.JSON
+  });
+  console.log(file);
+}
+
+// Download translations
+async function downloadTranslations() {
+  const projectId = 123;
+  const fileId = 456;
+  const language = 'de';
+  const downloadLink = await translationsApi.buildProjectFileTranslation(
+    projectId,
+    fileId,
+    {
+      targetLanguageId: language
+    }
+  );
+  const response = await fetch(downloadLink.data.url);
+  const translations = await response.json();
+  console.log(translations);
 }
 ```
 
