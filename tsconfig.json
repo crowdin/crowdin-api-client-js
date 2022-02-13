@@ -2,10 +2,10 @@
     "compilerOptions": {
         "module": "commonjs",
         "declaration": true,
-        "target": "es6",
+        "target": "es2019",
         "outDir": "./out",
         "lib": [
-            "es6"
+            "es2021"
         ],
         "strict": true
     },

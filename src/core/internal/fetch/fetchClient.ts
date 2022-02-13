@@ -28,11 +28,11 @@ export class FetchClient implements HttpClient {
 
     private async request(url: string, method: string, config?: RequestConfig, data?: any): Promise<any> {
         let body = undefined;
-        if (!!data) {
+        if (data) {
             if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
-                config = config || { headers: {} };
-                config.headers = config.headers || {};
+                config = config ?? { headers: {} };
+                config.headers = config.headers ?? {};
                 config.headers['Content-Type'] = 'application/json';
             } else {
                 body = data;
@@ -42,8 +42,8 @@ export class FetchClient implements HttpClient {
 
         return fetch(url, {
             method: method,
-            headers: !!config ? config.headers : {},
-            mode: (config && config.mode) || 'no-cors',
+            headers: config ? config.headers : {},
+            mode: config?.mode ?? 'no-cors',
             body: body,
         })
             .then(async (resp: any) => {
