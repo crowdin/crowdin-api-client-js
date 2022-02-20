@@ -2,6 +2,34 @@ import { CrowdinApi, ResponseList, ResponseObject } from '../core';
 
 export class Workflows extends CrowdinApi {
     /**
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
+     */
+    listWorkflowSteps(
+        projectId: number,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
+        const url = `${this.url}/projects/${projectId}/workflow-steps`;
+        return this.getList(url, limit, offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stepId workflow step identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
+     */
+    getWorkflowStep(
+        projectId: number,
+        stepId: number,
+    ): Promise<ResponseObject<WorkflowModel.ListWorkflowStepsResponse>> {
+        const url = `${this.url}/projects/${projectId}/workflow-steps/${stepId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -38,6 +66,19 @@ export class Workflows extends CrowdinApi {
 }
 
 export namespace WorkflowModel {
+    export interface ListWorkflowStepsResponse {
+        id: number;
+        title: string;
+        type: string;
+        languages: string[];
+        config:
+            | {
+                  minRelevant: string;
+                  autoSubstitution: number;
+                  assignees: Record<string, number[]>;
+              }
+            | never[];
+    }
     export interface ListWorkflowTemplatesRequest {
         groupId?: number;
         limit?: number;
