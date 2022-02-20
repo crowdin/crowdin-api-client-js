@@ -3,19 +3,8 @@ import { CrowdinApi, DownloadLink, ResponseList, ResponseObject, Status } from '
 export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param request request body
-     */
-    applyPreTranslation(
-        projectId: number,
-        request: TranslationsModel.PreTranslateRequest,
-    ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
-        const url = `${this.url}/projects/${projectId}/pre-translations`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
      * @param preTranslationId pre translation identifier
+     * @see https://support.crowdin.com/api/v2/#tag/Translations/paths/~1projects~1{projectId}~1pre-translations~1{preTranslationId}/get
      */
     preTranslationStatus(
         projectId: number,
@@ -27,8 +16,22 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.pre-translations.post
+     */
+    applyPreTranslation(
+        projectId: number,
+        request: TranslationsModel.PreTranslateRequest,
+    ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.directories.post
      */
     buildProjectDirectoryTranslation(
         projectId: number,
@@ -45,6 +48,7 @@ export class Translations extends CrowdinApi {
      * @param fileId file identifier
      * @param request request body
      * @param eTag eTag 'If-None-Match' header
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.files.post
      */
     buildProjectFileTranslation(
         projectId: number,
@@ -65,6 +69,7 @@ export class Translations extends CrowdinApi {
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
      */
     listProjectBuilds(
         projectId: number,
@@ -80,6 +85,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.post
      */
     buildProject(
         projectId: number,
@@ -91,35 +97,9 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param buildId build identifier
-     */
-    downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
-        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param buildId build identifier
-     */
-    checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<TranslationsModel.Build>> {
-        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param buildId build identifier
-     */
-    cancelBuild(projectId: number, buildId: number): Promise<void> {
-        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
-        return this.delete(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.postOnLanguage
      */
     uploadTranslation(
         projectId: number,
@@ -132,7 +112,38 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param buildId build identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.download.download
+     */
+    downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.get
+     */
+    checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<TranslationsModel.Build>> {
+        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.delete
+     */
+    cancelBuild(projectId: number, buildId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.exports.post
      */
     exportProjectTranslation(
         projectId: number,

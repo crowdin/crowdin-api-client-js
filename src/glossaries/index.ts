@@ -5,6 +5,7 @@ export class Glossaries extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.getMany
      */
     listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
         let url = `${this.url}/glossaries`;
@@ -14,6 +15,7 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.post
      */
     addGlossary(request: GlossariesModel.CreateGlossaryRequest): Promise<ResponseObject<GlossariesModel.Glossary>> {
         const url = `${this.url}/glossaries`;
@@ -22,6 +24,7 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.get
      */
     getGlossary(glossaryId: number): Promise<ResponseObject<GlossariesModel.Glossary>> {
         const url = `${this.url}/glossaries/${glossaryId}`;
@@ -30,6 +33,7 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.delete
      */
     deleteGlossary(glossaryId: number): Promise<void> {
         const url = `${this.url}/glossaries/${glossaryId}`;
@@ -39,6 +43,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.patch
      */
     editGlossary(glossaryId: number, request: PatchRequest[]): Promise<ResponseObject<GlossariesModel.Glossary>> {
         const url = `${this.url}/glossaries/${glossaryId}`;
@@ -48,6 +53,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.exports.post
      */
     exportGlossary(
         glossaryId: number,
@@ -60,15 +66,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param exportId export identifier
-     */
-    downloadGlossary(glossaryId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
-        const url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}/download`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param glossaryId glossary identifier
-     * @param exportId export identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.exports.get
      */
     checkGlossaryExportStatus(
         glossaryId: number,
@@ -80,7 +78,18 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.exports.download.download
+     */
+    downloadGlossary(glossaryId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/glossaries/${glossaryId}/exports/${exportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param glossaryId glossary identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.imports.post
      */
     importGlossaryFile(
         glossaryId: number,
@@ -93,6 +102,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param importId import identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.imports.get
      */
     checkGlossaryImportStatus(
         glossaryId: number,
@@ -102,11 +112,15 @@ export class Glossaries extends CrowdinApi {
         return this.get(url, this.defaultConfig());
     }
 
+    /**
+     * @param glossaryId glossary identifier
+     * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
+     */
     listTerms(
         glossaryId: number,
         request: GlossariesModel.ListTermsRequest,
     ): Promise<ResponseList<GlossariesModel.Term>>;
-
     /**
      * @param glossaryId glossary identifier
      * @param userId list user glossaries
@@ -114,6 +128,7 @@ export class Glossaries extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param languageId term language identifier
      * @param translationOfTermId filter terms by termId
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
     listTerms(
         glossaryId: number,
@@ -123,7 +138,6 @@ export class Glossaries extends CrowdinApi {
         languageId?: string,
         translationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>>;
-
     listTerms(
         glossaryId: number,
         userIdOrRequest?: number | GlossariesModel.ListTermsRequest,
@@ -148,6 +162,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.post
      */
     addTerm(
         glossaryId: number,
@@ -161,6 +176,7 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param languageId languageId identifier
      * @param translationOfTermId term translation identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
      */
     clearGlossary(
         glossaryId: number,
@@ -176,6 +192,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param termId term identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.get
      */
     getTerm(glossaryId: number, termId: number): Promise<ResponseObject<GlossariesModel.Term>> {
         const url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
@@ -185,6 +202,7 @@ export class Glossaries extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param termId term identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.delete
      */
     deleteTerm(glossaryId: number, termId: number): Promise<void> {
         const url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
@@ -195,6 +213,7 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param termId term identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.patch
      */
     editTerm(
         glossaryId: number,

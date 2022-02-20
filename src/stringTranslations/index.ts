@@ -9,6 +9,7 @@ export class StringTranslations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param fileId file identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
      */
     listTranslationApprovals(
         projectId: number,
@@ -46,6 +47,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.post
      */
     addApproval(
         projectId: number,
@@ -58,6 +60,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param approvalId approval identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.get
      */
     approvalInfo(projectId: number, approvalId: number): Promise<ResponseObject<StringTranslationsModel.Approval>> {
         const url = `${this.url}/projects/${projectId}/approvals/${approvalId}`;
@@ -67,6 +70,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param approvalId approval identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.delete
      */
     removeApproval(projectId: number, approvalId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/approvals/${approvalId}`;
@@ -83,6 +87,7 @@ export class StringTranslations extends CrowdinApi {
      * @param labelIds filter translations by fileId
      * @param denormalizePlaceholders enable denormalize placeholders
      * @param croql filter translations by CroQL (Can't be used with `stringIds`, `labelIds` or `fileId` in same request)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany
      */
     listLanguageTranslations(
         projectId: number,
@@ -149,6 +154,7 @@ export class StringTranslations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param denormalizePlaceholders enable denormalize placeholders
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.getMany
      */
     listStringTranslations(
         projectId: number,
@@ -168,6 +174,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.post
      */
     addTranslation(
         projectId: number,
@@ -181,6 +188,7 @@ export class StringTranslations extends CrowdinApi {
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
      */
     deleteAllTranslations(projectId: number, stringId: number, languageId: string): Promise<void> {
         let url = `${this.url}/projects/${projectId}/translations`;
@@ -192,6 +200,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param translationId translation identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.get
      */
     translationInfo(
         projectId: number,
@@ -204,15 +213,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param translation translation identifier
-     */
-    deleteTranslation(projectId: number, translationId: number): Promise<void> {
-        const url = `${this.url}/projects/${projectId}/translations/${translationId}`;
-        return this.delete(url, this.defaultConfig());
-    }
-
-    /**
-     * @param projectId project identifier
-     * @param translation translation identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.put
      */
     restoreTranslation(
         projectId: number,
@@ -224,11 +225,22 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param translation translation identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.delete
+     */
+    deleteTranslation(projectId: number, translationId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/translations/${translationId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.getMany
      */
     listTranslationVotes(
         projectId: number,
@@ -263,6 +275,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.post
      */
     addVote(
         projectId: number,
@@ -275,6 +288,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param voteId vote identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.get
      */
     voteInfo(projectId: number, voteId: number): Promise<ResponseObject<StringTranslationsModel.Vote>> {
         const url = `${this.url}/projects/${projectId}/votes/${voteId}`;
@@ -284,6 +298,7 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param voteId vote identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.delete
      */
     cancelVote(projectId: number, voteId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/votes/${voteId}`;

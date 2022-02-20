@@ -6,6 +6,7 @@ export class Tasks extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(
         projectId: number,
@@ -21,6 +22,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.post
      */
     addTask(
         projectId: number,
@@ -35,6 +37,11 @@ export class Tasks extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.exports.post
+     */
     exportTaskStrings(projectId: number, taskId: number): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}/exports`;
         return this.post(url, {}, this.defaultConfig());
@@ -43,6 +50,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param taskId task identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.get
      */
     getTask(projectId: number, taskId: number): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -52,6 +60,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param taskId task identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.delete
      */
     deleteTask(projectId: number, taskId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -62,6 +71,7 @@ export class Tasks extends CrowdinApi {
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.patch
      */
     editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -73,6 +83,7 @@ export class Tasks extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
+     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
     listUserTasks(
         limit?: number,
@@ -103,6 +114,7 @@ export class Tasks extends CrowdinApi {
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.patch
      */
     editTaskArchivedStatus(
         projectId: number,

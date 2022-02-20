@@ -4,6 +4,7 @@ export class Dictionaries extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param languageIds filter progress by Language Identifiers
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
      */
     listDictionaries(projectId: number, languageIds?: string): Promise<ResponseList<DictionariesModel.Dictionary>> {
         let url = `${this.url}/projects/${projectId}/dictionaries`;
@@ -15,6 +16,7 @@ export class Dictionaries extends CrowdinApi {
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.patch
      */
     editDictionary(
         projectId: number,

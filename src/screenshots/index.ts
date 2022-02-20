@@ -5,6 +5,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany
      */
     listScreenshots(
         projectId: number,
@@ -18,6 +19,7 @@ export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.post
      */
     addScreenshot(
         projectId: number,
@@ -30,6 +32,7 @@ export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.get
      */
     getScreenshot(projectId: number, screenshotId: number): Promise<ResponseObject<ScreenshotsModel.Screenshot>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
@@ -40,6 +43,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.put
      */
     updateScreenshot(
         projectId: number,
@@ -53,6 +57,7 @@ export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.delete
      */
     deleteScreenshot(projectId: number, screenshotId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
@@ -63,6 +68,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.patch
      */
     editScreenshot(
         projectId: number,
@@ -78,6 +84,7 @@ export class Screenshots extends CrowdinApi {
      * @param screenshotId screenshot identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.getMany
      */
     listScreenshotTags(
         projectId: number,
@@ -93,6 +100,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.putMany
      */
     replaceTags(projectId: number, screenshotId: number, request: ScreenshotsModel.AddTagRequest[]): Promise<void> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
@@ -103,6 +111,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.post
      */
     addTag(
         projectId: number,
@@ -116,6 +125,7 @@ export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.deleteMany
      */
     clearTags(projectId: number, screenshotId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
@@ -126,6 +136,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.get
      */
     getTag(projectId: number, screenshotId: number, tagId: number): Promise<ResponseObject<ScreenshotsModel.Tag>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
@@ -136,6 +147,7 @@ export class Screenshots extends CrowdinApi {
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.delete
      */
     deleteTag(projectId: number, screenshotId: number, tagId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
@@ -147,6 +159,7 @@ export class Screenshots extends CrowdinApi {
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.patch
      */
     updateTag(
         projectId: number,

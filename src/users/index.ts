@@ -9,6 +9,7 @@ export class Users extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
         projectId: number,
@@ -18,7 +19,6 @@ export class Users extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
-
     listProjectMembers(
         projectId: number,
         searchOrRequest?: string | UsersModel.ListProjectMembersRequest,
@@ -44,6 +44,7 @@ export class Users extends CrowdinApi {
      *
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.post
      */
     addProjectMember(
         projectId: number,
@@ -57,6 +58,7 @@ export class Users extends CrowdinApi {
      *
      * @param projectId project identifier
      * @param memberId member identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.get
      */
     getProjectMemberPermissions(
         projectId: number,
@@ -70,6 +72,7 @@ export class Users extends CrowdinApi {
      *
      * @param projectId project identifier
      * @param memberId member identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.put
      */
     replaceProjectMemberPermissions(
         projectId: number,
@@ -84,6 +87,7 @@ export class Users extends CrowdinApi {
      *
      * @param projectId project identifier
      * @param memberId member identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.delete
      */
     deleteMemberFromProject(projectId: number, memberId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
@@ -96,6 +100,7 @@ export class Users extends CrowdinApi {
      * @param twoFactor filter users by two-factor authentication status
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
     listUsers(
         status?: UsersModel.Status,
@@ -104,7 +109,6 @@ export class Users extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<UsersModel.User>>;
-
     listUsers(
         statusOrRequest?: UsersModel.Status | UsersModel.ListUsersRequest,
         search?: string,
@@ -127,12 +131,16 @@ export class Users extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getById
      */
     getUserInfo(userId: number): Promise<ResponseObject<UsersModel.User>> {
         const url = `${this.url}/users/${userId}`;
         return this.get(url, this.defaultConfig());
     }
 
+    /**
+     * @see https://support.crowdin.com/api/v2/#operation/api.user.get
+     */
     getAuthenticatedUser(): Promise<ResponseObject<UsersModel.User>> {
         const url = `${this.url}/user`;
         return this.get(url, this.defaultConfig());
