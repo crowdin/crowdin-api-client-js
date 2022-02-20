@@ -5,13 +5,13 @@ export class Workflows extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
     listWorkflowTemplates(
         groupId?: number,
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
-
     listWorkflowTemplates(
         groupIdOrRequest?: number | WorkflowModel.ListWorkflowTemplatesRequest,
         limit?: number,
@@ -30,6 +30,7 @@ export class Workflows extends CrowdinApi {
 
     /**
      * @param templateId workflow template identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.get
      */
     getWorkflowTemplateInfo(templateId: number): Promise<ResponseObject<WorkflowModel.Workflow>> {
         const url = `${this.url}/workflow-templates/${templateId}`;

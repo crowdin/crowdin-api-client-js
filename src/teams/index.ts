@@ -4,6 +4,7 @@ export class Teams extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.teams.post
      */
     addTeamToProject(
         projectId: number,
@@ -16,6 +17,7 @@ export class Teams extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>> {
         const url = `${this.url}/teams`;
@@ -24,6 +26,7 @@ export class Teams extends CrowdinApi {
 
     /**
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.post
      */
     addTeam(request: TeamsModel.AddTeamRequest): Promise<ResponseObject<TeamsModel.Team>> {
         const url = `${this.url}/teams`;
@@ -32,6 +35,7 @@ export class Teams extends CrowdinApi {
 
     /**
      * @param teamId team identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.get
      */
     getTeam(teamId: number): Promise<ResponseObject<TeamsModel.Team>> {
         const url = `${this.url}/teams/${teamId}`;
@@ -40,6 +44,7 @@ export class Teams extends CrowdinApi {
 
     /**
      * @param teamId team identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.delete
      */
     deleteTeam(teamId: number): Promise<void> {
         const url = `${this.url}/teams/${teamId}`;
@@ -49,6 +54,7 @@ export class Teams extends CrowdinApi {
     /**
      * @param teamId team identifier
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.patch
      */
     editTeam(teamId: number, request: PatchRequest[]): Promise<ResponseObject<TeamsModel.Team>> {
         const url = `${this.url}/teams/${teamId}`;
@@ -59,6 +65,7 @@ export class Teams extends CrowdinApi {
      * @param teamId team identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
      */
     teamMembersList(teamId: number, limit?: number, offset?: number): Promise<ResponseList<TeamsModel.TeamMember>> {
         const url = `${this.url}/teams/${teamId}/members`;
@@ -68,6 +75,7 @@ export class Teams extends CrowdinApi {
     /**
      * @param teamId team identifier
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.post
      */
     addTeamMembers(
         teamId: number,
@@ -79,6 +87,7 @@ export class Teams extends CrowdinApi {
 
     /**
      * @param teamId team identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.deleteMany
      */
     deleteAllTeamMembers(teamId: number): Promise<void> {
         const url = `${this.url}/teams/${teamId}/members`;
@@ -88,6 +97,7 @@ export class Teams extends CrowdinApi {
     /**
      * @param teamId team identifier
      * @param memberId member identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.delete
      */
     deleteTeamMember(teamId: number, memberId: number): Promise<void> {
         const url = `${this.url}/teams/${teamId}/members/${memberId}`;

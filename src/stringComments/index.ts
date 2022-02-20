@@ -1,11 +1,6 @@
 import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class StringComments extends CrowdinApi {
-    listStringComments(
-        projectId: number,
-        request?: StringCommentsModel.ListStringCommentsRequest,
-    ): Promise<ResponseList<StringCommentsModel.StringComment>>;
-
     /**
      * @param projectId project identifier
      * @param stringId string identifier
@@ -13,6 +8,7 @@ export class StringComments extends CrowdinApi {
      * @param targetLanguageId defines target language id. It can be one target language id or a list of comma-separated ones
      * @param issueType defines issue type. It can be one issue type or a list of comma-separated ones
      * @param issueStatus defines issue resolution status
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.getMany
      */
     listStringComments(
         projectId: number,
@@ -21,6 +17,11 @@ export class StringComments extends CrowdinApi {
         targetLanguageId?: string,
         issueType?: StringCommentsModel.IssueType,
         issueStatus?: StringCommentsModel.IssueStatus,
+    ): Promise<ResponseList<StringCommentsModel.StringComment>>;
+
+    listStringComments(
+        projectId: number,
+        request?: StringCommentsModel.ListStringCommentsRequest,
     ): Promise<ResponseList<StringCommentsModel.StringComment>>;
 
     listStringComments(
@@ -49,6 +50,7 @@ export class StringComments extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.post
      */
     addStringComment(
         projectId: number,
@@ -61,6 +63,7 @@ export class StringComments extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.get
      */
     getStringComment(
         projectId: number,
@@ -73,6 +76,7 @@ export class StringComments extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.delete
      */
     deleteStringComment(projectId: number, stringCommentId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}`;
@@ -83,6 +87,7 @@ export class StringComments extends CrowdinApi {
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.patch
      */
     editStringComment(
         projectId: number,

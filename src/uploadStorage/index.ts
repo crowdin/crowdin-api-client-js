@@ -914,6 +914,7 @@ export class UploadStorage extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.storages.getMany
      */
     listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages`;
@@ -924,6 +925,7 @@ export class UploadStorage extends CrowdinApi {
      * @param fileName file name
      * @param request binary file data
      * @param contentType content type header
+     * @see https://support.crowdin.com/api/v2/#operation/api.storages.post
      */
     addStorage(
         fileName: string,
@@ -949,6 +951,7 @@ export class UploadStorage extends CrowdinApi {
 
     /**
      * @param storageId storage identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.storages.get
      */
     getStorage(storageId: number): Promise<ResponseObject<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages/${storageId}`;
@@ -957,6 +960,7 @@ export class UploadStorage extends CrowdinApi {
 
     /**
      * @param storageId storage identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.storages.delete
      */
     deleteStorage(storageId: number): Promise<void> {
         const url = `${this.url}/storages/${storageId}`;

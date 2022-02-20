@@ -6,6 +6,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
      */
     getBranchProgress(
         projectId: number,
@@ -22,6 +23,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param directoryId directory identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany
      */
     getDirectoryProgress(
         projectId: number,
@@ -35,9 +37,27 @@ export class TranslationStatus extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param fileId file identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
+     */
+    getFileProgress(
+        projectId: number,
+        fileId: number,
+        limit?: number,
+        offset?: number,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
+        return this.getList(url, limit, offset);
+    }
+
+    /**
+     * @param projectId project identifier
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
      */
     getLanguageProgress(
         projectId: number,
@@ -54,6 +74,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param languageIds language identifier for filter
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
      */
     getProjectProgress(
         projectId: number,
@@ -68,27 +89,12 @@ export class TranslationStatus extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param fileId file identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
-     */
-    getFileProgress(
-        projectId: number,
-        fileId: number,
-        limit?: number,
-        offset?: number,
-    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-        return this.getList(url, limit, offset);
-    }
-
-    /**
-     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param category defines the issue category
      * @param validation defines the QA check issue validation type
      * @param languageIds filter progress by languageId
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
      */
     listQaCheckIssues(
         projectId: number,
@@ -98,7 +104,6 @@ export class TranslationStatus extends CrowdinApi {
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
-
     listQaCheckIssues(
         projectId: number,
         limitOrRequest?: number | TranslationStatusModel.ListQaCheckIssuesRequest,

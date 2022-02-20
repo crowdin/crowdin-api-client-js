@@ -5,6 +5,7 @@ export class TranslationMemory extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
      */
     listTm(
         groupId?: number,
@@ -18,6 +19,7 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.post
      */
     addTm(
         request: TranslationMemoryModel.AddTranslationMemoryRequest,
@@ -28,6 +30,7 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.get
      */
     getTm(tmId: number): Promise<ResponseObject<TranslationMemoryModel.TranslationMemory>> {
         const url = `${this.url}/tms/${tmId}`;
@@ -36,6 +39,7 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.delete
      */
     deleteTm(tmId: number): Promise<void> {
         const url = `${this.url}/tms/${tmId}`;
@@ -45,6 +49,7 @@ export class TranslationMemory extends CrowdinApi {
     /**
      * @param tmId tm identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.patch
      */
     editTm(tmId: number, request: PatchRequest[]): Promise<ResponseObject<TranslationMemoryModel.TranslationMemory>> {
         const url = `${this.url}/tms/${tmId}`;
@@ -53,6 +58,7 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.segments.clear
      */
     clearTm(tmId: number): Promise<void> {
         const url = `${this.url}/tms/${tmId}/segments`;
@@ -61,16 +67,8 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
-     * @param exportId export identifier
-     */
-    downloadTm(tmId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
-        const url = `${this.url}/tms/${tmId}/exports/${exportId}/download`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param tmId tm identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.exports.post
      */
     exportTm(
         tmId: number,
@@ -83,6 +81,7 @@ export class TranslationMemory extends CrowdinApi {
     /**
      * @param tmId tm identifier
      * @param exportId export identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.exports.get
      */
     checkExportStatus(
         tmId: number,
@@ -94,7 +93,18 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.exports.download.download
+     */
+    downloadTm(tmId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/tms/${tmId}/exports/${exportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.imports.post
      */
     importTm(
         tmId: number,
@@ -107,6 +117,7 @@ export class TranslationMemory extends CrowdinApi {
     /**
      * @param tmId tm identifier
      * @param importId import identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.imports.get
      */
     checkImportStatus(
         tmId: number,

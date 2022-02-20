@@ -7,6 +7,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
      * @param limit maximum number of items to retrieve (default 25)
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.getMany
      */
     listGroups(
         parentId?: number,
@@ -22,6 +23,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.post
      */
     addGroup(request: ProjectsGroupsModel.AddGroupRequest): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
         const url = `${this.url}/groups`;
@@ -30,6 +32,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param group group identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.get
      */
     getGroup(groupId: number): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
         const url = `${this.url}/groups/${groupId}`;
@@ -38,6 +41,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param groupId group identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.delete
      */
     deleteGroup(groupId: number): Promise<void> {
         const url = `${this.url}/groups/${groupId}`;
@@ -47,6 +51,7 @@ export class ProjectsGroups extends CrowdinApi {
     /**
      * @param groupId group identifier
      * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.patch
      */
     editGroup(groupId: number, request: PatchRequest[]): Promise<ResponseObject<ProjectsGroupsModel.Group>> {
         const url = `${this.url}/groups/${groupId}`;
@@ -58,6 +63,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
      */
     listProjects(
         groupId?: number,
@@ -73,6 +79,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.post
      */
     addProject(
         request:
@@ -86,6 +93,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.get
      */
     getProject(
         projectId: number,
@@ -96,6 +104,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.delete
      */
     deleteProject(projectId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}`;
@@ -105,6 +114,7 @@ export class ProjectsGroups extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.patch
      */
     editProject(
         projectId: number,
