@@ -4,9 +4,20 @@ export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param branchId branch identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
+     */
+    getBranchProgress(
+        projectId: number,
+        branchId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
      */
     getBranchProgress(
@@ -14,17 +25,6 @@ export class TranslationStatus extends CrowdinApi {
         branchId: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
-    /**
-     * @param projectId project identifier
-     * @param branchId branch identifier
-     * @param options optional pagination options for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
-     */
-    getBranchProgress(
-        projectId: number,
-        branchId: number,
-        options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     getBranchProgress(
         projectId: number,
@@ -45,7 +45,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param directoryId directory identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany
      */
     getDirectoryProgress(
@@ -57,7 +57,7 @@ export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param directoryId directory identifier
-     * @param options optional pagination options
+     * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany
      */
     getDirectoryProgress(
@@ -82,9 +82,20 @@ export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
+     */
+    getFileProgress(
+        projectId: number,
+        fileId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
      */
     getFileProgress(
@@ -92,17 +103,6 @@ export class TranslationStatus extends CrowdinApi {
         fileId: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
-    /**
-     * @param projectId project identifier
-     * @param fileId file identifier
-     * @param options optional pagination options
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
-     */
-    getFileProgress(
-        projectId: number,
-        fileId: number,
-        options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     getFileProgress(
         projectId: number,
@@ -121,9 +121,20 @@ export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param languageId language identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
+     */
+    getLanguageProgress(
+        projectId: number,
+        languageId: string,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
      */
     getLanguageProgress(
@@ -131,17 +142,6 @@ export class TranslationStatus extends CrowdinApi {
         languageId: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
-    /**
-     * @param projectId project identifier
-     * @param languageId language identifier
-     * @param options optional pagination options
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
-     */
-    getLanguageProgress(
-        projectId: number,
-        languageId: string,
-        options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
     getLanguageProgress(
         projectId: number,
@@ -159,10 +159,19 @@ export class TranslationStatus extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
+     */
+    getProjectProgress(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param languageIds language identifier for filter
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
      */
     getProjectProgress(
@@ -170,15 +179,6 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
         languageIds?: string,
-    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
-     */
-    getProjectProgress(
-        projectId: number,
-        options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     getProjectProgress(
         projectId: number,
@@ -197,12 +197,21 @@ export class TranslationStatus extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
+     */
+    listQaCheckIssues(
+        projectId: number,
+        options?: TranslationStatusModel.ListQaCheckIssuesOptions,
+    ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param category defines the issue category
      * @param validation defines the QA check issue validation type
      * @param languageIds filter progress by languageId
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
      */
     listQaCheckIssues(
@@ -212,15 +221,6 @@ export class TranslationStatus extends CrowdinApi {
         category?: TranslationStatusModel.Category,
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
-    ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
-     */
-    listQaCheckIssues(
-        projectId: number,
-        options?: TranslationStatusModel.ListQaCheckIssuesOptions,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
     listQaCheckIssues(
         projectId: number,

@@ -66,10 +66,19 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
+     */
+    listProjectBuilds(
+        projectId: number,
+        options?: TranslationsModel.ListProjectBuildsOptions,
+    ): Promise<ResponseList<TranslationsModel.Build>>;
+    /**
+     * @param projectId project identifier
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
      */
     listProjectBuilds(
@@ -77,15 +86,6 @@ export class Translations extends CrowdinApi {
         branchId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<TranslationsModel.Build>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
-     */
-    listProjectBuilds(
-        projectId: number,
-        options?: TranslationsModel.ListProjectBuildsOptions,
     ): Promise<ResponseList<TranslationsModel.Build>>;
     listProjectBuilds(
         projectId: number,

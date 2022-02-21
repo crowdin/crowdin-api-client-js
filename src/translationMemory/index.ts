@@ -13,7 +13,7 @@ export class TranslationMemory extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
      */
     listTm(

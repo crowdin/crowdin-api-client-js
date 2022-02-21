@@ -14,6 +14,7 @@ export class Tasks extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(
@@ -103,12 +104,17 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
+     */
+    listUserTasks(options?: TasksModel.ListUserTasksRequest): Promise<ResponseList<TasksModel.UserTask>>;
+    /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
-     * @deprecated Optional parameters should be passed through an object
      */
     listUserTasks(
         limit?: number,
@@ -116,11 +122,6 @@ export class Tasks extends CrowdinApi {
         status?: TasksModel.Status,
         isArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>>;
-    /**
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
-     */
-    listUserTasks(options?: TasksModel.ListUserTasksRequest): Promise<ResponseList<TasksModel.UserTask>>;
     listUserTasks(
         options?: number | TasksModel.ListUserTasksRequest,
         deprecatedOffset?: number,
@@ -189,9 +190,7 @@ export namespace TasksModel {
         updatedAt: string;
     }
 
-    export interface ListUserTasksRequest {
-        limit?: number;
-        offset?: number;
+    export interface ListUserTasksRequest extends PaginationOptions {
         status?: Status;
         isArchived?: BooleanInt;
     }

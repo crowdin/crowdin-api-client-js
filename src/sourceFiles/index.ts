@@ -3,9 +3,19 @@ import { CrowdinApi, DownloadLink, PaginationOptions, PatchRequest, ResponseList
 export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.getMany
+     */
+    listProjectBranches(
+        projectId: number,
+        options?: SourceFilesModel.ListProjectBranchesOptions,
+    ): Promise<ResponseList<SourceFilesModel.Branch>>;
+    /**
+     * @param projectId project identifier
      * @param name filter branch by name
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.getMany
      */
     listProjectBranches(
@@ -13,14 +23,6 @@ export class SourceFiles extends CrowdinApi {
         name?: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<SourceFilesModel.Branch>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional options for the request
-     */
-    listProjectBranches(
-        projectId: number,
-        options?: SourceFilesModel.ListProjectBranchesOptions,
     ): Promise<ResponseList<SourceFilesModel.Branch>>;
     listProjectBranches(
         projectId: number,
@@ -87,12 +89,22 @@ export class SourceFiles extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.getMany
+     */
+    listProjectDirectories(
+        projectId: number,
+        options?: SourceFilesModel.ListProjectDirectoriesRequest,
+    ): Promise<ResponseList<SourceFilesModel.Directory>>;
+    /**
+     * @param projectId project identifier
      * @param branchId filter directories by branchId
      * @param directoryId filter directories by directoryId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param filter use to filter directories by name
      * @param recursion use to list directories recursively (works only when directoryId or branchId parameter is specified)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.getMany
      */
     listProjectDirectories(
@@ -103,14 +115,6 @@ export class SourceFiles extends CrowdinApi {
         offset?: number,
         filter?: string,
         recursion?: string,
-    ): Promise<ResponseList<SourceFilesModel.Directory>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional options for the request
-     */
-    listProjectDirectories(
-        projectId: number,
-        options: SourceFilesModel.ListProjectDirectoriesRequest,
     ): Promise<ResponseList<SourceFilesModel.Directory>>;
     listProjectDirectories(
         projectId: number,
@@ -190,12 +194,22 @@ export class SourceFiles extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.getMany
+     */
+    listProjectFiles(
+        projectId: number,
+        options?: SourceFilesModel.ListProjectFilesRequest,
+    ): Promise<ResponseList<SourceFilesModel.File>>;
+    /**
+     * @param projectId project identifier
      * @param branchId list branch files (Note! You can either list files for the specified branch (branchId) in the same request)
      * @param directoryId list directory files (Note! You can either list files for the specified directory (directoryId) in the same request)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param recursion use to list files recursively
      * @param filter use to filter files by name
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.getMany
      */
     listProjectFiles(
@@ -206,15 +220,6 @@ export class SourceFiles extends CrowdinApi {
         offset?: number,
         recursion?: any,
         filter?: string,
-    ): Promise<ResponseList<SourceFilesModel.File>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional options for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.getMany
-     */
-    listProjectFiles(
-        projectId: number,
-        options?: SourceFilesModel.ListProjectFilesRequest,
     ): Promise<ResponseList<SourceFilesModel.File>>;
     listProjectFiles(
         projectId: number,
@@ -320,8 +325,20 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
+     */
+    listFileRevisions(
+        projectId: number,
+        fileId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<SourceFilesModel.FileRevision>>;
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
      */
     listFileRevisions(
@@ -329,11 +346,6 @@ export class SourceFiles extends CrowdinApi {
         fileId: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<SourceFilesModel.FileRevision>>;
-    listFileRevisions(
-        projectId: number,
-        fileId: number,
-        options?: PaginationOptions,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>>;
     listFileRevisions(
         projectId: number,
@@ -366,9 +378,19 @@ export class SourceFiles extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.getMany
+     */
+    listReviewedSourceFilesBuild(
+        projectId: number,
+        options?: SourceFilesModel.ListReviewedSourceFilesBuildOptions,
+    ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>>;
+    /**
+     * @param projectId project identifier
      * @param branchId filter builds by branchId
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.getMany
      */
     listReviewedSourceFilesBuild(
@@ -376,10 +398,6 @@ export class SourceFiles extends CrowdinApi {
         branchId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>>;
-    listReviewedSourceFilesBuild(
-        projectId: number,
-        options?: SourceFilesModel.ListReviewedSourceFilesBuildOptions,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>>;
     listReviewedSourceFilesBuild(
         projectId: number,
@@ -458,11 +476,9 @@ export namespace SourceFilesModel {
         HIGH = 'high',
     }
 
-    export interface ListProjectDirectoriesRequest {
+    export interface ListProjectDirectoriesRequest extends PaginationOptions {
         branchId?: number;
         directoryId?: number;
-        limit?: number;
-        offset?: number;
         filter?: string;
         recursion?: string;
     }
@@ -489,11 +505,9 @@ export namespace SourceFilesModel {
         priority?: Priority;
     }
 
-    export interface ListProjectFilesRequest {
+    export interface ListProjectFilesRequest extends PaginationOptions {
         branchId?: number;
         directoryId?: number;
-        limit?: number;
-        offset?: number;
         recursion?: any;
         filter?: string;
     }

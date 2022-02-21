@@ -4,9 +4,15 @@ import { SourceStringsModel } from '../sourceStrings';
 export class Labels extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.getMany
+     */
+    listLabels(projectId: number, options?: PaginationOptions): Promise<ResponseList<LabelsModel.Label>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
     listLabels(projectId: number, limit?: number, offset?: number): Promise<ResponseList<LabelsModel.Label>>;

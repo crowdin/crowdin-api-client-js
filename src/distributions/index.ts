@@ -3,16 +3,18 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param options Optional pagination options for the request
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
      */
     listDistributions(
         projectId: number,
-        options: PaginationOptions,
+        options?: PaginationOptions,
     ): Promise<ResponseList<DistributionsModel.Distribution>>;
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
      */
     listDistributions(

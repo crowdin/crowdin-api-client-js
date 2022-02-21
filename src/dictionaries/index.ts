@@ -3,15 +3,17 @@ import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core'
 export class Dictionaries extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param options Optional options for listing dictionaries
+     * @param options optional parameters for listing dictionaries
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
      */
     listDictionaries(
         projectId: number,
-        options: DictionariesModel.ListDictionariesOptions,
+        options?: DictionariesModel.ListDictionariesOptions,
     ): Promise<ResponseList<DictionariesModel.Dictionary>>;
     /**
      * @param projectId project identifier
      * @param languageIds filter progress by Language Identifiers
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
      */
     listDictionaries(projectId: number, languageIds?: string): Promise<ResponseList<DictionariesModel.Dictionary>>;

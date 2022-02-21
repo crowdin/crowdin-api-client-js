@@ -1,4 +1,4 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class StringComments extends CrowdinApi {
     /**
@@ -17,7 +17,7 @@ export class StringComments extends CrowdinApi {
      * @param targetLanguageId defines target language id. It can be one target language id or a list of comma-separated ones
      * @param issueType defines issue type. It can be one issue type or a list of comma-separated ones
      * @param issueStatus defines issue resolution status
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.getMany
      */
     listStringComments(
@@ -109,10 +109,8 @@ export class StringComments extends CrowdinApi {
 }
 
 export namespace StringCommentsModel {
-    export interface ListStringCommentsRequest {
+    export interface ListStringCommentsRequest extends PaginationOptions {
         stringId?: number;
-        limit?: number;
-        offset?: number;
         type?: Type;
         targetLanguageId?: string;
         issueType?: IssueType;

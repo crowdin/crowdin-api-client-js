@@ -3,18 +3,18 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
-     */
-    listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional pagination options
+     * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
      */
     listWebhooks(projectId: number, options?: PaginationOptions): Promise<ResponseList<WebhooksModel.Webhook>>;
+    /**
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
+     */
+    listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>>;
     listWebhooks(
         projectId: number,
         options?: number | PaginationOptions,

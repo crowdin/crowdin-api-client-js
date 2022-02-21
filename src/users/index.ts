@@ -2,14 +2,22 @@ import { CrowdinApi, Pagination, PaginationOptions, ResponseList, ResponseObject
 
 export class Users extends CrowdinApi {
     /**
-     *
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     */
+    listProjectMembers(
+        projectId: number,
+        options?: UsersModel.ListProjectMembersOptions,
+    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
+    /**
      * @param projectId project identifier
      * @param search search users by firstName, lastName or username
      * @param role defines role type
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
@@ -19,15 +27,6 @@ export class Users extends CrowdinApi {
         languageId?: string,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
-     */
-    listProjectMembers(
-        projectId: number,
-        options?: UsersModel.ListProjectMembersOptions,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
     listProjectMembers(
         projectId: number,
@@ -55,7 +54,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.post
@@ -69,7 +67,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.get
@@ -83,7 +80,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.put
@@ -98,7 +94,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.delete
@@ -109,12 +104,17 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
+     */
+    listUsers(options?: UsersModel.ListUsersRequest): Promise<ResponseList<UsersModel.User>>;
+    /**
      * @param status filter users by status
      * @param search search users by firstName, lastName, username, email
      * @param twoFactor filter users by two-factor authentication status
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
     listUsers(
@@ -124,11 +124,6 @@ export class Users extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<UsersModel.User>>;
-    /**
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
-     */
-    listUsers(options?: UsersModel.ListUsersRequest): Promise<ResponseList<UsersModel.User>>;
     listUsers(
         options?: UsersModel.Status | UsersModel.ListUsersRequest,
         deprecatedSearch?: string,

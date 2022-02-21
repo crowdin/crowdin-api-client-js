@@ -3,13 +3,22 @@ import { BooleanInt, CrowdinApi, PaginationOptions, ResponseList, ResponseObject
 export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
+     */
+    listTranslationApprovals(
+        projectId: number,
+        options?: StringTranslationsModel.ListTranslationApprovalsRequest,
+    ): Promise<ResponseList<StringTranslationsModel.Approval>>;
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param fileId file identifier
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
      */
     listTranslationApprovals(
@@ -20,14 +29,6 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
         fileId?: number,
-    ): Promise<ResponseList<StringTranslationsModel.Approval>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     */
-    listTranslationApprovals(
-        projectId: number,
-        options?: StringTranslationsModel.ListTranslationApprovalsRequest,
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     listTranslationApprovals(
         projectId: number,
@@ -93,6 +94,23 @@ export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param languageId language identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany
+     */
+    listLanguageTranslations(
+        projectId: number,
+        languageId: string,
+        options?: StringTranslationsModel.ListLanguageTranslationsOptions,
+    ): Promise<
+        ResponseList<
+            | StringTranslationsModel.PlainLanguageTranslation
+            | StringTranslationsModel.PluralLanguageTranslation
+            | StringTranslationsModel.IcuLanguageTranslation
+        >
+    >;
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
      * @param stringIds filter translations by stringIds
      * @param fileId filter translations by fileId
      * @param limit maximum number of items to retrieve (default 25)
@@ -100,7 +118,7 @@ export class StringTranslations extends CrowdinApi {
      * @param labelIds filter translations by fileId
      * @param denormalizePlaceholders enable denormalize placeholders
      * @param croql filter translations by CroQL (Can't be used with `stringIds`, `labelIds` or `fileId` in same request)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany
      */
     listLanguageTranslations(
@@ -120,27 +138,10 @@ export class StringTranslations extends CrowdinApi {
             | StringTranslationsModel.IcuLanguageTranslation
         >
     >;
-    /**
-     *
-     * @param projectId project identifier
-     * @param languageId language identifier
-     * @param options optional parameters for the request
-     */
     listLanguageTranslations(
         projectId: number,
         languageId: string,
-        options?: StringTranslationsModel.ListLanguageTranslationsRequest,
-    ): Promise<
-        ResponseList<
-            | StringTranslationsModel.PlainLanguageTranslation
-            | StringTranslationsModel.PluralLanguageTranslation
-            | StringTranslationsModel.IcuLanguageTranslation
-        >
-    >;
-    listLanguageTranslations(
-        projectId: number,
-        languageId: string,
-        options?: string | StringTranslationsModel.ListLanguageTranslationsRequest,
+        options?: string | StringTranslationsModel.ListLanguageTranslationsOptions,
         fileId?: number,
         limit?: number,
         offset?: number,
@@ -179,10 +180,23 @@ export class StringTranslations extends CrowdinApi {
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.getMany
+     */
+    listStringTranslations(
+        projectId: number,
+        stringId: number,
+        languageId: string,
+        options?: StringTranslationsModel.ListStringTranslationsOptions,
+    ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
+    /**
+     * @param projectId project identifier
+     * @param stringId string identifier
+     * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param denormalizePlaceholders enable denormalize placeholders
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.getMany
      */
     listStringTranslations(
@@ -192,18 +206,6 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
         denormalizePlaceholders?: BooleanInt,
-    ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
-    /**
-     * @param projectId project identifier
-     * @param stringId string identifier
-     * @param languageId language identifier
-     * @param options optional parameters for the request
-     */
-    listStringTranslations(
-        projectId: number,
-        stringId: number,
-        languageId: string,
-        options?: StringTranslationsModel.ListStringTranslationsOptions,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
     listStringTranslations(
         projectId: number,
@@ -292,11 +294,21 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.getMany
+     */
+    listTranslationVotes(
+        projectId: number,
+        options?: StringTranslationsModel.ListTranslationVotesRequest,
+    ): Promise<ResponseList<StringTranslationsModel.Vote>>;
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.votes.getMany
      */
     listTranslationVotes(
@@ -306,14 +318,6 @@ export class StringTranslations extends CrowdinApi {
         translationId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<StringTranslationsModel.Vote>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     */
-    listTranslationVotes(
-        projectId: number,
-        options?: StringTranslationsModel.ListTranslationVotesRequest,
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
     listTranslationVotes(
         projectId: number,
@@ -375,12 +379,10 @@ export class StringTranslations extends CrowdinApi {
 }
 
 export namespace StringTranslationsModel {
-    export interface ListTranslationApprovalsRequest {
+    export interface ListTranslationApprovalsRequest extends PaginationOptions {
         stringId?: number;
         languageId?: string;
         translationId?: number;
-        limit?: number;
-        offset?: number;
         fileId?: number;
     }
 
@@ -407,11 +409,9 @@ export namespace StringTranslationsModel {
         createdAt: string;
     }
 
-    export interface ListLanguageTranslationsRequest {
+    export interface ListLanguageTranslationsOptions extends PaginationOptions {
         stringIds?: string;
         fileId?: number;
-        limit?: number;
-        offset?: number;
         labelIds?: string;
         denormalizePlaceholders?: BooleanInt;
         croql?: string;

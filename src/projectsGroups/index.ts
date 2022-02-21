@@ -3,11 +3,16 @@ import { LanguagesModel } from '../languages';
 
 export class ProjectsGroups extends CrowdinApi {
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.getMany
+     */
+    listGroups(options?: ProjectsGroupsModel.ListGroupsOptions): Promise<ResponseList<ProjectsGroupsModel.Group>>;
+    /**
      * @param parentId parent group identifier
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
      * @param limit maximum number of items to retrieve (default 25)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.getMany
      */
     listGroups(
@@ -16,10 +21,6 @@ export class ProjectsGroups extends CrowdinApi {
         userId?: number,
         limit?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>>;
-    /**
-     * @param options optional options for the request
-     */
-    listGroups(options?: ProjectsGroupsModel.ListGroupsOptions): Promise<ResponseList<ProjectsGroupsModel.Group>>;
     listGroups(
         options?: number | ProjectsGroupsModel.ListGroupsOptions,
         deprecatedOffset?: number,
@@ -79,11 +80,18 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
+     */
+    listProjects(
+        options?: ProjectsGroupsModel.ListProjectsOptions,
+    ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
+    /**
      * @param groupId group identifier
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
      */
     listProjects(
@@ -91,12 +99,6 @@ export class ProjectsGroups extends CrowdinApi {
         hasManagerAccess?: BooleanInt,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
-    /**
-     * @param options optional options for the request
-     */
-    listProjects(
-        options?: ProjectsGroupsModel.ListProjectsOptions,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
     listProjects(
         options?: number | ProjectsGroupsModel.ListProjectsOptions,

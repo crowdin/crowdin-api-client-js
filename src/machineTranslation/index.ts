@@ -2,22 +2,23 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 
 export class MachineTranslation extends CrowdinApi {
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
+     */
+    listMts(
+        options?: MachineTranslationModel.ListMTsOptions,
+    ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
+    /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
      */
     listMts(
         groupId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
-    /**
-     * @param options optional options for the request
-     */
-    listMts(
-        options?: MachineTranslationModel.ListMTsOptions,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
     listMts(
         options?: number | MachineTranslationModel.ListMTsOptions,
@@ -76,7 +77,6 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
-     *
      * @param mtId mt identifier
      * @param request request body
      * @see https://support.crowdin.com/api/v2/#operation/api.mts.translations.post

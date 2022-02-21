@@ -1,6 +1,15 @@
-import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class SourceStrings extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.getMany
+     */
+    listProjectStrings(
+        projectId: number,
+        options?: SourceStringsModel.ListProjectStringsOptions,
+    ): Promise<ResponseList<SourceStringsModel.String>>;
     /**
      * @param projectId project identifier
      * @param fileId file identifier
@@ -13,7 +22,7 @@ export class SourceStrings extends CrowdinApi {
      * @param croql filter strings by CroQL (Can't be used with `labelIds`, `filter` or `scope` in same request)
      * @param branchId filter by branch identifier
      * @param directoryId filter by directory identifier
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.getMany
      */
     listProjectStrings(
@@ -29,17 +38,9 @@ export class SourceStrings extends CrowdinApi {
         branchId?: number,
         directoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     */
     listProjectStrings(
         projectId: number,
-        options: SourceStringsModel.ListProjectStringsRequest,
-    ): Promise<ResponseList<SourceStringsModel.String>>;
-    listProjectStrings(
-        projectId: number,
-        options?: number | SourceStringsModel.ListProjectStringsRequest,
+        options?: number | SourceStringsModel.ListProjectStringsOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
         deprecatedFilter?: string,
@@ -127,10 +128,8 @@ export class SourceStrings extends CrowdinApi {
 }
 
 export namespace SourceStringsModel {
-    export interface ListProjectStringsRequest {
+    export interface ListProjectStringsOptions extends PaginationOptions {
         fileId?: number;
-        limit?: number;
-        offset?: number;
         filter?: string;
         denormalizePlaceholders?: BooleanInt;
         labelIds?: string;

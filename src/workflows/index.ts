@@ -3,24 +3,24 @@ import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../
 export class Workflows extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
+     */
+    listWorkflowSteps(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
      */
     listWorkflowSteps(
         projectId: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional pagination options for the request
-     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
-     */
-    listWorkflowSteps(
-        projectId: number,
-        options?: PaginationOptions,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
     listWorkflowSteps(
         projectId: number,
@@ -49,23 +49,23 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
+     */
+    listWorkflowTemplates(
+        options?: WorkflowModel.ListWorkflowTemplatesRequest,
+    ): Promise<ResponseList<WorkflowModel.Workflow>>;
+    /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
     listWorkflowTemplates(
         groupId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<WorkflowModel.Workflow>>;
-    /**
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
-     */
-    listWorkflowTemplates(
-        options?: WorkflowModel.ListWorkflowTemplatesRequest,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     listWorkflowTemplates(
         options?: number | WorkflowModel.ListWorkflowTemplatesRequest,

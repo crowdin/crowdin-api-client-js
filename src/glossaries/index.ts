@@ -10,14 +10,15 @@ import {
 
 export class Glossaries extends CrowdinApi {
     /**
-     * @param options Optional options for the request
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.getMany
      */
-    listGlossaries(options: GlossariesModel.ListGlossariesOptions): Promise<ResponseList<GlossariesModel.Glossary>>;
+    listGlossaries(options?: GlossariesModel.ListGlossariesOptions): Promise<ResponseList<GlossariesModel.Glossary>>;
     /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.getMany
      */
     listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>>;
@@ -137,12 +138,12 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
-     * @param options optional options for the request
+     * @param options optional parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
     listTerms(
         glossaryId: number,
-        options: GlossariesModel.ListTermsRequest,
+        options?: GlossariesModel.ListTermsRequest,
     ): Promise<ResponseList<GlossariesModel.Term>>;
     /**
      * @param glossaryId glossary identifier
@@ -151,7 +152,7 @@ export class Glossaries extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param languageId term language identifier
      * @param translationOfTermId filter terms by termId
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
     listTerms(
@@ -200,15 +201,20 @@ export class Glossaries extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    /**
+     * @param glossaryId glossary identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
+     */
     clearGlossary(
         glossaryId: number,
-        options: GlossariesModel.ClearGlossaryOptions,
+        options?: GlossariesModel.ClearGlossaryOptions,
     ): Promise<ResponseObject<GlossariesModel.Term>>;
     /**
      * @param glossaryId glossary identifier
      * @param languageId languageId identifier
      * @param translationOfTermId term translation identifier
-     * @deprecated Optional parameters should be passed through an object
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
      */
     clearGlossary(
