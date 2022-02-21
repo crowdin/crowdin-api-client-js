@@ -924,10 +924,10 @@ export class UploadStorage extends CrowdinApi {
      */
     listStorages(options?: PaginationOptions): Promise<ResponseList<UploadStorageModel.Storage>>;
     listStorages(
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<UploadStorageModel.Storage>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

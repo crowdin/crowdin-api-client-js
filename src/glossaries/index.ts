@@ -22,11 +22,11 @@ export class Glossaries extends CrowdinApi {
      */
     listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>>;
     listGlossaries(
-        options: number | GlossariesModel.ListGlossariesOptions = {},
+        options?: number | GlossariesModel.ListGlossariesOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<GlossariesModel.Glossary>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -164,14 +164,14 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseList<GlossariesModel.Term>>;
     listTerms(
         glossaryId: number,
-        options: number | GlossariesModel.ListTermsRequest = {},
+        options?: number | GlossariesModel.ListTermsRequest,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
         deprecatedLanguageId?: string,
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 userId: options,
                 limit: deprecatedLimit,
@@ -218,10 +218,10 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseObject<GlossariesModel.Term>>;
     clearGlossary(
         glossaryId: number,
-        options: number | GlossariesModel.ClearGlossaryOptions = {},
+        options?: number | GlossariesModel.ClearGlossaryOptions,
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
             this.emitDeprecationWarning();
         }

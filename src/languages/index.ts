@@ -13,10 +13,10 @@ export class Languages extends CrowdinApi {
      */
     listSupportedLanguages(options: PaginationOptions): Promise<ResponseList<LanguagesModel.Language>>;
     listSupportedLanguages(
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<LanguagesModel.Language>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

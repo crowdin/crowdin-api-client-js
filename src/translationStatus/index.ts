@@ -29,10 +29,10 @@ export class TranslationStatus extends CrowdinApi {
     getBranchProgress(
         projectId: number,
         branchId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -68,10 +68,10 @@ export class TranslationStatus extends CrowdinApi {
     getDirectoryProgress(
         projectId: number,
         directoryId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -107,10 +107,10 @@ export class TranslationStatus extends CrowdinApi {
     getFileProgress(
         projectId: number,
         fileId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -146,10 +146,10 @@ export class TranslationStatus extends CrowdinApi {
     getLanguageProgress(
         projectId: number,
         languageId: string,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -182,11 +182,11 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     getProjectProgress(
         projectId: number,
-        options: number | TranslationStatusModel.GetProjectProgressOptions = {},
+        options?: number | TranslationStatusModel.GetProjectProgressOptions,
         deprecatedOffset?: number,
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset, languageIds: deprecatedLanguageIds };
             this.emitDeprecationWarning();
         }
@@ -224,14 +224,14 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
     listQaCheckIssues(
         projectId: number,
-        options: number | TranslationStatusModel.ListQaCheckIssuesOptions = {},
+        options?: number | TranslationStatusModel.ListQaCheckIssuesOptions,
         deprecatedOffset?: number,
         deprecatedCategory?: TranslationStatusModel.Category,
         deprecatedValidation?: TranslationStatusModel.Validation,
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-checks`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

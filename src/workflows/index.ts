@@ -24,10 +24,10 @@ export class Workflows extends CrowdinApi {
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
     listWorkflowSteps(
         projectId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -68,12 +68,12 @@ export class Workflows extends CrowdinApi {
         options?: WorkflowModel.ListWorkflowTemplatesRequest,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     listWorkflowTemplates(
-        options: number | WorkflowModel.ListWorkflowTemplatesRequest = {},
+        options?: number | WorkflowModel.ListWorkflowTemplatesRequest,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

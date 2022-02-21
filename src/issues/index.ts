@@ -30,12 +30,12 @@ export class Issues extends CrowdinApi {
     ): Promise<ResponseList<IssuesModel.Issue>>;
     listReportedIssues(
         projectId: number,
-        options: number | IssuesModel.ListReportedIssuesOptions = {},
+        options?: number | IssuesModel.ListReportedIssuesOptions,
         deprecatedOffset?: number,
         deprecatedType?: IssuesModel.Type,
         deprecatedStatus?: IssuesModel.Status,
     ): Promise<ResponseList<IssuesModel.Issue>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

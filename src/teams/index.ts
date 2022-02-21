@@ -26,11 +26,8 @@ export class Teams extends CrowdinApi {
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
     listTeams(options?: PaginationOptions): Promise<ResponseList<TeamsModel.Team>>;
-    listTeams(
-        options: number | PaginationOptions = {},
-        deprecatedOffset?: number,
-    ): Promise<ResponseList<TeamsModel.Team>> {
-        if (typeof options === 'number') {
+    listTeams(options?: number | PaginationOptions, deprecatedOffset?: number): Promise<ResponseList<TeamsModel.Team>> {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -92,10 +89,10 @@ export class Teams extends CrowdinApi {
     teamMembersList(teamId: number, options?: PaginationOptions): Promise<ResponseList<TeamsModel.TeamMember>>;
     teamMembersList(
         teamId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TeamsModel.TeamMember>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

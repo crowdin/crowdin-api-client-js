@@ -24,11 +24,11 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.Branch>>;
     listProjectBranches(
         projectId: number,
-        options: string | SourceFilesModel.ListProjectBranchesOptions = {},
+        options?: string | SourceFilesModel.ListProjectBranchesOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.Branch>> {
-        if (typeof options === 'string') {
+        if (typeof options === 'string' || typeof options === 'undefined') {
             options = { name: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -114,7 +114,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.Directory>>;
     listProjectDirectories(
         projectId: number,
-        options: number | SourceFilesModel.ListProjectDirectoriesRequest = {},
+        options?: number | SourceFilesModel.ListProjectDirectoriesRequest,
         deprecatedDirectoryId?: number,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
@@ -122,7 +122,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedRecursion?: string,
     ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -218,7 +218,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.File>>;
     listProjectFiles(
         projectId: number,
-        options: number | SourceFilesModel.ListProjectFilesRequest = {},
+        options?: number | SourceFilesModel.ListProjectFilesRequest,
         deprecatedDirectoryId?: number,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
@@ -226,7 +226,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedFilter?: string,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -338,10 +338,10 @@ export class SourceFiles extends CrowdinApi {
     listFileRevisions(
         projectId: number,
         fileId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -383,11 +383,11 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>>;
     listReviewedSourceFilesBuild(
         projectId: number,
-        options: number | SourceFilesModel.ListReviewedSourceFilesBuildOptions = {},
+        options?: number | SourceFilesModel.ListReviewedSourceFilesBuildOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

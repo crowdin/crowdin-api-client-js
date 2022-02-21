@@ -39,7 +39,7 @@ export class SourceStrings extends CrowdinApi {
     ): Promise<ResponseList<SourceStringsModel.String>>;
     listProjectStrings(
         projectId: number,
-        options: number | SourceStringsModel.ListProjectStringsRequest = {},
+        options?: number | SourceStringsModel.ListProjectStringsRequest,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
         deprecatedFilter?: string,
@@ -51,7 +51,7 @@ export class SourceStrings extends CrowdinApi {
         deprecatedDirectoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 fileId: options,
                 limit: deprecatedLimit,

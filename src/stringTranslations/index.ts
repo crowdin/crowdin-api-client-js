@@ -31,7 +31,7 @@ export class StringTranslations extends CrowdinApi {
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     listTranslationApprovals(
         projectId: number,
-        options: number | StringTranslationsModel.ListTranslationApprovalsRequest = {},
+        options?: number | StringTranslationsModel.ListTranslationApprovalsRequest,
         deprecatedLanguageId?: string,
         deprecatedTranslationId?: number,
         deprecatedLimit?: number,
@@ -39,7 +39,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedFileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,
@@ -140,7 +140,7 @@ export class StringTranslations extends CrowdinApi {
     listLanguageTranslations(
         projectId: number,
         languageId: string,
-        options: string | StringTranslationsModel.ListLanguageTranslationsRequest = {},
+        options?: string | StringTranslationsModel.ListLanguageTranslationsRequest,
         fileId?: number,
         limit?: number,
         offset?: number,
@@ -155,7 +155,7 @@ export class StringTranslations extends CrowdinApi {
         >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
-        if (typeof options === 'string') {
+        if (typeof options === 'string' || typeof options === 'undefined') {
             options = {
                 stringIds: options,
                 fileId,
@@ -209,11 +209,11 @@ export class StringTranslations extends CrowdinApi {
         projectId: number,
         stringId: number,
         languageId: string,
-        options: number | StringTranslationsModel.ListStringTranslationsOptions = {},
+        options?: number | StringTranslationsModel.ListStringTranslationsOptions,
         deprecatedOffset?: number,
         deprecatedDenormalizePlaceholders?: BooleanInt,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
@@ -317,14 +317,14 @@ export class StringTranslations extends CrowdinApi {
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
     listTranslationVotes(
         projectId: number,
-        options: number | StringTranslationsModel.ListTranslationVotesRequest = {},
+        options?: number | StringTranslationsModel.ListTranslationVotesRequest,
         deprecatedLanguageId?: string,
         deprecatedTranslationId?: number,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,

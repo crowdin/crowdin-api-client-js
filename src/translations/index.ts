@@ -89,11 +89,11 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseList<TranslationsModel.Build>>;
     listProjectBuilds(
         projectId: number,
-        options: number | TranslationsModel.ListProjectBuildsOptions = {},
+        options?: number | TranslationsModel.ListProjectBuildsOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationsModel.Build>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

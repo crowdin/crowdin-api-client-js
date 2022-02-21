@@ -30,11 +30,11 @@ export class Tasks extends CrowdinApi {
     listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
     listTasks(
         projectId: number,
-        options: number | TasksModel.ListTasksOptions = {},
+        options?: number | TasksModel.ListTasksOptions,
         deprecatedOffset?: number,
         deprecatedStatus?: TasksModel.Status,
     ): Promise<ResponseList<TasksModel.Task>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset, status: deprecatedStatus };
             this.emitDeprecationWarning();
         }
@@ -122,13 +122,13 @@ export class Tasks extends CrowdinApi {
      */
     listUserTasks(options?: TasksModel.ListUserTasksRequest): Promise<ResponseList<TasksModel.UserTask>>;
     listUserTasks(
-        options: number | TasksModel.ListUserTasksRequest = {},
+        options?: number | TasksModel.ListUserTasksRequest,
         deprecatedOffset?: number,
         deprecatedStatus?: TasksModel.Status,
         deprecatedIsArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

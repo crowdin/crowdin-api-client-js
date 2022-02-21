@@ -31,14 +31,14 @@ export class Users extends CrowdinApi {
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
     listProjectMembers(
         projectId: number,
-        options: string | UsersModel.ListProjectMembersOptions = {},
+        options?: string | UsersModel.ListProjectMembersOptions,
         deprecatedRole?: UsersModel.Role,
         deprecatedLanguageId?: string,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        if (typeof options === 'string') {
+        if (typeof options === 'string' || typeof options === 'undefined') {
             options = {
                 search: options,
                 role: deprecatedRole,
@@ -130,14 +130,14 @@ export class Users extends CrowdinApi {
      */
     listUsers(options?: UsersModel.ListUsersRequest): Promise<ResponseList<UsersModel.User>>;
     listUsers(
-        options: UsersModel.Status | UsersModel.ListUsersRequest = {},
+        options?: UsersModel.Status | UsersModel.ListUsersRequest,
         deprecatedSearch?: string,
         deprecatedTwoFactor?: UsersModel.TwoFactor,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        if (typeof options === 'string') {
+        if (typeof options === 'string' || typeof options === 'undefined') {
             options = {
                 status: options,
                 search: deprecatedSearch,

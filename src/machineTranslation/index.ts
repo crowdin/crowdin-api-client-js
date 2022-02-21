@@ -20,11 +20,11 @@ export class MachineTranslation extends CrowdinApi {
         options?: MachineTranslationModel.ListMTsOptions,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
     listMts(
-        options: number | MachineTranslationModel.ListMTsOptions = {},
+        options?: number | MachineTranslationModel.ListMTsOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

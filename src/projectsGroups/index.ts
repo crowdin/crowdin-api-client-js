@@ -21,12 +21,12 @@ export class ProjectsGroups extends CrowdinApi {
      */
     listGroups(options?: ProjectsGroupsModel.ListGroupsOptions): Promise<ResponseList<ProjectsGroupsModel.Group>>;
     listGroups(
-        options: number | ProjectsGroupsModel.ListGroupsOptions = {},
+        options?: number | ProjectsGroupsModel.ListGroupsOptions,
         deprecatedOffset?: number,
         deprecatedUserId?: number,
         deprecatedLimit?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 parentId: options,
                 offset: deprecatedOffset,
@@ -99,12 +99,12 @@ export class ProjectsGroups extends CrowdinApi {
         options?: ProjectsGroupsModel.ListProjectsOptions,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
     listProjects(
-        options: number | ProjectsGroupsModel.ListProjectsOptions = {},
+        options?: number | ProjectsGroupsModel.ListProjectsOptions,
         deprecatedHasManagerAccess?: BooleanInt,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 groupId: options,
                 hasManagerAccess: deprecatedHasManagerAccess,

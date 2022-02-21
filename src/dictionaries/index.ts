@@ -17,9 +17,9 @@ export class Dictionaries extends CrowdinApi {
     listDictionaries(projectId: number, languageIds?: string): Promise<ResponseList<DictionariesModel.Dictionary>>;
     listDictionaries(
         projectId: number,
-        options: string | DictionariesModel.ListDictionariesOptions = {},
+        options?: string | DictionariesModel.ListDictionariesOptions,
     ): Promise<ResponseList<DictionariesModel.Dictionary>> {
-        if (typeof options === 'string') {
+        if (typeof options === 'string' || typeof options === 'undefined') {
             options = { languageIds: options };
             this.emitDeprecationWarning();
         }

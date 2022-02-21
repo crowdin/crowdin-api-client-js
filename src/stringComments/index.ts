@@ -31,14 +31,14 @@ export class StringComments extends CrowdinApi {
 
     listStringComments(
         projectId: number,
-        options: number | StringCommentsModel.ListStringCommentsRequest = {},
+        options?: number | StringCommentsModel.ListStringCommentsRequest,
         deprecatedType?: StringCommentsModel.Type,
         deprecatedTargetLanguageId?: string,
         deprecatedIssueType?: StringCommentsModel.IssueType,
         deprecatedIssueStatus?: StringCommentsModel.IssueStatus,
     ): Promise<ResponseList<StringCommentsModel.StringComment>> {
         let url = `${this.url}/projects/${projectId}/comments`;
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = {
                 stringId: options,
                 type: deprecatedType,

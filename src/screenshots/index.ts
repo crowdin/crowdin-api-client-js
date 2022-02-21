@@ -19,10 +19,10 @@ export class Screenshots extends CrowdinApi {
     listScreenshots(projectId: number, options?: PaginationOptions): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
     listScreenshots(
         projectId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
@@ -114,10 +114,10 @@ export class Screenshots extends CrowdinApi {
     listScreenshotTags(
         projectId: number,
         screenshotId: number,
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

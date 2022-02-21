@@ -29,11 +29,11 @@ export class TranslationMemory extends CrowdinApi {
         options?: TranslationMemoryModel.ListTMsOptions,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
     listTm(
-        options: number | TranslationMemoryModel.ListTMsOptions = {},
+        options?: number | TranslationMemoryModel.ListTMsOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }

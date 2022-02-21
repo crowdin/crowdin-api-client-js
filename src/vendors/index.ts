@@ -14,10 +14,10 @@ export class Vendors extends CrowdinApi {
      */
     listVendors(options?: PaginationOptions): Promise<ResponseList<VendorsModel.Vendor>>;
     listVendors(
-        options: number | PaginationOptions = {},
+        options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<VendorsModel.Vendor>> {
-        if (typeof options === 'number') {
+        if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
             this.emitDeprecationWarning();
         }
