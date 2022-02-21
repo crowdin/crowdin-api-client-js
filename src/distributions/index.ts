@@ -1,6 +1,14 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Distributions extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param options Optional pagination options for the request
+     */
+    listDistributions(
+        projectId: number,
+        options: PaginationOptions,
+    ): Promise<ResponseList<DistributionsModel.Distribution>>;
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -11,9 +19,18 @@ export class Distributions extends CrowdinApi {
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<DistributionsModel.Distribution>>;
+    listDistributions(
+        projectId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<DistributionsModel.Distribution>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/distributions`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

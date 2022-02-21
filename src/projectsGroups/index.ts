@@ -1,4 +1,4 @@
-import { BooleanInt, CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 import { LanguagesModel } from '../languages';
 
 export class ProjectsGroups extends CrowdinApi {
@@ -7,6 +7,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
      * @param limit maximum number of items to retrieve (default 25)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.getMany
      */
     listGroups(
@@ -14,11 +15,30 @@ export class ProjectsGroups extends CrowdinApi {
         offset?: number,
         userId?: number,
         limit?: number,
+    ): Promise<ResponseList<ProjectsGroupsModel.Group>>;
+    /**
+     * @param options optional options for the request
+     */
+    listGroups(options?: ProjectsGroupsModel.ListGroupsOptions): Promise<ResponseList<ProjectsGroupsModel.Group>>;
+    listGroups(
+        options: number | ProjectsGroupsModel.ListGroupsOptions = {},
+        deprecatedOffset?: number,
+        deprecatedUserId?: number,
+        deprecatedLimit?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
+        if (typeof options === 'number') {
+            options = {
+                parentId: options,
+                offset: deprecatedOffset,
+                userId: deprecatedUserId,
+                limit: deprecatedLimit,
+            };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/groups`;
-        url = this.addQueryParam(url, 'parentId', parentId);
-        url = this.addQueryParam(url, 'userId', userId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'parentId', options.parentId);
+        url = this.addQueryParam(url, 'userId', options.userId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -63,6 +83,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
      */
     listProjects(
@@ -70,11 +91,32 @@ export class ProjectsGroups extends CrowdinApi {
         hasManagerAccess?: BooleanInt,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
+    /**
+     * @param options optional options for the request
+     */
+    listProjects(
+        options?: ProjectsGroupsModel.ListProjectsOptions,
+    ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
+    listProjects(
+        options: number | ProjectsGroupsModel.ListProjectsOptions = {},
+        deprecatedHasManagerAccess?: BooleanInt,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
+        if (typeof options === 'number') {
+            options = {
+                groupId: options,
+                hasManagerAccess: deprecatedHasManagerAccess,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/projects`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        url = this.addQueryParam(url, 'hasManagerAccess', hasManagerAccess);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        url = this.addQueryParam(url, 'hasManagerAccess', options.hasManagerAccess);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -352,5 +394,15 @@ export namespace ProjectsGroupsModel {
         translatorNewStrings?: boolean;
         managerNewStrings?: boolean;
         managerLanguageCompleted?: boolean;
+    }
+
+    export interface ListGroupsOptions extends PaginationOptions {
+        parentId?: number;
+        userId?: number;
+    }
+
+    export interface ListProjectsOptions extends PaginationOptions {
+        groupId?: number;
+        hasManagerAccess?: BooleanInt;
     }
 }

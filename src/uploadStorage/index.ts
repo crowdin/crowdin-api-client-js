@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 const mimetypes: { [key: string]: string } = {
     '3dml': 'text/vnd.in3d.3dml',
@@ -914,11 +914,25 @@ export class UploadStorage extends CrowdinApi {
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.storages.getMany
      */
-    listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>> {
+    listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>>;
+    /**
+     * @param options optional pagination options for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.storages.getMany
+     */
+    listStorages(options?: PaginationOptions): Promise<ResponseList<UploadStorageModel.Storage>>;
+    listStorages(
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<UploadStorageModel.Storage>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/storages`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

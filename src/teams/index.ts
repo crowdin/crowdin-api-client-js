@@ -1,4 +1,4 @@
-import { CrowdinApi, Pagination, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, Pagination, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Teams extends CrowdinApi {
     /**
@@ -18,10 +18,24 @@ export class Teams extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
+     * @deprecated Optional parameters should be passed through an object
      */
-    listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>> {
+    listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>>;
+    /**
+     * @param options optional pagination options for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
+     */
+    listTeams(options?: PaginationOptions): Promise<ResponseList<TeamsModel.Team>>;
+    listTeams(
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<TeamsModel.Team>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/teams`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -65,11 +79,28 @@ export class Teams extends CrowdinApi {
      * @param teamId team identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
      */
-    teamMembersList(teamId: number, limit?: number, offset?: number): Promise<ResponseList<TeamsModel.TeamMember>> {
+    teamMembersList(teamId: number, limit?: number, offset?: number): Promise<ResponseList<TeamsModel.TeamMember>>;
+    /**
+     *
+     * @param teamId team identifier
+     * @param options optional pagination options for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
+     */
+    teamMembersList(teamId: number, options?: PaginationOptions): Promise<ResponseList<TeamsModel.TeamMember>>;
+    teamMembersList(
+        teamId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<TeamsModel.TeamMember>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/teams/${teamId}/members`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

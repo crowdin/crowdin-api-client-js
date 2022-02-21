@@ -13,6 +13,7 @@ export class SourceStrings extends CrowdinApi {
      * @param croql filter strings by CroQL (Can't be used with `labelIds`, `filter` or `scope` in same request)
      * @param branchId filter by branch identifier
      * @param directoryId filter by directory identifier
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.getMany
      */
     listProjectStrings(
@@ -28,52 +29,52 @@ export class SourceStrings extends CrowdinApi {
         branchId?: number,
         directoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>>;
-
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     */
     listProjectStrings(
         projectId: number,
-        request: SourceStringsModel.ListProjectStringsRequest,
+        options: SourceStringsModel.ListProjectStringsRequest,
     ): Promise<ResponseList<SourceStringsModel.String>>;
-
     listProjectStrings(
         projectId: number,
-        fileIdOrRequest?: number | SourceStringsModel.ListProjectStringsRequest,
-        limit?: number,
-        offset?: number,
-        filter?: string,
-        denormalizePlaceholders?: BooleanInt,
-        labelIds?: string,
-        scope?: SourceStringsModel.Scope,
-        croql?: string,
-        branchId?: number,
-        directoryId?: number,
+        options: number | SourceStringsModel.ListProjectStringsRequest = {},
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
+        deprecatedFilter?: string,
+        deprecatedDenormalizePlaceholders?: BooleanInt,
+        deprecatedLabelIds?: string,
+        deprecatedScope?: SourceStringsModel.Scope,
+        deprecatedCroql?: string,
+        deprecatedBranchId?: number,
+        deprecatedDirectoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
-        let request: SourceStringsModel.ListProjectStringsRequest;
-        if (fileIdOrRequest && typeof fileIdOrRequest === 'object') {
-            request = fileIdOrRequest;
-        } else {
-            request = {
-                fileId: fileIdOrRequest,
-                limit,
-                offset,
-                filter,
-                denormalizePlaceholders,
-                labelIds,
-                scope,
-                croql,
-                branchId,
-                directoryId,
+        if (typeof options === 'number') {
+            options = {
+                fileId: options,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+                filter: deprecatedFilter,
+                denormalizePlaceholders: deprecatedDenormalizePlaceholders,
+                labelIds: deprecatedLabelIds,
+                scope: deprecatedScope,
+                croql: deprecatedCroql,
+                branchId: deprecatedBranchId,
+                directoryId: deprecatedDirectoryId,
             };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'fileId', request.fileId);
-        url = this.addQueryParam(url, 'filter', request.filter);
-        url = this.addQueryParam(url, 'denormalizePlaceholders', request.denormalizePlaceholders);
-        url = this.addQueryParam(url, 'labelIds', request.labelIds);
-        url = this.addQueryParam(url, 'scope', request.scope);
-        url = this.addQueryParam(url, 'croql', request.croql);
-        url = this.addQueryParam(url, 'branchId', request.branchId);
-        url = this.addQueryParam(url, 'directoryId', request.directoryId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        url = this.addQueryParam(url, 'labelIds', options.labelIds);
+        url = this.addQueryParam(url, 'scope', options.scope);
+        url = this.addQueryParam(url, 'croql', options.croql);
+        url = this.addQueryParam(url, 'branchId', options.branchId);
+        url = this.addQueryParam(url, 'directoryId', options.directoryId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

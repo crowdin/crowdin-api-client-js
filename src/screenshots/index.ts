@@ -1,4 +1,4 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Screenshots extends CrowdinApi {
     /**
@@ -11,9 +11,23 @@ export class Screenshots extends CrowdinApi {
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional pagination options
+     */
+    listScreenshots(projectId: number, options?: PaginationOptions): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
+    listScreenshots(
+        projectId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/screenshots`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -91,9 +105,24 @@ export class Screenshots extends CrowdinApi {
         screenshotId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<ScreenshotsModel.Tag>>;
+    listScreenshotTags(
+        projectId: number,
+        screenshotId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<ScreenshotsModel.Tag>>;
+    listScreenshotTags(
+        projectId: number,
+        screenshotId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

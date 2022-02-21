@@ -1,15 +1,31 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
      */
-    listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>> {
+    listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional pagination options
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
+     */
+    listWebhooks(projectId: number, options?: PaginationOptions): Promise<ResponseList<WebhooksModel.Webhook>>;
+    listWebhooks(
+        projectId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<WebhooksModel.Webhook>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/webhooks`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

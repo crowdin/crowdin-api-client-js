@@ -1,4 +1,4 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 /**
  * @deprecated
@@ -6,10 +6,19 @@ import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core'
 export class Issues extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional options for listing reported issues
+     */
+    listReportedIssues(
+        projectId: number,
+        options?: IssuesModel.ListReportedIssuesOptions,
+    ): Promise<ResponseList<IssuesModel.Issue>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param type defines the issue type
      * @param status defines the issue resolution status
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.issues.getMany
      */
     listReportedIssues(
@@ -18,11 +27,27 @@ export class Issues extends CrowdinApi {
         offset?: number,
         type?: IssuesModel.Type,
         status?: IssuesModel.Status,
+    ): Promise<ResponseList<IssuesModel.Issue>>;
+    listReportedIssues(
+        projectId: number,
+        options: number | IssuesModel.ListReportedIssuesOptions = {},
+        deprecatedOffset?: number,
+        deprecatedType?: IssuesModel.Type,
+        deprecatedStatus?: IssuesModel.Status,
     ): Promise<ResponseList<IssuesModel.Issue>> {
+        if (typeof options === 'number') {
+            options = {
+                limit: options,
+                offset: deprecatedOffset,
+                type: deprecatedType,
+                status: deprecatedStatus,
+            };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/projects/${projectId}/issues`;
-        url = this.addQueryParam(url, 'type', type);
-        url = this.addQueryParam(url, 'status', status);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'type', options.type);
+        url = this.addQueryParam(url, 'status', options.status);
+        return this.getList(url, options.limit, deprecatedOffset);
     }
 
     /**
@@ -83,5 +108,10 @@ export namespace IssuesModel {
         isIcu: boolean;
         context: string;
         fileId: number;
+    }
+
+    export interface ListReportedIssuesOptions extends PaginationOptions {
+        type?: IssuesModel.Type;
+        status?: IssuesModel.Status;
     }
 }

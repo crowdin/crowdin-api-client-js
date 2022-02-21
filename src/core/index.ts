@@ -49,6 +49,8 @@ export interface Pagination {
     limit: number;
 }
 
+export type PaginationOptions = Partial<Pagination>;
+
 export interface ValidationErrorResponse {
     errors: ErrorHolder[];
 }
@@ -124,6 +126,7 @@ export abstract class CrowdinApi {
 
     protected fetchAllFlag = false;
     protected maxLimit: number | undefined;
+    protected deprecationEmittedForOptionalParams = false;
 
     /**
      * @param credentials credentials
@@ -257,6 +260,16 @@ export abstract class CrowdinApi {
             }
         }
         return resp;
+    }
+
+    protected emitDeprecationWarning(): void {
+        if (!this.deprecationEmittedForOptionalParams) {
+            process.emitWarning(
+                'Passing optional parameters individually is deprecated. Pass a sole object instead',
+                'DeprecationWarning',
+            );
+            this.deprecationEmittedForOptionalParams = true;
+        }
     }
 
     //Http overrides

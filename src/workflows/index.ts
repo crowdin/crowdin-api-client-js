@@ -1,19 +1,38 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Workflows extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
      */
     listWorkflowSteps(
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional pagination options for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
+     */
+    listWorkflowSteps(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
+    listWorkflowSteps(
+        projectId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/workflow-steps`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -33,6 +52,7 @@ export class Workflows extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
     listWorkflowTemplates(
@@ -40,20 +60,25 @@ export class Workflows extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
+    /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
+     */
     listWorkflowTemplates(
-        groupIdOrRequest?: number | WorkflowModel.ListWorkflowTemplatesRequest,
-        limit?: number,
-        offset?: number,
+        options?: WorkflowModel.ListWorkflowTemplatesRequest,
+    ): Promise<ResponseList<WorkflowModel.Workflow>>;
+    listWorkflowTemplates(
+        options: number | WorkflowModel.ListWorkflowTemplatesRequest = {},
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        let request: WorkflowModel.ListWorkflowTemplatesRequest;
-        if (groupIdOrRequest && typeof groupIdOrRequest === 'object') {
-            request = groupIdOrRequest;
-        } else {
-            request = { groupId: groupIdOrRequest, limit, offset };
+        if (typeof options === 'number') {
+            options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'groupId', request.groupId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -80,10 +105,8 @@ export namespace WorkflowModel {
               }
             | never[];
     }
-    export interface ListWorkflowTemplatesRequest {
+    export interface ListWorkflowTemplatesRequest extends PaginationOptions {
         groupId?: number;
-        limit?: number;
-        offset?: number;
     }
 
     export interface Workflow {

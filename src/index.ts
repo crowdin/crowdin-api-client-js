@@ -70,7 +70,7 @@ export default class Client {
     readonly usersApi: Users;
     readonly vendorsApi: Vendors;
     /**
-     * @deprecated
+     * @deprecated use stringCommentsApi instead
      */
     readonly issuesApi: Issues;
     readonly teamsApi: Teams;

@@ -1,4 +1,4 @@
-import { CrowdinApi, ResponseList } from '../core';
+import { CrowdinApi, PaginationOptions, ResponseList } from '../core';
 
 export class TranslationStatus extends CrowdinApi {
     /**
@@ -6,6 +6,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
      */
     getBranchProgress(
@@ -13,9 +14,30 @@ export class TranslationStatus extends CrowdinApi {
         branchId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param options optional pagination options for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany
+     */
+    getBranchProgress(
+        projectId: number,
+        branchId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    getBranchProgress(
+        projectId: number,
+        branchId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -23,6 +45,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param directoryId directory identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany
      */
     getDirectoryProgress(
@@ -30,9 +53,30 @@ export class TranslationStatus extends CrowdinApi {
         directoryId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param options optional pagination options
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany
+     */
+    getDirectoryProgress(
+        projectId: number,
+        directoryId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    getDirectoryProgress(
+        projectId: number,
+        directoryId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -40,6 +84,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
      */
     getFileProgress(
@@ -47,9 +92,30 @@ export class TranslationStatus extends CrowdinApi {
         fileId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param options optional pagination options
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany
+     */
+    getFileProgress(
+        projectId: number,
+        fileId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    getFileProgress(
+        projectId: number,
+        fileId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -57,6 +123,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
      */
     getLanguageProgress(
@@ -64,9 +131,30 @@ export class TranslationStatus extends CrowdinApi {
         languageId: string,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param options optional pagination options
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany
+     */
+    getLanguageProgress(
+        projectId: number,
+        languageId: string,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
+    getLanguageProgress(
+        projectId: number,
+        languageId: string,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -74,6 +162,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param languageIds language identifier for filter
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
      */
     getProjectProgress(
@@ -81,10 +170,29 @@ export class TranslationStatus extends CrowdinApi {
         limit?: number,
         offset?: number,
         languageIds?: string,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
+     */
+    getProjectProgress(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
+    getProjectProgress(
+        projectId: number,
+        options: number | TranslationStatusModel.GetProjectProgressOptions = {},
+        deprecatedOffset?: number,
+        deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset, languageIds: deprecatedLanguageIds };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/projects/${projectId}/languages/progress`;
-        url = this.addQueryParam(url, 'languageIds', languageIds);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'languageIds', options.languageIds);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -94,6 +202,7 @@ export class TranslationStatus extends CrowdinApi {
      * @param category defines the issue category
      * @param validation defines the QA check issue validation type
      * @param languageIds filter progress by languageId
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
      */
     listQaCheckIssues(
@@ -104,25 +213,38 @@ export class TranslationStatus extends CrowdinApi {
         validation?: TranslationStatusModel.Validation,
         languageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
+     */
     listQaCheckIssues(
         projectId: number,
-        limitOrRequest?: number | TranslationStatusModel.ListQaCheckIssuesRequest,
-        offset?: number,
-        category?: TranslationStatusModel.Category,
-        validation?: TranslationStatusModel.Validation,
-        languageIds?: string,
+        options?: TranslationStatusModel.ListQaCheckIssuesOptions,
+    ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
+    listQaCheckIssues(
+        projectId: number,
+        options: number | TranslationStatusModel.ListQaCheckIssuesOptions = {},
+        deprecatedOffset?: number,
+        deprecatedCategory?: TranslationStatusModel.Category,
+        deprecatedValidation?: TranslationStatusModel.Validation,
+        deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-checks`;
-        let request: TranslationStatusModel.ListQaCheckIssuesRequest;
-        if (limitOrRequest && typeof limitOrRequest === 'object') {
-            request = limitOrRequest;
-        } else {
-            request = { limit: limitOrRequest, offset, category, validation, languageIds };
+        if (typeof options === 'number') {
+            options = {
+                limit: options,
+                offset: deprecatedOffset,
+                category: deprecatedCategory,
+                validation: deprecatedValidation,
+                languageIds: deprecatedLanguageIds,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'category', request.category);
-        url = this.addQueryParam(url, 'validation', request.validation);
-        url = this.addQueryParam(url, 'languageIds', request.languageIds);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'category', options.category);
+        url = this.addQueryParam(url, 'validation', options.validation);
+        url = this.addQueryParam(url, 'languageIds', options.languageIds);
+        return this.getList(url, options.limit, options.offset);
     }
 }
 
@@ -205,9 +327,7 @@ export namespace TranslationStatusModel {
         ICU_CHECK = 'icu_check',
     }
 
-    export interface ListQaCheckIssuesRequest {
-        limit?: number;
-        offset?: number;
+    export interface ListQaCheckIssuesOptions extends PaginationOptions {
         category?: Category;
         validation?: Validation;
         languageIds?: string;
@@ -222,5 +342,9 @@ export namespace TranslationStatusModel {
         validationDescription: string;
         pluralId: number;
         text: string;
+    }
+
+    export interface GetProjectProgressOptions extends PaginationOptions {
+        languageIds?: string;
     }
 }

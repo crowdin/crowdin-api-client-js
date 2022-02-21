@@ -1,4 +1,4 @@
-import { CrowdinApi, Pagination, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, Pagination, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Users extends CrowdinApi {
     /**
@@ -9,6 +9,7 @@ export class Users extends CrowdinApi {
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
@@ -19,25 +20,38 @@ export class Users extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     */
     listProjectMembers(
         projectId: number,
-        searchOrRequest?: string | UsersModel.ListProjectMembersRequest,
-        role?: UsersModel.Role,
-        languageId?: string,
-        limit?: number,
-        offset?: number,
+        options?: UsersModel.ListProjectMembersOptions,
+    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
+    listProjectMembers(
+        projectId: number,
+        options: string | UsersModel.ListProjectMembersOptions = {},
+        deprecatedRole?: UsersModel.Role,
+        deprecatedLanguageId?: string,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        let request: UsersModel.ListProjectMembersRequest;
-        if (searchOrRequest && typeof searchOrRequest === 'object') {
-            request = searchOrRequest;
-        } else {
-            request = { search: searchOrRequest, role, languageId, limit, offset };
+        if (typeof options === 'string') {
+            options = {
+                search: options,
+                role: deprecatedRole,
+                languageId: deprecatedLanguageId,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'search', request.search);
-        url = this.addQueryParam(url, 'role', request.role);
-        url = this.addQueryParam(url, 'languageId', request.languageId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'search', options.search);
+        url = this.addQueryParam(url, 'role', options.role);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -100,6 +114,7 @@ export class Users extends CrowdinApi {
      * @param twoFactor filter users by two-factor authentication status
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
     listUsers(
@@ -109,24 +124,33 @@ export class Users extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<UsersModel.User>>;
+    /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
+     */
+    listUsers(options?: UsersModel.ListUsersRequest): Promise<ResponseList<UsersModel.User>>;
     listUsers(
-        statusOrRequest?: UsersModel.Status | UsersModel.ListUsersRequest,
-        search?: string,
-        twoFactor?: UsersModel.TwoFactor,
-        limit?: number,
-        offset?: number,
+        options: UsersModel.Status | UsersModel.ListUsersRequest = {},
+        deprecatedSearch?: string,
+        deprecatedTwoFactor?: UsersModel.TwoFactor,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        let request: UsersModel.ListUsersRequest;
-        if (statusOrRequest && typeof statusOrRequest === 'object') {
-            request = statusOrRequest;
-        } else {
-            request = { status: statusOrRequest, search, twoFactor, limit, offset };
+        if (typeof options === 'string') {
+            options = {
+                status: options,
+                search: deprecatedSearch,
+                twoFactor: deprecatedTwoFactor,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'status', request.status);
-        url = this.addQueryParam(url, 'search', request.search);
-        url = this.addQueryParam(url, 'twoFactor', request.twoFactor);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'status', options.status);
+        url = this.addQueryParam(url, 'search', options.search);
+        url = this.addQueryParam(url, 'twoFactor', options.twoFactor);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -148,20 +172,16 @@ export class Users extends CrowdinApi {
 }
 
 export namespace UsersModel {
-    export interface ListProjectMembersRequest {
+    export interface ListProjectMembersOptions extends PaginationOptions {
         search?: string;
         role?: Role;
         languageId?: string;
-        limit?: number;
-        offset?: number;
     }
 
-    export interface ListUsersRequest {
+    export interface ListUsersRequest extends PaginationOptions {
         status?: Status;
         search?: string;
         twoFactor?: TwoFactor;
-        limit?: number;
-        offset?: number;
     }
 
     export interface User {

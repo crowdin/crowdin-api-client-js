@@ -1,20 +1,36 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class MachineTranslation extends CrowdinApi {
     /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
      */
     listMts(
         groupId?: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
+    /**
+     * @param options optional options for the request
+     */
+    listMts(
+        options?: MachineTranslationModel.ListMTsOptions,
+    ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
+    listMts(
+        options: number | MachineTranslationModel.ListMTsOptions = {},
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
+        if (typeof options === 'number') {
+            options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/mts`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -112,5 +128,9 @@ export namespace MachineTranslationModel {
     export enum LanguageRecognitionProvider {
         CROWDIN = 'crowdin',
         ENGINE = 'engine',
+    }
+
+    export interface ListMTsOptions extends PaginationOptions {
+        groupId?: number;
     }
 }

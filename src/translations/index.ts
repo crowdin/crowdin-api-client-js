@@ -1,4 +1,4 @@
-import { CrowdinApi, DownloadLink, ResponseList, ResponseObject, Status } from '../core';
+import { CrowdinApi, DownloadLink, PaginationOptions, ResponseList, ResponseObject, Status } from '../core';
 
 export class Translations extends CrowdinApi {
     /**
@@ -47,7 +47,7 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
-     * @param eTag eTag 'If-None-Match' header
+     * @param eTag 'If-None-Match' header
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.files.post
      */
     buildProjectFileTranslation(
@@ -69,6 +69,7 @@ export class Translations extends CrowdinApi {
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
      */
     listProjectBuilds(
@@ -76,10 +77,29 @@ export class Translations extends CrowdinApi {
         branchId?: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationsModel.Build>>;
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
+     */
+    listProjectBuilds(
+        projectId: number,
+        options?: TranslationsModel.ListProjectBuildsOptions,
+    ): Promise<ResponseList<TranslationsModel.Build>>;
+    listProjectBuilds(
+        projectId: number,
+        options: number | TranslationsModel.ListProjectBuildsOptions = {},
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationsModel.Build>> {
+        if (typeof options === 'number') {
+            options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/projects/${projectId}/translations/builds`;
-        url = this.addQueryParam(url, 'branchId', branchId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'branchId', options.branchId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -192,6 +212,9 @@ export namespace TranslationsModel {
 
     export interface BuildProjectFileTranslationRequest {
         targetLanguageId: string;
+        /**
+         * @deprecated Use {@link Translations.exportProjectTranslation} instead
+         */
         exportAsXliff?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
@@ -293,5 +316,9 @@ export namespace TranslationsModel {
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportWithMinApprovalsCount?: number;
+    }
+
+    export interface ListProjectBuildsOptions extends PaginationOptions {
+        branchId?: number;
     }
 }

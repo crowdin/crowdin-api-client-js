@@ -1,4 +1,4 @@
-import { BooleanInt, CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { BooleanInt, CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class StringTranslations extends CrowdinApi {
     /**
@@ -9,6 +9,7 @@ export class StringTranslations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param fileId file identifier
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
      */
     listTranslationApprovals(
@@ -20,28 +21,40 @@ export class StringTranslations extends CrowdinApi {
         offset?: number,
         fileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
-
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     */
     listTranslationApprovals(
         projectId: number,
-        stringIdOrRequest?: number | StringTranslationsModel.ListTranslationApprovalsRequest,
-        languageId?: string,
-        translationId?: number,
-        limit?: number,
-        offset?: number,
-        fileId?: number,
+        options?: StringTranslationsModel.ListTranslationApprovalsRequest,
+    ): Promise<ResponseList<StringTranslationsModel.Approval>>;
+    listTranslationApprovals(
+        projectId: number,
+        options: number | StringTranslationsModel.ListTranslationApprovalsRequest = {},
+        deprecatedLanguageId?: string,
+        deprecatedTranslationId?: number,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
+        deprecatedFileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
-        let request: StringTranslationsModel.ListTranslationApprovalsRequest;
-        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
-            request = stringIdOrRequest;
-        } else {
-            request = { stringId: stringIdOrRequest, languageId, translationId, limit, offset, fileId };
+        if (typeof options === 'number') {
+            options = {
+                stringId: options,
+                languageId: deprecatedLanguageId,
+                translationId: deprecatedTranslationId,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+                fileId: deprecatedFileId,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'stringId', request.stringId);
-        url = this.addQueryParam(url, 'languageId', request.languageId);
-        url = this.addQueryParam(url, 'translationId', request.translationId);
-        url = this.addQueryParam(url, 'fileId', request.fileId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'stringId', options.stringId);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        url = this.addQueryParam(url, 'translationId', options.translationId);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -87,6 +100,7 @@ export class StringTranslations extends CrowdinApi {
      * @param labelIds filter translations by fileId
      * @param denormalizePlaceholders enable denormalize placeholders
      * @param croql filter translations by CroQL (Can't be used with `stringIds`, `labelIds` or `fileId` in same request)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany
      */
     listLanguageTranslations(
@@ -106,11 +120,27 @@ export class StringTranslations extends CrowdinApi {
             | StringTranslationsModel.IcuLanguageTranslation
         >
     >;
-
+    /**
+     *
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param options optional parameters for the request
+     */
     listLanguageTranslations(
         projectId: number,
         languageId: string,
-        stringIdsOrRequest?: string | StringTranslationsModel.ListLanguageTranslationsRequest,
+        options?: StringTranslationsModel.ListLanguageTranslationsRequest,
+    ): Promise<
+        ResponseList<
+            | StringTranslationsModel.PlainLanguageTranslation
+            | StringTranslationsModel.PluralLanguageTranslation
+            | StringTranslationsModel.IcuLanguageTranslation
+        >
+    >;
+    listLanguageTranslations(
+        projectId: number,
+        languageId: string,
+        options: string | StringTranslationsModel.ListLanguageTranslationsRequest = {},
         fileId?: number,
         limit?: number,
         offset?: number,
@@ -125,12 +155,9 @@ export class StringTranslations extends CrowdinApi {
         >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
-        let request: StringTranslationsModel.ListLanguageTranslationsRequest;
-        if (stringIdsOrRequest && typeof stringIdsOrRequest === 'object') {
-            request = stringIdsOrRequest;
-        } else {
-            request = {
-                stringIds: stringIdsOrRequest,
+        if (typeof options === 'string') {
+            options = {
+                stringIds: options,
                 fileId,
                 limit,
                 offset,
@@ -138,13 +165,14 @@ export class StringTranslations extends CrowdinApi {
                 denormalizePlaceholders,
                 croql,
             };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'stringIds', request.stringIds);
-        url = this.addQueryParam(url, 'fileId', request.fileId);
-        url = this.addQueryParam(url, 'labelIds', request.labelIds);
-        url = this.addQueryParam(url, 'denormalizePlaceholders', request.denormalizePlaceholders);
-        url = this.addQueryParam(url, 'croql', request.croql);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'stringIds', options.stringIds);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
+        url = this.addQueryParam(url, 'labelIds', options.labelIds);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        url = this.addQueryParam(url, 'croql', options.croql);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -154,6 +182,7 @@ export class StringTranslations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param denormalizePlaceholders enable denormalize placeholders
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.getMany
      */
     listStringTranslations(
@@ -163,12 +192,40 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
         denormalizePlaceholders?: BooleanInt,
+    ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
+    /**
+     * @param projectId project identifier
+     * @param stringId string identifier
+     * @param languageId language identifier
+     * @param options optional parameters for the request
+     */
+    listStringTranslations(
+        projectId: number,
+        stringId: number,
+        languageId: string,
+        options?: StringTranslationsModel.ListStringTranslationsOptions,
+    ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
+    listStringTranslations(
+        projectId: number,
+        stringId: number,
+        languageId: string,
+        options: number | StringTranslationsModel.ListStringTranslationsOptions = {},
+        deprecatedOffset?: number,
+        deprecatedDenormalizePlaceholders?: BooleanInt,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
+        if (typeof options === 'number') {
+            options = {
+                limit: options,
+                offset: deprecatedOffset,
+                denormalizePlaceholders: deprecatedDenormalizePlaceholders,
+            };
+            this.emitDeprecationWarning();
+        }
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
-        url = this.addQueryParam(url, 'denormalizePlaceholders', denormalizePlaceholders);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -250,26 +307,37 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
-
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     */
     listTranslationVotes(
         projectId: number,
-        stringIdOrRequest?: number | StringTranslationsModel.ListTranslationVotesRequest,
-        languageId?: string,
-        translationId?: number,
-        limit?: number,
-        offset?: number,
+        options?: StringTranslationsModel.ListTranslationVotesRequest,
+    ): Promise<ResponseList<StringTranslationsModel.Vote>>;
+    listTranslationVotes(
+        projectId: number,
+        options: number | StringTranslationsModel.ListTranslationVotesRequest = {},
+        deprecatedLanguageId?: string,
+        deprecatedTranslationId?: number,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
-        let request: StringTranslationsModel.ListTranslationVotesRequest;
-        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
-            request = stringIdOrRequest;
-        } else {
-            request = { stringId: stringIdOrRequest, languageId, translationId, limit, offset };
+        if (typeof options === 'number') {
+            options = {
+                stringId: options,
+                languageId: deprecatedLanguageId,
+                translationId: deprecatedTranslationId,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'stringId', request.stringId);
-        url = this.addQueryParam(url, 'languageId', request.languageId);
-        url = this.addQueryParam(url, 'translationId', request.translationId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'stringId', options.stringId);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        url = this.addQueryParam(url, 'translationId', options.translationId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -388,12 +456,10 @@ export namespace StringTranslationsModel {
         pluralCategoryName?: string;
     }
 
-    export interface ListTranslationVotesRequest {
+    export interface ListTranslationVotesRequest extends PaginationOptions {
         stringId?: number;
         languageId?: string;
         translationId?: number;
-        limit?: number;
-        offset?: number;
     }
 
     export interface Vote {
@@ -419,5 +485,9 @@ export namespace StringTranslationsModel {
     export enum Mark {
         UP = 'up',
         DOWN = 'down',
+    }
+
+    export interface ListStringTranslationsOptions extends PaginationOptions {
+        denormalizePlaceholders?: BooleanInt;
     }
 }

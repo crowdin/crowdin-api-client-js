@@ -1,4 +1,4 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 import { SourceStringsModel } from '../sourceStrings';
 
 export class Labels extends CrowdinApi {
@@ -6,11 +6,21 @@ export class Labels extends CrowdinApi {
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
-    listLabels(projectId: number, limit?: number, offset?: number): Promise<ResponseList<LabelsModel.Label>> {
+    listLabels(projectId: number, limit?: number, offset?: number): Promise<ResponseList<LabelsModel.Label>>;
+    listLabels(
+        projectId: number,
+        options: number | PaginationOptions = {},
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<LabelsModel.Label>> {
+        if (typeof options === 'number') {
+            options = { limit: options, offset: deprecatedOffset };
+            this.emitDeprecationWarning();
+        }
         const url = `${this.url}/projects/${projectId}/labels`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

@@ -3,11 +3,21 @@ import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core'
 export class StringComments extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the requesr
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.getMany
+     */
+    listStringComments(
+        projectId: number,
+        options?: StringCommentsModel.ListStringCommentsRequest,
+    ): Promise<ResponseList<StringCommentsModel.StringComment>>;
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param type defines string comment type
      * @param targetLanguageId defines target language id. It can be one target language id or a list of comma-separated ones
      * @param issueType defines issue type. It can be one issue type or a list of comma-separated ones
      * @param issueStatus defines issue resolution status
+     * @deprecated Optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.comments.getMany
      */
     listStringComments(
@@ -21,30 +31,29 @@ export class StringComments extends CrowdinApi {
 
     listStringComments(
         projectId: number,
-        request?: StringCommentsModel.ListStringCommentsRequest,
-    ): Promise<ResponseList<StringCommentsModel.StringComment>>;
-
-    listStringComments(
-        projectId: number,
-        stringIdOrRequest?: number | StringCommentsModel.ListStringCommentsRequest,
-        type?: StringCommentsModel.Type,
-        targetLanguageId?: string,
-        issueType?: StringCommentsModel.IssueType,
-        issueStatus?: StringCommentsModel.IssueStatus,
+        options: number | StringCommentsModel.ListStringCommentsRequest = {},
+        deprecatedType?: StringCommentsModel.Type,
+        deprecatedTargetLanguageId?: string,
+        deprecatedIssueType?: StringCommentsModel.IssueType,
+        deprecatedIssueStatus?: StringCommentsModel.IssueStatus,
     ): Promise<ResponseList<StringCommentsModel.StringComment>> {
         let url = `${this.url}/projects/${projectId}/comments`;
-        let request: StringCommentsModel.ListStringCommentsRequest;
-        if (stringIdOrRequest && typeof stringIdOrRequest === 'object') {
-            request = stringIdOrRequest;
-        } else {
-            request = { stringId: stringIdOrRequest, type, targetLanguageId, issueStatus, issueType };
+        if (typeof options === 'number') {
+            options = {
+                stringId: options,
+                type: deprecatedType,
+                targetLanguageId: deprecatedTargetLanguageId,
+                issueStatus: deprecatedIssueStatus,
+                issueType: deprecatedIssueType,
+            };
+            this.emitDeprecationWarning();
         }
-        url = this.addQueryParam(url, 'stringId', request.stringId);
-        url = this.addQueryParam(url, 'type', request.type);
-        url = this.addQueryParam(url, 'targetLanguageId', request.targetLanguageId);
-        url = this.addQueryParam(url, 'issueType', request.issueType);
-        url = this.addQueryParam(url, 'issueStatus', request.issueStatus);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'stringId', options.stringId);
+        url = this.addQueryParam(url, 'type', options.type);
+        url = this.addQueryParam(url, 'targetLanguageId', options.targetLanguageId);
+        url = this.addQueryParam(url, 'issueType', options.issueType);
+        url = this.addQueryParam(url, 'issueStatus', options.issueStatus);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
