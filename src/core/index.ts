@@ -3,7 +3,7 @@ import { FetchClient } from './internal/fetch/fetchClient';
 import { RetryConfig, RetryService } from './internal/retry';
 
 export interface RequestConfig {
-    headers?: any;
+    headers?: Record<string, string>;
     mode?: string;
 }
 
@@ -11,9 +11,9 @@ export interface HttpClient {
     get<T>(url: string, config?: RequestConfig): Promise<T>;
     delete<T>(url: string, config?: RequestConfig): Promise<T>;
     head<T>(url: string, config?: RequestConfig): Promise<T>;
-    post<T>(url: string, data?: any, config?: RequestConfig): Promise<T>;
-    put<T>(url: string, data?: any, config?: RequestConfig): Promise<T>;
-    patch<T>(url: string, data?: any, config?: RequestConfig): Promise<T>;
+    post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
+    put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
+    patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
 }
 
 export enum HttpClientType {
@@ -158,7 +158,7 @@ export abstract class CrowdinApi {
         this.config = config;
     }
 
-    protected addQueryParam(url: string, name: string, value?: any): string {
+    protected addQueryParam(url: string, name: string, value?: string | number): string {
         if (value) {
             url += new RegExp(/\?.+=.*/g).test(url) ? '&' : '?';
             url += `${name}=${value}`;
@@ -166,8 +166,10 @@ export abstract class CrowdinApi {
         return url;
     }
 
-    protected defaultConfig(): any {
-        const config: any = {
+    protected defaultConfig(): { headers: Record<string, string> } {
+        const config: {
+            headers: Record<string, string>;
+        } = {
             headers: {
                 Authorization: `Bearer ${this.token}`,
             },
@@ -209,7 +211,7 @@ export abstract class CrowdinApi {
         url: string,
         limit?: number,
         offset?: number,
-        config?: { headers: any },
+        config?: { headers: Record<string, string> },
     ): Promise<ResponseList<T>> {
         const conf = config ?? this.defaultConfig();
         if (this.fetchAllFlag) {
@@ -224,9 +226,9 @@ export abstract class CrowdinApi {
         }
     }
 
-    protected async fetchAll<T = any>(
+    protected async fetchAll<T>(
         url: string,
-        config: { headers: any },
+        config: { headers: Record<string, string> },
         maxAmount?: number,
     ): Promise<ResponseList<T>> {
         let limit = 500;
@@ -259,27 +261,27 @@ export abstract class CrowdinApi {
 
     //Http overrides
 
-    protected get<T>(url: string, config?: { headers: any }): Promise<T> {
+    protected get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.get(url, config));
     }
 
-    protected delete<T>(url: string, config?: { headers: any }): Promise<T> {
+    protected delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.delete(url, config));
     }
 
-    protected head<T>(url: string, config?: { headers: any }): Promise<T> {
+    protected head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.head(url, config));
     }
 
-    protected post<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    protected post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.post(url, data, config));
     }
 
-    protected put<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    protected put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.put(url, data, config));
     }
 
-    protected patch<T>(url: string, data?: any, config?: { headers: any }): Promise<T> {
+    protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.patch(url, data, config));
     }
 }

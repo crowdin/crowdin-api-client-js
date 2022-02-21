@@ -254,7 +254,7 @@ export namespace GlossariesModel {
 
     export interface GlossaryImportStatusAttribute {
         storageId: number;
-        scheme: any;
+        scheme: unknown;
         firstLineContainsHeader: boolean;
     }
 

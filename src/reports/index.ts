@@ -128,7 +128,8 @@ export namespace ReportsModel {
     export interface ReportStatusAttributes {
         format: Format;
         reportName: string;
-        schema: any;
+        //TODO improve this type with unions and generics according to the documentation
+        schema: unknown;
     }
 
     export interface GroupTranslationCostSchema {

@@ -7,27 +7,27 @@ export class FetchClient implements HttpClient {
     private requestIntervalMs = 10;
     private pendingRequests = 0;
 
-    get(url: string, config?: { headers: any }): Promise<any> {
+    get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'GET', config);
     }
-    delete(url: string, config?: { headers: any }): Promise<any> {
+    delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'DELETE', config);
     }
-    head(url: string, config?: { headers: any }): Promise<any> {
+    head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'HEAD', config);
     }
-    post(url: string, data?: any, config?: { headers: any }): Promise<any> {
+    post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'POST', config, data);
     }
-    put(url: string, data?: any, config?: { headers: any }): Promise<any> {
+    put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'PUT', config, data);
     }
-    patch(url: string, data?: any, config?: { headers: any }): Promise<any> {
+    patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'PATCH', config, data);
     }
 
-    private async request(url: string, method: string, config?: RequestConfig, data?: any): Promise<any> {
-        let body = undefined;
+    private async request<T>(url: string, method: string, config?: RequestConfig, data?: unknown): Promise<T> {
+        let body;
         if (data) {
             if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
@@ -46,13 +46,13 @@ export class FetchClient implements HttpClient {
             mode: config?.mode ?? 'no-cors',
             body: body,
         })
-            .then(async (resp: any) => {
-                if (resp.status === 204) {
+            .then(async (res: any) => {
+                if (res.status === 204) {
                     return {};
                 }
-                const text = await resp.text();
+                const text = await res.text();
                 const json = text ? JSON.parse(text) : {};
-                if (resp.status >= 200 && resp.status < 300) {
+                if (res.status >= 200 && res.status < 300) {
                     return json;
                 } else {
                     throw json;
@@ -61,7 +61,7 @@ export class FetchClient implements HttpClient {
             .finally(() => (this.pendingRequests = Math.max(0, this.pendingRequests - 1)));
     }
 
-    private isBuffer(data: any): boolean {
+    private isBuffer(data: unknown): boolean {
         if (typeof ArrayBuffer === 'function') {
             return ArrayBuffer.isView(data);
         } else if (typeof Buffer === 'function') {
