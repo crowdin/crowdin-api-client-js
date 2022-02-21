@@ -1,4 +1,4 @@
-import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, emitDeprecationWarning, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 const mimetypes: { [key: string]: string } = {
     '3dml': 'text/vnd.in3d.3dml',
@@ -929,7 +929,7 @@ export class UploadStorage extends CrowdinApi {
     ): Promise<ResponseList<UploadStorageModel.Storage>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/storages`;
         return this.getList(url, options.limit, options.offset);

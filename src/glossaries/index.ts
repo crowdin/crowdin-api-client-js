@@ -1,6 +1,7 @@
 import {
     CrowdinApi,
     DownloadLink,
+    emitDeprecationWarning,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -29,7 +30,7 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseList<GlossariesModel.Glossary>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const { groupId, limit, offset } = options;
         let url = `${this.url}/glossaries`;
@@ -180,7 +181,7 @@ export class Glossaries extends CrowdinApi {
                 languageId: deprecatedLanguageId,
                 translationOfTermId: deprecatedTranslationOfTermId,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'userId', options.userId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
@@ -229,7 +230,7 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseObject<GlossariesModel.Term>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         url = this.addQueryParam(url, 'languageId', options.languageId);

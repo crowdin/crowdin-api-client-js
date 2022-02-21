@@ -1,4 +1,11 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class MachineTranslation extends CrowdinApi {
     /**
@@ -27,7 +34,7 @@ export class MachineTranslation extends CrowdinApi {
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/mts`;
         url = this.addQueryParam(url, 'groupId', options.groupId);

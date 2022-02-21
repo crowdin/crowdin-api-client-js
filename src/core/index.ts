@@ -126,7 +126,6 @@ export abstract class CrowdinApi {
 
     protected fetchAllFlag = false;
     protected maxLimit: number | undefined;
-    protected deprecationEmittedForOptionalParams = false;
 
     /**
      * @param credentials credentials
@@ -262,16 +261,6 @@ export abstract class CrowdinApi {
         return resp;
     }
 
-    protected emitDeprecationWarning(): void {
-        if (!this.deprecationEmittedForOptionalParams) {
-            process.emitWarning(
-                'Passing optional parameters individually is deprecated. Pass a sole object instead',
-                'DeprecationWarning',
-            );
-            this.deprecationEmittedForOptionalParams = true;
-        }
-    }
-
     //Http overrides
 
     protected get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
@@ -296,5 +285,17 @@ export abstract class CrowdinApi {
 
     protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.patch(url, data, config));
+    }
+}
+
+let deprecationEmittedForOptionalParams = false;
+
+export function emitDeprecationWarning(): void {
+    if (!deprecationEmittedForOptionalParams) {
+        process.emitWarning(
+            'Passing optional parameters individually is deprecated. Pass a sole object instead',
+            'DeprecationWarning',
+        );
+        deprecationEmittedForOptionalParams = true;
     }
 }

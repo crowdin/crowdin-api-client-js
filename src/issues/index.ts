@@ -1,4 +1,11 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 /**
  * @deprecated
@@ -43,7 +50,7 @@ export class Issues extends CrowdinApi {
                 type: deprecatedType,
                 status: deprecatedStatus,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/issues`;
         url = this.addQueryParam(url, 'type', options.type);

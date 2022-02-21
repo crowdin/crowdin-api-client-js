@@ -1,4 +1,11 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class StringComments extends CrowdinApi {
     /**
@@ -46,7 +53,7 @@ export class StringComments extends CrowdinApi {
                 issueStatus: deprecatedIssueStatus,
                 issueType: deprecatedIssueType,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'type', options.type);

@@ -1,4 +1,4 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, emitDeprecationWarning, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Dictionaries extends CrowdinApi {
     /**
@@ -23,7 +23,7 @@ export class Dictionaries extends CrowdinApi {
     ): Promise<ResponseList<DictionariesModel.Dictionary>> {
         if (typeof options === 'string' || typeof options === 'undefined') {
             options = { languageIds: options };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/dictionaries`;
         url = this.addQueryParam(url, 'languageIds', options.languageIds);

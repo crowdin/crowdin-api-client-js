@@ -1,4 +1,4 @@
-import { CrowdinApi, PaginationOptions, ResponseList } from '../core';
+import { CrowdinApi, emitDeprecationWarning, PaginationOptions, ResponseList } from '../core';
 
 export class TranslationStatus extends CrowdinApi {
     /**
@@ -34,7 +34,7 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -73,7 +73,7 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -112,7 +112,7 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -151,7 +151,7 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -188,7 +188,7 @@ export class TranslationStatus extends CrowdinApi {
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset, languageIds: deprecatedLanguageIds };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/languages/progress`;
         url = this.addQueryParam(url, 'languageIds', options.languageIds);
@@ -239,7 +239,7 @@ export class TranslationStatus extends CrowdinApi {
                 validation: deprecatedValidation,
                 languageIds: deprecatedLanguageIds,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'category', options.category);
         url = this.addQueryParam(url, 'validation', options.validation);

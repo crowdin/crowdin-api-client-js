@@ -1,6 +1,7 @@
 import {
     CrowdinApi,
     DownloadLink,
+    emitDeprecationWarning,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -35,7 +36,7 @@ export class TranslationMemory extends CrowdinApi {
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/tms`;
         url = this.addQueryParam(url, 'groupId', options.groupId);

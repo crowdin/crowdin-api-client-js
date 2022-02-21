@@ -1,4 +1,12 @@
-import { BooleanInt, CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    BooleanInt,
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class SourceStrings extends CrowdinApi {
     /**
@@ -65,7 +73,7 @@ export class SourceStrings extends CrowdinApi {
                 branchId: deprecatedBranchId,
                 directoryId: deprecatedDirectoryId,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'fileId', options.fileId);
         url = this.addQueryParam(url, 'filter', options.filter);

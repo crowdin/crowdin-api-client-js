@@ -1,4 +1,12 @@
-import { CrowdinApi, DownloadLink, PaginationOptions, ResponseList, ResponseObject, Status } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    emitDeprecationWarning,
+    PaginationOptions,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 export class Translations extends CrowdinApi {
     /**
@@ -95,7 +103,7 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseList<TranslationsModel.Build>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/translations/builds`;
         url = this.addQueryParam(url, 'branchId', options.branchId);

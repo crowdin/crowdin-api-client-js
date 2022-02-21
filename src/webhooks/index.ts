@@ -1,4 +1,11 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class Webhooks extends CrowdinApi {
     /**
@@ -22,7 +29,7 @@ export class Webhooks extends CrowdinApi {
     ): Promise<ResponseList<WebhooksModel.Webhook>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/webhooks`;
         return this.getList(url, options.limit, options.offset);

@@ -1,4 +1,12 @@
-import { BooleanInt, CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    BooleanInt,
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 import { LanguagesModel } from '../languages';
 
 export class ProjectsGroups extends CrowdinApi {
@@ -34,7 +42,7 @@ export class ProjectsGroups extends CrowdinApi {
                 userId: deprecatedUserId,
                 limit: deprecatedLimit,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/groups`;
         url = this.addQueryParam(url, 'parentId', options.parentId);
@@ -113,7 +121,7 @@ export class ProjectsGroups extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', options.groupId);

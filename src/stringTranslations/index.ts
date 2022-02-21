@@ -1,4 +1,11 @@
-import { BooleanInt, CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import {
+    BooleanInt,
+    CrowdinApi,
+    emitDeprecationWarning,
+    PaginationOptions,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class StringTranslations extends CrowdinApi {
     /**
@@ -49,7 +56,7 @@ export class StringTranslations extends CrowdinApi {
                 offset: deprecatedOffset,
                 fileId: deprecatedFileId,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
@@ -166,7 +173,7 @@ export class StringTranslations extends CrowdinApi {
                 denormalizePlaceholders,
                 croql,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringIds', options.stringIds);
         url = this.addQueryParam(url, 'fileId', options.fileId);
@@ -221,7 +228,7 @@ export class StringTranslations extends CrowdinApi {
                 offset: deprecatedOffset,
                 denormalizePlaceholders: deprecatedDenormalizePlaceholders,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
@@ -336,7 +343,7 @@ export class StringTranslations extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);

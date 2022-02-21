@@ -1,4 +1,12 @@
-import { CrowdinApi, Pagination, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    Pagination,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class Teams extends CrowdinApi {
     /**
@@ -29,7 +37,7 @@ export class Teams extends CrowdinApi {
     listTeams(options?: number | PaginationOptions, deprecatedOffset?: number): Promise<ResponseList<TeamsModel.Team>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/teams`;
         return this.getList(url, options.limit, options.offset);
@@ -93,7 +101,7 @@ export class Teams extends CrowdinApi {
     ): Promise<ResponseList<TeamsModel.TeamMember>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         const url = `${this.url}/teams/${teamId}/members`;
         return this.getList(url, options.limit, options.offset);

@@ -1,4 +1,11 @@
-import { CrowdinApi, Pagination, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    emitDeprecationWarning,
+    Pagination,
+    PaginationOptions,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class Users extends CrowdinApi {
     /**
@@ -45,7 +52,7 @@ export class Users extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'role', options.role);
@@ -140,7 +147,7 @@ export class Users extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            this.emitDeprecationWarning();
+            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'search', options.search);
