@@ -387,7 +387,7 @@ describe('Source Files API', () => {
     });
 
     it('List project branches', async () => {
-        const branches = await api.listProjectBranches(projectId, branchName);
+        const branches = await api.listProjectBranches(projectId, { name: branchName });
         expect(branches.data.length).toBe(1);
         expect(branches.data[0].data.id).toBe(branchId);
         expect(branches.pagination.limit).toBe(limit);

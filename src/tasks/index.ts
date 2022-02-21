@@ -12,6 +12,12 @@ import {
 export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
+     */
+    listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
@@ -24,12 +30,6 @@ export class Tasks extends CrowdinApi {
         offset?: number,
         status?: TasksModel.Status,
     ): Promise<ResponseList<TasksModel.Task>>;
-    /**
-     * @param projectId project identifier
-     * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
-     */
-    listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
     listTasks(
         projectId: number,
         options?: number | TasksModel.ListTasksOptions,

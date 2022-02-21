@@ -23,17 +23,17 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
+     */
+    listTeams(options?: PaginationOptions): Promise<ResponseList<TeamsModel.Team>>;
+    /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>>;
-    /**
-     * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
-     */
-    listTeams(options?: PaginationOptions): Promise<ResponseList<TeamsModel.Team>>;
     listTeams(options?: number | PaginationOptions, deprecatedOffset?: number): Promise<ResponseList<TeamsModel.Team>> {
         if (typeof options === 'number' || typeof options === 'undefined') {
             options = { limit: options, offset: deprecatedOffset };
@@ -82,18 +82,18 @@ export class Teams extends CrowdinApi {
 
     /**
      * @param teamId team identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
+     */
+    teamMembersList(teamId: number, options?: PaginationOptions): Promise<ResponseList<TeamsModel.TeamMember>>;
+    /**
+     * @param teamId team identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
      */
     teamMembersList(teamId: number, limit?: number, offset?: number): Promise<ResponseList<TeamsModel.TeamMember>>;
-    /**
-     * @param teamId team identifier
-     * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
-     */
-    teamMembersList(teamId: number, options?: PaginationOptions): Promise<ResponseList<TeamsModel.TeamMember>>;
     teamMembersList(
         teamId: number,
         options?: number | PaginationOptions,

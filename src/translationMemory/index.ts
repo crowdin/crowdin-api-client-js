@@ -11,6 +11,13 @@ import {
 
 export class TranslationMemory extends CrowdinApi {
     /**
+     * @param options optional paramerers for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
+     */
+    listTm(
+        options?: TranslationMemoryModel.ListTMsOptions,
+    ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
+    /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -21,13 +28,6 @@ export class TranslationMemory extends CrowdinApi {
         groupId?: number,
         limit?: number,
         offset?: number,
-    ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
-    /**
-     * @param options optional paramerers for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
-     */
-    listTm(
-        options?: TranslationMemoryModel.ListTMsOptions,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
     listTm(
         options?: number | TranslationMemoryModel.ListTMsOptions,
