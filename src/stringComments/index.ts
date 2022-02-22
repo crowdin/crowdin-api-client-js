@@ -15,7 +15,7 @@ export class StringComments extends CrowdinApi {
      */
     listStringComments(
         projectId: number,
-        options?: StringCommentsModel.ListStringCommentsRequest,
+        options?: StringCommentsModel.ListStringCommentsOptions,
     ): Promise<ResponseList<StringCommentsModel.StringComment>>;
     /**
      * @param projectId project identifier
@@ -38,7 +38,7 @@ export class StringComments extends CrowdinApi {
 
     listStringComments(
         projectId: number,
-        options?: number | StringCommentsModel.ListStringCommentsRequest,
+        options?: number | StringCommentsModel.ListStringCommentsOptions,
         deprecatedType?: StringCommentsModel.Type,
         deprecatedTargetLanguageId?: string,
         deprecatedIssueType?: StringCommentsModel.IssueType,
@@ -116,7 +116,7 @@ export class StringComments extends CrowdinApi {
 }
 
 export namespace StringCommentsModel {
-    export interface ListStringCommentsRequest extends PaginationOptions {
+    export interface ListStringCommentsOptions extends PaginationOptions {
         stringId?: number;
         type?: Type;
         targetLanguageId?: string;

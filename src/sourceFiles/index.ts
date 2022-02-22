@@ -102,7 +102,7 @@ export class SourceFiles extends CrowdinApi {
      */
     listProjectDirectories(
         projectId: number,
-        options?: SourceFilesModel.ListProjectDirectoriesRequest,
+        options?: SourceFilesModel.ListProjectDirectoriesOptions,
     ): Promise<ResponseList<SourceFilesModel.Directory>>;
     /**
      * @param projectId project identifier
@@ -126,7 +126,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.Directory>>;
     listProjectDirectories(
         projectId: number,
-        options?: number | SourceFilesModel.ListProjectDirectoriesRequest,
+        options?: number | SourceFilesModel.ListProjectDirectoriesOptions,
         deprecatedDirectoryId?: number,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
@@ -207,7 +207,7 @@ export class SourceFiles extends CrowdinApi {
      */
     listProjectFiles(
         projectId: number,
-        options?: SourceFilesModel.ListProjectFilesRequest,
+        options?: SourceFilesModel.ListProjectFilesOptions,
     ): Promise<ResponseList<SourceFilesModel.File>>;
     /**
      * @param projectId project identifier
@@ -231,7 +231,7 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseList<SourceFilesModel.File>>;
     listProjectFiles(
         projectId: number,
-        options?: number | SourceFilesModel.ListProjectFilesRequest,
+        options?: number | SourceFilesModel.ListProjectFilesOptions,
         deprecatedDirectoryId?: number,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
@@ -484,7 +484,7 @@ export namespace SourceFilesModel {
         HIGH = 'high',
     }
 
-    export interface ListProjectDirectoriesRequest extends PaginationOptions {
+    export interface ListProjectDirectoriesOptions extends PaginationOptions {
         branchId?: number;
         directoryId?: number;
         filter?: string;
@@ -513,7 +513,7 @@ export namespace SourceFilesModel {
         priority?: Priority;
     }
 
-    export interface ListProjectFilesRequest extends PaginationOptions {
+    export interface ListProjectFilesOptions extends PaginationOptions {
         branchId?: number;
         directoryId?: number;
         recursion?: any;

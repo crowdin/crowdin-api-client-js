@@ -143,7 +143,7 @@ export class Glossaries extends CrowdinApi {
      */
     listTerms(
         glossaryId: number,
-        options?: GlossariesModel.ListTermsRequest,
+        options?: GlossariesModel.ListTermsOptions,
     ): Promise<ResponseList<GlossariesModel.Term>>;
     /**
      * @param glossaryId glossary identifier
@@ -165,7 +165,7 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseList<GlossariesModel.Term>>;
     listTerms(
         glossaryId: number,
-        options?: number | GlossariesModel.ListTermsRequest,
+        options?: number | GlossariesModel.ListTermsOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
         deprecatedLanguageId?: string,
@@ -312,7 +312,7 @@ export namespace GlossariesModel {
         firstLineContainsHeader?: boolean;
     }
 
-    export interface ListTermsRequest extends PaginationOptions {
+    export interface ListTermsOptions extends PaginationOptions {
         userId?: number;
         languageId?: string;
         translationOfTermId?: number;

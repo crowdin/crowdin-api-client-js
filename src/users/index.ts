@@ -114,7 +114,7 @@ export class Users extends CrowdinApi {
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
-    listUsers(options?: UsersModel.ListUsersRequest): Promise<ResponseList<UsersModel.User>>;
+    listUsers(options?: UsersModel.ListUsersOptions): Promise<ResponseList<UsersModel.User>>;
     /**
      * @param status filter users by status
      * @param search search users by firstName, lastName, username, email
@@ -132,7 +132,7 @@ export class Users extends CrowdinApi {
         offset?: number,
     ): Promise<ResponseList<UsersModel.User>>;
     listUsers(
-        options?: UsersModel.Status | UsersModel.ListUsersRequest,
+        options?: UsersModel.Status | UsersModel.ListUsersOptions,
         deprecatedSearch?: string,
         deprecatedTwoFactor?: UsersModel.TwoFactor,
         deprecatedLimit?: number,
@@ -180,7 +180,7 @@ export namespace UsersModel {
         languageId?: string;
     }
 
-    export interface ListUsersRequest extends PaginationOptions {
+    export interface ListUsersOptions extends PaginationOptions {
         status?: Status;
         search?: string;
         twoFactor?: TwoFactor;

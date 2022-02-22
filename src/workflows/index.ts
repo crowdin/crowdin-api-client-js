@@ -53,7 +53,7 @@ export class Workflows extends CrowdinApi {
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
     listWorkflowTemplates(
-        options?: WorkflowModel.ListWorkflowTemplatesRequest,
+        options?: WorkflowModel.ListWorkflowTemplatesOptions,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     /**
      * @param groupId group identifier
@@ -68,7 +68,7 @@ export class Workflows extends CrowdinApi {
         offset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     listWorkflowTemplates(
-        options?: number | WorkflowModel.ListWorkflowTemplatesRequest,
+        options?: number | WorkflowModel.ListWorkflowTemplatesOptions,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
@@ -105,7 +105,7 @@ export namespace WorkflowModel {
               }
             | never[];
     }
-    export interface ListWorkflowTemplatesRequest extends PaginationOptions {
+    export interface ListWorkflowTemplatesOptions extends PaginationOptions {
         groupId?: number;
     }
 

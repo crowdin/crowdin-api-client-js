@@ -108,7 +108,7 @@ export class Tasks extends CrowdinApi {
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
-    listUserTasks(options?: TasksModel.ListUserTasksRequest): Promise<ResponseList<TasksModel.UserTask>>;
+    listUserTasks(options?: TasksModel.ListUserTasksOptions): Promise<ResponseList<TasksModel.UserTask>>;
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -124,7 +124,7 @@ export class Tasks extends CrowdinApi {
         isArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>>;
     listUserTasks(
-        options?: number | TasksModel.ListUserTasksRequest,
+        options?: number | TasksModel.ListUserTasksOptions,
         deprecatedOffset?: number,
         deprecatedStatus?: TasksModel.Status,
         deprecatedIsArchived?: BooleanInt,
@@ -191,7 +191,7 @@ export namespace TasksModel {
         updatedAt: string;
     }
 
-    export interface ListUserTasksRequest extends PaginationOptions {
+    export interface ListUserTasksOptions extends PaginationOptions {
         status?: Status;
         isArchived?: BooleanInt;
     }

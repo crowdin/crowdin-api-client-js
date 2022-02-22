@@ -15,7 +15,7 @@ export class StringTranslations extends CrowdinApi {
      */
     listTranslationApprovals(
         projectId: number,
-        options?: StringTranslationsModel.ListTranslationApprovalsRequest,
+        options?: StringTranslationsModel.ListTranslationApprovalsOptions,
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     /**
      * @param projectId project identifier
@@ -39,7 +39,7 @@ export class StringTranslations extends CrowdinApi {
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     listTranslationApprovals(
         projectId: number,
-        options?: number | StringTranslationsModel.ListTranslationApprovalsRequest,
+        options?: number | StringTranslationsModel.ListTranslationApprovalsOptions,
         deprecatedLanguageId?: string,
         deprecatedTranslationId?: number,
         deprecatedLimit?: number,
@@ -306,7 +306,7 @@ export class StringTranslations extends CrowdinApi {
      */
     listTranslationVotes(
         projectId: number,
-        options?: StringTranslationsModel.ListTranslationVotesRequest,
+        options?: StringTranslationsModel.ListTranslationVotesOptions,
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
     /**
      * @param projectId project identifier
@@ -328,7 +328,7 @@ export class StringTranslations extends CrowdinApi {
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
     listTranslationVotes(
         projectId: number,
-        options?: number | StringTranslationsModel.ListTranslationVotesRequest,
+        options?: number | StringTranslationsModel.ListTranslationVotesOptions,
         deprecatedLanguageId?: string,
         deprecatedTranslationId?: number,
         deprecatedLimit?: number,
@@ -386,7 +386,7 @@ export class StringTranslations extends CrowdinApi {
 }
 
 export namespace StringTranslationsModel {
-    export interface ListTranslationApprovalsRequest extends PaginationOptions {
+    export interface ListTranslationApprovalsOptions extends PaginationOptions {
         stringId?: number;
         languageId?: string;
         translationId?: number;
@@ -463,7 +463,7 @@ export namespace StringTranslationsModel {
         pluralCategoryName?: string;
     }
 
-    export interface ListTranslationVotesRequest extends PaginationOptions {
+    export interface ListTranslationVotesOptions extends PaginationOptions {
         stringId?: number;
         languageId?: string;
         translationId?: number;
