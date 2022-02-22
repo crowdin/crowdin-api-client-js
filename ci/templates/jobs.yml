@@ -9,12 +9,12 @@ jobs:
     strategy:
       maxParallel: 4
       matrix:
+        node-16:
+          node_version: ^16.14.0
         node-14:
-          node_version: ^14.15.0
+          node_version: ^14.19.0
         node-12:
-          node_version: ^12.2.0
-        node-10:
-          node_version: ^10.10.0
+          node_version: ^12.22.10
     steps:
       - task: NodeTool@0
         inputs:

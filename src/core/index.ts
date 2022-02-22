@@ -133,10 +133,10 @@ export abstract class CrowdinApi {
         this.token = credentials.token;
         this.organization = credentials.organization;
 
-        if (!!credentials.baseUrl) {
+        if (credentials.baseUrl) {
             this.url = credentials.baseUrl;
         } else {
-            if (!!this.organization) {
+            if (this.organization) {
                 this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
             } else {
                 this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
@@ -144,7 +144,7 @@ export abstract class CrowdinApi {
         }
 
         let retryConfig: RetryConfig;
-        if (!!config && !!config.retryConfig) {
+        if (config?.retryConfig) {
             retryConfig = config.retryConfig;
         } else {
             retryConfig = {
@@ -159,7 +159,7 @@ export abstract class CrowdinApi {
     }
 
     protected addQueryParam(url: string, name: string, value?: any): string {
-        if (!!value) {
+        if (value) {
             url += new RegExp(/\?.+=.*/g).test(url) ? '&' : '?';
             url += `${name}=${value}`;
         }
@@ -172,31 +172,27 @@ export abstract class CrowdinApi {
                 Authorization: `Bearer ${this.token}`,
             },
         };
-        if (!!this.config) {
-            if (!!this.config.userAgent) {
-                config.headers['User-Agent'] = this.config.userAgent;
-            }
-            if (!!this.config.integrationUserAgent) {
-                config.headers['X-Crowdin-Integrations-User-Agent'] = this.config.integrationUserAgent;
-            }
+        if (this.config?.userAgent) {
+            config.headers['User-Agent'] = this.config.userAgent;
+        }
+        if (this.config?.integrationUserAgent) {
+            config.headers['X-Crowdin-Integrations-User-Agent'] = this.config.integrationUserAgent;
         }
         return config;
     }
 
     get httpClient(): HttpClient {
-        if (!!this.config) {
-            if (!!this.config.httpClient) {
-                return this.config.httpClient;
-            }
-            if (!!this.config.httpClientType) {
-                switch (this.config.httpClientType) {
-                    case HttpClientType.AXIOS:
-                        return CrowdinApi.AXIOS_INSTANCE;
-                    case HttpClientType.FETCH:
-                        return CrowdinApi.FETCH_INSTANCE;
-                    default:
-                        return CrowdinApi.AXIOS_INSTANCE;
-                }
+        if (this.config?.httpClient) {
+            return this.config.httpClient;
+        }
+        if (this.config?.httpClientType) {
+            switch (this.config.httpClientType) {
+                case HttpClientType.AXIOS:
+                    return CrowdinApi.AXIOS_INSTANCE;
+                case HttpClientType.FETCH:
+                    return CrowdinApi.FETCH_INSTANCE;
+                default:
+                    return CrowdinApi.AXIOS_INSTANCE;
             }
         }
         return CrowdinApi.AXIOS_INSTANCE;
@@ -215,7 +211,7 @@ export abstract class CrowdinApi {
         offset?: number,
         config?: { headers: any },
     ): Promise<ResponseList<T>> {
-        const conf = config || this.defaultConfig();
+        const conf = config ?? this.defaultConfig();
         if (this.fetchAllFlag) {
             this.fetchAllFlag = false;
             const maxAmount = this.maxLimit;
@@ -234,7 +230,7 @@ export abstract class CrowdinApi {
         maxAmount?: number,
     ): Promise<ResponseList<T>> {
         let limit = 500;
-        if (!!maxAmount && maxAmount < limit) {
+        if (maxAmount && maxAmount < limit) {
             limit = maxAmount;
         }
         let offset = 0;
@@ -249,15 +245,13 @@ export abstract class CrowdinApi {
                 resp.data = resp.data.concat(e.data);
                 resp.pagination.limit += e.data.length;
             }
-            if (e.data.length < limit || (!!maxAmount && resp.data.length >= maxAmount)) {
+            if (e.data.length < limit || (maxAmount && resp.data.length >= maxAmount)) {
                 break;
             } else {
                 offset += limit;
             }
-            if (!!maxAmount) {
-                if (maxAmount < resp.data.length + limit) {
-                    limit = maxAmount - resp.data.length;
-                }
+            if (maxAmount && maxAmount < resp.data.length + limit) {
+                limit = maxAmount - resp.data.length;
             }
         }
         return resp;

@@ -36,14 +36,14 @@ export class AxisProvider {
             },
             error => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
-                if (!!error.response && !!error.response.data) {
+                if (error.response?.data) {
                     if (error.response.status === 400) {
                         return Promise.reject(error.response.data as ValidationErrorResponse);
                     } else {
                         return Promise.reject(error.response.data as CommonErrorResponse);
                     }
                 } else {
-                    const errorCode = (error.response && error.response.status) || '500';
+                    const errorCode = error.response?.status ?? '500';
                     const defaultError: CommonErrorResponse = {
                         error: {
                             code: errorCode,

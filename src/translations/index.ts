@@ -58,7 +58,7 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseObject<TranslationsModel.BuildProjectFileTranslationResponse>> {
         const url = `${this.url}/projects/${projectId}/translations/builds/files/${fileId}`;
         const config = this.defaultConfig();
-        if (!!eTag) {
+        if (eTag) {
             config.headers['If-None-Match'] = eTag;
         }
         return this.post(url, request, config);
