@@ -32,10 +32,9 @@ export class Glossaries extends CrowdinApi {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
             emitDeprecationWarning();
         }
-        const { groupId, limit, offset } = options;
         let url = `${this.url}/glossaries`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
