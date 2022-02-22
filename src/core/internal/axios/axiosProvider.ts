@@ -13,7 +13,7 @@ export class AxisProvider {
         this.configureResponse();
     }
 
-    private configureRequest(): any {
+    private configureRequest(): void {
         this.axios.interceptors.request.use(config => {
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             return new Promise(resolve => {
@@ -28,7 +28,7 @@ export class AxisProvider {
         });
     }
 
-    private configureResponse(): any {
+    private configureResponse(): void {
         this.axios.interceptors.response.use(
             response => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);

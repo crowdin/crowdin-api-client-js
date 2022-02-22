@@ -243,6 +243,7 @@ export namespace UsersModel {
         userIds: number[];
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        //TODO improve this type by splitting it into API v2 and Enterprise API
         permissions?: any;
     }
 
@@ -255,6 +256,7 @@ export namespace UsersModel {
     export interface ReplaceProjectMemberRequest {
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        //TODO improve this type by splitting it into API v2 and Enterprise API
         permissions?: any;
     }
 }

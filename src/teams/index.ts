@@ -110,6 +110,7 @@ export namespace TeamsModel {
         teamId: number;
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        //TODO improve this type by splitting it into API v2 and Enterprise API
         permissions?: any;
     }
 
@@ -122,6 +123,7 @@ export namespace TeamsModel {
         id: number;
         hasManagerAccess: boolean;
         hasAccessToAllWorkflowSteps: boolean;
+        //TODO improve this type by splitting it into API v2 and Enterprise API
         permissions: any;
     }
 

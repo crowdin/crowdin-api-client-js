@@ -8,7 +8,7 @@ export interface RetryConfig {
 }
 
 export interface SkipRetryCondition {
-    test(error: any): boolean;
+    test(error: unknown): boolean;
 }
 
 export class RetryService {
