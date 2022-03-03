@@ -2,18 +2,13 @@ import { AxisProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
 import { RetryConfig, RetryService } from './internal/retry';
 
-export interface RequestConfig {
-    headers?: Record<string, string>;
-    mode?: string;
-}
-
 export interface HttpClient {
-    get<T>(url: string, config?: RequestConfig): Promise<T>;
-    delete<T>(url: string, config?: RequestConfig): Promise<T>;
-    head<T>(url: string, config?: RequestConfig): Promise<T>;
-    post<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
-    put<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
-    patch<T>(url: string, data?: unknown, config?: RequestConfig): Promise<T>;
+    get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
+    delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
+    head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
+    post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
+    put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
+    patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
 }
 
 export enum HttpClientType {
