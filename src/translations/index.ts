@@ -1,7 +1,7 @@
 import {
     CrowdinApi,
     DownloadLink,
-    emitDeprecationWarning,
+    isOptionalNumber,
     PaginationOptions,
     ResponseList,
     ResponseObject,
@@ -101,9 +101,8 @@ export class Translations extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationsModel.Build>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/translations/builds`;
         url = this.addQueryParam(url, 'branchId', options.branchId);

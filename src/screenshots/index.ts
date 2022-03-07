@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Screenshots extends CrowdinApi {
     /**
@@ -31,9 +24,8 @@ export class Screenshots extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/screenshots`;
         return this.getList(url, options.limit, options.offset);
@@ -133,9 +125,8 @@ export class Screenshots extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
         return this.getList(url, options.limit, options.offset);

@@ -2,7 +2,7 @@ import {
     BooleanInt,
     CrowdinApi,
     DownloadLink,
-    emitDeprecationWarning,
+    isOptionalNumber,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -36,9 +36,8 @@ export class Tasks extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedStatus?: TasksModel.Status,
     ): Promise<ResponseList<TasksModel.Task>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset, status: deprecatedStatus };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'status', options.status);
@@ -130,14 +129,13 @@ export class Tasks extends CrowdinApi {
         deprecatedIsArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
                 status: deprecatedStatus,
                 isArchived: deprecatedIsArchived,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'isArchived', options.isArchived);

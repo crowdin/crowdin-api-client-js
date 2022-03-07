@@ -1,7 +1,7 @@
 import {
     CrowdinApi,
     DownloadLink,
-    emitDeprecationWarning,
+    isOptionalNumber,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -28,9 +28,8 @@ export class Glossaries extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<GlossariesModel.Glossary>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/glossaries`;
         url = this.addQueryParam(url, 'groupId', options.groupId);
@@ -172,7 +171,7 @@ export class Glossaries extends CrowdinApi {
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 userId: options,
                 limit: deprecatedLimit,
@@ -180,7 +179,6 @@ export class Glossaries extends CrowdinApi {
                 languageId: deprecatedLanguageId,
                 translationOfTermId: deprecatedTranslationOfTermId,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'userId', options.userId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
@@ -227,9 +225,8 @@ export class Glossaries extends CrowdinApi {
         options?: number | GlossariesModel.ClearGlossaryOptions,
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         url = this.addQueryParam(url, 'languageId', options.languageId);

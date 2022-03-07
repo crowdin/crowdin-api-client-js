@@ -1,7 +1,7 @@
 import {
     BooleanInt,
     CrowdinApi,
-    emitDeprecationWarning,
+    isOptionalNumber,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -35,14 +35,13 @@ export class ProjectsGroups extends CrowdinApi {
         deprecatedUserId?: number,
         deprecatedLimit?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 parentId: options,
                 offset: deprecatedOffset,
                 userId: deprecatedUserId,
                 limit: deprecatedLimit,
             };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/groups`;
         url = this.addQueryParam(url, 'parentId', options.parentId);
@@ -114,14 +113,13 @@ export class ProjectsGroups extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 groupId: options,
                 hasManagerAccess: deprecatedHasManagerAccess,
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', options.groupId);

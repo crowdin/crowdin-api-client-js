@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class MachineTranslation extends CrowdinApi {
     /**
@@ -32,9 +25,8 @@ export class MachineTranslation extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/mts`;
         url = this.addQueryParam(url, 'groupId', options.groupId);

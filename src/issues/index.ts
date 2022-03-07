@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 /**
  * @deprecated
@@ -43,14 +36,13 @@ export class Issues extends CrowdinApi {
         deprecatedType?: IssuesModel.Type,
         deprecatedStatus?: IssuesModel.Status,
     ): Promise<ResponseList<IssuesModel.Issue>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
                 type: deprecatedType,
                 status: deprecatedStatus,
             };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/issues`;
         url = this.addQueryParam(url, 'type', options.type);

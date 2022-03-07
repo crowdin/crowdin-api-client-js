@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Languages extends CrowdinApi {
     /**
@@ -24,9 +17,8 @@ export class Languages extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<LanguagesModel.Language>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/languages`;
         return this.getList(url, options.limit, options.offset);

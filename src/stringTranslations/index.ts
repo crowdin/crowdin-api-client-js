@@ -1,7 +1,8 @@
 import {
     BooleanInt,
     CrowdinApi,
-    emitDeprecationWarning,
+    isOptionalNumber,
+    isOptionalString,
     PaginationOptions,
     ResponseList,
     ResponseObject,
@@ -47,7 +48,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedFileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,
@@ -56,7 +57,6 @@ export class StringTranslations extends CrowdinApi {
                 offset: deprecatedOffset,
                 fileId: deprecatedFileId,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
@@ -163,7 +163,7 @@ export class StringTranslations extends CrowdinApi {
         >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
-        if (typeof options === 'string' || typeof options === 'undefined') {
+        if (isOptionalString(options)) {
             options = {
                 stringIds: options,
                 fileId,
@@ -173,7 +173,6 @@ export class StringTranslations extends CrowdinApi {
                 denormalizePlaceholders,
                 croql,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringIds', options.stringIds);
         url = this.addQueryParam(url, 'fileId', options.fileId);
@@ -222,13 +221,12 @@ export class StringTranslations extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedDenormalizePlaceholders?: BooleanInt,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
                 denormalizePlaceholders: deprecatedDenormalizePlaceholders,
             };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
@@ -335,7 +333,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,
@@ -343,7 +341,6 @@ export class StringTranslations extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);

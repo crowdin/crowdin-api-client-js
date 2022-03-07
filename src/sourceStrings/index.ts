@@ -1,7 +1,7 @@
 import {
     BooleanInt,
     CrowdinApi,
-    emitDeprecationWarning,
+    isOptionalNumber,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -60,7 +60,7 @@ export class SourceStrings extends CrowdinApi {
         deprecatedDirectoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 fileId: options,
                 limit: deprecatedLimit,
@@ -73,7 +73,6 @@ export class SourceStrings extends CrowdinApi {
                 branchId: deprecatedBranchId,
                 directoryId: deprecatedDirectoryId,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'fileId', options.fileId);
         url = this.addQueryParam(url, 'filter', options.filter);

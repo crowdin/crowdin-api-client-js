@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class StringComments extends CrowdinApi {
     /**
@@ -45,7 +38,7 @@ export class StringComments extends CrowdinApi {
         deprecatedIssueStatus?: StringCommentsModel.IssueStatus,
     ): Promise<ResponseList<StringCommentsModel.StringComment>> {
         let url = `${this.url}/projects/${projectId}/comments`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 stringId: options,
                 type: deprecatedType,
@@ -53,7 +46,6 @@ export class StringComments extends CrowdinApi {
                 issueStatus: deprecatedIssueStatus,
                 issueType: deprecatedIssueType,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'type', options.type);

@@ -290,12 +290,29 @@ export abstract class CrowdinApi {
 
 let deprecationEmittedForOptionalParams = false;
 
-export function emitDeprecationWarning(): void {
+function emitDeprecationWarning(): void {
     if (!deprecationEmittedForOptionalParams) {
         process.emitWarning(
             'Passing optional parameters individually is deprecated. Pass a sole object instead',
             'DeprecationWarning',
         );
         deprecationEmittedForOptionalParams = true;
+    }
+}
+
+export function isOptionalString(parameter?: string | unknown): parameter is string | undefined {
+    if (typeof parameter === 'string' || typeof parameter === 'undefined') {
+        emitDeprecationWarning();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export function isOptionalNumber(parameter?: number | unknown): parameter is number | undefined {
+    if (typeof parameter === 'number' || typeof parameter === 'undefined') {
+        return true;
+    } else {
+        return false;
     }
 }

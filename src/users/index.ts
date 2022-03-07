@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    Pagination,
-    PaginationOptions,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalString, Pagination, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Users extends CrowdinApi {
     /**
@@ -44,7 +37,7 @@ export class Users extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        if (typeof options === 'string' || typeof options === 'undefined') {
+        if (isOptionalString(options)) {
             options = {
                 search: options,
                 role: deprecatedRole,
@@ -52,7 +45,6 @@ export class Users extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'role', options.role);
@@ -139,7 +131,7 @@ export class Users extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        if (typeof options === 'string' || typeof options === 'undefined') {
+        if (isOptionalString(options)) {
             options = {
                 status: options,
                 search: deprecatedSearch,
@@ -147,7 +139,6 @@ export class Users extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'search', options.search);

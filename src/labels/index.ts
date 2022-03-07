@@ -1,11 +1,4 @@
-import {
-    CrowdinApi,
-    emitDeprecationWarning,
-    PaginationOptions,
-    PatchRequest,
-    ResponseList,
-    ResponseObject,
-} from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 import { SourceStringsModel } from '../sourceStrings';
 
 export class Labels extends CrowdinApi {
@@ -28,9 +21,8 @@ export class Labels extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<LabelsModel.Label>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/labels`;
         return this.getList(url, options.limit, options.offset);

@@ -1,4 +1,4 @@
-import { CrowdinApi, emitDeprecationWarning, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Workflows extends CrowdinApi {
     /**
@@ -27,9 +27,8 @@ export class Workflows extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/workflow-steps`;
         return this.getList(url, options.limit, options.offset);
@@ -73,9 +72,8 @@ export class Workflows extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'groupId', options.groupId);
         return this.getList(url, options.limit, options.offset);

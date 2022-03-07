@@ -1,4 +1,4 @@
-import { CrowdinApi, emitDeprecationWarning, PaginationOptions, ResponseList } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
 
 export class Vendors extends CrowdinApi {
     /**
@@ -17,9 +17,8 @@ export class Vendors extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<VendorsModel.Vendor>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/vendors`;
         return this.getList(url, options.limit, options.offset);

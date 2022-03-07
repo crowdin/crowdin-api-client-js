@@ -1,7 +1,8 @@
 import {
     CrowdinApi,
     DownloadLink,
-    emitDeprecationWarning,
+    isOptionalNumber,
+    isOptionalString,
     PaginationOptions,
     PatchRequest,
     ResponseList,
@@ -38,9 +39,8 @@ export class SourceFiles extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.Branch>> {
-        if (typeof options === 'string' || typeof options === 'undefined') {
+        if (isOptionalString(options)) {
             options = { name: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/branches`;
         url = this.addQueryParam(url, 'name', options.name);
@@ -134,7 +134,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedRecursion?: string,
     ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -143,7 +143,6 @@ export class SourceFiles extends CrowdinApi {
                 recursion: deprecatedRecursion,
                 filter: deprecatedFilter,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'branchId', options.branchId);
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
@@ -239,7 +238,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedFilter?: string,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -248,7 +247,6 @@ export class SourceFiles extends CrowdinApi {
                 recursion: deprecatedRecursion,
                 filter: deprecatedFilter,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'branchId', options.branchId);
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
@@ -361,9 +359,8 @@ export class SourceFiles extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
         return this.getList(url, options.limit, options.offset);
@@ -413,9 +410,8 @@ export class SourceFiles extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
         url = this.addQueryParam(url, 'branchId', options.branchId);

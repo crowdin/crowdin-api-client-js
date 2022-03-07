@@ -1,4 +1,4 @@
-import { CrowdinApi, emitDeprecationWarning, PaginationOptions, ResponseList } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
 
 export class TranslationStatus extends CrowdinApi {
     /**
@@ -32,9 +32,8 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -71,9 +70,8 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -110,9 +108,8 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -149,9 +146,8 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset };
-            emitDeprecationWarning();
         }
         const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
         return this.getList(url, options.limit, options.offset);
@@ -186,9 +182,8 @@ export class TranslationStatus extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = { limit: options, offset: deprecatedOffset, languageIds: deprecatedLanguageIds };
-            emitDeprecationWarning();
         }
         let url = `${this.url}/projects/${projectId}/languages/progress`;
         url = this.addQueryParam(url, 'languageIds', options.languageIds);
@@ -231,7 +226,7 @@ export class TranslationStatus extends CrowdinApi {
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-checks`;
-        if (typeof options === 'number' || typeof options === 'undefined') {
+        if (isOptionalNumber(options)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
@@ -239,7 +234,6 @@ export class TranslationStatus extends CrowdinApi {
                 validation: deprecatedValidation,
                 languageIds: deprecatedLanguageIds,
             };
-            emitDeprecationWarning();
         }
         url = this.addQueryParam(url, 'category', options.category);
         url = this.addQueryParam(url, 'validation', options.validation);
