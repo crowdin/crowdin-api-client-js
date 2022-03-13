@@ -292,10 +292,16 @@ let deprecationEmittedForOptionalParams = false;
 
 function emitDeprecationWarning(): void {
     if (!deprecationEmittedForOptionalParams) {
-        process.emitWarning(
-            'Passing optional parameters individually is deprecated. Pass a sole object instead',
-            'DeprecationWarning',
-        );
+        if (typeof process !== 'undefined') {
+            process.emitWarning(
+                'Passing optional parameters individually is deprecated. Pass a sole object instead',
+                'DeprecationWarning',
+            );
+        } else {
+            console.warn(
+                'DeprecationWarning: Passing optional parameters individually is deprecated. Pass a sole object instead',
+            );
+        }
         deprecationEmittedForOptionalParams = true;
     }
 }
@@ -311,6 +317,7 @@ export function isOptionalString(parameter?: string | unknown): parameter is str
 
 export function isOptionalNumber(parameter?: number | unknown): parameter is number | undefined {
     if (typeof parameter === 'number' || typeof parameter === 'undefined') {
+        emitDeprecationWarning();
         return true;
     } else {
         return false;
