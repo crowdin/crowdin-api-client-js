@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, SourceFiles } from '../../src';
+import { Credentials, SourceFiles } from '../../src';
 
 describe('Source Files API', () => {
     let scope: nock.Scope;
@@ -92,7 +92,7 @@ describe('Source Files API', () => {
                 [
                     {
                         value: branchTitle,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -167,7 +167,7 @@ describe('Source Files API', () => {
                 [
                     {
                         value: directoryTitle,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -260,7 +260,7 @@ describe('Source Files API', () => {
                 [
                     {
                         value: fileTitle,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -414,7 +414,7 @@ describe('Source Files API', () => {
     it('Edit branch', async () => {
         const branch = await api.editBranch(projectId, branchId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: branchTitle,
             },
@@ -453,7 +453,7 @@ describe('Source Files API', () => {
     it('Edit directory', async () => {
         const directory = await api.editDirectory(projectId, directoryId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: directoryTitle,
             },
@@ -499,7 +499,7 @@ describe('Source Files API', () => {
     it('Edit file', async () => {
         const file = await api.editFile(projectId, fileId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: fileTitle,
             },

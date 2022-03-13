@@ -336,33 +336,28 @@ export namespace GlossariesModel {
         translationOfTermId?: number;
     }
 
-    export enum GlossaryFormat {
-        TBX = 'tbx',
-        CSV = 'csv',
-        XLSX = 'xlsx',
-    }
+    export type GlossaryFormat = 'tbx' | 'csv' | 'xlsx';
 
     export interface GlossaryFileScheme {
         [key: string]: number;
     }
 
-    export enum PartOfSpeech {
-        ADJECTIVE = 'adjective',
-        ADPOSITION = 'adposition',
-        ADVERB = 'adverb',
-        AUXILIARY = 'auxiliary',
-        COORDINATING_CONJUNCTION = 'coordinating conjunction',
-        DETERMINER = 'determiner',
-        INTERJECTION = 'interjection',
-        NOUN = 'noun',
-        NUMERAL = 'numeral',
-        PARTICLE = 'particle',
-        PRONOUN = 'pronoun',
-        PROPER_NOUN = 'proper noun',
-        SUBORDINATING_CONJUNCTION = 'subordinating conjunction',
-        VERB = 'verb',
-        OTHER = 'other',
-    }
+    export type PartOfSpeech =
+        | 'adjective'
+        | 'adposition'
+        | 'adverb'
+        | 'auxiliary'
+        | 'coordinating conjunction'
+        | 'determiner'
+        | 'interjection'
+        | 'noun'
+        | 'numeral'
+        | 'particle'
+        | 'pronoun'
+        | 'proper noun'
+        | 'subordinating conjunction'
+        | 'verb'
+        | 'other';
 
     export interface ListGlossariesOptions extends PaginationOptions {
         groupId?: number;

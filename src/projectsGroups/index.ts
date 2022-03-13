@@ -348,15 +348,9 @@ export namespace ProjectsGroupsModel {
         STRINGS_BASED = 1,
     }
 
-    export enum JoinPolicy {
-        OPEN = 'open',
-        PRIVATE = 'private',
-    }
+    export type JoinPolicy = 'open' | 'private';
 
-    export enum LanguageAccessPolicy {
-        OPEN = 'open',
-        MODERATE = 'moderate',
-    }
+    export type LanguageAccessPolicy = 'open' | 'moderate';
 
     export interface CheckCategories {
         empty: boolean;

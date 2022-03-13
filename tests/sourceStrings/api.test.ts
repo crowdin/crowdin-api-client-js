@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, SourceStrings } from '../../src';
+import { Credentials, SourceStrings } from '../../src';
 
 describe('Source Strings API', () => {
     let scope: nock.Scope;
@@ -76,7 +76,7 @@ describe('Source Strings API', () => {
                 [
                     {
                         value: stringText,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/text',
                     },
                 ],
@@ -128,7 +128,7 @@ describe('Source Strings API', () => {
     it('Edit string', async () => {
         const string = await api.editString(projectId, stringId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/text',
                 value: stringText,
             },

@@ -486,10 +486,7 @@ export namespace StringTranslationsModel {
         avatarUrl: string;
     }
 
-    export enum Mark {
-        UP = 'up',
-        DOWN = 'down',
-    }
+    export type Mark = 'up' | 'down';
 
     export interface ListStringTranslationsOptions extends PaginationOptions {
         denormalizePlaceholders?: BooleanInt;

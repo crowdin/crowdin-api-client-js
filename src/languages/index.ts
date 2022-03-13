@@ -91,8 +91,5 @@ export namespace LanguagesModel {
         pluralCategoryNames: string[];
     }
 
-    export enum TextDirection {
-        LTR = 'ltr',
-        RTL = 'rtl',
-    }
+    export type TextDirection = 'ltr' | 'rtl';
 }

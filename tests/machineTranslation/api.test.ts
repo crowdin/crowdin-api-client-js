@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, MachineTranslation, PatchOperation } from '../../src';
+import { Credentials, MachineTranslation } from '../../src';
 
 describe('Machine Translation engines (MTs) API', () => {
     let scope: nock.Scope;
@@ -78,7 +78,7 @@ describe('Machine Translation engines (MTs) API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -144,7 +144,7 @@ describe('Machine Translation engines (MTs) API', () => {
     it('Update MT', async () => {
         const mt = await api.updateMt(mtId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: name,
             },

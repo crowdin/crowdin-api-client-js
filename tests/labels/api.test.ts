@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Labels, PatchOperation } from '../../src/index';
+import { Credentials, Labels } from '../../src/index';
 
 describe('Labels API', () => {
     let scope: nock.Scope;
@@ -72,7 +72,7 @@ describe('Labels API', () => {
                 [
                     {
                         value: title,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -165,7 +165,7 @@ describe('Labels API', () => {
     it('Edit label', async () => {
         const label = await api.editLabel(projectId, labelId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: title,
             },

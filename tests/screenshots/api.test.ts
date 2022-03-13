@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, Screenshots } from '../../src';
+import { Credentials, Screenshots } from '../../src';
 
 describe('Screenshots API', () => {
     let scope: nock.Scope;
@@ -96,7 +96,7 @@ describe('Screenshots API', () => {
                 [
                     {
                         value: screenshotName,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -192,7 +192,7 @@ describe('Screenshots API', () => {
                 [
                     {
                         value: stringId,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/stringId',
                     },
                 ],
@@ -252,7 +252,7 @@ describe('Screenshots API', () => {
     it('Edit screenshot', async () => {
         const screenshot = await api.editScreenshot(projectId, screenshotId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: screenshotName,
             },
@@ -304,7 +304,7 @@ describe('Screenshots API', () => {
     it('Update tag', async () => {
         const tag = await api.updateTag(projectId, screenshotId, tagId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/stringId',
                 value: stringId,
             },

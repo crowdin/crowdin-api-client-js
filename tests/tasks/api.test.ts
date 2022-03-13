@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, Tasks } from '../../src';
+import { Credentials, Tasks } from '../../src';
 
 describe('Tasks API', () => {
     let scope: nock.Scope;
@@ -97,7 +97,7 @@ describe('Tasks API', () => {
                 [
                     {
                         value: taskTitle,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -136,7 +136,7 @@ describe('Tasks API', () => {
                 [
                     {
                         value: taskTitle,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/title',
                     },
                 ],
@@ -197,7 +197,7 @@ describe('Tasks API', () => {
     it('Edit task', async () => {
         const task = await api.editTask(projectId, taskId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: taskTitle,
             },
@@ -216,7 +216,7 @@ describe('Tasks API', () => {
     it('Edit Task Archived Status', async () => {
         const task = await api.editTaskArchivedStatus(projectId, taskId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/title',
                 value: taskTitle,
             },

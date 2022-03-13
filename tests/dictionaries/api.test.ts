@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Dictionaries, PatchOperation } from '../../src';
+import { Credentials, Dictionaries } from '../../src';
 
 describe('Dictionaries API', () => {
     let scope: nock.Scope;
@@ -40,7 +40,7 @@ describe('Dictionaries API', () => {
                 `/projects/${projectId}/dictionaries/${languageId}`,
                 [
                     {
-                        op: PatchOperation.REMOVE,
+                        op: 'remove',
                         path: '/words/0',
                     },
                 ],
@@ -75,7 +75,7 @@ describe('Dictionaries API', () => {
     it('Edit Dictionary', async () => {
         const dictionary = await api.editDictionary(projectId, languageId, [
             {
-                op: PatchOperation.REMOVE,
+                op: 'remove',
                 path: '/words/0',
             },
         ]);

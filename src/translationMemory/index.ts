@@ -198,11 +198,7 @@ export namespace TranslationMemoryModel {
         scheme: Scheme;
     }
 
-    export enum Format {
-        TMX = 'tmx',
-        CSV = 'csv',
-        XLSX = 'xlsx',
-    }
+    export type Format = 'tmx' | 'csv' | 'xlsx';
 
     export interface Scheme {
         [key: string]: number;

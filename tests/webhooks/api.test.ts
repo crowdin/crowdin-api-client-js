@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Webhooks, WebhooksModel, PatchOperation } from '../../src/index';
+import { Credentials, Webhooks } from '../../src/index';
 
 describe('Web-hooks API', () => {
     let scope: nock.Scope;
@@ -12,7 +12,7 @@ describe('Web-hooks API', () => {
     const webhookId = 3;
     const name = 'test';
     const url = 'test.com';
-    const requestType = WebhooksModel.RequestType.GET;
+    const requestType = 'GET';
 
     const limit = 25;
 
@@ -76,7 +76,7 @@ describe('Web-hooks API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -127,7 +127,7 @@ describe('Web-hooks API', () => {
     it('Edit webhook', async () => {
         const webhook = await api.editWebhook(projectId, webhookId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: name,
             },

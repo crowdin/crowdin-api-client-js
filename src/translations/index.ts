@@ -209,13 +209,7 @@ export namespace TranslationsModel {
         progress: number;
     }
 
-    export enum BuildStatus {
-        CREATED = 'created',
-        IN_PROGRESS = 'inProgress',
-        CANCELED = 'canceled',
-        FAILED = 'failed',
-        FINISHED = 'finished',
-    }
+    export type BuildStatus = 'created' | 'inProgress' | 'canceled' | 'failed' | 'finished';
 
     export interface BuildProjectFileTranslationRequest {
         targetLanguageId: string;
@@ -243,24 +237,11 @@ export namespace TranslationsModel {
         translateWithPerfectMatchOnly: boolean;
     }
 
-    export enum Method {
-        TM = 'tm',
-        MT = 'mt',
-    }
+    export type Method = 'tm' | 'mt';
 
-    export enum AutoApproveOption {
-        ALL = 'all',
-        EXCEPT_AUTO_SUBSTITUTED = 'exceptAutoSubstituted',
-        PERFECT_MATCH_ONLY = 'perfectMatchOnly',
-        NONE = 'none',
-    }
+    export type AutoApproveOption = 'all' | 'exceptAutoSubstituted' | 'perfectMatchOnly' | 'none';
 
-    export enum CharTransformation {
-        ASIAN = 'asian',
-        EUROPEAN = 'european',
-        ARABIC = 'arabic',
-        CYRILLIC = 'cyrillic',
-    }
+    export type CharTransformation = 'asian' | 'european' | 'arabic' | 'cyrillic';
 
     export interface Build {
         id: number;

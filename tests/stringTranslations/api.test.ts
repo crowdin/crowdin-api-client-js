@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, StringTranslations, StringTranslationsModel } from '../../src';
+import { Credentials, StringTranslations } from '../../src';
 
 describe('String Translations API', () => {
     let scope: nock.Scope;
@@ -15,7 +15,7 @@ describe('String Translations API', () => {
     const languageId = 'fr';
     const text = 'test';
     const voteId = 1234;
-    const mark = StringTranslationsModel.Mark.DOWN;
+    const mark = 'down';
 
     const limit = 25;
 

@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, ProjectsGroups } from '../../src';
+import { Credentials, ProjectsGroups } from '../../src';
 
 describe('Projects and Groups API', () => {
     let scope: nock.Scope;
@@ -73,7 +73,7 @@ describe('Projects and Groups API', () => {
                 [
                     {
                         value: groupName,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -149,7 +149,7 @@ describe('Projects and Groups API', () => {
                 [
                     {
                         value: projectName,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -197,7 +197,7 @@ describe('Projects and Groups API', () => {
     it('Edit group', async () => {
         const group = await api.editGroup(groupId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: groupName,
             },
@@ -237,7 +237,7 @@ describe('Projects and Groups API', () => {
     it('Edit project', async () => {
         const project = await api.editProject(projectId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: projectName,
             },

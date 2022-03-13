@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, Teams } from '../../src';
+import { Credentials, Teams } from '../../src';
 
 describe('Tasks API', () => {
     let scope: nock.Scope;
@@ -88,7 +88,7 @@ describe('Tasks API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -191,7 +191,7 @@ describe('Tasks API', () => {
     it('Edit team', async () => {
         const team = await api.editTeam(teamId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: name,
             },

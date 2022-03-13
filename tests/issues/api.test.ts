@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Issues, PatchOperation, IssuesModel } from '../../src';
+import { Credentials, Issues } from '../../src';
 
 describe('Issues API', () => {
     let scope: nock.Scope;
@@ -37,8 +37,8 @@ describe('Issues API', () => {
                 `/projects/${projectId}/issues/${issueId}`,
                 [
                     {
-                        value: IssuesModel.Status.UNRESOLVED,
-                        op: PatchOperation.REPLACE,
+                        value: 'unresolved',
+                        op: 'replace',
                         path: '/status',
                     },
                 ],
@@ -51,7 +51,7 @@ describe('Issues API', () => {
             .reply(200, {
                 data: {
                     id: issueId,
-                    status: IssuesModel.Status.UNRESOLVED,
+                    status: 'unresolved',
                 },
             });
     });
@@ -70,12 +70,12 @@ describe('Issues API', () => {
     it('Edit issue', async () => {
         const issue = await api.editIssue(projectId, issueId, [
             {
-                value: IssuesModel.Status.UNRESOLVED,
-                op: PatchOperation.REPLACE,
+                value: 'unresolved',
+                op: 'replace',
                 path: '/status',
             },
         ]);
         expect(issue.data.id).toBe(issueId);
-        expect(issue.data.status).toBe(IssuesModel.Status.UNRESOLVED);
+        expect(issue.data.status).toBe('unresolved');
     });
 });

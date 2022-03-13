@@ -66,19 +66,9 @@ export class Issues extends CrowdinApi {
  * @deprecated
  */
 export namespace IssuesModel {
-    export enum Type {
-        ALL = 'all',
-        GENERAL_QUESTION = 'general_question',
-        TRANSLATION_MISTAKE = 'translation_mistake',
-        CONTEXT_REQUEST = 'context_request',
-        SOURCE_MISTAKE = 'source_mistake',
-    }
+    export type Type = 'all' | 'general_question' | 'translation_mistake' | 'context_request' | 'source_mistake';
 
-    export enum Status {
-        ALL = 'all',
-        RESOLVED = 'resolved',
-        UNRESOLVED = 'unresolved',
-    }
+    export type Status = 'all' | 'resolved' | 'unresolved';
 
     export interface Issue {
         id: number;

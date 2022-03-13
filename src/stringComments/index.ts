@@ -158,20 +158,9 @@ export namespace StringCommentsModel {
         issueType?: IssueType;
     }
 
-    export enum Type {
-        COMMENT = 'comment',
-        ISSUE = 'issue',
-    }
+    export type Type = 'comment' | 'issue';
 
-    export enum IssueType {
-        GENERAL_QUESTION = 'general_question',
-        TRANSLATION_MISTAKE = 'translation_mistake',
-        CONTEXT_REQUEST = 'context_request',
-        SOURCE_MISTAKE = 'source_mistake',
-    }
+    export type IssueType = 'general_question' | 'translation_mistake' | 'context_request' | 'source_mistake';
 
-    export enum IssueStatus {
-        UNRESOLVED = 'unresolved',
-        RESOLVED = 'resolved',
-    }
+    export type IssueStatus = 'unresolved' | 'resolved';
 }
