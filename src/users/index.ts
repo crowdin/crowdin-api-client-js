@@ -1,14 +1,23 @@
-import { CrowdinApi, Pagination, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalString, Pagination, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Users extends CrowdinApi {
     /**
-     *
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     */
+    listProjectMembers(
+        projectId: number,
+        options?: UsersModel.ListProjectMembersOptions,
+    ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
+    /**
      * @param projectId project identifier
      * @param search search users by firstName, lastName or username
      * @param role defines role type
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
@@ -21,27 +30,29 @@ export class Users extends CrowdinApi {
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
     listProjectMembers(
         projectId: number,
-        searchOrRequest?: string | UsersModel.ListProjectMembersRequest,
-        role?: UsersModel.Role,
-        languageId?: string,
-        limit?: number,
-        offset?: number,
+        options?: string | UsersModel.ListProjectMembersOptions,
+        deprecatedRole?: UsersModel.Role,
+        deprecatedLanguageId?: string,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        let request: UsersModel.ListProjectMembersRequest;
-        if (searchOrRequest && typeof searchOrRequest === 'object') {
-            request = searchOrRequest;
-        } else {
-            request = { search: searchOrRequest, role, languageId, limit, offset };
+        if (isOptionalString(options)) {
+            options = {
+                search: options,
+                role: deprecatedRole,
+                languageId: deprecatedLanguageId,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
         }
-        url = this.addQueryParam(url, 'search', request.search);
-        url = this.addQueryParam(url, 'role', request.role);
-        url = this.addQueryParam(url, 'languageId', request.languageId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'search', options.search);
+        url = this.addQueryParam(url, 'role', options.role);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.post
@@ -55,7 +66,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.get
@@ -69,7 +79,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.put
@@ -84,7 +93,6 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     *
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.delete
@@ -95,11 +103,17 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
+     */
+    listUsers(options?: UsersModel.ListUsersOptions): Promise<ResponseList<UsersModel.User>>;
+    /**
      * @param status filter users by status
      * @param search search users by firstName, lastName, username, email
      * @param twoFactor filter users by two-factor authentication status
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
     listUsers(
@@ -110,23 +124,26 @@ export class Users extends CrowdinApi {
         offset?: number,
     ): Promise<ResponseList<UsersModel.User>>;
     listUsers(
-        statusOrRequest?: UsersModel.Status | UsersModel.ListUsersRequest,
-        search?: string,
-        twoFactor?: UsersModel.TwoFactor,
-        limit?: number,
-        offset?: number,
+        options?: UsersModel.Status | UsersModel.ListUsersOptions,
+        deprecatedSearch?: string,
+        deprecatedTwoFactor?: UsersModel.TwoFactor,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        let request: UsersModel.ListUsersRequest;
-        if (statusOrRequest && typeof statusOrRequest === 'object') {
-            request = statusOrRequest;
-        } else {
-            request = { status: statusOrRequest, search, twoFactor, limit, offset };
+        if (isOptionalString(options)) {
+            options = {
+                status: options,
+                search: deprecatedSearch,
+                twoFactor: deprecatedTwoFactor,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+            };
         }
-        url = this.addQueryParam(url, 'status', request.status);
-        url = this.addQueryParam(url, 'search', request.search);
-        url = this.addQueryParam(url, 'twoFactor', request.twoFactor);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'status', options.status);
+        url = this.addQueryParam(url, 'search', options.search);
+        url = this.addQueryParam(url, 'twoFactor', options.twoFactor);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -148,20 +165,16 @@ export class Users extends CrowdinApi {
 }
 
 export namespace UsersModel {
-    export interface ListProjectMembersRequest {
+    export interface ListProjectMembersOptions extends PaginationOptions {
         search?: string;
         role?: Role;
         languageId?: string;
-        limit?: number;
-        offset?: number;
     }
 
-    export interface ListUsersRequest {
+    export interface ListUsersOptions extends PaginationOptions {
         status?: Status;
         search?: string;
         twoFactor?: TwoFactor;
-        limit?: number;
-        offset?: number;
     }
 
     export interface User {

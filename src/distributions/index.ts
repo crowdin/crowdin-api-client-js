@@ -1,19 +1,37 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
+     */
+    listDistributions(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<DistributionsModel.Distribution>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
      */
     listDistributions(
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<DistributionsModel.Distribution>>;
+    listDistributions(
+        projectId: number,
+        options?: number | PaginationOptions,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<DistributionsModel.Distribution>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset };
+        }
         const url = `${this.url}/projects/${projectId}/distributions`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

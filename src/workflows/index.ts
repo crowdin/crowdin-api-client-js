@@ -1,19 +1,37 @@
-import { CrowdinApi, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList, ResponseObject } from '../core';
 
 export class Workflows extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
+     */
+    listWorkflowSteps(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
      */
     listWorkflowSteps(
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>>;
+    listWorkflowSteps(
+        projectId: number,
+        options?: number | PaginationOptions,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset };
+        }
         const url = `${this.url}/projects/${projectId}/workflow-steps`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -30,9 +48,17 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
+     */
+    listWorkflowTemplates(
+        options?: WorkflowModel.ListWorkflowTemplatesOptions,
+    ): Promise<ResponseList<WorkflowModel.Workflow>>;
+    /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
     listWorkflowTemplates(
@@ -41,19 +67,16 @@ export class Workflows extends CrowdinApi {
         offset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     listWorkflowTemplates(
-        groupIdOrRequest?: number | WorkflowModel.ListWorkflowTemplatesRequest,
-        limit?: number,
-        offset?: number,
+        options?: number | WorkflowModel.ListWorkflowTemplatesOptions,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        let request: WorkflowModel.ListWorkflowTemplatesRequest;
-        if (groupIdOrRequest && typeof groupIdOrRequest === 'object') {
-            request = groupIdOrRequest;
-        } else {
-            request = { groupId: groupIdOrRequest, limit, offset };
+        if (isOptionalNumber(options)) {
+            options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
-        url = this.addQueryParam(url, 'groupId', request.groupId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -80,10 +103,8 @@ export namespace WorkflowModel {
               }
             | never[];
     }
-    export interface ListWorkflowTemplatesRequest {
+    export interface ListWorkflowTemplatesOptions extends PaginationOptions {
         groupId?: number;
-        limit?: number;
-        offset?: number;
     }
 
     export interface Workflow {

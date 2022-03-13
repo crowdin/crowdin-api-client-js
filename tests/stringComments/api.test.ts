@@ -103,7 +103,7 @@ describe('String Comments API', () => {
     });
 
     it('List string comment', async () => {
-        const comments = await api.listStringComments(projectId, stringId);
+        const comments = await api.listStringComments(projectId, { stringId });
         expect(comments.data.length).toBe(1);
         expect(comments.data[0].data.id).toBe(stringCommentId);
         expect(comments.pagination.limit).toBe(limit);

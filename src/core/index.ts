@@ -44,6 +44,8 @@ export interface Pagination {
     limit: number;
 }
 
+export type PaginationOptions = Partial<Pagination>;
+
 export interface ValidationErrorResponse {
     errors: ErrorHolder[];
 }
@@ -278,5 +280,41 @@ export abstract class CrowdinApi {
 
     protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
         return this.retryService.executeAsyncFunc(() => this.httpClient.patch(url, data, config));
+    }
+}
+
+let deprecationEmittedForOptionalParams = false;
+
+function emitDeprecationWarning(): void {
+    if (!deprecationEmittedForOptionalParams) {
+        if (typeof process !== 'undefined') {
+            process.emitWarning(
+                'Passing optional parameters individually is deprecated. Pass a sole object instead',
+                'DeprecationWarning',
+            );
+        } else {
+            console.warn(
+                'DeprecationWarning: Passing optional parameters individually is deprecated. Pass a sole object instead',
+            );
+        }
+        deprecationEmittedForOptionalParams = true;
+    }
+}
+
+export function isOptionalString(parameter?: string | unknown): parameter is string | undefined {
+    if (typeof parameter === 'string' || typeof parameter === 'undefined') {
+        emitDeprecationWarning();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export function isOptionalNumber(parameter?: number | unknown): parameter is number | undefined {
+    if (typeof parameter === 'number' || typeof parameter === 'undefined') {
+        emitDeprecationWarning();
+        return true;
+    } else {
+        return false;
     }
 }

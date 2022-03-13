@@ -117,7 +117,7 @@ describe('Machine Translation engines (MTs) API', () => {
     });
 
     it('List MTs', async () => {
-        const mts = await api.listMts(groupId);
+        const mts = await api.listMts({ groupId });
         expect(mts.data.length).toBe(1);
         expect(mts.data[0].data.id).toBe(mtId);
         expect(mts.pagination.limit).toBe(limit);

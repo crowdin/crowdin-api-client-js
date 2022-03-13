@@ -1,20 +1,45 @@
-import { CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject, Status } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    isOptionalNumber,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 export class TranslationMemory extends CrowdinApi {
+    /**
+     * @param options optional paramerers for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
+     */
+    listTm(
+        options?: TranslationMemoryModel.ListTMsOptions,
+    ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
     /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.tms.getMany
      */
     listTm(
         groupId?: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
+    listTm(
+        options?: number | TranslationMemoryModel.ListTMsOptions,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
+        if (isOptionalNumber(options)) {
+            options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
+        }
         let url = `${this.url}/tms`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -181,5 +206,9 @@ export namespace TranslationMemoryModel {
 
     export interface Scheme {
         [key: string]: number;
+    }
+
+    export interface ListTMsOptions extends PaginationOptions {
+        groupId?: number;
     }
 }

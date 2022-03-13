@@ -15,7 +15,6 @@ export class RetryService {
     constructor(private config: RetryConfig) {}
 
     /**
-     *
      * @param func function to execute
      */
     async executeAsyncFunc<T>(func: () => Promise<T>): Promise<T> {
@@ -35,7 +34,6 @@ export class RetryService {
     }
 
     /**
-     *
      * @param func function to execute
      */
     async executeSyncFunc<T>(func: () => T): Promise<T> {

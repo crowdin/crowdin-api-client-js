@@ -1,14 +1,27 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Languages extends CrowdinApi {
     /**
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
+     * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.languages.getMany
      */
-    listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<LanguagesModel.Language>> {
+    listSupportedLanguages(options?: PaginationOptions): Promise<ResponseList<LanguagesModel.Language>>;
+    /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
+     * @see https://support.crowdin.com/api/v2/#operation/api.languages.getMany
+     */
+    listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<LanguagesModel.Language>>;
+    listSupportedLanguages(
+        options?: number | PaginationOptions,
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<LanguagesModel.Language>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset };
+        }
         const url = `${this.url}/languages`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

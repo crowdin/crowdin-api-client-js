@@ -1,16 +1,39 @@
-import { CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject, Status } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    isOptionalNumber,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 export class Glossaries extends CrowdinApi {
+    /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.getMany
+     */
+    listGlossaries(options?: GlossariesModel.ListGlossariesOptions): Promise<ResponseList<GlossariesModel.Glossary>>;
     /**
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.getMany
      */
-    listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>> {
+    listGlossaries(groupId?: number, limit?: number, offset?: number): Promise<ResponseList<GlossariesModel.Glossary>>;
+    listGlossaries(
+        options?: number | GlossariesModel.ListGlossariesOptions,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<GlossariesModel.Glossary>> {
+        if (isOptionalNumber(options)) {
+            options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
+        }
         let url = `${this.url}/glossaries`;
-        url = this.addQueryParam(url, 'groupId', groupId);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'groupId', options.groupId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -114,12 +137,12 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
-     * @param request request body
+     * @param options optional parameters for the request
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
     listTerms(
         glossaryId: number,
-        request: GlossariesModel.ListTermsRequest,
+        options?: GlossariesModel.ListTermsOptions,
     ): Promise<ResponseList<GlossariesModel.Term>>;
     /**
      * @param glossaryId glossary identifier
@@ -128,6 +151,7 @@ export class Glossaries extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param languageId term language identifier
      * @param translationOfTermId filter terms by termId
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
     listTerms(
@@ -140,23 +164,26 @@ export class Glossaries extends CrowdinApi {
     ): Promise<ResponseList<GlossariesModel.Term>>;
     listTerms(
         glossaryId: number,
-        userIdOrRequest?: number | GlossariesModel.ListTermsRequest,
-        limit?: number,
-        offset?: number,
-        languageId?: string,
-        translationOfTermId?: number,
+        options?: number | GlossariesModel.ListTermsOptions,
+        deprecatedLimit?: number,
+        deprecatedOffset?: number,
+        deprecatedLanguageId?: string,
+        deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        let request: GlossariesModel.ListTermsRequest;
-        if (userIdOrRequest && typeof userIdOrRequest === 'object') {
-            request = userIdOrRequest;
-        } else {
-            request = { userId: userIdOrRequest, limit, offset, languageId, translationOfTermId };
+        if (isOptionalNumber(options)) {
+            options = {
+                userId: options,
+                limit: deprecatedLimit,
+                offset: deprecatedOffset,
+                languageId: deprecatedLanguageId,
+                translationOfTermId: deprecatedTranslationOfTermId,
+            };
         }
-        url = this.addQueryParam(url, 'userId', request.userId);
-        url = this.addQueryParam(url, 'languageId', request.languageId);
-        url = this.addQueryParam(url, 'translationOfTermId', request.translationOfTermId);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        url = this.addQueryParam(url, 'translationOfTermId', options.translationOfTermId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -174,18 +201,36 @@ export class Glossaries extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
+     */
+    clearGlossary(
+        glossaryId: number,
+        options?: GlossariesModel.ClearGlossaryOptions,
+    ): Promise<ResponseObject<GlossariesModel.Term>>;
+    /**
+     * @param glossaryId glossary identifier
      * @param languageId languageId identifier
      * @param translationOfTermId term translation identifier
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
      */
     clearGlossary(
         glossaryId: number,
         languageId?: number,
         translationOfTermId?: number,
+    ): Promise<ResponseObject<GlossariesModel.Term>>;
+    clearGlossary(
+        glossaryId: number,
+        options?: number | GlossariesModel.ClearGlossaryOptions,
+        deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>> {
+        if (isOptionalNumber(options)) {
+            options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
+        }
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        url = this.addQueryParam(url, 'languageId', languageId);
-        url = this.addQueryParam(url, 'translationOfTermId', translationOfTermId);
+        url = this.addQueryParam(url, 'languageId', options.languageId);
+        url = this.addQueryParam(url, 'translationOfTermId', options.translationOfTermId);
         return this.delete(url, this.defaultConfig());
     }
 
@@ -264,10 +309,8 @@ export namespace GlossariesModel {
         firstLineContainsHeader?: boolean;
     }
 
-    export interface ListTermsRequest {
+    export interface ListTermsOptions extends PaginationOptions {
         userId?: number;
-        limit?: number;
-        offset?: number;
         languageId?: string;
         translationOfTermId?: number;
     }
@@ -319,5 +362,14 @@ export namespace GlossariesModel {
         SUBORDINATING_CONJUNCTION = 'subordinating conjunction',
         VERB = 'verb',
         OTHER = 'other',
+    }
+
+    export interface ListGlossariesOptions extends PaginationOptions {
+        groupId?: number;
+    }
+
+    export interface ClearGlossaryOptions {
+        languageId?: number;
+        translationOfTermId?: number;
     }
 }

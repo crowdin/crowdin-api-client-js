@@ -1,11 +1,27 @@
-import { BooleanInt, CrowdinApi, DownloadLink, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    BooleanInt,
+    CrowdinApi,
+    DownloadLink,
+    isOptionalNumber,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class Tasks extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
+     */
+    listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(
@@ -13,10 +29,19 @@ export class Tasks extends CrowdinApi {
         limit?: number,
         offset?: number,
         status?: TasksModel.Status,
+    ): Promise<ResponseList<TasksModel.Task>>;
+    listTasks(
+        projectId: number,
+        options?: number | TasksModel.ListTasksOptions,
+        deprecatedOffset?: number,
+        deprecatedStatus?: TasksModel.Status,
     ): Promise<ResponseList<TasksModel.Task>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset, status: deprecatedStatus };
+        }
         let url = `${this.url}/projects/${projectId}/tasks`;
-        url = this.addQueryParam(url, 'status', status);
-        return this.getList(url, limit, offset);
+        url = this.addQueryParam(url, 'status', options.status);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -79,10 +104,16 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
+     */
+    listUserTasks(options?: TasksModel.ListUserTasksOptions): Promise<ResponseList<TasksModel.UserTask>>;
+    /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
     listUserTasks(
@@ -91,23 +122,24 @@ export class Tasks extends CrowdinApi {
         status?: TasksModel.Status,
         isArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>>;
-
     listUserTasks(
-        limitOrRequest?: number | TasksModel.ListUserTasksRequest,
-        offset?: number,
-        status?: TasksModel.Status,
-        isArchived?: BooleanInt,
+        options?: number | TasksModel.ListUserTasksOptions,
+        deprecatedOffset?: number,
+        deprecatedStatus?: TasksModel.Status,
+        deprecatedIsArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
-        let request: TasksModel.ListUserTasksRequest;
-        if (limitOrRequest && typeof limitOrRequest === 'object') {
-            request = limitOrRequest;
-        } else {
-            request = { limit: limitOrRequest, offset, status, isArchived };
+        if (isOptionalNumber(options)) {
+            options = {
+                limit: options,
+                offset: deprecatedOffset,
+                status: deprecatedStatus,
+                isArchived: deprecatedIsArchived,
+            };
         }
-        url = this.addQueryParam(url, 'status', request.status);
-        url = this.addQueryParam(url, 'isArchived', request.isArchived);
-        return this.getList(url, request.limit, request.offset);
+        url = this.addQueryParam(url, 'status', options.status);
+        url = this.addQueryParam(url, 'isArchived', options.isArchived);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -157,9 +189,7 @@ export namespace TasksModel {
         updatedAt: string;
     }
 
-    export interface ListUserTasksRequest {
-        limit?: number;
-        offset?: number;
+    export interface ListUserTasksOptions extends PaginationOptions {
         status?: Status;
         isArchived?: BooleanInt;
     }
@@ -367,5 +397,9 @@ export namespace TasksModel {
         SOCIAL_SCIENCE = 'social_science',
         TELECOMMUNICATIONS = 'telecommunications',
         TRAVEL_TOURISM = 'travel_tourism',
+    }
+
+    export interface ListTasksOptions extends PaginationOptions {
+        status?: TasksModel.Status;
     }
 }

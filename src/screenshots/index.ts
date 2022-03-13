@@ -1,19 +1,34 @@
-import { CrowdinApi, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany
+     */
+    listScreenshots(projectId: number, options?: PaginationOptions): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
+    /**
+     * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany
      */
     listScreenshots(
         projectId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
+    listScreenshots(
+        projectId: number,
+        options?: number | PaginationOptions,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset };
+        }
         const url = `${this.url}/projects/${projectId}/screenshots`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -82,8 +97,20 @@ export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.getMany
+     */
+    listScreenshotTags(
+        projectId: number,
+        screenshotId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<ScreenshotsModel.Tag>>;
+    /**
+     * @param projectId project identifier
+     * @param screenshotId screenshot identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @deprecated optional parameters should be passed through an object
      * @see https://support.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.getMany
      */
     listScreenshotTags(
@@ -91,9 +118,18 @@ export class Screenshots extends CrowdinApi {
         screenshotId: number,
         limit?: number,
         offset?: number,
+    ): Promise<ResponseList<ScreenshotsModel.Tag>>;
+    listScreenshotTags(
+        projectId: number,
+        screenshotId: number,
+        options?: number | PaginationOptions,
+        deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
+        if (isOptionalNumber(options)) {
+            options = { limit: options, offset: deprecatedOffset };
+        }
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
-        return this.getList(url, limit, offset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**

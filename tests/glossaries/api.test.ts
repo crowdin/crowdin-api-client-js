@@ -260,7 +260,7 @@ describe('Glossaries API', () => {
     });
 
     it('List glossaries', async () => {
-        const glossaries = await api.listGlossaries(groupId);
+        const glossaries = await api.listGlossaries({ groupId });
         expect(glossaries.data.length).toBe(1);
         expect(glossaries.data[0].data.id).toBe(glossaryId);
         expect(glossaries.data[0].data.name).toBe(glossaryName);
