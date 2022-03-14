@@ -1,4 +1,4 @@
-import { AxisProvider } from './internal/axios/axiosProvider';
+import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
 import { RetryConfig, RetryService } from './internal/retry';
 
@@ -110,7 +110,7 @@ export interface Attribute {
 
 export abstract class CrowdinApi {
     private static readonly CROWDIN_URL_SUFFIX: string = 'api.crowdin.com/api/v2';
-    private static readonly AXIOS_INSTANCE = new AxisProvider().axios;
+    private static readonly AXIOS_INSTANCE = new AxiosProvider().axios;
     private static readonly FETCH_INSTANCE = new FetchClient();
 
     readonly token: string;

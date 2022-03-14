@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { CommonErrorResponse, ValidationErrorResponse } from '../..';
 
-export class AxisProvider {
+export class AxiosProvider {
     private static readonly CROWDIN_API_MAX_CONCURRENT_REQUESTS = 15;
     private static readonly CROWDIN_API_REQUESTS_INTERVAL_MS = 10;
 
@@ -18,12 +18,12 @@ export class AxisProvider {
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
             return new Promise(resolve => {
                 const interval = setInterval(() => {
-                    if (this.pendingRequests < AxisProvider.CROWDIN_API_MAX_CONCURRENT_REQUESTS) {
+                    if (this.pendingRequests < AxiosProvider.CROWDIN_API_MAX_CONCURRENT_REQUESTS) {
                         this.pendingRequests++;
                         clearInterval(interval);
                         resolve(config);
                     }
-                }, AxisProvider.CROWDIN_API_REQUESTS_INTERVAL_MS);
+                }, AxiosProvider.CROWDIN_API_REQUESTS_INTERVAL_MS);
             });
         });
     }
