@@ -39,7 +39,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.Branch>> {
-        if (isOptionalString(options)) {
+        if (isOptionalString(options, '1' in arguments)) {
             options = { name: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/branches`;
@@ -134,7 +134,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedRecursion?: string,
     ): Promise<ResponseList<SourceFilesModel.Directory>> {
         let url = `${this.url}/projects/${projectId}/directories`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -238,7 +238,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedFilter?: string,
     ): Promise<ResponseList<SourceFilesModel.File>> {
         let url = `${this.url}/projects/${projectId}/files`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 branchId: options,
                 directoryId: deprecatedDirectoryId,
@@ -359,7 +359,7 @@ export class SourceFiles extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/revisions`;
@@ -410,7 +410,7 @@ export class SourceFiles extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;

@@ -36,7 +36,7 @@ export class Issues extends CrowdinApi {
         deprecatedType?: IssuesModel.Type,
         deprecatedStatus?: IssuesModel.Status,
     ): Promise<ResponseList<IssuesModel.Issue>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

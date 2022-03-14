@@ -301,18 +301,28 @@ function emitDeprecationWarning(): void {
     }
 }
 
-export function isOptionalString(parameter?: string | unknown): parameter is string | undefined {
+export function isOptionalString(
+    parameter: string | unknown,
+    parameterInArgs: boolean,
+): parameter is string | undefined {
     if (typeof parameter === 'string' || typeof parameter === 'undefined') {
-        emitDeprecationWarning();
+        if (parameterInArgs) {
+            emitDeprecationWarning();
+        }
         return true;
     } else {
         return false;
     }
 }
 
-export function isOptionalNumber(parameter?: number | unknown): parameter is number | undefined {
+export function isOptionalNumber(
+    parameter: number | unknown,
+    parameterInArgs: boolean,
+): parameter is number | undefined {
     if (typeof parameter === 'number' || typeof parameter === 'undefined') {
-        emitDeprecationWarning();
+        if (parameterInArgs) {
+            emitDeprecationWarning();
+        }
         return true;
     } else {
         return false;

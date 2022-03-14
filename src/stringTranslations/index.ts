@@ -48,7 +48,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedFileId?: number,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,
@@ -163,7 +163,7 @@ export class StringTranslations extends CrowdinApi {
         >
     > {
         let url = `${this.url}/projects/${projectId}/languages/${languageId}/translations`;
-        if (isOptionalString(options)) {
+        if (isOptionalString(options, '2' in arguments)) {
             options = {
                 stringIds: options,
                 fileId,
@@ -221,7 +221,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedDenormalizePlaceholders?: BooleanInt,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '3' in arguments)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,
@@ -333,7 +333,7 @@ export class StringTranslations extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
         let url = `${this.url}/projects/${projectId}/votes`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 stringId: options,
                 languageId: deprecatedLanguageId,

@@ -36,7 +36,7 @@ export class Tasks extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedStatus?: TasksModel.Status,
     ): Promise<ResponseList<TasksModel.Task>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset, status: deprecatedStatus };
         }
         let url = `${this.url}/projects/${projectId}/tasks`;
@@ -129,7 +129,7 @@ export class Tasks extends CrowdinApi {
         deprecatedIsArchived?: BooleanInt,
     ): Promise<ResponseList<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

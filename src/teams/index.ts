@@ -35,7 +35,7 @@ export class Teams extends CrowdinApi {
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>>;
     listTeams(options?: number | PaginationOptions, deprecatedOffset?: number): Promise<ResponseList<TeamsModel.Team>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/teams`;
@@ -98,7 +98,7 @@ export class Teams extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TeamsModel.TeamMember>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/teams/${teamId}/members`;

@@ -25,7 +25,7 @@ export class MachineTranslation extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/mts`;

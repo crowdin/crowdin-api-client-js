@@ -17,7 +17,7 @@ export class Vendors extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<VendorsModel.Vendor>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/vendors`;

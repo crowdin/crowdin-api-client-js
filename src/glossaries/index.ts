@@ -28,7 +28,7 @@ export class Glossaries extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<GlossariesModel.Glossary>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/glossaries`;
@@ -171,7 +171,7 @@ export class Glossaries extends CrowdinApi {
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 userId: options,
                 limit: deprecatedLimit,
@@ -225,7 +225,7 @@ export class Glossaries extends CrowdinApi {
         options?: number | GlossariesModel.ClearGlossaryOptions,
         deprecatedTranslationOfTermId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
         }
         let url = `${this.url}/glossaries/${glossaryId}/terms`;

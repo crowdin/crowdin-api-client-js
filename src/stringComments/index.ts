@@ -38,7 +38,7 @@ export class StringComments extends CrowdinApi {
         deprecatedIssueStatus?: StringCommentsModel.IssueStatus,
     ): Promise<ResponseList<StringCommentsModel.StringComment>> {
         let url = `${this.url}/projects/${projectId}/comments`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 stringId: options,
                 type: deprecatedType,

@@ -21,7 +21,7 @@ export class Dictionaries extends CrowdinApi {
         projectId: number,
         options?: string | DictionariesModel.ListDictionariesOptions,
     ): Promise<ResponseList<DictionariesModel.Dictionary>> {
-        if (isOptionalString(options)) {
+        if (isOptionalString(options, '1' in arguments)) {
             options = { languageIds: options };
         }
         let url = `${this.url}/projects/${projectId}/dictionaries`;

@@ -34,7 +34,7 @@ export class TranslationMemory extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/tms`;
