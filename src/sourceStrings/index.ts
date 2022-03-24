@@ -168,7 +168,7 @@ export namespace SourceStringsModel {
     }
 
     export interface CreateStringRequest {
-        identifier: string;
+        identifier?: string;
         fileId?: number;
         text: string;
         context?: string;
