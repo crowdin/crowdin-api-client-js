@@ -168,9 +168,9 @@ export namespace SourceStringsModel {
     }
 
     export interface CreateStringRequest {
+        text: string | PluralText;
         identifier?: string;
         fileId?: number;
-        text: string;
         context?: string;
         isHidden?: boolean;
         maxLength?: number;
