@@ -245,7 +245,7 @@ export namespace TranslationsModel {
 
     export interface Build {
         id: number;
-        status: string;
+        status: BuildStatus;
         progress: number;
         attributes: Attribute[];
     }
