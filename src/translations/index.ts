@@ -101,7 +101,7 @@ export class Translations extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationsModel.Build>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { branchId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/translations/builds`;

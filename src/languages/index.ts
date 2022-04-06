@@ -17,7 +17,7 @@ export class Languages extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<LanguagesModel.Language>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/languages`;

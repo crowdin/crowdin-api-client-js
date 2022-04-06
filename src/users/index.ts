@@ -37,7 +37,7 @@ export class Users extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         let url = `${this.url}/projects/${projectId}/members`;
-        if (isOptionalString(options)) {
+        if (isOptionalString(options, '1' in arguments)) {
             options = {
                 search: options,
                 role: deprecatedRole,
@@ -131,7 +131,7 @@ export class Users extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<UsersModel.User>> {
         let url = `${this.url}/users`;
-        if (isOptionalString(options)) {
+        if (isOptionalString(options, '0' in arguments)) {
             options = {
                 status: options,
                 search: deprecatedSearch,

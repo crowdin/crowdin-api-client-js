@@ -32,7 +32,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/languages/progress`;
@@ -70,7 +70,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}/languages/progress`;
@@ -108,7 +108,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/files/${fileId}/languages/progress`;
@@ -146,7 +146,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/languages/${languageId}/progress`;
@@ -182,7 +182,7 @@ export class TranslationStatus extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset, languageIds: deprecatedLanguageIds };
         }
         let url = `${this.url}/projects/${projectId}/languages/progress`;
@@ -226,7 +226,7 @@ export class TranslationStatus extends CrowdinApi {
         deprecatedLanguageIds?: string,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>> {
         let url = `${this.url}/projects/${projectId}/qa-checks`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 limit: options,
                 offset: deprecatedOffset,

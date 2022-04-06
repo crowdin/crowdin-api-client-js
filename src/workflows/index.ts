@@ -27,7 +27,7 @@ export class Workflows extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.ListWorkflowStepsResponse>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/workflow-steps`;
@@ -72,7 +72,7 @@ export class Workflows extends CrowdinApi {
         deprecatedOffset?: number,
     ): Promise<ResponseList<WorkflowModel.Workflow>> {
         let url = `${this.url}/workflow-templates`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = { groupId: options, limit: deprecatedLimit, offset: deprecatedOffset };
         }
         url = this.addQueryParam(url, 'groupId', options.groupId);

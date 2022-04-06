@@ -24,7 +24,7 @@ export class Screenshots extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/screenshots`;
@@ -125,7 +125,7 @@ export class Screenshots extends CrowdinApi {
         options?: number | PaginationOptions,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Tag>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '2' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;

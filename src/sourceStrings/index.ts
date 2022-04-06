@@ -60,7 +60,7 @@ export class SourceStrings extends CrowdinApi {
         deprecatedDirectoryId?: number,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         let url = `${this.url}/projects/${projectId}/strings`;
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '1' in arguments)) {
             options = {
                 fileId: options,
                 limit: deprecatedLimit,

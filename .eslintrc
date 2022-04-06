@@ -21,6 +21,7 @@
         "curly": 2,
 		"semi": 2,
 		"brace-style": 2,
-        "quotes": [2, "single", "avoid-escape"]
+        "quotes": [2, "single", "avoid-escape"],
+        "prefer-rest-params": "off"
     }
 }

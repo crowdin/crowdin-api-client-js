@@ -35,7 +35,7 @@ export class ProjectsGroups extends CrowdinApi {
         deprecatedUserId?: number,
         deprecatedLimit?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Group>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = {
                 parentId: options,
                 offset: deprecatedOffset,
@@ -113,7 +113,7 @@ export class ProjectsGroups extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
-        if (isOptionalNumber(options)) {
+        if (isOptionalNumber(options, '0' in arguments)) {
             options = {
                 groupId: options,
                 hasManagerAccess: deprecatedHasManagerAccess,
