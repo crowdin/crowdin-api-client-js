@@ -287,7 +287,7 @@ let deprecationEmittedForOptionalParams = false;
 
 function emitDeprecationWarning(): void {
     if (!deprecationEmittedForOptionalParams) {
-        if (typeof process !== 'undefined') {
+        if (typeof process !== 'undefined' && typeof process.emitWarning === 'function') {
             process.emitWarning(
                 'Passing optional parameters individually is deprecated. Pass a sole object instead',
                 'DeprecationWarning',
