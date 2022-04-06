@@ -2,7 +2,6 @@ import { ClientConfig, Credentials } from './core';
 import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
 import { Glossaries } from './glossaries';
-import { Issues } from './issues';
 import { Labels } from './labels';
 import { Languages } from './languages';
 import { MachineTranslation } from './machineTranslation';
@@ -28,7 +27,6 @@ export * from './core';
 export * from './dictionaries';
 export * from './distributions';
 export * from './glossaries';
-export * from './issues';
 export * from './labels';
 export * from './languages';
 export * from './machineTranslation';
@@ -69,10 +67,6 @@ export default class Client {
     readonly workflowsApi: Workflows;
     readonly usersApi: Users;
     readonly vendorsApi: Vendors;
-    /**
-     * @deprecated use stringCommentsApi instead
-     */
-    readonly issuesApi: Issues;
     readonly teamsApi: Teams;
     readonly distributionsApi: Distributions;
     readonly dictionariesApi: Dictionaries;
@@ -98,7 +92,6 @@ export default class Client {
         this.workflowsApi = new Workflows(credentials, config);
         this.usersApi = new Users(credentials, config);
         this.vendorsApi = new Vendors(credentials, config);
-        this.issuesApi = new Issues(credentials, config);
         this.teamsApi = new Teams(credentials, config);
         this.distributionsApi = new Distributions(credentials, config);
         this.dictionariesApi = new Dictionaries(credentials, config);
