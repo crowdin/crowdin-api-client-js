@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Distributions, PatchOperation } from '../../src';
+import { Credentials, Distributions } from '../../src';
 
 describe('Distributions API', () => {
     let scope: nock.Scope;
@@ -71,7 +71,7 @@ describe('Distributions API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -140,7 +140,7 @@ describe('Distributions API', () => {
     it('Edit distribution', async () => {
         const distribution = await api.editDistribution(projectId, hash, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: name,
             },

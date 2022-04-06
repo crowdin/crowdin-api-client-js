@@ -267,59 +267,57 @@ export namespace TranslationStatusModel {
         approved: number;
     }
 
-    export enum Category {
-        EMPTY = 'empty',
-        VARIABLES = 'variables',
-        TAGS = 'tags',
-        PUNCTUATION = 'punctuation',
-        SYMBOL_REGISTER = 'symbol_register',
-        SPACES = 'spaces',
-        SIZE = 'size',
-        SPECIAL_SYMBOLS = 'special_symbols',
-        WRONG_TRANSLATION = 'wrong_translation',
-        SPELLCHECK = 'spellcheck',
-        ICU = 'icu',
-    }
+    export type Category =
+        | 'empty'
+        | 'variables'
+        | 'tags'
+        | 'punctuation'
+        | 'symbol_register'
+        | 'spaces'
+        | 'size'
+        | 'special_symbols'
+        | 'wrong_translation'
+        | 'spellcheck'
+        | 'icu';
 
-    export enum Validation {
-        EMPTY_STRING_CHECK = 'empty_string_check',
-        EMPTY_SUGGESTION_CHECK = 'empty_suggestion_check',
-        MAX_LENGTH_CHECK = 'max_length_check',
-        TAGS_CHECK = 'tags_check',
-        MISMATCH_IDS_CHECK = 'mismatch_ids_check',
-        CDATA_CHECK = 'cdata_check',
-        SPECIALS_SYMBOLS_CHECK = 'specials_symbols_check',
-        LEADING_NEWLINES_CHECK = 'leading_newlines_check',
-        TRAILING_NEWLINES_CHECK = 'trailing_newlines_check',
-        LEADING_SPACES_CHECK = 'leading_spaces_check',
-        TRAILING_SPACES_CHECK = 'trailing_spaces_check',
-        MULTIPLE_SPACES_CHECK = 'multiple_spaces_check',
-        CUSTOM_BLOCKED_VARIABLES_CHECK = 'custom_blocked_variables_check',
-        HIGHEST_PRIORITY_CUSTOM_VARIABLES_CHECK = 'highest_priority_custom_variables_check',
-        HIGHEST_PRIORITY_VARIABLES_CHECK = 'highest_priority_variables_check',
-        C_VARIABLES_CHECK = 'c_variables_check',
-        PYTHON_VARIABLES_CHECK = 'python_variables_check',
-        RAILS_VARIABLES_CHECK = 'rails_variables_check',
-        JAVA_VARIABLES_CHECK = 'java_variables_check',
-        DOT_NET_VARIABLES_CHECK = 'dot_net_variables_check',
-        TWIG_VARIABLES_CHECK = 'twig_variables_check',
-        PHP_VARIABLES_CHECK = 'php_variables_check',
-        FREEMARKER_VARIABLES_CHECK = 'freemarker_variables_check',
-        LOWEST_PRIORITY_VARIABLE_CHECK = 'lowest_priority_variable_check',
-        LOWEST_PRIORITY_CUSTOM_VARIABLES_CHECK = 'lowest_priority_custom_variables_check',
-        PUNCTUATION_CHECK = 'punctuation_check',
-        SPACES_BEFORE_PUNCTUATION_CHECK = 'spaces_before_punctuation_check',
-        SPACES_AFTER_PUNCTUATION_CHECK = 'spaces_after_punctuation_check',
-        NON_BREAKING_SPACES_CHECK = 'non_breaking_spaces_check',
-        CAPITALIZE_CHECK = 'capitalize_check',
-        MULTIPLE_UPPERCASE_CHECK = 'multiple_uppercase_check',
-        PARENTHESES_CHECK = 'parentheses_check',
-        ENTITIES_CHECK = 'entities_check',
-        ESCAPED_QUOTES_CHECK = 'escaped_quotes_check',
-        WRONG_TRANSLATION_ISSUE_CHECK = 'wrong_translation_issue_check',
-        SPELLCHECK = 'spellcheck',
-        ICU_CHECK = 'icu_check',
-    }
+    export type Validation =
+        | 'empty_string_check'
+        | 'empty_suggestion_check'
+        | 'max_length_check'
+        | 'tags_check'
+        | 'mismatch_ids_check'
+        | 'cdata_check'
+        | 'specials_symbols_check'
+        | 'leading_newlines_check'
+        | 'trailing_newlines_check'
+        | 'leading_spaces_check'
+        | 'trailing_spaces_check'
+        | 'multiple_spaces_check'
+        | 'custom_blocked_variables_check'
+        | 'highest_priority_custom_variables_check'
+        | 'highest_priority_variables_check'
+        | 'c_variables_check'
+        | 'python_variables_check'
+        | 'rails_variables_check'
+        | 'java_variables_check'
+        | 'dot_net_variables_check'
+        | 'twig_variables_check'
+        | 'php_variables_check'
+        | 'freemarker_variables_check'
+        | 'lowest_priority_variable_check'
+        | 'lowest_priority_custom_variables_check'
+        | 'punctuation_check'
+        | 'spaces_before_punctuation_check'
+        | 'spaces_after_punctuation_check'
+        | 'non_breaking_spaces_check'
+        | 'capitalize_check'
+        | 'multiple_uppercase_check'
+        | 'parentheses_check'
+        | 'entities_check'
+        | 'escaped_quotes_check'
+        | 'wrong_translation_issue_check'
+        | 'spellcheck'
+        | 'icu_check';
 
     export interface ListQaCheckIssuesOptions extends PaginationOptions {
         category?: Category;

@@ -192,16 +192,9 @@ export namespace UsersModel {
         timezone: string;
     }
 
-    export enum Status {
-        ACTIVE = 'active',
-        PENDING = 'pending',
-        BLOCKED = 'blocked',
-    }
+    export type Status = 'active' | 'pending' | 'blocked';
 
-    export enum TwoFactor {
-        ENABLED = 'enabled',
-        DISABLED = 'disabled',
-    }
+    export type TwoFactor = 'enabled' | 'disabled';
 
     export interface ProjectMember {
         id: number;
@@ -237,20 +230,9 @@ export namespace UsersModel {
         name: string;
     }
 
-    export enum Role {
-        ALL = 'all',
-        OWNER = 'owner',
-        MANAGER = 'manager',
-        PROOFREADER = 'proofreader',
-        TRANSLATOR = 'translator',
-        BLOCKED = 'blocked',
-    }
+    export type Role = 'all' | 'owner' | 'manager' | 'proofreader' | 'translator' | 'blocked';
 
-    export enum LanguageRole {
-        PROOFREADER = 'proofreader',
-        TRANSLATOR = 'translator',
-        DENIED = 'denied',
-    }
+    export type LanguageRole = 'proofreader' | 'translator' | 'denied';
 
     export interface AddProjectMemberRequest {
         userIds: number[];

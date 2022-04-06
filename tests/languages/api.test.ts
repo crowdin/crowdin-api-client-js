@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Languages, PatchOperation, LanguagesModel } from '../../src';
+import { Credentials, Languages } from '../../src';
 
 describe('Languages API', () => {
     let scope: nock.Scope;
@@ -13,7 +13,7 @@ describe('Languages API', () => {
     const code = '12';
     const localeCode = 't';
     const threeLettersCode = 'tst';
-    const textDirection = LanguagesModel.TextDirection.LTR;
+    const textDirection = 'ltr';
 
     const limit = 25;
 
@@ -79,7 +79,7 @@ describe('Languages API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -133,7 +133,7 @@ describe('Languages API', () => {
         const language = await api.editCustomLanguage(languageId, [
             {
                 value: name,
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
             },
         ]);

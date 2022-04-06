@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, PatchOperation, TranslationMemory } from '../../src';
+import { Credentials, TranslationMemory } from '../../src';
 
 describe('Translation Memory API', () => {
     let scope: nock.Scope;
@@ -81,7 +81,7 @@ describe('Translation Memory API', () => {
                 [
                     {
                         value: name,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/name',
                     },
                 ],
@@ -197,7 +197,7 @@ describe('Translation Memory API', () => {
     it('Update TM', async () => {
         const tm = await api.editTm(tmId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/name',
                 value: name,
             },

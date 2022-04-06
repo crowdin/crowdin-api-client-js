@@ -11,10 +11,7 @@ export interface HttpClient {
     patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
 }
 
-export enum HttpClientType {
-    AXIOS = 'axios',
-    FETCH = 'fetch',
-}
+export type HttpClientType = 'axios' | 'fetch';
 
 export interface Credentials {
     token: string;
@@ -74,14 +71,7 @@ export interface PatchRequest {
     path: string;
 }
 
-export enum PatchOperation {
-    ADD = 'add',
-    REMOVE = 'remove',
-    REPLACE = 'replace',
-    MOVE = 'move',
-    copy = 'copy',
-    TEST = 'test',
-}
+export type PatchOperation = 'add' | 'remove' | 'replace' | 'move' | 'copy' | 'test';
 
 export interface DownloadLink {
     url: string;
@@ -186,9 +176,9 @@ export abstract class CrowdinApi {
         }
         if (this.config?.httpClientType) {
             switch (this.config.httpClientType) {
-                case HttpClientType.AXIOS:
+                case 'axios':
                     return CrowdinApi.AXIOS_INSTANCE;
-                case HttpClientType.FETCH:
+                case 'fetch':
                     return CrowdinApi.FETCH_INSTANCE;
                 default:
                     return CrowdinApi.AXIOS_INSTANCE;

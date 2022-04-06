@@ -124,10 +124,7 @@ export namespace MachineTranslationModel {
         translations: string[];
     }
 
-    export enum LanguageRecognitionProvider {
-        CROWDIN = 'crowdin',
-        ENGINE = 'engine',
-    }
+    export type LanguageRecognitionProvider = 'crowdin' | 'engine';
 
     export interface ListMTsOptions extends PaginationOptions {
         groupId?: number;

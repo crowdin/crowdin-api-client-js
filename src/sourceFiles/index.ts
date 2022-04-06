@@ -474,11 +474,7 @@ export namespace SourceFilesModel {
         priority?: Priority;
     }
 
-    export enum Priority {
-        LOW = 'low',
-        NORMAL = 'normal',
-        HIGH = 'high',
-    }
+    export type Priority = 'low' | 'normal' | 'high';
 
     export interface ListProjectDirectoriesOptions extends PaginationOptions {
         branchId?: number;
@@ -581,45 +577,44 @@ export namespace SourceFilesModel {
         words: number;
     }
 
-    export enum FileType {
-        AUTO = 'auto',
-        ANDROID = 'android',
-        MACOSX = 'macosx',
-        RESX = 'resx',
-        PROPERTIES = 'properties',
-        GETTEXT = 'gettext',
-        YAML = 'yaml',
-        PHP = 'php',
-        JSON = 'json',
-        XML = 'xml',
-        INI = 'ini',
-        RC = 'rc',
-        RESW = 'resw',
-        RESJSON = 'resjson',
-        QTTS = 'qtts',
-        JOOMLA = 'joomla',
-        CHROME = 'chrome',
-        DTD = 'dtd',
-        DKLANG = 'dklang',
-        FLEX = 'flex',
-        NSH = 'nsh',
-        WXL = 'wxl',
-        XLIFF = 'xliff',
-        HTML = 'html',
-        HAML = 'haml',
-        TXT = 'txt',
-        CSV = 'csv',
-        MD = 'md',
-        FLSNP = 'flsnp',
-        FM_HTML = 'fm_html',
-        FM_MD = 'fm_md',
-        MEDIAWIKI = 'mediawiki',
-        DOCX = 'docx',
-        SBV = 'sbv',
-        VTT = 'vtt',
-        SRT = 'srt',
-        ARB = 'arb',
-    }
+    export type FileType =
+        | 'auto'
+        | 'android'
+        | 'macosx'
+        | 'resx'
+        | 'properties'
+        | 'gettext'
+        | 'yaml'
+        | 'php'
+        | 'json'
+        | 'xml'
+        | 'ini'
+        | 'rc'
+        | 'resw'
+        | 'resjson'
+        | 'qtts'
+        | 'joomla'
+        | 'chrome'
+        | 'dtd'
+        | 'dklang'
+        | 'flex'
+        | 'nsh'
+        | 'wxl'
+        | 'xliff'
+        | 'html'
+        | 'haml'
+        | 'txt'
+        | 'csv'
+        | 'md'
+        | 'flsnp'
+        | 'fm_html'
+        | 'fm_md'
+        | 'mediawiki'
+        | 'docx'
+        | 'sbv'
+        | 'vtt'
+        | 'srt'
+        | 'arb';
 
     export interface SpreadsheetImportOptions {
         firstLineContainsHeader: boolean;
@@ -662,11 +657,10 @@ export namespace SourceFilesModel {
         THREE = 3,
     }
 
-    export enum UpdateOption {
-        CLEAR_TRANSLATIONS_AND_APPROVALS = 'clear_translations_and_approvals',
-        KEEP_TRANSLATIONS = 'keep_translations',
-        KEEP_TRANSLATIONS_AND_APPROVALS = 'keep_translations_and_approvals',
-    }
+    export type UpdateOption =
+        | 'clear_translations_and_approvals'
+        | 'keep_translations'
+        | 'keep_translations_and_approvals';
 
     export interface ReviewedSourceFilesBuild {
         id: number;

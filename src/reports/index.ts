@@ -202,43 +202,33 @@ export namespace ReportsModel {
         dateTo?: string;
     }
 
-    export enum Unit {
-        STRINGS = 'strings',
-        WORDS = 'words',
-        CHARS = 'chars',
-        CHARS_WITH_SPACES = 'chars_with_spaces',
-    }
+    export type Unit = 'strings' | 'words' | 'chars' | 'chars_with_spaces';
 
-    export enum Currency {
-        USD = 'USD',
-        EUR = 'EUR',
-        JPY = 'JPY',
-        GBP = 'GBP',
-        AUD = 'AUD',
-        CAD = 'CAD',
-        CHF = 'CHF',
-        CNY = 'CNY',
-        SEK = 'SEK',
-        NZD = 'NZD',
-        MXN = 'MXN',
-        SGD = 'SGD',
-        HKD = 'HKD',
-        NOK = 'NOK',
-        KRW = 'KRW',
-        TRY = 'TRY',
-        RUB = 'RUB',
-        INR = 'INR',
-        BRL = 'BRL',
-        ZAR = 'ZAR',
-        GEL = 'GEL',
-        UAH = 'UAH',
-    }
+    export type Currency =
+        | 'USD'
+        | 'EUR'
+        | 'JPY'
+        | 'GBP'
+        | 'AUD'
+        | 'CAD'
+        | 'CHF'
+        | 'CNY'
+        | 'SEK'
+        | 'NZD'
+        | 'MXN'
+        | 'SGD'
+        | 'HKD'
+        | 'NOK'
+        | 'KRW'
+        | 'TRY'
+        | 'RUB'
+        | 'INR'
+        | 'BRL'
+        | 'ZAR'
+        | 'GEL'
+        | 'UAH';
 
-    export enum Format {
-        XLSX = 'xlsx',
-        CSV = 'csv',
-        JSON = 'json',
-    }
+    export type Format = 'xlsx' | 'csv' | 'json';
 
     export interface TranslateStep {
         type: string;
@@ -264,20 +254,9 @@ export namespace ReportsModel {
         rates: RegularRate[];
     }
 
-    export enum Mode {
-        NO_MATCH = 'no_match',
-        TM_MATCH = 'tm_match',
-        APPROVAL = 'approval',
-    }
+    export type Mode = 'no_match' | 'tm_match' | 'approval';
 
-    export enum ContributionMode {
-        TRANSLATIONS = 'translations',
-        APPROVALS = 'approvals',
-        VOTES = 'votes',
-    }
+    export type ContributionMode = 'translations' | 'approvals' | 'votes';
 
-    export enum GroupBy {
-        USER = 'user',
-        LANGUAGE = 'language',
-    }
+    export type GroupBy = 'user' | 'language';
 }

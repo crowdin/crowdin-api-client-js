@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Glossaries, GlossariesModel, PatchOperation } from '../../src/index';
+import { Credentials, Glossaries } from '../../src/index';
 
 describe('Glossaries API', () => {
     let scope: nock.Scope;
@@ -11,7 +11,7 @@ describe('Glossaries API', () => {
     const glossaryId = 112;
     const glossaryName = 'test';
     const glossaryTerms = 4;
-    const glossaryFormat = GlossariesModel.GlossaryFormat.CSV;
+    const glossaryFormat = 'csv';
     const glossaryLink = 'test.com';
     const exportId = '1111';
     const importId = '2222';
@@ -87,7 +87,7 @@ describe('Glossaries API', () => {
                 [
                     {
                         value: glossaryTerms,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/term',
                     },
                 ],
@@ -236,7 +236,7 @@ describe('Glossaries API', () => {
                 [
                     {
                         value: termText,
-                        op: PatchOperation.REPLACE,
+                        op: 'replace',
                         path: '/text',
                     },
                 ],
@@ -290,7 +290,7 @@ describe('Glossaries API', () => {
     it('Edit glossary', async () => {
         const glossary = await api.editGlossary(glossaryId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/term',
                 value: glossaryTerms,
             },
@@ -364,7 +364,7 @@ describe('Glossaries API', () => {
     it('Edit term', async () => {
         const term = await api.editTerm(glossaryId, termId, [
             {
-                op: PatchOperation.REPLACE,
+                op: 'replace',
                 path: '/text',
                 value: termText,
             },

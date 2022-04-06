@@ -192,9 +192,5 @@ export namespace SourceStringsModel {
         ICU = 2,
     }
 
-    export enum Scope {
-        IDENTIFIER = 'identifier',
-        TEXT = 'text',
-        CONTEXT = 'context',
-    }
+    export type Scope = 'identifier' | 'text' | 'context';
 }

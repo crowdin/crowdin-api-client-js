@@ -14,13 +14,13 @@ describe('Reports API', () => {
     const reportName = 'testReport';
     const downloadLink = 'test.com';
     const schema: ReportsModel.TopMembersSchema = {
-        unit: ReportsModel.Unit.CHARS,
-        format: ReportsModel.Format.CSV,
+        unit: 'chars',
+        format: 'csv',
         languageId: 'fr',
     };
     const groupSchema: ReportsModel.GroupTopMembersSchema = {
-        format: ReportsModel.Format.JSON,
-        groupBy: ReportsModel.GroupBy.LANGUAGE,
+        format: 'json',
+        groupBy: 'language',
         projectIds: [projectId],
     };
 
