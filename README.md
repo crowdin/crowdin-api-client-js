@@ -94,7 +94,7 @@ async function createFile() {
     name: 'file1.json',
     title: 'Sample file',
     storageId: storage.data.id,
-    type: SourceFilesModel.FileType.JSON
+    type: 'json'
   });
   console.log(file);
 }
@@ -183,7 +183,7 @@ async function createFile() {
     name: 'file1.json',
     title: 'Sample file',
     storageId: storage.data.id,
-    type: SourceFilesModel.FileType.JSON
+    type: 'json'
   });
   console.log(file);
 }
@@ -269,7 +269,7 @@ async function createFile() {
     name: 'file1.json',
     title: 'Sample file',
     storageId: storage.data.id,
-    type: crowdin.SourceFilesModel.FileType.JSON
+    type: 'json'
   });
   console.log(file);
 }
@@ -320,10 +320,10 @@ This client uses [axios](https://github.com/axios/axios) which internally uses `
 So there is an option to use http client based on [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (keep in mind that `fetch` should be available in global scope).
 
 ```typescript
-import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
+import { ProjectsGroups } from '@crowdin/crowdin-api-client';
 
 const projectsGroupsApi = new ProjectsGroups(credentials, {
-  httpClientType: HttpClientType.FETCH
+  httpClientType: 'fetch'
 });
 ```
 
@@ -362,7 +362,7 @@ projectsGroupsApi
 There is a possibility to configure client invoke http calls with retry mechanism.
 
 ```typescript
-import { ProjectsGroups, HttpClientType } from '@crowdin/crowdin-api-client';
+import { ProjectsGroups } from '@crowdin/crowdin-api-client';
 
 const projectsGroupsApi = new ProjectsGroups(credentials, {
   retryConfig: {
