@@ -11,6 +11,7 @@ describe('Users API', () => {
     const id = 2;
     const projectId = 24;
     const memberId = 78;
+    const email = 'test@test.com';
 
     const limit = 25;
 
@@ -93,7 +94,7 @@ describe('Users API', () => {
                 data: [
                     {
                         data: {
-                            id: id,
+                            id,
                         },
                     },
                 ],
@@ -102,11 +103,53 @@ describe('Users API', () => {
                     limit: limit,
                 },
             })
+            .post(
+                '/users',
+                {
+                    email,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id,
+                },
+            })
             .get(`/users/${id}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
+            .reply(200, {
+                data: {
+                    id: id,
+                },
+            })
+            .delete(`/users/${id}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/users/${id}`,
+                [
+                    {
+                        value: email,
+                        op: 'replace',
+                        path: '/email',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
             .reply(200, {
                 data: {
                     id: id,
@@ -163,8 +206,30 @@ describe('Users API', () => {
         expect(users.pagination.limit).toBe(limit);
     });
 
+    it('Invite User', async () => {
+        const user = await api.inviteUser({
+            email,
+        });
+        expect(user.data.id).toBe(id);
+    });
+
     it('Get User Info', async () => {
         const user = await api.getUserInfo(id);
+        expect(user.data.id).toBe(id);
+    });
+
+    it('Delete User', async () => {
+        await api.deleteUser(id);
+    });
+
+    it('Edit User', async () => {
+        const user = await api.editUser(id, [
+            {
+                op: 'replace',
+                path: '/email',
+                value: email,
+            },
+        ]);
         expect(user.data.id).toBe(id);
     });
 
