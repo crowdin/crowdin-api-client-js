@@ -1,4 +1,12 @@
-import { CrowdinApi, isOptionalString, Pagination, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    isOptionalString,
+    Pagination,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 
 export class Users extends CrowdinApi {
     /**
@@ -147,12 +155,40 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.post
+     */
+    inviteUser(request: UsersModel.InviteUserRequest): Promise<ResponseObject<UsersModel.User>> {
+        const url = `${this.url}/users`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param userId user identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getById
      */
     getUserInfo(userId: number): Promise<ResponseObject<UsersModel.User>> {
         const url = `${this.url}/users/${userId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.delete
+     */
+    deleteUser(userId: number): Promise<void> {
+        const url = `${this.url}/users/${userId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/enterprise/api/#operation/api.users.patch
+     */
+    editUser(userId: number, request: PatchRequest[]): Promise<ResponseObject<UsersModel.User>> {
+        const url = `${this.url}/users/${userId}`;
+        return this.patch(url, request, this.defaultConfig());
     }
 
     /**
@@ -175,6 +211,13 @@ export namespace UsersModel {
         status?: Status;
         search?: string;
         twoFactor?: TwoFactor;
+    }
+
+    export interface InviteUserRequest {
+        email: string;
+        firstName?: string;
+        lastName?: string;
+        timezone?: string;
     }
 
     export interface User {
