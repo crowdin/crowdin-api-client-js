@@ -97,7 +97,7 @@ export class TranslationMemory extends CrowdinApi {
      */
     exportTm(
         tmId: number,
-        request: TranslationMemoryModel.ExportTranslationMemoryRequest,
+        request: TranslationMemoryModel.ExportTranslationMemoryRequest = {},
     ): Promise<ResponseObject<Status<TranslationMemoryModel.ExportTranslationMemoryAttribute>>> {
         const url = `${this.url}/tms/${tmId}/exports`;
         return this.post(url, request, this.defaultConfig());
