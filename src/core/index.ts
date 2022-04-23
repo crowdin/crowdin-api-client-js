@@ -84,10 +84,33 @@ export class CrowdinError extends Error {
     }
 }
 
+export class CrowdinValidationError extends CrowdinError {
+    public validationCodes: string[];
+    constructor(messsage: string, validationCodes: string[]) {
+        super(messsage, 400);
+        this.validationCodes = validationCodes;
+    }
+}
+
 function handleError<T>(error: any = {}): T {
+    if (Array.isArray(error.errors)) {
+        const validationCodes: string[] = [];
+        const validationMessages: string[] = [];
+        error.errors.forEach((e: any) => {
+            if (Array.isArray(e.error?.errors)) {
+                e.error.errors.forEach((er: any) => {
+                    if (er.message && er.code) {
+                        validationCodes.push(er.code);
+                        validationMessages.push(er.message);
+                    }
+                });
+            }
+        });
+        const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
+        throw new CrowdinValidationError(message, validationCodes);
+    }
     const message = error.error?.message || 'Error occured';
     const code = error.error?.code || 500;
-    //TODO handle validation errors
     throw new CrowdinError(message, code);
 }
 
