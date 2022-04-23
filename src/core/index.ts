@@ -43,28 +43,6 @@ export interface Pagination {
 
 export type PaginationOptions = Partial<Pagination>;
 
-export interface ValidationErrorResponse {
-    errors: ErrorHolder[];
-}
-
-export interface CommonErrorResponse {
-    error: Error;
-}
-
-export interface ErrorHolder {
-    error: ErrorKey;
-}
-
-export interface ErrorKey {
-    key: string;
-    errors: Error[];
-}
-
-export interface Error {
-    code: string;
-    message: string;
-}
-
 export interface PatchRequest {
     value?: any;
     op: PatchOperation;
@@ -96,6 +74,21 @@ export interface Status<T> {
 
 export interface Attribute {
     [key: string]: string;
+}
+
+export class CrowdinError extends Error {
+    public code: number;
+    constructor(message: string, code: number) {
+        super(message);
+        this.code = code;
+    }
+}
+
+function handleError<T>(error: any = {}): T {
+    const message = error.error?.message || 'Error occured';
+    const code = error.error?.code || 500;
+    //TODO handle validation errors
+    throw new CrowdinError(message, code);
 }
 
 export abstract class CrowdinApi {
@@ -249,27 +242,37 @@ export abstract class CrowdinApi {
     //Http overrides
 
     protected get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.get(url, config));
+        return this.retryService.executeAsyncFunc(() => this.httpClient.get<T>(url, config).catch(e => handleError(e)));
     }
 
     protected delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.delete(url, config));
+        return this.retryService.executeAsyncFunc(() =>
+            this.httpClient.delete<T>(url, config).catch(e => handleError(e)),
+        );
     }
 
     protected head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.head(url, config));
+        return this.retryService.executeAsyncFunc(() =>
+            this.httpClient.head<T>(url, config).catch(e => handleError(e)),
+        );
     }
 
     protected post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.post(url, data, config));
+        return this.retryService.executeAsyncFunc(() =>
+            this.httpClient.post<T>(url, data, config).catch(e => handleError(e)),
+        );
     }
 
     protected put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.put(url, data, config));
+        return this.retryService.executeAsyncFunc(() =>
+            this.httpClient.put<T>(url, data, config).catch(e => handleError(e)),
+        );
     }
 
     protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.patch(url, data, config));
+        return this.retryService.executeAsyncFunc(() =>
+            this.httpClient.patch<T>(url, data, config).catch(e => handleError(e)),
+        );
     }
 }
 
