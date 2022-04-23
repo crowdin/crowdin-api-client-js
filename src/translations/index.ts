@@ -44,7 +44,7 @@ export class Translations extends CrowdinApi {
     buildProjectDirectoryTranslation(
         projectId: number,
         directoryId: number,
-        request: TranslationsModel.BuildProjectDirectoryTranslationRequest,
+        request: TranslationsModel.BuildProjectDirectoryTranslationRequest = {},
     ): Promise<ResponseObject<TranslationsModel.BuildProjectDirectoryTranslationResponse>> {
         const url = `${this.url}/projects/${projectId}/translations/builds/directories/${directoryId}`;
         const config = this.defaultConfig();

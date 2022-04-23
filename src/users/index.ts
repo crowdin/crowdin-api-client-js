@@ -94,7 +94,7 @@ export class Users extends CrowdinApi {
     replaceProjectMemberPermissions(
         projectId: number,
         memberId: number,
-        request: UsersModel.ReplaceProjectMemberRequest,
+        request: UsersModel.ReplaceProjectMemberRequest = {},
     ): Promise<ResponseObject<UsersModel.ProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.put(url, request, this.defaultConfig());

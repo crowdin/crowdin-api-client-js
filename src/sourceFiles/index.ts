@@ -425,7 +425,7 @@ export class SourceFiles extends CrowdinApi {
      */
     buildReviewedSourceFiles(
         projectId: number,
-        request: SourceFilesModel.BuildReviewedSourceFilesRequest,
+        request: SourceFilesModel.BuildReviewedSourceFilesRequest = {},
     ): Promise<ResponseObject<SourceFilesModel.ReviewedSourceFilesBuild>> {
         const url = `${this.url}/projects/${projectId}/strings/reviewed-builds`;
         return this.post(url, request, this.defaultConfig());
@@ -676,7 +676,7 @@ export namespace SourceFilesModel {
     }
 
     export interface BuildReviewedSourceFilesRequest {
-        branchId: number;
+        branchId?: number;
     }
 
     export interface ListProjectBranchesOptions extends PaginationOptions {
