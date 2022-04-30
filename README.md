@@ -7,6 +7,7 @@ The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 t
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
 For more about Crowdin API v2 see the documentation:
+
 - [Crowdin](https://support.crowdin.com/api/v2/)
 - [Crowdin Enterprise](https://support.crowdin.com/enterprise/api/)
 
@@ -30,19 +31,22 @@ For more about Crowdin API v2 see the documentation:
 |[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/6/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/8/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/7/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
 
 ## Table of Contents
+
 * [Installation](#installation)
-* [Quick Start](#quick-start)
-* [Over-The-Air Content Delivery](#over-the-air-content-delivery)
-* [Seeking Assistance](#seeking-assistance)
-* [Contributing](#contributing)
-* [License](#license)
+- [Quick Start](#quick-start)
+- [Over-The-Air Content Delivery](#over-the-air-content-delivery)
+- [Seeking Assistance](#seeking-assistance)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Installation
 
 ### npm
+
   `npm i @crowdin/crowdin-api-client`
 
 ### yarn
+
   `yarn add @crowdin/crowdin-api-client`
 
 ## Quick Start
@@ -379,6 +383,36 @@ const projectsGroupsApi = new ProjectsGroups(credentials, {
 });
 ```
 
+### Exception handling
+
+In case of error library will throw an `Error` based exception. This can either be a generic error with an error message and a code, or a validation error that additionally contains validation error codes.
+
+```javascript
+const crowdin = require('@crowdin/crowdin-api-client');
+
+const token = '';
+
+const { translationsApi } = new crowdin.default({ token });
+
+async function test() {
+  const project = 123;
+  const dir = 456;
+  try {
+    const res = await translationsApi.buildProjectDirectoryTranslation(project, dir);
+    console.log(JSON.stringify(res));
+  } catch (e) {
+    if (e instanceof crowdin.CrowdinValidationError) {
+      console.log('Validation error');
+    } else if (e instanceof crowdin.CrowdinError) {
+      console.log('Generic error');
+    }
+    console.error(e);
+  }
+}
+
+test();
+```
+
 ## Over-The-Air Content Delivery
 
 :dizzy: Recommended for translations delivery to your website or mobile application.
@@ -396,9 +430,10 @@ Need help working with Crowdin JavaScript client or have any questions? [Contact
 If you want to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
 
 ## License
+
 <pre>
-The Crowdin JavaScript client is licensed under the MIT License. 
-See the LICENSE.md file distributed with this work for additional 
+The Crowdin JavaScript client is licensed under the MIT License.
+See the LICENSE.md file distributed with this work for additional
 information regarding copyright ownership.
 
 Except as contained in the LICENSE file, the name(s) of the above copyright
