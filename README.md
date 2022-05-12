@@ -10,6 +10,7 @@ For more about Crowdin API v2 see the documentation:
 
 - [Crowdin](https://support.crowdin.com/api/v2/)
 - [Crowdin Enterprise](https://support.crowdin.com/enterprise/api/)
+- This library [API reference](https://crowdin.github.io/crowdin-api-client-js/modules.html)
 
 ## Status
 
