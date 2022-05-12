@@ -9,6 +9,12 @@ import {
     ResponseObject,
 } from '../core';
 
+/**
+ * Source files are resources for translation. You can keep files structure using folders or manage different versions of the content via branches.
+ *
+ * Use API to keep the source files up to date, check on file revisions, and manage project branches.
+ * Before adding source files to the project, upload each file to the Storage first.
+ */
 export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier

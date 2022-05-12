@@ -5,3 +5,5 @@ coverage
 junit.xml
 .vscode
 sandbox.js
+docs
+.DS_Store

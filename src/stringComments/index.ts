@@ -1,5 +1,8 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * Use API to list, add, get, edit or delete string comments.
+ */
 export class StringComments extends CrowdinApi {
     /**
      * @param projectId project identifier

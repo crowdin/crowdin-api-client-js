@@ -1,5 +1,10 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
 
+/**
+ * Status represents the general localization progress on both translations and proofreading.
+ *
+ * Use API to check translation and proofreading progress on different levels: file, language, branch, directory.
+ */
 export class TranslationStatus extends CrowdinApi {
     /**
      * @param projectId project identifier

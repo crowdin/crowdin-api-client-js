@@ -1,5 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 
+/**
+ * @internal
+ */
 export class AxiosProvider {
     private static readonly CROWDIN_API_MAX_CONCURRENT_REQUESTS = 15;
     private static readonly CROWDIN_API_REQUESTS_INTERVAL_MS = 10;

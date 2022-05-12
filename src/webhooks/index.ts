@@ -1,5 +1,10 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * Webhooks allow you to collect information about events that happen in your Crowdin projects.
+ *
+ * You can select the request type, content type, and add a custom payload, which allows you to create integrations with other systems on your own.
+ */
 export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier

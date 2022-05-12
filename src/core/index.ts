@@ -2,6 +2,9 @@ import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
 import { RetryConfig, RetryService } from './internal/retry';
 
+/**
+ * @internal
+ */
 export interface HttpClient {
     get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
     delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
@@ -13,17 +16,37 @@ export interface HttpClient {
 
 export type HttpClientType = 'axios' | 'fetch';
 
+/**
+ * Authorization credentials
+ */
 export interface Credentials {
+    /** Personal Access Token */
     token: string;
+
+    /** Yor Crowdin Enterprise organization name */
     organization?: string;
+
+    /** API base URL */
     baseUrl?: string;
 }
 
+/**
+ * Client Configuration
+ */
 export interface ClientConfig {
+    /** The type of HTTP client to be used for making requests */
     httpClientType?: HttpClientType;
+
+    /** Instance of your HTTP client if needed */
     httpClient?: HttpClient;
+
+    /** Custom User-Agent to be passed to the `User-Agent` header */
     userAgent?: string;
+
+    /** Custom User-Agent to be passed to the `X-Crowdin-Integrations-User-Agent` header */
     integrationUserAgent?: string;
+
+    /** Retry strategy configuration */
     retryConfig?: RetryConfig;
 }
 
@@ -43,9 +66,17 @@ export interface Pagination {
 
 export type PaginationOptions = Partial<Pagination>;
 
+/**
+ * A JSON Patch document as defined by [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902#section-3)
+ */
 export interface PatchRequest {
+    /** Patch value */
     value?: any;
+
+    /** Patch operation to perform */
     op: PatchOperation;
+
+    /** A JSON Pointer as defined by [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901) */
     path: string;
 }
 
@@ -56,6 +87,9 @@ export interface DownloadLink {
     expireIn: string;
 }
 
+/**
+ * @internal
+ */
 export enum BooleanInt {
     TRUE = 1,
     FALSE = 0,
@@ -76,6 +110,9 @@ export interface Attribute {
     [key: string]: string;
 }
 
+/**
+ * @internal
+ */
 export class CrowdinError extends Error {
     public code: number;
     constructor(message: string, code: number) {
@@ -84,6 +121,9 @@ export class CrowdinError extends Error {
     }
 }
 
+/**
+ * @internal
+ */
 export class CrowdinValidationError extends CrowdinError {
     public validationCodes: string[];
     constructor(messsage: string, validationCodes: string[]) {
@@ -92,6 +132,9 @@ export class CrowdinValidationError extends CrowdinError {
     }
 }
 
+/**
+ * @internal
+ */
 function handleError<T>(error: any = {}): T {
     if (Array.isArray(error.errors)) {
         const validationCodes: string[] = [];
@@ -119,10 +162,15 @@ export abstract class CrowdinApi {
     private static readonly AXIOS_INSTANCE = new AxiosProvider().axios;
     private static readonly FETCH_INSTANCE = new FetchClient();
 
+    /** @internal */
     readonly token: string;
+    /** @internal */
     readonly organization?: string;
+    /** @internal */
     readonly url: string;
+    /** @internal */
     readonly config: ClientConfig | undefined;
+    /** @internal */
     readonly retryService: RetryService;
 
     protected fetchAllFlag = false;
@@ -186,6 +234,7 @@ export abstract class CrowdinApi {
         return config;
     }
 
+    /** @internal */
     get httpClient(): HttpClient {
         if (this.config?.httpClient) {
             return this.config.httpClient;
@@ -317,6 +366,9 @@ function emitDeprecationWarning(): void {
     }
 }
 
+/**
+ * @internal
+ */
 export function isOptionalString(
     parameter: string | unknown,
     parameterInArgs: boolean,
@@ -331,6 +383,9 @@ export function isOptionalString(
     }
 }
 
+/**
+ * @internal
+ */
 export function isOptionalNumber(
     parameter: number | unknown,
     parameterInArgs: boolean,

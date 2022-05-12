@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["../src/index.ts"],
+  "out": "../docs",
+  "customCss": "styles.css",
+  "excludeInternal": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "hideGenerator": true
+}

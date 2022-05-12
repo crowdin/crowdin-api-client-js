@@ -2,6 +2,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 
 /**
  * @deprecated
+ * @ignore
  */
 export class Issues extends CrowdinApi {
     /**

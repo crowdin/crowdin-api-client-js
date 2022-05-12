@@ -1,0 +1,47 @@
+:root {
+    /* Light */
+    --light-color-background: #fcfcfc;
+    --light-color-secondary-background: #fff;
+    --light-color-text: #263238;
+    --light-color-text-aside: #707070;
+    --light-color-link: #4da6ff;
+    --light-color-menu-divider: #eee;
+    --light-color-menu-divider-focus: #000;
+    --light-color-menu-label: #707070;
+    --light-color-panel: var(--light-color-secondary-background);
+    --light-color-panel-divider: #eee;
+    --light-color-comment-tag: #707070;
+    --light-color-comment-tag-text: #fff;
+    --light-color-ts: #43a047;
+    --light-color-ts-interface: #647f1b;
+    --light-color-ts-enum: #937210;
+    --light-color-ts-class: #2196f3;
+    --light-color-ts-private: #707070;
+    --light-color-toolbar: #fff;
+    --light-color-toolbar-text: #333;
+    --light-icon-filter: invert(0);
+    --light-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23000' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
+
+    /* Dark */
+    --dark-color-background: #36393f;
+    --dark-color-secondary-background: #2f3136;
+    --dark-color-text: #ffffff;
+    --dark-color-text-aside: #e6e4e4;
+    --dark-color-link: #00aff4;
+    --dark-color-menu-divider: #eee;
+    --dark-color-menu-divider-focus: #000;
+    --dark-color-menu-label: #707070;
+    --dark-color-panel: var(--dark-color-secondary-background);
+    --dark-color-panel-divider: #818181;
+    --dark-color-comment-tag: #dcddde;
+    --dark-color-comment-tag-text: #2f3136;
+    --dark-color-ts: #c97dff;
+    --dark-color-ts-interface: #9cbe3c;
+    --dark-color-ts-enum: #d6ab29;
+    --dark-color-ts-class: #3695f3;
+    --dark-color-ts-private: #e2e2e2;
+    --dark-color-toolbar: #34373c;
+    --dark-color-toolbar-text: #ffffff;
+    --dark-icon-filter: invert(1);
+    --dark-external-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='10' height='10'><path fill-opacity='0' stroke='%23fff' stroke-width='10' d='m43,35H5v60h60V57M45,5v10l10,10-30,30 20,20 30-30 10,10h10V5z'/></svg>");
+}

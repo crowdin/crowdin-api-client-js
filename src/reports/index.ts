@@ -1,5 +1,12 @@
 import { CrowdinApi, DownloadLink, ResponseObject, Status } from '../core';
 
+/**
+ * Reports help to estimate costs, calculate translation costs, and identify the top members.
+ *
+ * Use API to generate Cost Estimate, Translation Cost, and Top Members reports.
+ * You can then export reports in .xlsx or .csv file formats.
+ * Report generation is an asynchronous operation and shall be completed with a sequence of API methods.
+ */
 export class Reports extends CrowdinApi {
     /**
      * @param groupId group identifier

@@ -50,6 +50,9 @@ export * from './vendors';
 export * from './webhooks';
 export * from './workflows';
 
+/**
+ * @internal
+ */
 export default class Client {
     readonly sourceFilesApi: SourceFiles;
     readonly glossariesApi: Glossaries;

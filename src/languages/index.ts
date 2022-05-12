@@ -1,5 +1,10 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * Crowdin supports more than 300 world languages and custom languages created in the system.
+ *
+ * Use API to get the list of all supported languages and retrieve additional details (e.g. text direction, internal code) on specific language.
+ */
 export class Languages extends CrowdinApi {
     /**
      * @param options optional pagination parameters for the request
