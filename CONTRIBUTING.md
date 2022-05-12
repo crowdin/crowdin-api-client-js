@@ -73,7 +73,7 @@ Before sending your pull requests, make sure you followed the list below:
 To generate the docs run the following command:
 
 ```console
-    npm run generate-docs
+npm run generate-docs
 ```
 
 ##### Preview
@@ -81,9 +81,9 @@ To generate the docs run the following command:
 To preview the docs locally, run the following commands:
 
 ```console
-    npm install http-server -g
+npm install http-server -g
 
-    http-server docs
+http-server docs
 ```
 
 Open `http://127.0.0.1:8080` in browser
