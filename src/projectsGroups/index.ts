@@ -9,6 +9,14 @@ import {
 } from '../core';
 import { LanguagesModel } from '../languages';
 
+/**
+ * Using projects, you can keep your source files sorted.
+ *
+ * Use API to manage projects, change their settings, or remove them if required.
+ *
+ * Only Crowdin Enterprise: Groups allow you to organize your projects based on specific characteristics.
+ * Using projects, you can keep your source files sorted.
+ */
 export class ProjectsGroups extends CrowdinApi {
     /**
      * @param options optional parameters for the request

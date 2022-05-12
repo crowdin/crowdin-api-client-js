@@ -8,6 +8,9 @@ import {
     ResponseObject,
 } from '../core';
 
+/**
+ * Use API to add or remove strings translations, approvals, and votes.
+ */
 export class StringTranslations extends CrowdinApi {
     /**
      * @param projectId project identifier

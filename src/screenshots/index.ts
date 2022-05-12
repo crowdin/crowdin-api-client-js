@@ -1,5 +1,11 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * Screenshots provide translators with additional context for the source strings.
+ * Screenshot tags allow specifying which source strings are displayed on each screenshot.
+ *
+ * Use API to manage screenshots and their tags.
+ */
 export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier

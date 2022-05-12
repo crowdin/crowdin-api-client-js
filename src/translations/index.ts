@@ -8,6 +8,12 @@ import {
     Status,
 } from '../core';
 
+/**
+ * Translators can work with entirely untranslated project or you can pre-translate the files to ease the translations process.
+ *
+ * Use API to pre-translate files via Machine Translation (MT) or Translation Memory (TM), upload your existing translations, and download translations correspondingly.
+ * Pre-translate and build are asynchronous operations and shall be completed with sequence of API methods.
+ */
 export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier

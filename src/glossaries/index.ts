@@ -9,6 +9,12 @@ import {
     Status,
 } from '../core';
 
+/**
+ * Glossaries help to explain some specific terms or the ones often used in the project so that they can be properly and consistently translated.
+ *
+ * Use API to manage glossaries or specific terms.
+ * Glossary export and import are asynchronous operations and shall be completed with sequence of API methods.
+ */
 export class Glossaries extends CrowdinApi {
     /**
      * @param options optional parameters for the request

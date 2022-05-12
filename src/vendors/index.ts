@@ -1,5 +1,11 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
 
+/**
+ * Vendors are the organizations that provide professional translation services.
+ * To assign a Vendor to a project workflow you should invite an existing Organization to be a Vendor for you.
+ *
+ * Use API to get the list of the Vendors you already invited to your organization.
+ */
 export class Vendors extends CrowdinApi {
     /**
      * @param options optional pagination parameters for the request

@@ -64,6 +64,29 @@ Before sending your pull requests, make sure you followed the list below:
 - Ensure that your code adheres to standard conventions, as used in the rest of the project.
 - Ensure that there are unit tests for your code.
 - Run unit tests.
+- Ensure that docs are correctly generating.
+
+#### Docs
+
+##### Generate
+
+To generate the docs run the following command:
+
+```console
+    npm run generate-docs
+```
+
+##### Preview
+
+To preview the docs locally, run the following commands:
+
+```console
+    npm install http-server -g
+
+    http-server docs
+```
+
+Open `http://127.0.0.1:8080` in browser
 
 #### Philosophy of code contribution
 

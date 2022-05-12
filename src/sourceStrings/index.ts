@@ -8,6 +8,11 @@ import {
     ResponseObject,
 } from '../core';
 
+/**
+ * Source strings are the text units for translation. Instead of modifying source files, you can manage source strings one by one.
+ *
+ * Use API to add, edit, or delete some specific strings in the source-based and files-based projects.
+ */
 export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier

@@ -8,3 +8,6 @@ jestconfig.json
 tsconfig.json
 yarn.lock
 node_modules
+docs
+.docs-config
+.github

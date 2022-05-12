@@ -18,16 +18,17 @@
         "watch": "tsc -watch -p ./",
         "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\"",
         "lint-ci": "eslint \"{src,tests}/**/*.{js,ts}\"",
-        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html"
+        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
+        "generate-docs": "typedoc src/index.ts --options .docs-config/typedoc.json"
     },
     "keywords": [
         "Crowdin"
     ],
     "license": "MIT",
     "devDependencies": {
-        "@types/node": "^12.0.10",
         "@types/jest": "^27.0.0",
         "@types/nock": "^10.0.3",
+        "@types/node": "^12.0.10",
         "@typescript-eslint/eslint-plugin": "^2.3.1",
         "@typescript-eslint/parser": "^2.3.1",
         "eslint": "^6.4.0",
@@ -36,12 +37,13 @@
         "husky": "^7.0.0",
         "jest": "^27.0.0",
         "jest-circus": "^27.0.0",
+        "jest-junit": "^12.0.0",
         "lint-staged": ">=8",
         "nock": "^10.0.6",
         "prettier": "^1.18.2",
         "ts-jest": "^27.0.0",
-        "typescript": "^4.1.2",
-        "jest-junit": "^12.0.0"
+        "typedoc": "^0.22.15",
+        "typescript": "^4.1.2"
     },
     "dependencies": {
         "axios": "0.21.3"

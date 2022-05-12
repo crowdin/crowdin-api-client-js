@@ -1,5 +1,10 @@
 import { CrowdinApi, isOptionalString, PatchRequest, ResponseList, ResponseObject } from '../core';
 
+/**
+ * Dictionaries allow you to create a storage of words that should be skipped by the spell checker.
+ *
+ * Use API to get the list of organization dictionaries and to edit a specific dictionary.
+ */
 export class Dictionaries extends CrowdinApi {
     /**
      * @param projectId project identifier

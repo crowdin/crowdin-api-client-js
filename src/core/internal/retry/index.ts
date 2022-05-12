@@ -11,6 +11,9 @@ export interface SkipRetryCondition {
     test(error: unknown): boolean;
 }
 
+/**
+ * @internal
+ */
 export class RetryService {
     constructor(private config: RetryConfig) {}
 

@@ -2,6 +2,9 @@ import { HttpClient } from '../..';
 
 declare const fetch: Function;
 
+/**
+ * @internal
+ */
 export class FetchClient implements HttpClient {
     private maxConcurrentRequests = 15;
     private requestIntervalMs = 10;
