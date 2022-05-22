@@ -125,8 +125,8 @@ export class CrowdinError extends Error {
  * @internal
  */
 export class CrowdinValidationError extends CrowdinError {
-    public validationCodes: string[];
-    constructor(messsage: string, validationCodes: string[]) {
+    public validationCodes: { key: string; codes: string[] }[];
+    constructor(messsage: string, validationCodes: { key: string; codes: string[] }[]) {
         super(messsage, 400);
         this.validationCodes = validationCodes;
     }
@@ -137,16 +137,18 @@ export class CrowdinValidationError extends CrowdinError {
  */
 function handleError<T>(error: any = {}): T {
     if (Array.isArray(error.errors)) {
-        const validationCodes: string[] = [];
+        const validationCodes: { key: string; codes: string[] }[] = [];
         const validationMessages: string[] = [];
         error.errors.forEach((e: any) => {
-            if (Array.isArray(e.error?.errors)) {
+            if (e.error.key && Array.isArray(e.error?.errors)) {
+                const codes: string[] = [];
                 e.error.errors.forEach((er: any) => {
                     if (er.message && er.code) {
-                        validationCodes.push(er.code);
+                        codes.push(er.code);
                         validationMessages.push(er.message);
                     }
                 });
+                validationCodes.push({ key: e.error.key, codes });
             }
         });
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
