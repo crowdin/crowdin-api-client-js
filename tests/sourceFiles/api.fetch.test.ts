@@ -1,13 +1,33 @@
+import axios from 'axios';
 import * as nock from 'nock';
-import { Credentials, CrowdinError, CrowdinValidationError, SourceFiles } from '../../src';
+import Crowdin, { Credentials } from '../../src';
 
-describe('Source Files API', () => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+global.fetch = async (url: string, config: { method: string; headers: any; body: any }) => {
+    const res = await axios(url, {
+        headers: config.headers,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        //@ts-ignore
+        method: config.method,
+        data: config.body ? JSON.parse(config.body) : undefined,
+    });
+    return {
+        text: (): Promise<string> => {
+            return Promise.resolve(JSON.stringify(res.data));
+        },
+        status: res.status,
+    };
+};
+
+describe('Source Files API Fetch', () => {
     let scope: nock.Scope;
     const credentials: Credentials = {
         token: 'testToken',
         organization: 'testOrg',
     };
-    const api: SourceFiles = new SourceFiles(credentials, { httpClientType: 'axios', integrationUserAgent: 'test' });
+    const { sourceFilesApi: api } = new Crowdin(credentials, { httpClientType: 'fetch' });
     const projectId = 2;
     const fileName = '1.txt';
     const fileTitle = 'Test file';
@@ -39,6 +59,7 @@ describe('Source Files API', () => {
             })
             .query({
                 name: branchName,
+                limit: 500,
             })
             .reply(200, {
                 data: [
@@ -50,7 +71,7 @@ describe('Source Files API', () => {
                 ],
                 pagination: {
                     offset: 0,
-                    limit: limit,
+                    limit: 1,
                 },
             })
             .post(
@@ -64,9 +85,11 @@ describe('Source Files API', () => {
                     },
                 },
             )
-            .reply(500, {
-                messgae: 'Error occured',
-                code: 500,
+            .reply(200, {
+                data: {
+                    id: branchId,
+                    name: branchName,
+                },
             })
             .get(`/projects/${projectId}/branches/${branchId}`, undefined, {
                 reqheaders: {
@@ -84,21 +107,7 @@ describe('Source Files API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(400, {
-                errors: [
-                    {
-                        error: {
-                            key: 'branchId',
-                            errors: [
-                                {
-                                    message: 'validation error',
-                                    code: 400,
-                                },
-                            ],
-                        },
-                    },
-                ],
-            })
+            .reply(200)
             .patch(
                 `/projects/${projectId}/branches/${branchId}`,
                 [
@@ -398,20 +407,19 @@ describe('Source Files API', () => {
         scope.done();
     });
 
-    it('List project branches', async () => {
-        const branches = await api.listProjectBranches(projectId, { name: branchName });
+    it('List project branches wuth fetchAll flag', async () => {
+        const branches = await api.withFetchAll().listProjectBranches(projectId, { name: branchName });
         expect(branches.data.length).toBe(1);
         expect(branches.data[0].data.id).toBe(branchId);
-        expect(branches.pagination.limit).toBe(limit);
+        expect(branches.pagination.limit).toBe(1);
     });
 
-    it('Create branch should throw error', async () => {
-        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-        const t = () =>
-            api.createBranch(projectId, {
-                name: branchName,
-            });
-        expect(t).rejects.toThrow(CrowdinError);
+    it('Create branch', async () => {
+        const branch = await api.createBranch(projectId, {
+            name: branchName,
+        });
+        expect(branch.data.id).toBe(branchId);
+        expect(branch.data.name).toBe(branchName);
     });
 
     it('Get branch', async () => {
@@ -420,10 +428,8 @@ describe('Source Files API', () => {
         expect(branch.data.name).toBe(branchName);
     });
 
-    it('Delete branch should throw validation error', async () => {
-        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-        const t = () => api.deleteBranch(projectId, branchId);
-        expect(t).rejects.toThrow(CrowdinValidationError);
+    it('Delete branch', async () => {
+        await api.deleteBranch(projectId, branchId);
     });
 
     it('Edit branch', async () => {
