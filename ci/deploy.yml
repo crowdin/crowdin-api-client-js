@@ -26,3 +26,6 @@ stages:
     dependsOn: Tests
     jobs:
       - template: templates/publish.yml
+        parameters:
+          name: Publish
+          vmImage: 'ubuntu-latest'
