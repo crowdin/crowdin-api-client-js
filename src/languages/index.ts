@@ -82,12 +82,12 @@ export namespace LanguagesModel {
         pluralRules: string;
         pluralExamples: string[];
         textDirection: TextDirection;
-        dialectOf: number;
+        dialectOf: string;
     }
 
     export interface AddLanguageRequest {
         name: string;
-        dialectOf?: number;
+        dialectOf?: string;
         code: string;
         localeCode: string;
         twoLettersCode?: string;
