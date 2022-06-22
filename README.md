@@ -1,30 +1,30 @@
 [<p align='center'><img src='https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png' data-canonical-src='https://support.crowdin.com/assets/logos/crowdin-dark-symbol.png' width='200' height='200' align='center'/></p>](https://crowdin.com)
 
-# Crowdin JavaScript client
+# Crowdin JavaScript client [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fcrowdin%2Fcrowdin-api-client-js&text=The%20Crowdin%20JavaScript%20client%20is%20a%20lightweight%20interface%20to%20the%20Crowdin%20API%20that%20works%20in%20any%20JavaScript%20environment)&nbsp;[![GitHub Repo stars](https://img.shields.io/github/stars/crowdin/crowdin-api-client-js?style=social&cacheSeconds=1800)](https://github.com/crowdin/crowdin-api-client-js/stargazers)
 
-The Crowdin JavaScript client is a lightweight interface to the Crowdin API v2 that works in any JavaScript environment, including web browsers, workers in web browsers, extensions in web browsers or desktop applications, Node.js etc. It provides common services for making API requests.
+The Crowdin JavaScript client is a lightweight interface to the Crowdin API that works in any JavaScript environment, including web browsers, workers in web browsers, extensions in web browsers or desktop applications, Node.js etc. It provides common services for making API requests.
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
-[<p align='center'>:rocket: API Client docs :rocket:</p>](https://crowdin.github.io/crowdin-api-client-js/modules.html)
-[<p align='center'>:green_book: Crowdin API reference :green_book:</p>](https://support.crowdin.com/api/v2/)
-[<p align='center'>:notebook: Crowdin Enterprise API reference :notebook:</p>](https://support.crowdin.com/enterprise/api/)
+<div align="center">
 
-## Status
+[**`API Client Docs`**](https://crowdin.github.io/crowdin-api-client-js/modules.html) &nbsp;|&nbsp;
+[**`Crowdin API`**](https://developer.crowdin.com/api/v2/) &nbsp;|&nbsp;
+[**`Crowdin Enterprise API`**](https://developer.crowdin.com/enterprise/api/v2/)
 
 [![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client?cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![GitHub issues](https://img.shields.io/github/issues/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/issues)
-[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
-
 [![codecov](https://codecov.io/gh/crowdin/crowdin-api-client-js/branch/master/graph/badge.svg)](https://codecov.io/gh/crowdin/crowdin-api-client-js)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/pulse)
 [![GitHub Release Date](https://img.shields.io/github/release-date/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/releases)
 [![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/graphs/contributors)
+  [![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/blob/master/LICENSE)
+  
+</div>
 
 ## Build Status
 
-| Azure CI (Linux) | Azure CI (Windows) | Azure CI (MacOS) |
+| Linux | Windows | MacOS |
 |--------------------|------------------|------------------|
 |[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Ubuntu)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(Windows)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Build Status](https://dev.azure.com/crowdin/crowdin-api-client-js/_apis/build/status/crowdin-api-client-js%20(MacOS)?branchName=master)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
 |[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/6/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=6&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/8/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=8&branchName=master)|[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-js/7/master?cacheSeconds=1800)](https://dev.azure.com/crowdin/crowdin-api-client-js/_build/latest?definitionId=7&branchName=master)
