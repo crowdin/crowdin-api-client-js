@@ -1,3 +1,4 @@
+import { Bundles } from './bundles';
 import { ClientConfig, Credentials } from './core';
 import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
@@ -24,6 +25,7 @@ import { Vendors } from './vendors';
 import { Webhooks } from './webhooks';
 import { Workflows } from './workflows';
 
+export * from './bundles';
 export * from './core';
 export * from './dictionaries';
 export * from './distributions';
@@ -81,6 +83,7 @@ export default class Client {
     readonly dictionariesApi: Dictionaries;
     readonly labelsApi: Labels;
     readonly stringCommentsApi: StringComments;
+    readonly bundlesApi: Bundles;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.sourceFilesApi = new SourceFiles(credentials, config);
@@ -107,5 +110,6 @@ export default class Client {
         this.dictionariesApi = new Dictionaries(credentials, config);
         this.labelsApi = new Labels(credentials, config);
         this.stringCommentsApi = new StringComments(credentials, config);
+        this.bundlesApi = new Bundles(credentials, config);
     }
 }
