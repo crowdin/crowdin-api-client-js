@@ -113,8 +113,12 @@ export class Distributions extends CrowdinApi {
 export namespace DistributionsModel {
     export interface Distribution {
         hash: string;
+        exportMode: ExportMode;
         name: string;
         fileIds: number[];
+        format: string;
+        exportPattern: string;
+        labelIds: number[];
         createdAt: string;
         updatedAt: string;
     }
@@ -122,6 +126,10 @@ export namespace DistributionsModel {
     export interface CreateDistributionRequest {
         name: string;
         fileIds: number[];
+        exportMode?: ExportMode;
+        format?: string;
+        exportPattern?: string;
+        labelIds?: number[];
     }
 
     export interface DistributionRelease {
@@ -131,4 +139,6 @@ export namespace DistributionsModel {
         currentFileId: number;
         date: string;
     }
+
+    export type ExportMode = 'default' | 'bundle';
 }
