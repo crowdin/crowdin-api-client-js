@@ -23,6 +23,13 @@ describe('Reports API', () => {
         groupBy: 'language',
         projectIds: [projectId],
     };
+    const reportSettingsTemplateId = 234;
+    const currency: ReportsModel.Currency = 'USD';
+    const unit: ReportsModel.Unit = 'words';
+    const config: ReportsModel.ReportSettinsConfig = {
+        individualRates: [],
+        regularRates: [],
+    };
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -136,7 +143,81 @@ describe('Reports API', () => {
                 data: {
                     url: downloadLink,
                 },
-            });
+            })
+            .get(`/projects/${projectId}/reports/settings-templates`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: reportSettingsTemplateId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: 1,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports/settings-templates`,
+                {
+                    name: reportName,
+                    currency,
+                    unit,
+                    mode: 'simple',
+                    config,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .get(`/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .patch(
+                `/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`,
+                [
+                    {
+                        value: reportName,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .delete(`/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200);
     });
 
     afterAll(() => {
@@ -195,5 +276,43 @@ describe('Reports API', () => {
     it('Download Report', async () => {
         const downloadUrl = await api.downloadReport(projectId, reportId);
         expect(downloadUrl.data.url).toBe(downloadLink);
+    });
+
+    it('List Report Settings Templates', async () => {
+        const templates = await api.listReportSettingsTemplates(projectId);
+        expect(templates.data.length).toBe(1);
+        expect(templates.data[0].data.id).toBe(reportSettingsTemplateId);
+        expect(templates.pagination.limit).toBe(1);
+    });
+
+    it('Add Report Settings Template', async () => {
+        const template = await api.addReportSettingsTemplate(projectId, {
+            config,
+            currency,
+            mode: 'simple',
+            name: reportName,
+            unit,
+        });
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Get Report Settings Template', async () => {
+        const template = await api.getReportSettingsTemplate(projectId, reportSettingsTemplateId);
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Edit Report Settings Template', async () => {
+        const template = await api.editReportSettingsTemplate(projectId, reportSettingsTemplateId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: reportName,
+            },
+        ]);
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Delete Report Settings Template', async () => {
+        await api.deleteReportSettingsTemplate(projectId, reportSettingsTemplateId);
     });
 });
