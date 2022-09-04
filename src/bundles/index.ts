@@ -89,6 +89,7 @@ export namespace BundlesModel {
     }
 
     export interface CreateBundleRequest {
+        name: string;
         format: string;
         sourcePatterns: string[];
         ignorePatterns?: string[];
