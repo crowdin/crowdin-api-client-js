@@ -1,4 +1,12 @@
-import { CrowdinApi, DownloadLink, ResponseObject, Status } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 /**
  * Reports help to estimate costs, calculate translation costs, and identify the top members.
@@ -110,6 +118,70 @@ export class Reports extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/reports/${reportId}/download`;
         return this.get(url, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.getMany
+     */
+    listReportSettingsTemplates(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<ReportsModel.ReportSettings>> {
+        const url = `${this.url}/projects/${projectId}/reports/settings-templates`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.post
+     */
+    addReportSettingsTemplate(
+        projectId: number,
+        request: Omit<ReportsModel.ReportSettings, 'id' | 'createdAt' | 'updatedAt'>,
+    ): Promise<ResponseObject<ReportsModel.ReportSettings>> {
+        const url = `${this.url}/projects/${projectId}/reports/settings-templates`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param reportSettingsTemplateId report settings template identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.get
+     */
+    getReportSettingsTemplate(
+        projectId: number,
+        reportSettingsTemplateId: number,
+    ): Promise<ResponseObject<ReportsModel.ReportSettings>> {
+        const url = `${this.url}/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param reportSettingsTemplateId report settings template identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.patch
+     */
+    editReportSettingsTemplate(
+        projectId: number,
+        reportSettingsTemplateId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<ReportsModel.ReportSettings>> {
+        const url = `${this.url}/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param reportSettingsTemplateId report settings template identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.settings-templates.delete
+     */
+    deleteReportSettingsTemplate(projectId: number, reportSettingsTemplateId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.delete(url, this.defaultConfig());
+    }
 }
 
 export namespace ReportsModel {
@@ -135,8 +207,12 @@ export namespace ReportsModel {
     export interface ReportStatusAttributes {
         format: Format;
         reportName: string;
-        //TODO improve this type with unions and generics according to the documentation
-        schema: unknown;
+        schema:
+            | CostEstimateSchema
+            | CostEstimateFuzzyModeSchema
+            | TranslationCostSchema
+            | TopMembersSchema
+            | ContributionRawDataSchema;
     }
 
     export interface GroupTranslationCostSchema {
@@ -209,6 +285,22 @@ export namespace ReportsModel {
         dateTo?: string;
     }
 
+    export interface ReportSettings {
+        id: number;
+        name: string;
+        currency: Currency;
+        unit: Unit;
+        mode: 'fuzzy' | 'simple';
+        config: ReportSettinsConfig;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface ReportSettinsConfig {
+        regularRates: RegularRate[];
+        individualRates: UsersIndividualRate[];
+    }
+
     export type Unit = 'strings' | 'words' | 'chars' | 'chars_with_spaces';
 
     export type Currency =
@@ -256,12 +348,16 @@ export namespace ReportsModel {
         value: number;
     }
 
+    export interface UsersIndividualRate extends IndividualRate {
+        userIds: number[];
+    }
+
     export interface IndividualRate {
         languageIds: string[];
         rates: RegularRate[];
     }
 
-    export type Mode = 'no_match' | 'tm_match' | 'approval';
+    export type Mode = 'no_match' | 'tm_match' | 'approval' | '99-95' | '94-90' | '89-80' | 'perfect' | '100';
 
     export type ContributionMode = 'translations' | 'approvals' | 'votes';
 

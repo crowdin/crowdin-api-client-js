@@ -11,6 +11,7 @@ describe('Bundles API', () => {
     const projectId = 2;
     const bundleId = 3;
     const fileId = 4;
+    const name = 'test';
     const format = 'crowdin-resx';
     const exportPattern = 'strings-%two_letter_code%.resx';
 
@@ -40,6 +41,7 @@ describe('Bundles API', () => {
                 `/projects/${projectId}/bundles`,
                 {
                     format,
+                    name,
                     sourcePatterns: [],
                     exportPattern,
                 },
@@ -125,6 +127,7 @@ describe('Bundles API', () => {
         const bundle = await api.addBundle(projectId, {
             exportPattern,
             format,
+            name,
             sourcePatterns: [],
         });
         expect(bundle.data.id).toBe(bundleId);
