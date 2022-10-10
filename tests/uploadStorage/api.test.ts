@@ -10,6 +10,7 @@ describe('Upload Storage API', () => {
     const api: UploadStorage = new UploadStorage(credentials);
     const storageId = 2;
     const fileName = 'words.txt';
+    const urlEncodedFileName = encodeURIComponent(fileName);
     const fileContent = 'test text.';
 
     const limit = 25;
@@ -36,7 +37,7 @@ describe('Upload Storage API', () => {
             })
             .post('/storages', fileContent, {
                 reqheaders: {
-                    'Crowdin-API-FileName': fileName,
+                    'Crowdin-API-FileName': urlEncodedFileName,
                     Authorization: `Bearer ${api.token}`,
                 },
             })
@@ -86,5 +87,11 @@ describe('Upload Storage API', () => {
 
     it('Delete storage', async () => {
         await api.deleteStorage(storageId);
+    });
+
+    it('URL encodes the filename', async () => {
+        const fileName = 'Беларусь';
+        const urlEncodeFileName = api.urlEncodeFileName(fileName);
+        expect(urlEncodeFileName).toBe('%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D1%8C');
     });
 });
