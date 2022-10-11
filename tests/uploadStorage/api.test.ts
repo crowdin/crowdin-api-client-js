@@ -90,8 +90,8 @@ describe('Upload Storage API', () => {
     });
 
     it('URL encodes the filename', async () => {
-        const fileName = 'Беларусь';
+        const fileName = 'абвгд';
         const urlEncodeFileName = api.urlEncodeFileName(fileName);
-        expect(urlEncodeFileName).toBe('%D0%91%D0%B5%D0%BB%D0%B0%D1%80%D1%83%D1%81%D1%8C');
+        expect(urlEncodeFileName).toBe('%D0%B0%D0%B1%D0%B2%D0%B3%D0%B4');
     });
 });
