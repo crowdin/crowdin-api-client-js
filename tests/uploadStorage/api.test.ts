@@ -89,9 +89,15 @@ describe('Upload Storage API', () => {
         await api.deleteStorage(storageId);
     });
 
-    it('URL encodes the filename', async () => {
+    it('URL encodes a Cyrillic filename', async () => {
         const fileName = 'абвгд';
         const urlEncodeFileName = api.urlEncodeFileName(fileName);
         expect(urlEncodeFileName).toBe('%D0%B0%D0%B1%D0%B2%D0%B3%D0%B4');
+    });
+
+    it('URL encodes a non-Cyrillic filename', async () => {
+        const fileName = 'filename';
+        const urlEncodeFileName = api.urlEncodeFileName(fileName);
+        expect(urlEncodeFileName).toBe('filename');
     });
 });
