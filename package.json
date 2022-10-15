@@ -1,6 +1,6 @@
 {
     "name": "@crowdin/crowdin-api-client",
-    "version": "1.19.1",
+    "version": "1.19.2",
     "description": "JavaScript library for Crowdin API v2.",
     "main": "out/index.js",
     "types": "out/index.d.ts",
