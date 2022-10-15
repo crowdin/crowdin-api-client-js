@@ -214,7 +214,7 @@ export abstract class CrowdinApi {
     protected addQueryParam(url: string, name: string, value?: string | number): string {
         if (value) {
             url += new RegExp(/\?.+=.*/g).test(url) ? '&' : '?';
-            url += `${name}=${value}`;
+            url += `${name}=${this.encodeUrlParam(value)}`;
         }
         return url;
     }
@@ -311,6 +311,10 @@ export abstract class CrowdinApi {
             }
         }
         return resp;
+    }
+
+    protected encodeUrlParam(param: string | number | boolean): string {
+        return encodeURIComponent(param);
     }
 
     //Http overrides

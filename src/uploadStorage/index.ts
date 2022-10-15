@@ -955,7 +955,7 @@ export class UploadStorage extends CrowdinApi {
     ): Promise<ResponseObject<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages`;
         const config = this.defaultConfig();
-        config.headers['Crowdin-API-FileName'] = this.urlEncodeFileName(fileName);
+        config.headers['Crowdin-API-FileName'] = this.encodeUrlParam(fileName);
         if (contentType) {
             config.headers['Content-Type'] = contentType;
         } else {
@@ -968,13 +968,6 @@ export class UploadStorage extends CrowdinApi {
             config.headers['Content-Type'] = contentType ?? 'application/octet-stream';
         }
         return this.post(url, request, config);
-    }
-
-    /**
-     * @param fileName file name
-     */
-    urlEncodeFileName(fileName: string): string {
-        return encodeURIComponent(fileName);
     }
 
     /**
