@@ -13,12 +13,12 @@
     ],
     "scripts": {
         "prepare": "husky install",
-        "test": "jest --config jestconfig.json",
+        "test": "jest --config jestconfig.js",
         "build": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\"",
         "lint-ci": "eslint \"{src,tests}/**/*.{js,ts}\"",
-        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
+        "test-coverage": "jest --config jestconfig.js --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
         "generate-docs": "typedoc src/index.ts --options .docs-config/typedoc.json"
     },
     "keywords": [
@@ -46,7 +46,7 @@
         "typescript": "^4.1.2"
     },
     "dependencies": {
-        "axios": "0.21.3"
+        "axios": "1.2.0-alpha.1"
     },
     "engines": {
         "node": ">=12.9.0"
@@ -55,12 +55,6 @@
         "*.js": [
             "eslint --fix",
             "git add"
-        ]
-    },
-    "jest": {
-        "coverageReporters": [
-            "text",
-            "cobertura"
         ]
     },
     "bugs": {

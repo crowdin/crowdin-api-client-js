@@ -5,7 +5,8 @@
         "target": "es2019",
         "outDir": "./out",
         "lib": [
-            "es2021"
+            "es2021",
+            "DOM"
         ],
         "strict": true
     },
