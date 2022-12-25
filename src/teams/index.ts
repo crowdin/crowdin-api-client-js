@@ -4,6 +4,7 @@ import {
     Pagination,
     PaginationOptions,
     PatchRequest,
+    ProjectRole,
     ResponseList,
     ResponseObject,
 } from '../core';
@@ -141,10 +142,16 @@ export class Teams extends CrowdinApi {
 export namespace TeamsModel {
     export interface AddTeamToProjectRequest {
         teamId: number;
+        /**
+         * @deprecated
+         */
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
-        //TODO improve this type by splitting it into API v2 and Enterprise API
-        permissions?: any;
+        /**
+         * @deprecated
+         */
+        permissions?: Permissions;
+        roles?: ProjectRole[];
     }
 
     export interface ProjectTeamResources {
@@ -155,9 +162,19 @@ export namespace TeamsModel {
     export interface ProjectTeamResource {
         id: number;
         hasManagerAccess: boolean;
+        /**
+         * @deprecated
+         */
         hasAccessToAllWorkflowSteps: boolean;
-        //TODO improve this type by splitting it into API v2 and Enterprise API
-        permissions: any;
+        /**
+         * @deprecated
+         */
+        permissions: Permissions;
+        roles: ProjectRole[];
+    }
+
+    export interface Permissions {
+        [lang: string]: { workflowStepIds: number[] | 'all' };
     }
 
     export interface Team {

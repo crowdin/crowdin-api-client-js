@@ -107,7 +107,6 @@ export namespace WebhooksModel {
         events: Event[];
         headers?: Record<string, string>;
         requestType: RequestType;
-        //TODO improve this type, needs better documentation
         payload?: any;
     }
 
