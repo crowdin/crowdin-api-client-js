@@ -405,3 +405,15 @@ export function isOptionalNumber(
         return false;
     }
 }
+
+export interface ProjectRole {
+    name: string;
+    permissions: ProjectRolePermissions;
+}
+
+export interface ProjectRolePermissions {
+    allLanguages: boolean;
+    languagesAccess: {
+        [lang: string]: { allContent: boolean; workflowStepIds: number[] };
+    };
+}

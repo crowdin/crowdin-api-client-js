@@ -16,6 +16,17 @@ describe('Tasks API', () => {
     const link = 'test.com';
     const assigneeId = 1212;
 
+    const taskSettingsId = 222;
+    const taskSettingsName = 'Test';
+    const taskSettingsConfig = {
+        languages: [
+            {
+                languageId,
+                userIds: [1],
+            },
+        ],
+    };
+
     const limit = 25;
 
     beforeAll(() => {
@@ -151,6 +162,78 @@ describe('Tasks API', () => {
                     id: taskId,
                     title: taskTitle,
                 },
+            })
+            .get(`/projects/${projectId}/tasks/settings-templates`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskSettingsId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/tasks/settings-templates`,
+                {
+                    name: taskSettingsName,
+                    config: taskSettingsConfig,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskSettingsId,
+                },
+            })
+            .get(`/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: taskSettingsId,
+                },
+            })
+            .delete(`/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`,
+                [
+                    {
+                        value: taskSettingsName,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskSettingsId,
+                    name: taskSettingsName,
+                },
             });
     });
 
@@ -223,5 +306,41 @@ describe('Tasks API', () => {
         ]);
         expect(task.data.id).toBe(taskId);
         expect(task.data.title).toBe(taskTitle);
+    });
+
+    it('List task settings templates', async () => {
+        const templates = await api.listTaskSettingsTemplates(projectId);
+        expect(templates.data.length).toBe(1);
+        expect(templates.data[0].data.id).toBe(taskSettingsId);
+        expect(templates.pagination.limit).toBe(limit);
+    });
+
+    it('Add task settings template', async () => {
+        const template = await api.addTaskSettingsTemplate(projectId, {
+            name: taskSettingsName,
+            config: taskSettingsConfig,
+        });
+        expect(template.data.id).toBe(taskSettingsId);
+    });
+
+    it('Get task settings template', async () => {
+        const template = await api.getTaskSettingsTemplate(projectId, taskSettingsId);
+        expect(template.data.id).toBe(taskSettingsId);
+    });
+
+    it('Delete task settings template', async () => {
+        await api.deleteTaskSettingsTemplate(projectId, taskSettingsId);
+    });
+
+    it('Edit task settings template', async () => {
+        const template = await api.editTaskSettingsTemplate(projectId, taskSettingsId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: taskSettingsName,
+            },
+        ]);
+        expect(template.data.id).toBe(taskSettingsId);
+        expect(template.data.name).toBe(taskSettingsName);
     });
 });

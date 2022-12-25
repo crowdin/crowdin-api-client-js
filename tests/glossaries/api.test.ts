@@ -22,6 +22,9 @@ describe('Glossaries API', () => {
     const limit = 25;
     const groupId = 111;
 
+    const conceptId = 983;
+    const subject = 'test';
+
     beforeAll(() => {
         scope = nock(api.url)
             .get('/glossaries', undefined, {
@@ -252,7 +255,57 @@ describe('Glossaries API', () => {
                     glossaryId: glossaryId,
                     text: termText,
                 },
-            });
+            })
+            .get(`/glossaries/${glossaryId}/concepts`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: conceptId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/glossaries/${glossaryId}/concepts/${conceptId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: conceptId,
+                },
+            })
+            .put(
+                `/glossaries/${glossaryId}/concepts/${conceptId}`,
+                {
+                    subject,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: conceptId,
+                },
+            })
+            .delete(`/glossaries/${glossaryId}/concepts/${conceptId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200);
     });
 
     afterAll(() => {
@@ -372,5 +425,27 @@ describe('Glossaries API', () => {
         expect(term.data.id).toBe(termId);
         expect(term.data.glossaryId).toBe(glossaryId);
         expect(term.data.text).toBe(termText);
+    });
+
+    it('List concepts', async () => {
+        const concepts = await api.listConcepts(glossaryId);
+        expect(concepts.data.length).toBe(1);
+        expect(concepts.data[0].data.id).toBe(conceptId);
+    });
+
+    it('Get concept', async () => {
+        const concept = await api.getConcept(glossaryId, conceptId);
+        expect(concept.data.id).toBe(conceptId);
+    });
+
+    it('Update concept', async () => {
+        const concept = await api.updateConcept(glossaryId, conceptId, {
+            subject,
+        });
+        expect(concept.data.id).toBe(conceptId);
+    });
+
+    it('Delete concept', async () => {
+        await api.deleteConcept(glossaryId, conceptId);
     });
 });

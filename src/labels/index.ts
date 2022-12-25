@@ -5,7 +5,7 @@ export class Labels extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
     listLabels(projectId: number, options?: PaginationOptions): Promise<ResponseList<LabelsModel.Label>>;
     /**
@@ -13,7 +13,7 @@ export class Labels extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
     listLabels(projectId: number, limit?: number, offset?: number): Promise<ResponseList<LabelsModel.Label>>;
     listLabels(
@@ -31,7 +31,7 @@ export class Labels extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.post
      */
     addLabel(projectId: number, request: LabelsModel.AddLabelRequest): Promise<ResponseObject<LabelsModel.Label>> {
         const url = `${this.url}/projects/${projectId}/labels`;
@@ -41,7 +41,7 @@ export class Labels extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param labelId label identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.get
      */
     getLabel(projectId: number, labelId: number): Promise<ResponseObject<LabelsModel.Label>> {
         const url = `${this.url}/projects/${projectId}/labels/${labelId}`;
@@ -51,7 +51,7 @@ export class Labels extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param labelId label identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.delete
      */
     deleteLabel(projectId: number, labelId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/labels/${labelId}`;
@@ -62,7 +62,7 @@ export class Labels extends CrowdinApi {
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.patch
      */
     editLabel(projectId: number, labelId: number, request: PatchRequest[]): Promise<ResponseObject<LabelsModel.Label>> {
         const url = `${this.url}/projects/${projectId}/labels/${labelId}`;
@@ -73,7 +73,7 @@ export class Labels extends CrowdinApi {
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.strings.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.strings.post
      */
     assignLabelToString(
         projectId: number,
@@ -88,7 +88,7 @@ export class Labels extends CrowdinApi {
      * @param projectId project identifier
      * @param labelId label identifier
      * @param stringIds string identifiers
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.labels.strings.deleteMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.strings.deleteMany
      */
     unassignLabelFromString(
         projectId: number,

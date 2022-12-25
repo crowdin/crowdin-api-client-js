@@ -20,7 +20,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
     /**
@@ -29,7 +29,7 @@ export class Tasks extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(
         projectId: number,
@@ -54,7 +54,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.post
      */
     addTask(
         projectId: number,
@@ -72,7 +72,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param taskId task identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.exports.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.exports.post
      */
     exportTaskStrings(projectId: number, taskId: number): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}/exports`;
@@ -82,7 +82,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param taskId task identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.get
      */
     getTask(projectId: number, taskId: number): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -92,7 +92,7 @@ export class Tasks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param taskId task identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.delete
      */
     deleteTask(projectId: number, taskId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -103,7 +103,7 @@ export class Tasks extends CrowdinApi {
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.tasks.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.patch
      */
     editTask(projectId: number, taskId: number, request: PatchRequest[]): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks/${taskId}`;
@@ -112,7 +112,7 @@ export class Tasks extends CrowdinApi {
 
     /**
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
     listUserTasks(options?: TasksModel.ListUserTasksOptions): Promise<ResponseList<TasksModel.UserTask>>;
     /**
@@ -121,7 +121,7 @@ export class Tasks extends CrowdinApi {
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
      * @param isArchived list archived/not archived tasks for the authorized user. 1 - archived, 0 - not archived
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
     listUserTasks(
         limit?: number,
@@ -153,7 +153,7 @@ export class Tasks extends CrowdinApi {
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.tasks.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.user.tasks.patch
      */
     editTaskArchivedStatus(
         projectId: number,
@@ -162,6 +162,70 @@ export class Tasks extends CrowdinApi {
     ): Promise<ResponseObject<TasksModel.UserTask>> {
         let url = `${this.url}/user/tasks/${taskId}`;
         url = this.addQueryParam(url, 'projectId', projectId);
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.getMany
+     */
+    listTaskSettingsTemplates(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TasksModel.TaskSettingsTemplate>> {
+        const url = `${this.url}/projects/${projectId}/tasks/settings-templates`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.post
+     */
+    addTaskSettingsTemplate(
+        projectId: number,
+        request: TasksModel.AddTaskSettingsTemplate,
+    ): Promise<ResponseObject<TasksModel.TaskSettingsTemplate>> {
+        const url = `${this.url}/projects/${projectId}/tasks/settings-templates`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsId task settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.get
+     */
+    getTaskSettingsTemplate(
+        projectId: number,
+        taskSettingsId: number,
+    ): Promise<ResponseObject<TasksModel.TaskSettingsTemplate>> {
+        const url = `${this.url}/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsId task settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.delete
+     */
+    deleteTaskSettingsTemplate(projectId: number, taskSettingsId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsId task settings identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.patch
+     */
+    editTaskSettingsTemplate(
+        projectId: number,
+        taskSettingsId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<TasksModel.TaskSettingsTemplate>> {
+        const url = `${this.url}/projects/${projectId}/tasks/settings-templates/${taskSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
     }
 }
@@ -393,5 +457,22 @@ export namespace TasksModel {
 
     export interface ListTasksOptions extends PaginationOptions {
         status?: TasksModel.Status;
+    }
+
+    export interface TaskSettingsTemplate {
+        id: number;
+        name: string;
+        config: TaskSettingsTemplateConfig;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AddTaskSettingsTemplate {
+        name: string;
+        config: TaskSettingsTemplateConfig;
+    }
+
+    export interface TaskSettingsTemplateConfig {
+        languages: { languageId: string; userIds: number[]; teamIds?: number[] }[];
     }
 }

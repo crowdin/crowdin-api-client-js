@@ -9,7 +9,7 @@ export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
      */
     listWebhooks(projectId: number, options?: PaginationOptions): Promise<ResponseList<WebhooksModel.Webhook>>;
     /**
@@ -17,7 +17,7 @@ export class Webhooks extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany
      */
     listWebhooks(projectId: number, limit?: number, offset?: number): Promise<ResponseList<WebhooksModel.Webhook>>;
     listWebhooks(
@@ -35,7 +35,7 @@ export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.post
      */
     addWebhook(
         projectId: number,
@@ -48,7 +48,7 @@ export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param webhookId webhook identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.get
      */
     getWebhook(projectId: number, webhookId: number): Promise<ResponseObject<WebhooksModel.Webhook>> {
         const url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
@@ -58,7 +58,7 @@ export class Webhooks extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param webhookId webhook identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.delete
      */
     deleteWebhook(projectId: number, webhookId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/webhooks/${webhookId}`;
@@ -69,7 +69,7 @@ export class Webhooks extends CrowdinApi {
      * @param projectId project identifier
      * @param webhookId webhook identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.webhooks.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.patch
      */
     editWebhook(
         projectId: number,
@@ -107,7 +107,6 @@ export namespace WebhooksModel {
         events: Event[];
         headers?: Record<string, string>;
         requestType: RequestType;
-        //TODO improve this type, needs better documentation
         payload?: any;
     }
 

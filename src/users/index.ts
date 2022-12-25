@@ -4,6 +4,7 @@ import {
     Pagination,
     PaginationOptions,
     PatchRequest,
+    ProjectRole,
     ResponseList,
     ResponseObject,
 } from '../core';
@@ -18,7 +19,7 @@ export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
         projectId: number,
@@ -32,7 +33,7 @@ export class Users extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
         projectId: number,
@@ -82,12 +83,12 @@ export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param memberId member identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.get
      */
     getProjectMemberPermissions(
         projectId: number,
         memberId: number,
-    ): Promise<ResponseObject<UsersModel.ProjectMember>> {
+    ): Promise<ResponseObject<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -101,7 +102,7 @@ export class Users extends CrowdinApi {
         projectId: number,
         memberId: number,
         request: UsersModel.ReplaceProjectMemberRequest = {},
-    ): Promise<ResponseObject<UsersModel.ProjectMember>> {
+    ): Promise<ResponseObject<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>> {
         const url = `${this.url}/projects/${projectId}/members/${memberId}`;
         return this.put(url, request, this.defaultConfig());
     }
@@ -198,7 +199,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.user.get
      */
     getAuthenticatedUser(): Promise<ResponseObject<UsersModel.User>> {
         const url = `${this.url}/user`;
@@ -250,12 +251,14 @@ export namespace UsersModel {
         username: string;
         fullName: string;
         role: Role;
-        permissions: {
-            [lang: string]: LanguageRole | string;
-        };
+        /**
+         * @deprecated
+         */
+        permissions: Permissions;
         avatarUrl: string;
         joinedAt: string;
         timezone: string;
+        roles: ProjectRole[];
     }
 
     export interface EnterpriseProjectMember {
@@ -265,13 +268,16 @@ export namespace UsersModel {
         lastName: string;
         isManager: boolean;
         managerOfGroup: Group;
+        /**
+         * @deprecated
+         */
         accessToAllWorkflowSteps: boolean;
-        permissions: {
-            [lang: string]: {
-                workflowStepIds: number[];
-            };
-        };
+        /**
+         * @deprecated
+         */
+        permissions: Permissions;
         givenAccessAt: string;
+        roles: ProjectRole[];
     }
 
     export interface Group {
@@ -285,10 +291,16 @@ export namespace UsersModel {
 
     export interface AddProjectMemberRequest {
         userIds: number[];
+        /**
+         * @deprecated
+         */
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
-        //TODO improve this type by splitting it into API v2 and Enterprise API
-        permissions?: any;
+        /**
+         * @deprecated
+         */
+        permissions?: Permissions;
+        roles?: ProjectRole[];
     }
 
     export interface AddProjectMemberResponse {
@@ -298,9 +310,19 @@ export namespace UsersModel {
     }
 
     export interface ReplaceProjectMemberRequest {
+        /**
+         * @deprecated
+         */
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
-        //TODO improve this type by splitting it into API v2 and Enterprise API
-        permissions?: any;
+        /**
+         * @deprecated
+         */
+        permissions?: Permissions;
+        roles?: ProjectRole[];
+    }
+
+    export interface Permissions {
+        [lang: string]: string | { workflowStepIds: number[] | 'all' };
     }
 }
