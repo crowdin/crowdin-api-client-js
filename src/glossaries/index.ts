@@ -157,6 +157,7 @@ export class Glossaries extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param languageId term language identifier
      * @param translationOfTermId filter terms by termId
+     * @param conceptId filter terms by conceptId
      * @deprecated optional parameters should be passed through an object
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
      */
@@ -167,6 +168,7 @@ export class Glossaries extends CrowdinApi {
         offset?: number,
         languageId?: string,
         translationOfTermId?: number,
+        conceptId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>>;
     listTerms(
         glossaryId: number,
@@ -175,6 +177,7 @@ export class Glossaries extends CrowdinApi {
         deprecatedOffset?: number,
         deprecatedLanguageId?: string,
         deprecatedTranslationOfTermId?: number,
+        deprecatedConceptId?: number,
     ): Promise<ResponseList<GlossariesModel.Term>> {
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         if (isOptionalNumber(options, '1' in arguments)) {
@@ -184,11 +187,13 @@ export class Glossaries extends CrowdinApi {
                 offset: deprecatedOffset,
                 languageId: deprecatedLanguageId,
                 translationOfTermId: deprecatedTranslationOfTermId,
+                conceptId: deprecatedConceptId,
             };
         }
         url = this.addQueryParam(url, 'userId', options.userId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
         url = this.addQueryParam(url, 'translationOfTermId', options.translationOfTermId);
+        url = this.addQueryParam(url, 'conceptId', options.conceptId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -218,6 +223,7 @@ export class Glossaries extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param languageId languageId identifier
      * @param translationOfTermId term translation identifier
+     * @param conceptId concept identifier
      * @deprecated optional parameters should be passed through an object
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
      */
@@ -225,18 +231,25 @@ export class Glossaries extends CrowdinApi {
         glossaryId: number,
         languageId?: number,
         translationOfTermId?: number,
+        conceptId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>>;
     clearGlossary(
         glossaryId: number,
         options?: number | GlossariesModel.ClearGlossaryOptions,
         deprecatedTranslationOfTermId?: number,
+        deprecatedConceptId?: number,
     ): Promise<ResponseObject<GlossariesModel.Term>> {
         if (isOptionalNumber(options, '1' in arguments)) {
-            options = { languageId: options, translationOfTermId: deprecatedTranslationOfTermId };
+            options = {
+                languageId: options,
+                translationOfTermId: deprecatedTranslationOfTermId,
+                conceptId: deprecatedConceptId,
+            };
         }
         let url = `${this.url}/glossaries/${glossaryId}/terms`;
         url = this.addQueryParam(url, 'languageId', options.languageId);
         url = this.addQueryParam(url, 'translationOfTermId', options.translationOfTermId);
+        url = this.addQueryParam(url, 'conceptId', options.conceptId);
         return this.delete(url, this.defaultConfig());
     }
 
@@ -274,6 +287,51 @@ export class Glossaries extends CrowdinApi {
         const url = `${this.url}/glossaries/${glossaryId}/terms/${termId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param glossaryId glossary identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.getMany
+     */
+    listConcepts(glossaryId: number, options?: PaginationOptions): Promise<ResponseList<GlossariesModel.Concept>> {
+        const url = `${this.url}/glossaries/${glossaryId}/concepts`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param glossaryId glossary identifier
+     * @param conceptId concept identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.get
+     */
+    getConcept(glossaryId: number, conceptId: number): Promise<ResponseObject<GlossariesModel.Concept>> {
+        const url = `${this.url}/glossaries/${glossaryId}/concepts/${conceptId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param glossaryId glossary identifier
+     * @param conceptId concept identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.put
+     */
+    updateConcept(
+        glossaryId: number,
+        conceptId: number,
+        request: GlossariesModel.UpdateConceptRequest,
+    ): Promise<ResponseObject<GlossariesModel.Concept>> {
+        const url = `${this.url}/glossaries/${glossaryId}/concepts/${conceptId}`;
+        return this.put(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param glossaryId glossary identifier
+     * @param conceptId concept identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.delete
+     */
+    deleteConcept(glossaryId: number, conceptId: number): Promise<void> {
+        const url = `${this.url}/glossaries/${glossaryId}/concepts/${conceptId}`;
+        return this.delete(url, this.defaultConfig());
+    }
 }
 
 export namespace GlossariesModel {
@@ -295,8 +353,11 @@ export namespace GlossariesModel {
         groupId?: number;
     }
 
+    export type ExportField = 'term' | 'description' | 'partOfSpeech' | 'type' | 'status' | 'gender' | 'note' | 'url';
+
     export interface ExportGlossaryRequest {
-        format: GlossaryFormat;
+        format?: GlossaryFormat;
+        exportFields?: ExportField[];
     }
 
     export interface GlossaryExportStatusAttribute {
@@ -318,6 +379,10 @@ export namespace GlossariesModel {
     export interface ListTermsOptions extends PaginationOptions {
         userId?: number;
         languageId?: string;
+        conceptId?: number;
+        /**
+         * @deprecated
+         */
         translationOfTermId?: number;
     }
 
@@ -328,7 +393,13 @@ export namespace GlossariesModel {
         languageId: string;
         text: string;
         description: string;
-        partOfSpeech: string;
+        partOfSpeech: PartOfSpeech;
+        status: Status;
+        type: Type;
+        gender: Gender;
+        note: string;
+        url: string;
+        conceptId: number;
         lemma: string;
         createdAt: string;
         updatedAt: string;
@@ -339,10 +410,24 @@ export namespace GlossariesModel {
         text: string;
         description?: string;
         partOfSpeech?: PartOfSpeech;
+        /**
+         * @deprecated
+         */
         translationOfTermId?: number;
+        status?: Status;
+        type?: Type;
+        gender?: Gender;
+        note?: string;
+        conceptId?: number;
     }
 
-    export type GlossaryFormat = 'tbx' | 'csv' | 'xlsx';
+    export type Status = 'preferred' | 'admitted' | 'not recommended' | 'obsolete';
+
+    export type Type = 'full form' | 'acronym' | 'abbreviation' | 'short form' | 'phrase' | 'variant';
+
+    export type Gender = 'masculine' | 'feminine' | 'neuter' | 'other';
+
+    export type GlossaryFormat = 'tbx' | 'tbx_v3' | 'csv' | 'xlsx';
 
     export interface GlossaryFileScheme {
         [key: string]: number;
@@ -371,6 +456,42 @@ export namespace GlossariesModel {
 
     export interface ClearGlossaryOptions {
         languageId?: number;
+        /**
+         * @deprecated
+         */
         translationOfTermId?: number;
+        conceptId?: number;
+    }
+
+    export interface Concept {
+        id: number;
+        userId: number;
+        glossaryId: number;
+        subject: string;
+        definition: string;
+        note: string;
+        url: string;
+        figure: string;
+        languagesDetails: LanguageDetails[];
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface LanguageDetails {
+        languageId: string;
+        userId: number;
+        definition: string;
+        note: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface UpdateConceptRequest {
+        subject?: string;
+        definition?: string;
+        note?: string;
+        url?: string;
+        figure?: string;
+        languagesDetails?: { languageId: string; definition: string; note?: string }[];
     }
 }
