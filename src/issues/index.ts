@@ -8,7 +8,7 @@ export class Issues extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for listing reported issues
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.issues.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.issues.getMany
      */
     listReportedIssues(
         projectId: number,
@@ -21,7 +21,7 @@ export class Issues extends CrowdinApi {
      * @param type defines the issue type
      * @param status defines the issue resolution status
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.issues.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.issues.getMany
      */
     listReportedIssues(
         projectId: number,
@@ -55,7 +55,7 @@ export class Issues extends CrowdinApi {
      * @param projectId project identifier
      * @param issueId issue identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.issues.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.issues.patch
      */
     editIssue(projectId: number, issueId: number, request: PatchRequest[]): Promise<ResponseObject<IssuesModel.Issue>> {
         const url = `${this.url}/projects/${projectId}/issues/${issueId}`;

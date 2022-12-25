@@ -19,7 +19,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.getMany
      */
     listProjectBranches(
         projectId: number,
@@ -31,7 +31,7 @@ export class SourceFiles extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.getMany
      */
     listProjectBranches(
         projectId: number,
@@ -56,7 +56,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.post
      */
     createBranch(
         projectId: number,
@@ -69,7 +69,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param branchId branch identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.get
      */
     getBranch(projectId: number, branchId: number): Promise<ResponseObject<SourceFilesModel.Branch>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}`;
@@ -79,7 +79,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param branchId branch identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.delete
      */
     deleteBranch(projectId: number, branchId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}`;
@@ -90,7 +90,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.branches.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.patch
      */
     editBranch(
         projectId: number,
@@ -104,7 +104,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.getMany
      */
     listProjectDirectories(
         projectId: number,
@@ -119,7 +119,7 @@ export class SourceFiles extends CrowdinApi {
      * @param filter use to filter directories by name
      * @param recursion use to list directories recursively (works only when directoryId or branchId parameter is specified)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.getMany
      */
     listProjectDirectories(
         projectId: number,
@@ -160,7 +160,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.post
      */
     createDirectory(
         projectId: number,
@@ -173,7 +173,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param directoryId directory identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.get
      */
     getDirectory(projectId: number, directoryId: number): Promise<ResponseObject<SourceFilesModel.Directory>> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
@@ -183,7 +183,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param directoryId directory identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.delete
      */
     deleteDirectory(projectId: number, directoryId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
@@ -194,7 +194,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.directories.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.patch
      */
     editDirectory(
         projectId: number,
@@ -208,7 +208,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.getMany
      */
     listProjectFiles(
         projectId: number,
@@ -223,7 +223,7 @@ export class SourceFiles extends CrowdinApi {
      * @param recursion use to list files recursively
      * @param filter use to filter files by name
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.getMany
      */
     listProjectFiles(
         projectId: number,
@@ -264,7 +264,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.post
      */
     createFile(
         projectId: number,
@@ -277,7 +277,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.get
      */
     getFile(projectId: number, fileId: number): Promise<ResponseObject<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
@@ -288,7 +288,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.put
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.put
      */
     updateOrRestoreFile(
         projectId: number,
@@ -302,7 +302,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.delete
      */
     deleteFile(projectId: number, fileId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
@@ -313,7 +313,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.patch
      */
     editFile(
         projectId: number,
@@ -327,7 +327,7 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.download.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.download.get
      */
     downloadFile(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/download`;
@@ -338,7 +338,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
      */
     listFileRevisions(
         projectId: number,
@@ -351,7 +351,7 @@ export class SourceFiles extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
      */
     listFileRevisions(
         projectId: number,
@@ -376,7 +376,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param revisionId revision identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.files.revisions.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.revisions.get
      */
     getFileRevision(
         projectId: number,

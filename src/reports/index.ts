@@ -86,7 +86,7 @@ export class Reports extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.reports.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.post
      */
     generateReport(
         projectId: number,
@@ -99,7 +99,7 @@ export class Reports extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param reportId report identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.reports.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.get
      */
     checkReportStatus(
         projectId: number,
@@ -112,7 +112,7 @@ export class Reports extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param reportId report identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.reports.download.download
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.download.download
      */
     downloadReport(projectId: number, reportId: string): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/reports/${reportId}/download`;

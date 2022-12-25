@@ -9,7 +9,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 export class MachineTranslation extends CrowdinApi {
     /**
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.mts.getMany
      */
     listMts(
         options?: MachineTranslationModel.ListMTsOptions,
@@ -19,7 +19,7 @@ export class MachineTranslation extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.mts.getMany
      */
     listMts(
         groupId?: number,
@@ -52,7 +52,7 @@ export class MachineTranslation extends CrowdinApi {
 
     /**
      * @param mtId mt identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.mts.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.mts.getMany
      */
     getMt(mtId: number): Promise<ResponseObject<MachineTranslationModel.MachineTranslation>> {
         const url = `${this.url}/mts/${mtId}`;
@@ -84,7 +84,7 @@ export class MachineTranslation extends CrowdinApi {
     /**
      * @param mtId mt identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.mts.translations.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.mts.translations.post
      */
     translate(
         mtId: number,

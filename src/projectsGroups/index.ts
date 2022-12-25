@@ -96,7 +96,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.getMany
      */
     listProjects(
         options?: ProjectsGroupsModel.ListProjectsOptions,
@@ -107,7 +107,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.getMany
      */
     listProjects(
         groupId?: number,
@@ -137,7 +137,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.post
      */
     addProject(
         request:
@@ -151,7 +151,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.get
      */
     getProject(
         projectId: number,
@@ -162,7 +162,7 @@ export class ProjectsGroups extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.delete
      */
     deleteProject(projectId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}`;
@@ -172,7 +172,7 @@ export class ProjectsGroups extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.patch
      */
     editProject(
         projectId: number,

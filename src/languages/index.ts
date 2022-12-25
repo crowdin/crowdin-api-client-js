@@ -8,14 +8,14 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 export class Languages extends CrowdinApi {
     /**
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.getMany
      */
     listSupportedLanguages(options?: PaginationOptions): Promise<ResponseList<LanguagesModel.Language>>;
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.getMany
      */
     listSupportedLanguages(limit?: number, offset?: number): Promise<ResponseList<LanguagesModel.Language>>;
     listSupportedLanguages(
@@ -31,7 +31,7 @@ export class Languages extends CrowdinApi {
 
     /**
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.post
      */
     addCustomLanguage(request: LanguagesModel.AddLanguageRequest): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages`;
@@ -40,7 +40,7 @@ export class Languages extends CrowdinApi {
 
     /**
      * @param languageId language identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.get
      */
     getLanguage(languageId: string): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages/${languageId}`;
@@ -49,7 +49,7 @@ export class Languages extends CrowdinApi {
 
     /**
      * @param languageId language identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.delete
      */
     deleteCustomLanguage(languageId: string): Promise<void> {
         const url = `${this.url}/languages/${languageId}`;
@@ -59,7 +59,7 @@ export class Languages extends CrowdinApi {
     /**
      * @param languageId language identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.languages.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.languages.patch
      */
     editCustomLanguage(languageId: string, request: PatchRequest[]): Promise<ResponseObject<LanguagesModel.Language>> {
         const url = `${this.url}/languages/${languageId}`;

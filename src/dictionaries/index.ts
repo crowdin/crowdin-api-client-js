@@ -9,7 +9,7 @@ export class Dictionaries extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for listing dictionaries
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
      */
     listDictionaries(
         projectId: number,
@@ -19,7 +19,7 @@ export class Dictionaries extends CrowdinApi {
      * @param projectId project identifier
      * @param languageIds filter progress by Language Identifiers
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
      */
     listDictionaries(projectId: number, languageIds?: string): Promise<ResponseList<DictionariesModel.Dictionary>>;
     listDictionaries(
@@ -38,7 +38,7 @@ export class Dictionaries extends CrowdinApi {
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.dictionaries.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.patch
      */
     editDictionary(
         projectId: number,

@@ -19,7 +19,7 @@ export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
         projectId: number,
@@ -33,7 +33,7 @@ export class Users extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
      */
     listProjectMembers(
         projectId: number,
@@ -83,7 +83,7 @@ export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param memberId member identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.members.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.get
      */
     getProjectMemberPermissions(
         projectId: number,
@@ -199,7 +199,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
-     * @see https://support.crowdin.com/api/v2/#operation/api.user.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.user.get
      */
     getAuthenticatedUser(): Promise<ResponseObject<UsersModel.User>> {
         const url = `${this.url}/user`;

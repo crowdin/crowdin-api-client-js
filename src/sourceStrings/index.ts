@@ -17,7 +17,7 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.getMany
      */
     listProjectStrings(
         projectId: number,
@@ -36,7 +36,7 @@ export class SourceStrings extends CrowdinApi {
      * @param branchId filter by branch identifier
      * @param directoryId filter by directory identifier
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.getMany
      */
     listProjectStrings(
         projectId: number,
@@ -93,7 +93,7 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post
      */
     addString(
         projectId: number,
@@ -106,7 +106,7 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param stringId string identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.get
      */
     getString(projectId: number, stringId: number): Promise<ResponseObject<SourceStringsModel.String>> {
         const url = `${this.url}/projects/${projectId}/strings/${stringId}`;
@@ -116,7 +116,7 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param stringId string identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.delete
      */
     deleteString(projectId: number, stringId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/strings/${stringId}`;
@@ -127,7 +127,7 @@ export class SourceStrings extends CrowdinApi {
      * @param projectId project identifier
      * @param stringId string identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.strings.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.patch
      */
     editString(
         projectId: number,

@@ -921,14 +921,14 @@ const mimetypes: { [key: string]: string } = {
 export class UploadStorage extends CrowdinApi {
     /**
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.storages.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.storages.getMany
      */
     listStorages(options?: PaginationOptions): Promise<ResponseList<UploadStorageModel.Storage>>;
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.storages.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.storages.getMany
      */
     listStorages(limit?: number, offset?: number): Promise<ResponseList<UploadStorageModel.Storage>>;
     listStorages(
@@ -946,7 +946,7 @@ export class UploadStorage extends CrowdinApi {
      * @param fileName file name
      * @param request binary file data
      * @param contentType content type header
-     * @see https://support.crowdin.com/api/v2/#operation/api.storages.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.storages.post
      */
     addStorage(
         fileName: string,
@@ -972,7 +972,7 @@ export class UploadStorage extends CrowdinApi {
 
     /**
      * @param storageId storage identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.storages.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.storages.get
      */
     getStorage(storageId: number): Promise<ResponseObject<UploadStorageModel.Storage>> {
         const url = `${this.url}/storages/${storageId}`;
@@ -981,7 +981,7 @@ export class UploadStorage extends CrowdinApi {
 
     /**
      * @param storageId storage identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.storages.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.storages.delete
      */
     deleteStorage(storageId: number): Promise<void> {
         const url = `${this.url}/storages/${storageId}`;

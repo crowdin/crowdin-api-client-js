@@ -4,7 +4,7 @@ export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
      */
     listDistributions(
         projectId: number,
@@ -15,7 +15,7 @@ export class Distributions extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
      */
     listDistributions(
         projectId: number,
@@ -37,7 +37,7 @@ export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.post
      */
     createDistribution(
         projectId: number,
@@ -50,7 +50,7 @@ export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param hash hash
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.get
      */
     getDistribution(projectId: number, hash: string): Promise<ResponseObject<DistributionsModel.Distribution>> {
         const url = `${this.url}/projects/${projectId}/distributions/${hash}`;
@@ -60,7 +60,7 @@ export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param hash hash
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.delete
      */
     deleteDistribution(projectId: number, hash: string): Promise<void> {
         const url = `${this.url}/projects/${projectId}/distributions/${hash}`;
@@ -71,7 +71,7 @@ export class Distributions extends CrowdinApi {
      * @param projectId project identifier
      * @param hash hash
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.patch
      */
     editDistribution(
         projectId: number,
@@ -85,7 +85,7 @@ export class Distributions extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param hash hash
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.release.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.release.get
      */
     getDistributionRelease(
         projectId: number,
@@ -99,7 +99,7 @@ export class Distributions extends CrowdinApi {
      * @param projectId project identifier
      * @param hash hash
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.distributions.release.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.release.post
      */
     createDistributionRelease(
         projectId: number,

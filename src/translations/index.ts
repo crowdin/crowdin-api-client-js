@@ -18,7 +18,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param preTranslationId pre translation identifier
-     * @see https://support.crowdin.com/api/v2/#tag/Translations/paths/~1projects~1{projectId}~1pre-translations~1{preTranslationId}/get
+     * @see https://developer.crowdin.com/api/v2/#tag/Translations/paths/~1projects~1{projectId}~1pre-translations~1{preTranslationId}/get
      */
     preTranslationStatus(
         projectId: number,
@@ -31,7 +31,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.pre-translations.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.post
      */
     applyPreTranslation(
         projectId: number,
@@ -45,7 +45,7 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.directories.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.directories.post
      */
     buildProjectDirectoryTranslation(
         projectId: number,
@@ -62,7 +62,7 @@ export class Translations extends CrowdinApi {
      * @param fileId file identifier
      * @param request request body
      * @param eTag 'If-None-Match' header
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.files.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.files.post
      */
     buildProjectFileTranslation(
         projectId: number,
@@ -81,7 +81,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
      */
     listProjectBuilds(
         projectId: number,
@@ -93,7 +93,7 @@ export class Translations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
      */
     listProjectBuilds(
         projectId: number,
@@ -118,7 +118,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.post
      */
     buildProject(
         projectId: number,
@@ -132,7 +132,7 @@ export class Translations extends CrowdinApi {
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.postOnLanguage
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.postOnLanguage
      */
     uploadTranslation(
         projectId: number,
@@ -146,7 +146,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param buildId build identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.download.download
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.download.download
      */
     downloadTranslations(projectId: number, buildId: number): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}/download`;
@@ -156,7 +156,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param buildId build identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.get
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.get
      */
     checkBuildStatus(projectId: number, buildId: number): Promise<ResponseObject<TranslationsModel.Build>> {
         const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
@@ -166,7 +166,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param buildId build identifier
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.builds.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.delete
      */
     cancelBuild(projectId: number, buildId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/translations/builds/${buildId}`;
@@ -176,7 +176,7 @@ export class Translations extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
-     * @see https://support.crowdin.com/api/v2/#operation/api.projects.translations.exports.post
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.exports.post
      */
     exportProjectTranslation(
         projectId: number,
