@@ -1,6 +1,7 @@
 import {
     BooleanInt,
     CrowdinApi,
+    DownloadLink,
     isOptionalNumber,
     PaginationOptions,
     PatchRequest,
@@ -179,6 +180,96 @@ export class ProjectsGroups extends CrowdinApi {
         request: PatchRequest[],
     ): Promise<ResponseObject<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         const url = `${this.url}/projects/${projectId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.get
+     */
+    downloadProjectFileFormatSettingsCustomSegmentation(
+        projectId: number,
+        fileFormatSettingsId: number,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}/custom-segmentations`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.delete
+     */
+    resetProjectFileFormatSettingsCustomSegmentation(
+        projectId: number,
+        fileFormatSettingsId: number,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}/custom-segmentations`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.getMany
+     */
+    listProjectFileFormatSettings(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<ProjectsGroupsModel.ProjectFileFormatSettings>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.post
+     */
+    addProjectFileFormatSettings(
+        projectId: number,
+        request: ProjectsGroupsModel.AddProjectFileFormatSettingsRequest,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectFileFormatSettings>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.get
+     */
+    getProjectFileFormatSettings(
+        projectId: number,
+        fileFormatSettingsId: number,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectFileFormatSettings>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.delete
+     */
+    deleteProjectFileFormatSettings(projectId: number, fileFormatSettingsId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.patch
+     */
+    editProjectFileFormatSettings(
+        projectId: number,
+        fileFormatSettingsId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectFileFormatSettings>> {
+        const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
     }
 }
@@ -414,5 +505,53 @@ export namespace ProjectsGroupsModel {
     export interface ListProjectsOptions extends PaginationOptions {
         groupId?: number;
         hasManagerAccess?: BooleanInt;
+    }
+
+    export type Settings =
+        | PropertyFileFormatSettings
+        | CommonFileFormatSettings
+        | XmlFileFormatSettings
+        | DocxFileFormatSettings;
+
+    export interface ProjectFileFormatSettings {
+        id: number;
+        name: string;
+        format: string;
+        extensions: string[];
+        settings: Settings;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AddProjectFileFormatSettingsRequest {
+        format: string;
+        settings: Settings;
+    }
+
+    export interface PropertyFileFormatSettings {
+        escapeQuotes?: 0 | 1 | 2 | 3;
+        escapeSpecialCharacters?: 0 | 1;
+        exportPattern?: string;
+    }
+
+    export interface CommonFileFormatSettings {
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
+        exportPattern?: string;
+    }
+
+    export interface XmlFileFormatSettings extends CommonFileFormatSettings {
+        translateContent?: boolean;
+        translateAttributes?: boolean;
+        translatableElements?: string[];
+    }
+
+    export interface DocxFileFormatSettings extends CommonFileFormatSettings {
+        cleanTagsAggressively?: boolean;
+        translateHiddenText?: boolean;
+        translateHyperlinkUrls?: boolean;
+        translateHiddenRowsAndColumns?: boolean;
+        importNotes?: boolean;
+        importHiddenSlides?: boolean;
     }
 }

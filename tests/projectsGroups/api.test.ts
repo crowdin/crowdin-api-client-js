@@ -14,6 +14,10 @@ describe('Projects and Groups API', () => {
     const groupName = 'testGroup';
     const sourceLanguageId = 'uk';
 
+    const fileFormatSettingsId = 123;
+    const format = 'docx';
+    const url = 'crowdin.com';
+
     const limit = 25;
 
     beforeAll(() => {
@@ -164,6 +168,102 @@ describe('Projects and Groups API', () => {
                     id: projectId,
                     name: projectName,
                 },
+            })
+            .get(
+                `/projects/${projectId}/file-format-settings/${fileFormatSettingsId}/custom-segmentations`,
+                undefined,
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    url,
+                },
+            })
+            .delete(
+                `/projects/${projectId}/file-format-settings/${fileFormatSettingsId}/custom-segmentations`,
+                undefined,
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200)
+            .get(`/projects/${projectId}/file-format-settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: fileFormatSettingsId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/file-format-settings`,
+                {
+                    format,
+                    settings: {},
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: fileFormatSettingsId,
+                },
+            })
+            .get(`/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: fileFormatSettingsId,
+                },
+            })
+            .delete(`/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`,
+                [
+                    {
+                        value: format,
+                        op: 'replace',
+                        path: '/format',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: fileFormatSettingsId,
+                    format,
+                },
             });
     });
 
@@ -244,5 +344,50 @@ describe('Projects and Groups API', () => {
         ]);
         expect(project.data.id).toBe(projectId);
         expect(project.data.name).toBe(projectName);
+    });
+
+    it('Download project file format settings custom segmentation', async () => {
+        const link = await api.downloadProjectFileFormatSettingsCustomSegmentation(projectId, fileFormatSettingsId);
+        expect(link.data.url).toBe(url);
+    });
+
+    it('Reset project file format settings custom segmentation', async () => {
+        await api.resetProjectFileFormatSettingsCustomSegmentation(projectId, fileFormatSettingsId);
+    });
+
+    it('List project file format settings', async () => {
+        const fileSettingsList = await api.listProjectFileFormatSettings(projectId);
+        expect(fileSettingsList.data.length).toBe(1);
+        expect(fileSettingsList.data[0].data.id).toBe(fileFormatSettingsId);
+        expect(fileSettingsList.pagination.limit).toBe(limit);
+    });
+
+    it('Add project file format settings', async () => {
+        const fileSettings = await api.addProjectFileFormatSettings(projectId, {
+            format,
+            settings: {},
+        });
+        expect(fileSettings.data.id).toBe(fileFormatSettingsId);
+    });
+
+    it('Get project file format settings', async () => {
+        const fileSettings = await api.getProjectFileFormatSettings(projectId, fileFormatSettingsId);
+        expect(fileSettings.data.id).toBe(fileFormatSettingsId);
+    });
+
+    it('Delete project file format settings', async () => {
+        await api.deleteProjectFileFormatSettings(projectId, fileFormatSettingsId);
+    });
+
+    it('Edit project file format settings', async () => {
+        const fileSettings = await api.editProjectFileFormatSettings(projectId, fileFormatSettingsId, [
+            {
+                op: 'replace',
+                path: '/format',
+                value: format,
+            },
+        ]);
+        expect(fileSettings.data.id).toBe(fileFormatSettingsId);
+        expect(fileSettings.data.format).toBe(format);
     });
 });
