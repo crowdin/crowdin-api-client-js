@@ -530,7 +530,7 @@ export namespace SourceFilesModel {
         status: string;
         priority: Priority;
         path: string;
-        importOptions: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
+        importOptions: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions | DocxFileImportOptions;
         exportOptions: GeneralExportOptions | PropertyExportOptions;
         createdAt: string;
         updatedAt: string;
@@ -544,7 +544,7 @@ export namespace SourceFilesModel {
         directoryId?: number;
         title?: string;
         type?: FileType;
-        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
+        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions | DocxFileImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
         attachLabelIds?: number[];
         excludedTargetLanguages?: string[];
@@ -553,7 +553,7 @@ export namespace SourceFilesModel {
     export interface ReplaceFileFromStorageRequest {
         storageId: number;
         updateOption?: UpdateOption;
-        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions;
+        importOptions?: SpreadsheetImportOptions | XmlImportOptions | OtherImportOptions | DocxFileImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
         attachLabelIds?: number[];
         detachLabelIds?: number[];
@@ -639,6 +639,17 @@ export namespace SourceFilesModel {
         translateAttributes: boolean;
         contentSegmentation: boolean;
         translatableElements: string[];
+        srxStorageId: number;
+    }
+
+    export interface DocxFileImportOptions {
+        cleanTagsAggressively: boolean;
+        translateHiddenText: boolean;
+        translateHyperlinkUrls: boolean;
+        translateHiddenRowsAndColumns: boolean;
+        importNotes: boolean;
+        importHiddenSlides: boolean;
+        contentSegmentation: boolean;
         srxStorageId: number;
     }
 
