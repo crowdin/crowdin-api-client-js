@@ -32,7 +32,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 ## Table of Contents
 
-* [Installation](#installation)
+- [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Over-The-Air Content Delivery](#over-the-air-content-delivery)
 - [Seeking Assistance](#seeking-assistance)
