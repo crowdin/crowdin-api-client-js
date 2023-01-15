@@ -1,5 +1,5 @@
 import { Bundles } from './bundles';
-import { ClientConfig, Credentials } from './core';
+import { ClientConfig, Credentials, CrowdinApi } from './core';
 import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
 import { Glossaries } from './glossaries';
@@ -55,7 +55,7 @@ export * from './workflows';
 /**
  * @internal
  */
-export default class Client {
+export default class Client extends CrowdinApi {
     readonly sourceFilesApi: SourceFiles;
     readonly glossariesApi: Glossaries;
     readonly languagesApi: Languages;
@@ -86,6 +86,7 @@ export default class Client {
     readonly bundlesApi: Bundles;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
+        super(credentials, config);
         this.sourceFilesApi = new SourceFiles(credentials, config);
         this.glossariesApi = new Glossaries(credentials, config);
         this.languagesApi = new Languages(credentials, config);

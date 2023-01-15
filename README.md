@@ -35,6 +35,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Over-The-Air Content Delivery](#over-the-air-content-delivery)
+- [GraphQL API](#graphql-api)
 - [Seeking Assistance](#seeking-assistance)
 - [Contributing](#contributing)
 - [License](#license)
@@ -418,6 +419,47 @@ test();
 :dizzy: Recommended for translations delivery to your website or mobile application.
 
 You can also use the [Crowdin OTA Client JS](https://github.com/crowdin/ota-client-js) library to send the translated content to your web apps via content delivery. Crowdin Content Delivery uses a CDN vault that mirrors your project’s translated content. The updated translations will become available to users much faster.
+
+## GraphQL API
+
+This library also provides possibility to use [GraphQL API](https://developer.crowdin.com/graphql-api/) (only for Crowdin Enterprise).
+
+```javascript
+const crowdin = require('@crowdin/crowdin-api-client');
+
+const client = new crowdin.default({
+  token: '{token}',
+  organization: '{organization}'
+});
+
+const query = `
+query {
+  viewer {
+    projects(first: 50) {
+      edges {
+        node {
+          name
+  
+          files(first: 10) {
+            totalCount
+            edges {
+              node {
+                name
+                type
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+client
+  .graphql({ query })
+  .then(res => console.log(JSON.stringify(res, null, 2)));
+```
 
 ## Seeking Assistance
 
