@@ -69,7 +69,7 @@ export class Screenshots extends CrowdinApi {
     updateScreenshot(
         projectId: number,
         screenshotId: number,
-        request: ScreenshotsModel.CreateScreenshotRequest,
+        request: ScreenshotsModel.UpdateScreenshotRequest,
     ): Promise<ResponseObject<ScreenshotsModel.Screenshot>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}`;
         return this.put(url, request, this.defaultConfig());
@@ -144,7 +144,11 @@ export class Screenshots extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.putMany
      */
-    replaceTags(projectId: number, screenshotId: number, request: ScreenshotsModel.AddTagRequest[]): Promise<void> {
+    replaceTags(
+        projectId: number,
+        screenshotId: number,
+        request: ScreenshotsModel.ReplaceTagRequest[] | ScreenshotsModel.AutoTagRequest,
+    ): Promise<void> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
         return this.put(url, request, this.defaultConfig());
     }
@@ -158,7 +162,7 @@ export class Screenshots extends CrowdinApi {
     addTag(
         projectId: number,
         screenshotId: number,
-        request: ScreenshotsModel.AddTagRequest[],
+        request: ScreenshotsModel.ReplaceTagRequest[],
     ): Promise<ResponseObject<ScreenshotsModel.Tag>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
         return this.post(url, request, this.defaultConfig());
@@ -231,6 +235,14 @@ export namespace ScreenshotsModel {
         storageId: number;
         name: string;
         autoTag?: boolean;
+        fileId?: number;
+        branchId?: number;
+        directoryId?: number;
+    }
+
+    export interface UpdateScreenshotRequest {
+        storageId: number;
+        name: string;
     }
 
     export interface Tag {
@@ -241,9 +253,16 @@ export namespace ScreenshotsModel {
         createdAt: string;
     }
 
-    export interface AddTagRequest {
+    export interface ReplaceTagRequest {
         stringId: number;
         position?: Position;
+    }
+
+    export interface AutoTagRequest {
+        autoTag: boolean;
+        fileId?: number;
+        branchId?: number;
+        directoryId?: number;
     }
 
     export interface Size {
