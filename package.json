@@ -18,7 +18,7 @@
         "watch": "tsc -watch -p ./",
         "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\"",
         "lint-ci": "eslint \"{src,tests}/**/*.{js,ts}\"",
-        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
+        "test-coverage": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
         "generate-docs": "typedoc src/index.ts --options .docs-config/typedoc.json"
     },
     "keywords": [
