@@ -958,6 +958,8 @@ export class UploadStorage extends CrowdinApi {
         config.headers['Crowdin-API-FileName'] = this.encodeUrlParam(fileName);
         if (contentType) {
             config.headers['Content-Type'] = contentType;
+        } else if (typeof request === 'string') {
+            config.headers['Content-Type'] = 'text/plain';
         } else {
             const fileNameParts = fileName.split('.');
             let contentType;
