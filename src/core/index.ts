@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { HttpClientError, toHttpClientError } from './http-client-error';
 import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
 import { FetchClientJsonPayloadError } from './internal/fetch/fetchClientError';
@@ -137,7 +138,7 @@ export class CrowdinValidationError extends CrowdinError {
 /**
  * @internal
  */
-function handleHttpClientError(error: unknown): never {
+function handleHttpClientError(error: HttpClientError): never {
     const crowdinResponseErrors =
         error instanceof AxiosError
             ? error.response?.data?.errors
@@ -351,39 +352,39 @@ export abstract class CrowdinApi {
     //Http overrides
 
     protected get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.get<T>(url, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.get<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.delete<T>(url, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.delete<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.head<T>(url, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.head<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.post<T>(url, data, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.post<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.put<T>(url, data, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.put<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.patch<T>(url, data, config).catch(handleHttpClientError),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.patch<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 }
 

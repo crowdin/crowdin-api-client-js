@@ -3,7 +3,6 @@
  * fetch interfaces
  */
 /// <reference lib="dom" />
-
 import { HttpClient } from '../..';
 import { FetchClientJsonPayloadError } from './fetchClientError';
 
