@@ -39,7 +39,7 @@ export class FetchClient implements HttpClient {
         config?: { headers: Record<string, string> },
         data?: unknown,
     ): Promise<T> {
-        let body: string | undefined;
+        let body: RequestInit['body'];
         if (data) {
             if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
@@ -47,7 +47,7 @@ export class FetchClient implements HttpClient {
                 config.headers = config.headers ?? {};
                 config.headers['Content-Type'] = 'application/json';
             } else {
-                body = typeof data === 'string' ? data : JSON.stringify(data);
+                body = data as BodyInit;
             }
         }
         await this.waitInQueue();
