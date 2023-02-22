@@ -39,7 +39,7 @@ export class FetchClient implements HttpClient {
         config?: { headers: Record<string, string> },
         data?: unknown,
     ): Promise<T> {
-        let body = '{}';
+        let body: string | undefined;
         if (data) {
             if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
