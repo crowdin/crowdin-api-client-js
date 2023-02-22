@@ -138,7 +138,7 @@ export class CrowdinValidationError extends CrowdinError {
 /**
  * @internal
  */
-function handleHttpClientError(error: HttpClientError): never {
+export function handleHttpClientError(error: HttpClientError): never {
     const crowdinResponseErrors =
         error instanceof AxiosError
             ? error.response?.data?.errors
