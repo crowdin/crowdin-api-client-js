@@ -94,7 +94,7 @@ async function createFile() {
     title: 'Example',
     description: 'Some Text'
   };
-  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const storage = await uploadStorageApi.addStorage('file1.json', fileData);
   const file = await sourceFilesApi.createFile(projectId, {
     name: 'file1.json',
     title: 'Sample file',
@@ -183,7 +183,7 @@ async function createFile() {
     title: 'Example',
     description: 'Some Text'
   };
-  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const storage = await uploadStorageApi.addStorage('file1.json', fileData);
   const file = await sourceFilesApi.createFile(projectId, {
     name: 'file1.json',
     title: 'Sample file',
@@ -269,7 +269,7 @@ async function createFile() {
     title: 'Example',
     description: 'Some Text'
   };
-  const storage = await uploadStorageApi.addStorage('file1.json', fileDate);
+  const storage = await uploadStorageApi.addStorage('file1.json', fileData);
   const file = await sourceFilesApi.createFile(projectId, {
     name: 'file1.json',
     title: 'Sample file',
