@@ -13,18 +13,21 @@
     ],
     "scripts": {
         "prepare": "husky install",
-        "test": "jest --config jestconfig.json",
+        "test": "jest",
         "build": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "lint": "eslint --fix \"{src,tests}/**/*.{js,ts}\"",
         "lint-ci": "eslint \"{src,tests}/**/*.{js,ts}\"",
-        "test-coverage": "jest --config jestconfig.json --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
+        "test-coverage": "jest --ci --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura --coverageReporters=html",
         "generate-docs": "typedoc src/index.ts --options .docs-config/typedoc.json"
     },
     "keywords": [
         "Crowdin"
     ],
     "license": "MIT",
+    "dependencies": {
+        "axios": "^1"
+    },
     "devDependencies": {
         "@types/jest": "^27.0.0",
         "@types/nock": "^10.0.3",
@@ -45,9 +48,6 @@
         "typedoc": "^0.23.19",
         "typescript": "^4.1.2"
     },
-    "dependencies": {
-        "axios": "0.21.3"
-    },
     "engines": {
         "node": ">=12.9.0"
     },
@@ -55,12 +55,6 @@
         "*.js": [
             "eslint --fix",
             "git add"
-        ]
-    },
-    "jest": {
-        "coverageReporters": [
-            "text",
-            "cobertura"
         ]
     },
     "bugs": {

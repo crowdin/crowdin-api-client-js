@@ -1,5 +1,8 @@
+import { AxiosError } from 'axios';
+import { HttpClientError, toHttpClientError } from './http-client-error';
 import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
+import { FetchClientJsonPayloadError } from './internal/fetch/fetchClientError';
 import { RetryConfig, RetryService } from './internal/retry';
 
 /**
@@ -135,11 +138,20 @@ export class CrowdinValidationError extends CrowdinError {
 /**
  * @internal
  */
-function handleError<T>(error: any = {}): T {
-    if (Array.isArray(error.errors)) {
+export function handleHttpClientError(error: HttpClientError): never {
+    const crowdinResponseErrors =
+        error instanceof AxiosError
+            ? error.response?.data?.errors
+            : error instanceof FetchClientJsonPayloadError
+            ? error.jsonPayload && typeof error.jsonPayload === 'object' && 'errors' in error.jsonPayload
+                ? error.jsonPayload.errors
+                : null
+            : null;
+
+    if (Array.isArray(crowdinResponseErrors)) {
         const validationCodes: { key: string; codes: string[] }[] = [];
         const validationMessages: string[] = [];
-        error.errors.forEach((e: any) => {
+        crowdinResponseErrors.forEach((e: any) => {
             if (e.error.key && Array.isArray(e.error?.errors)) {
                 const codes: string[] = [];
                 e.error.errors.forEach((er: any) => {
@@ -154,9 +166,16 @@ function handleError<T>(error: any = {}): T {
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
         throw new CrowdinValidationError(message, validationCodes);
     }
-    const message = error.error?.message || 'Error occured';
-    const code = error.error?.code || 500;
-    throw new CrowdinError(message, code);
+    if (error instanceof Error) {
+        const code =
+            error instanceof AxiosError && error.response?.status
+                ? error.response?.status
+                : error instanceof FetchClientJsonPayloadError
+                ? error.statusCode
+                : 500;
+        throw new CrowdinError(error.message, code);
+    }
+    throw new CrowdinError(`unknown http error: ${String(error)}`, 500);
 }
 
 export abstract class CrowdinApi {
@@ -332,37 +351,39 @@ export abstract class CrowdinApi {
     //Http overrides
 
     protected get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() => this.httpClient.get<T>(url, config).catch(e => handleError(e)));
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.get<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.delete<T>(url, config).catch(e => handleError(e)),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.delete<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.head<T>(url, config).catch(e => handleError(e)),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.head<T>(url, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.post<T>(url, data, config).catch(e => handleError(e)),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.post<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.put<T>(url, data, config).catch(e => handleError(e)),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.put<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 
     protected patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T> {
-        return this.retryService.executeAsyncFunc(() =>
-            this.httpClient.patch<T>(url, data, config).catch(e => handleError(e)),
-        );
+        return this.retryService
+            .executeAsyncFunc(() => this.httpClient.patch<T>(url, data, config))
+            .catch((err: unknown) => handleHttpClientError(toHttpClientError(err)));
     }
 }
 

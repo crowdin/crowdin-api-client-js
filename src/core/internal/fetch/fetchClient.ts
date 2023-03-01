@@ -1,6 +1,10 @@
+/**
+ * Import DOM types for this module _just_ to expose adequate types for
+ * fetch interfaces
+ */
+/// <reference lib="dom" />
 import { HttpClient } from '../..';
-
-declare const fetch: Function;
+import { FetchClientJsonPayloadError } from './fetchClientError';
 
 /**
  * @internal
@@ -35,7 +39,7 @@ export class FetchClient implements HttpClient {
         config?: { headers: Record<string, string> },
         data?: unknown,
     ): Promise<T> {
-        let body;
+        let body: RequestInit['body'];
         if (data) {
             if (typeof data === 'object' && !this.isBuffer(data)) {
                 body = JSON.stringify(data);
@@ -43,7 +47,7 @@ export class FetchClient implements HttpClient {
                 config.headers = config.headers ?? {};
                 config.headers['Content-Type'] = 'application/json';
             } else {
-                body = data;
+                body = data as BodyInit;
             }
         }
         await this.waitInQueue();
@@ -53,7 +57,7 @@ export class FetchClient implements HttpClient {
             headers: config ? config.headers : {},
             body: body,
         })
-            .then(async (res: any) => {
+            .then(async res => {
                 if (res.status === 204) {
                     return {};
                 }
@@ -62,7 +66,7 @@ export class FetchClient implements HttpClient {
                 if (res.status >= 200 && res.status < 300) {
                     return json;
                 } else {
-                    throw json;
+                    throw new FetchClientJsonPayloadError(res.statusText, json, res.status);
                 }
             })
             .finally(() => (this.pendingRequests = Math.max(0, this.pendingRequests - 1)));

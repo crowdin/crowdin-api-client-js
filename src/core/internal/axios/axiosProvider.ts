@@ -36,9 +36,9 @@ export class AxiosProvider {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
                 return Promise.resolve(response.data);
             },
-            error => {
+            (error: unknown) => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
-                return Promise.reject(error.response.data);
+                return Promise.reject(error);
             },
         );
     }
