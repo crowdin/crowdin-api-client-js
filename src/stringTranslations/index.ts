@@ -187,6 +187,19 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.alignment.post
+     */
+    translationAlignment(
+        projectId: number,
+        request: StringTranslationsModel.TranslationAlignmentRequest,
+    ): Promise<ResponseObject<StringTranslationsModel.TranslationAlignmentResponse>> {
+        const url = `${this.url}/projects/${projectId}/translations/alignment`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @param options optional parameters for the request
@@ -454,6 +467,26 @@ export namespace StringTranslationsModel {
         pluralForm: string;
         user: User;
         createdAt: string;
+    }
+
+    export interface TranslationAlignmentRequest {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        text: string;
+    }
+
+    export interface TranslationAlignmentResponse {
+        words: {
+            text: string;
+            alignments: {
+                sourceWord: string;
+                sourceLemma: string;
+                targetWord: string;
+                targetLemma: string;
+                match: number;
+                probability: number;
+            }[];
+        }[];
     }
 
     export interface AddStringTranslationRequest {

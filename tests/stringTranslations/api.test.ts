@@ -89,6 +89,20 @@ describe('String Translations API', () => {
                     limit: limit,
                 },
             })
+            .post(`/projects/${projectId}/translations/alignment`, {
+                sourceLanguageId: languageId,
+                targetLanguageId: languageId,
+                text: 'test',
+            })
+            .reply(200, {
+                data: {
+                    words: [
+                        {
+                            text: 'test',
+                        },
+                    ],
+                },
+            })
             .get(`/projects/${projectId}/translations`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -254,6 +268,16 @@ describe('String Translations API', () => {
         expect(translations.data.length).toBe(1);
         expect(translations.data[0].data.stringId).toBe(stringId);
         expect(translations.pagination.limit).toBe(limit);
+    });
+
+    it('Translation Alignment', async () => {
+        const res = await api.translationAlignment(projectId, {
+            sourceLanguageId: languageId,
+            targetLanguageId: languageId,
+            text: 'test',
+        });
+        expect(res.data.words.length).toBe(1);
+        expect(res.data.words[0].text).toBe('test');
     });
 
     it('List String Translations', async () => {
