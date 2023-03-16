@@ -21,6 +21,7 @@ describe('Glossaries API', () => {
     const termLanguageId = 'fr';
     const limit = 25;
     const groupId = 111;
+    const projectId = 123;
 
     const conceptId = 983;
     const subject = 'test';
@@ -305,7 +306,35 @@ describe('Glossaries API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(200);
+            .reply(200)
+            .post(
+                `/projects/${projectId}/glossaries/concordance`,
+                {
+                    sourceLanguageId: termLanguageId,
+                    targetLanguageId: termLanguageId,
+                    expression: 'Welcome!',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            glossary: {
+                                id: glossaryId,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            });
     });
 
     afterAll(() => {
@@ -447,5 +476,15 @@ describe('Glossaries API', () => {
 
     it('Delete concept', async () => {
         await api.deleteConcept(glossaryId, conceptId);
+    });
+
+    it('Concordance search', async () => {
+        const res = await api.concordanceSearch(projectId, {
+            sourceLanguageId: termLanguageId,
+            targetLanguageId: termLanguageId,
+            expression: 'Welcome!',
+        });
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.glossary.id).toBe(glossaryId);
     });
 });

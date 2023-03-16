@@ -332,6 +332,19 @@ export class Glossaries extends CrowdinApi {
         const url = `${this.url}/glossaries/${glossaryId}/concepts/${conceptId}`;
         return this.delete(url, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.glossaries.concordance.post
+     */
+    concordanceSearch(
+        projectId: number,
+        request: GlossariesModel.ConcordanceSearchRequest,
+    ): Promise<ResponseList<GlossariesModel.ConcordanceSearchResponse>> {
+        const url = `${this.url}/projects/${projectId}/glossaries/concordance`;
+        return this.post(url, request, this.defaultConfig());
+    }
 }
 
 export namespace GlossariesModel {
@@ -343,6 +356,8 @@ export namespace GlossariesModel {
         terms: number;
         languageId: string;
         languageIds: string[];
+        defaultProjectId: number;
+        defaultProjectIds: number[];
         projectIds: number[];
         createdAt: string;
     }
@@ -419,6 +434,19 @@ export namespace GlossariesModel {
         gender?: Gender;
         note?: string;
         conceptId?: number;
+    }
+
+    export interface ConcordanceSearchRequest extends PaginationOptions {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        expression: string;
+    }
+
+    export interface ConcordanceSearchResponse {
+        glossary: Glossary;
+        concept: Concept;
+        sourceTerms: Term[];
+        targetTerms: Term[];
     }
 
     export type Status = 'preferred' | 'admitted' | 'not recommended' | 'obsolete';
