@@ -135,6 +135,19 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tms.concordance.post
+     */
+    concordanceSearch(
+        projectId: number,
+        request: TranslationMemoryModel.ConcordanceSearchRequest,
+    ): Promise<ResponseList<TranslationMemoryModel.ConcordanceSearchResponse>> {
+        const url = `${this.url}/projects/${projectId}/tms/concordance`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param tmId tm identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.imports.post
@@ -171,6 +184,7 @@ export namespace TranslationMemoryModel {
         languageIds: string[];
         segmentsCount: number;
         defaultProjectId: number;
+        defaultProjectIds: number[];
         projectIds: number[];
         createdAt: string;
     }
@@ -179,6 +193,24 @@ export namespace TranslationMemoryModel {
         name: string;
         languageId: string;
         groupId?: number;
+    }
+
+    export interface ConcordanceSearchRequest {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        autoSubstitution: boolean;
+        minRelevant: number;
+        expression: string;
+    }
+
+    export interface ConcordanceSearchResponse {
+        tm: TranslationMemory;
+        recordId: number;
+        source: string;
+        target: string;
+        relevant: number;
+        substituted: string;
+        updatedAt: string;
     }
 
     export interface ExportTranslationMemoryRequest {

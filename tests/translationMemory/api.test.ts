@@ -11,6 +11,7 @@ describe('Translation Memory API', () => {
     const tmId = 2;
     const groupId = 44;
     const storageId = 55;
+    const projectId = 77;
     const exportId = '3';
     const importId = '4';
     const name = 'test';
@@ -114,6 +115,36 @@ describe('Translation Memory API', () => {
                 },
             })
             .post(
+                `/projects/${projectId}/tms/concordance`,
+                {
+                    sourceLanguageId: languageId,
+                    targetLanguageId: languageId,
+                    autoSubstitution: true,
+                    minRelevant: 60,
+                    expression: 'Welcome!',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            tm: {
+                                id: tmId,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
                 `/tms/${tmId}/exports`,
                 {},
                 {
@@ -213,6 +244,18 @@ describe('Translation Memory API', () => {
     it('Download TM', async () => {
         const link = await api.downloadTm(tmId, exportId);
         expect(link.data.url).toBe(url);
+    });
+
+    it('Concordance search in TMs', async () => {
+        const res = await api.concordanceSearch(projectId, {
+            autoSubstitution: true,
+            expression: 'Welcome!',
+            minRelevant: 60,
+            sourceLanguageId: languageId,
+            targetLanguageId: languageId,
+        });
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.tm.id).toBe(tmId);
     });
 
     it('Export TM', async () => {
