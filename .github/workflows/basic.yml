@@ -17,7 +17,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        node-version: [ 14.x, 16.x ]
+        node-version: [ 16.x, 18.x ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     runs-on: ${{ matrix.os }}
@@ -44,9 +44,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Lint
-        run: npm run lint-ci
 
       - name: Build
         run: npm run build
@@ -81,12 +78,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint
+        run: npm run lint-ci
+
       - name: Generate code coverage report
         run: npm run test-coverage
 
       - name: Test Report
         uses: dorny/test-reporter@v1
-        if: success() || failure()
+        if: ${{ (success() || failure()) && !startsWith(github.head_ref, 'dependabot/') }}
         with:
           name: Test results
           path: junit.xml

@@ -6,31 +6,25 @@ on:
       - '*'
 
 jobs:
-  build_and_deploy_docs:
+  build-and-deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
-
-      - name: Retrieve the cached "node_modules" directory (if present)
-        uses: actions/cache@v2
-        id: node-cache
+        uses: actions/setup-node@v3
         with:
-          path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          node-version: 16
+          cache: 'npm'
 
-      - name: Install dependencies (if the cached directory was not found)
-        if: steps.node-cache.outputs.cache-hit != 'true'
+      - name: Install dependencies
         run: npm ci
 
-      - name: Create the docs directory locally in CI
+      - name: Generate docs
         run: npm run generate-docs
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: docs
