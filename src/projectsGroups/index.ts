@@ -384,7 +384,7 @@ export namespace ProjectsGroupsModel {
     export interface CreateProjectEnterpriseRequest {
         name: string;
         sourceLanguageId: string;
-        templateId: number;
+        templateId?: number;
         groupId?: number;
         targetLanguageIds?: string[];
         vendorId?: number;
