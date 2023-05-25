@@ -59,12 +59,15 @@ Unsure where to begin contributing to Crowdin JavaScript Client? You can start b
 
 Before sending your pull requests, make sure you followed the list below:
 
-- Read this guidelines.
+- Read these guidelines.
 - Read [Code of Conduct](/CODE_OF_CONDUCT.md).
 - Ensure that your code adheres to standard conventions, as used in the rest of the project.
 - Ensure that there are unit tests for your code.
 - Run unit tests.
 - Ensure that docs are correctly generating.
+
+> **Note**
+> This project uses the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for commit messages and PR titles.
 
 #### Docs
 
