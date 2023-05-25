@@ -1,7 +1,7 @@
 {
     "name": "@crowdin/crowdin-api-client",
     "version": "1.22.2",
-    "description": "JavaScript library for Crowdin API v2.",
+    "description": "JavaScript library for Crowdin API",
     "main": "out/index.js",
     "types": "out/index.d.ts",
     "repository": {
@@ -22,7 +22,20 @@
         "generate-docs": "typedoc src/index.ts --options .docs-config/typedoc.json"
     },
     "keywords": [
-        "Crowdin"
+        "Crowdin",
+        "API",
+        "client",
+        "JavaScript",
+        "TypeScript",
+        "localization",
+        "translation",
+        "i18n",
+        "l10n",
+        "crowdin-api-client",
+        "crowdin-api",
+        "crowdin-client",
+        "crowdin-js",
+        "crowdin-js-client"
     ],
     "license": "MIT",
     "dependencies": {
