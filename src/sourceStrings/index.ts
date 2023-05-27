@@ -105,6 +105,19 @@ export class SourceStrings extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch
+     */
+    stringBatchOperations(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<SourceStringsModel.String>> {
+        const url = `${this.url}/projects/${projectId}/strings`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param stringId string identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.get
      */
