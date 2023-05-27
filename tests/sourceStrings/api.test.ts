@@ -54,6 +54,35 @@ describe('Source Strings API', () => {
                     text: stringText,
                 },
             })
+            .patch(
+                `/projects/${projectId}/strings`,
+                [
+                    {
+                        value: stringText,
+                        op: 'replace',
+                        path: `/${stringId}/text`,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringId,
+                            text: stringText,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get(`/projects/${projectId}/strings/${stringId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -111,6 +140,20 @@ describe('Source Strings API', () => {
             identifier: stringIdentifier,
             text: stringText,
         });
+        expect(string.data.id).toBe(stringId);
+        expect(string.data.text).toBe(stringText);
+    });
+
+    it('String batch operations', async () => {
+        const strings = await api.stringBatchOperations(projectId, [
+            {
+                op: 'replace',
+                path: `/${stringId}/text`,
+                value: stringText,
+            },
+        ]);
+        expect(strings.data.length).toBe(1);
+        const string = strings.data[0];
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);
     });
