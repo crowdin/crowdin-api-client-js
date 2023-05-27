@@ -320,12 +320,9 @@ export namespace ProjectsGroupsModel {
     }
 
     export interface FilesBasedCreateProjectRequest {
-        type?: Type;
-        normalizePlaceholder?: boolean;
-        saveMetaInfoInSource?: boolean;
-        notificationSettings?: NotificationSettings;
         name: string;
         identifier: string;
+        type?: Type;
         sourceLanguageId: string;
         targetLanguageIds?: string[];
         visibility?: JoinPolicy;
@@ -333,12 +330,14 @@ export namespace ProjectsGroupsModel {
         cname?: string;
         description?: string;
         translateDuplicates?: TranslateDuplicates;
+        tagDetection?: TagDetection;
         isMtAllowed?: boolean;
         autoSubstitution?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
         hiddenStringsProofreadersAccess?: boolean;
         useGlobalTm?: boolean;
+        showTmSuggestionsDialects?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
@@ -347,8 +346,12 @@ export namespace ProjectsGroupsModel {
         inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
         qaCheckCategories?: CheckCategories;
+        qaChecksIgnorableCategories?: CheckCategories;
         languageMapping?: LanguageMapping;
         glossaryAccess?: boolean;
+        notificationSettings?: NotificationSettings;
+        normalizePlaceholder?: boolean;
+        saveMetaInfoInSource?: boolean;
     }
 
     export interface StringsBasedCreateProjectRequest {
@@ -362,12 +365,14 @@ export namespace ProjectsGroupsModel {
         cname?: string;
         description?: string;
         translateDuplicates?: TranslateDuplicates;
+        tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
         autoSubstitution?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
         hiddenStringsProofreadersAccess?: boolean;
         useGlobalTm?: boolean;
+        showTmSuggestionsDialects?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
@@ -376,9 +381,10 @@ export namespace ProjectsGroupsModel {
         inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
         qaCheckCategories?: CheckCategories;
+        qaChecksIgnorableCategories?: CheckCategories;
         languageMapping?: LanguageMapping;
-        notificationSettings?: NotificationSettings;
         glossaryAccess?: boolean;
+        notificationSettings?: NotificationSettings;
     }
 
     export interface CreateProjectEnterpriseRequest {
@@ -391,16 +397,18 @@ export namespace ProjectsGroupsModel {
         mtEngineId?: number;
         description?: string;
         translateDuplicates?: TranslateDuplicates;
+        tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
         autoSubstitution?: boolean;
+        showTmSuggestionsDialects?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
         hiddenStringsProofreadersAccess?: boolean;
-        useGlobalTm?: boolean;
         delayedWorkflowStart?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: number;
         normalizePlaceholder?: boolean;
         saveMetaInfoInSource?: boolean;
         inContext?: boolean;
@@ -408,6 +416,7 @@ export namespace ProjectsGroupsModel {
         inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
         qaCheckCategories?: CheckCategories;
+        qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
         languageMapping?: LanguageMapping;
         notificationSettings?: NotificationSettings;
@@ -416,6 +425,7 @@ export namespace ProjectsGroupsModel {
 
     export interface ProjectSettings extends Project {
         translateDuplicates: TranslateDuplicates;
+        tagsDetection: TagDetection;
         glossaryAccess: boolean;
         isMtAllowed: boolean;
         hiddenStringsProofreadersAccess: boolean;
@@ -425,7 +435,9 @@ export namespace ProjectsGroupsModel {
         skipUntranslatedFiles: boolean;
         exportApprovedOnly: boolean;
         exportWithMinApprovalsCount: number;
+        exportStringsThatPassedWorkflow: boolean;
         autoTranslateDialects: boolean;
+        showTmSuggestionsDialects: boolean;
         useGlobalTm: boolean;
         normalizePlaceholder: boolean;
         saveMetaInfoInSource: boolean;
@@ -436,15 +448,26 @@ export namespace ProjectsGroupsModel {
         isSuspended: boolean;
         qaCheckIsActive: boolean;
         qaCheckCategories: CheckCategories;
+        qaChecksIgnorableCategories: CheckCategories;
         customQaCheckIds: number[];
         languageMapping: LanguageMapping;
         delayedWorkflowStart: boolean;
         notificationSettings: NotificationSettings;
+        defaultTmId: number;
+        defaultGlossaryId: number;
+        assignedGlossaries: number[];
+        assignedTms: { [id: string]: { priority: number } };
     }
 
     export enum Type {
         FILES_BASED = 0,
         STRINGS_BASED = 1,
+    }
+
+    export enum TagDetection {
+        AUTO = 0,
+        COUNT_TAGS = 1,
+        SKIP_TAGS = 2,
     }
 
     export type JoinPolicy = 'open' | 'private';
@@ -465,6 +488,8 @@ export namespace ProjectsGroupsModel {
         icu: boolean;
         terms: boolean;
         duplicate: boolean;
+        ftl: boolean;
+        android: boolean;
     }
 
     export interface LanguageMapping {
