@@ -107,6 +107,7 @@ export interface Status<T> {
     updatedAt: string;
     startedAt: string;
     finishedAt: string;
+    eta: string;
 }
 
 export interface Attribute {

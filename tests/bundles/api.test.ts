@@ -11,6 +11,8 @@ describe('Bundles API', () => {
     const projectId = 2;
     const bundleId = 3;
     const fileId = 4;
+    const exportId = '123';
+    const exportUrl = 'test.com';
     const name = 'test';
     const format = 'crowdin-resx';
     const exportPattern = 'strings-%two_letter_code%.resx';
@@ -92,6 +94,36 @@ describe('Bundles API', () => {
                     id: bundleId,
                 },
             })
+            .get(`/projects/${projectId}/bundles/${bundleId}/exports/${exportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: exportUrl,
+                },
+            })
+            .post(`/projects/${projectId}/bundles/${bundleId}/exports`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: exportId,
+                },
+            })
+            .get(`/projects/${projectId}/bundles/${bundleId}/exports/${exportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: exportId,
+                },
+            })
             .get(`/projects/${projectId}/bundles/${bundleId}/files`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -151,6 +183,21 @@ describe('Bundles API', () => {
             },
         ]);
         expect(bundle.data.id).toBe(bundleId);
+    });
+
+    it('Download bundle', async () => {
+        const download = await api.downloadBundle(projectId, bundleId, exportId);
+        expect(download.data.url).toBe(exportUrl);
+    });
+
+    it('Export bundle', async () => {
+        const resp = await api.exportBundle(projectId, bundleId);
+        expect(resp.data.identifier).toBe(exportId);
+    });
+
+    it('Check bundle export status', async () => {
+        const resp = await api.checkBundleExportStatus(projectId, bundleId, exportId);
+        expect(resp.data.identifier).toBe(exportId);
     });
 
     it('Bundle list files', async () => {
