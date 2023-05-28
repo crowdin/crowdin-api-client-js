@@ -407,6 +407,21 @@ async function test() {
 test();
 ```
 
+### Http request timeout
+
+By default request timeout will vary on http client implementation and/or environment (e.g. `fetch` uses timeout configured by the browser).  
+But there is an option to set constant value:
+
+```javascript
+const crowdin = require('@crowdin/crowdin-api-client');
+
+const credentials = { token: 'token' };
+
+const httpRequestTimeout = 60 * 1000; // 60 seconds
+
+const client = new crowdin.default(credentials, { httpRequestTimeout });
+```
+
 ## Over-The-Air Content Delivery
 
 :dizzy: Recommended for translations delivery to your website or mobile application.
