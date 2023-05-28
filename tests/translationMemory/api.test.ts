@@ -17,6 +17,9 @@ describe('Translation Memory API', () => {
     const name = 'test';
     const url = 'test.com';
     const languageId = 'fr';
+    const segmentId = 123;
+    const segmentRecordId = 456;
+    const segmentRecordText = 'test';
 
     const limit = 25;
 
@@ -96,6 +99,45 @@ describe('Translation Memory API', () => {
                 data: {
                     id: tmId,
                     name: name,
+                },
+            })
+            .get(`/tms/${tmId}/segments`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: segmentId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/tms/${tmId}/segments`,
+                {
+                    records: [
+                        {
+                            languageId,
+                            text: segmentRecordText,
+                        },
+                    ],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: segmentId,
                 },
             })
             .delete(`/tms/${tmId}/segments`, undefined, {
@@ -193,6 +235,69 @@ describe('Translation Memory API', () => {
                 data: {
                     identifier: importId,
                 },
+            })
+            .get(`/tms/${tmId}/segments/${segmentId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: segmentId,
+                },
+            })
+            .delete(`/tms/${tmId}/segments/${segmentId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .delete(`/tms/${tmId}/segments/${segmentId}/records/${segmentRecordId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/tms/${tmId}/segments/${segmentId}/records/${segmentRecordId}`,
+                [
+                    {
+                        value: segmentRecordText,
+                        op: 'replace',
+                        path: '/text',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: segmentId,
+                },
+            })
+            .post(
+                `/tms/${tmId}/segments/${segmentId}/records`,
+                {
+                    records: [
+                        {
+                            languageId,
+                            text: segmentRecordText,
+                        },
+                    ],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: segmentId,
+                },
             });
     });
 
@@ -237,6 +342,24 @@ describe('Translation Memory API', () => {
         expect(tm.data.name).toBe(name);
     });
 
+    it('List TM Segments', async () => {
+        const segments = await api.listTmSegments(tmId);
+        expect(segments.data.length).toBe(1);
+        expect(segments.data[0].data.id).toBe(segmentId);
+    });
+
+    it('Create TM Segment', async () => {
+        const segment = await api.addTmSegment(tmId, {
+            records: [
+                {
+                    languageId,
+                    text: segmentRecordText,
+                },
+            ],
+        });
+        expect(segment.data.id).toBe(segmentId);
+    });
+
     it('Clear TM', async () => {
         await api.clearTm(tmId);
     });
@@ -278,5 +401,41 @@ describe('Translation Memory API', () => {
     it('Check import status', async () => {
         const status = await api.checkImportStatus(tmId, importId);
         expect(status.data.identifier).toBe(importId);
+    });
+
+    it('Get TM Segment', async () => {
+        const segment = await api.getTmSegment(tmId, segmentId);
+        expect(segment.data.id).toBe(segmentId);
+    });
+
+    it('Delete TM Segment', async () => {
+        await api.deleteTmSegment(tmId, segmentId);
+    });
+
+    it('Delete TM Segment Record', async () => {
+        await api.deleteTmSegmentRecord(tmId, segmentId, segmentRecordId);
+    });
+
+    it('Edit TM Segment Record', async () => {
+        const segment = await api.editTmSegmentRecord(tmId, segmentId, segmentRecordId, [
+            {
+                op: 'replace',
+                path: '/text',
+                value: segmentRecordText,
+            },
+        ]);
+        expect(segment.data.id).toBe(segmentId);
+    });
+
+    it('Create TM Segment Records', async () => {
+        const segment = await api.addTmSegmentRecords(tmId, segmentId, {
+            records: [
+                {
+                    languageId,
+                    text: segmentRecordText,
+                },
+            ],
+        });
+        expect(segment.data.id).toBe(segmentId);
     });
 });
