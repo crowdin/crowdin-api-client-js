@@ -289,6 +289,16 @@ describe('Source Files API', () => {
                     title: fileTitle,
                 },
             })
+            .get(`/projects/${projectId}/files/${fileId}/preview`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: filleRawUrl,
+                },
+            })
             .get(`/projects/${projectId}/files/${fileId}/download`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -522,6 +532,11 @@ describe('Source Files API', () => {
         expect(file.data.id).toBe(fileId);
         expect(file.data.name).toBe(fileName);
         expect(file.data.title).toBe(fileTitle);
+    });
+
+    it('Download file preview', async () => {
+        const file = await api.downloadFilePreview(projectId, fileId);
+        expect(file.data.url).toBe(filleRawUrl);
     });
 
     it('Download file', async () => {

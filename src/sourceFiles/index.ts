@@ -327,6 +327,16 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.preview.get
+     */
+    downloadFilePreview(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/preview`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.download.get
      */
     downloadFile(projectId: number, fileId: number): Promise<ResponseObject<DownloadLink>> {
@@ -526,15 +536,16 @@ export namespace SourceFilesModel {
         name: string;
         title: string;
         type: string;
-        revisionId: number;
-        status: string;
-        priority: Priority;
         path: string;
+        status: string;
+        revisionId: number;
+        priority: Priority;
         importOptions: ImportOptions;
         exportOptions: GeneralExportOptions | PropertyExportOptions;
+        excludedTargetLanguages: string[];
+        parserVersion: number;
         createdAt: string;
         updatedAt: string;
-        excludedTargetLanguages: string[];
     }
 
     export interface CreateFileRequest {
