@@ -1,4 +1,5 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import { ScreenshotsModel } from '../screenshots';
 import { SourceStringsModel } from '../sourceStrings';
 
 export class Labels extends CrowdinApi {
@@ -73,12 +74,43 @@ export class Labels extends CrowdinApi {
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.post
+     */
+    assignLabelToScreenshots(
+        projectId: number,
+        labelId: number,
+        request: LabelsModel.AssignLabelToScreenshotsRequet,
+    ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
+        const url = `${this.url}/projects/${projectId}/labels/${labelId}/screenshots`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param labelId label identifier
+     * @param screenshotIds screenshot identifiers
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.deleteMany
+     */
+    unassignLabelFromScreenshots(
+        projectId: number,
+        labelId: number,
+        screenshotIds: string,
+    ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
+        let url = `${this.url}/projects/${projectId}/labels/${labelId}/screenshots`;
+        url = this.addQueryParam(url, 'screenshotIds', screenshotIds);
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param labelId label identifier
+     * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.strings.post
      */
     assignLabelToString(
         projectId: number,
         labelId: number,
-        request: LabelsModel.AssignLabelToStringRequet,
+        request: LabelsModel.AssignLabelToStringsRequet,
     ): Promise<ResponseList<SourceStringsModel.String>> {
         const url = `${this.url}/projects/${projectId}/labels/${labelId}/strings`;
         return this.post(url, request, this.defaultConfig());
@@ -111,7 +143,11 @@ export namespace LabelsModel {
         title: string;
     }
 
-    export interface AssignLabelToStringRequet {
+    export interface AssignLabelToStringsRequet {
         stringIds: number[];
+    }
+
+    export interface AssignLabelToScreenshotsRequet {
+        screenshotIds: number[];
     }
 }
