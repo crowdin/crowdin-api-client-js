@@ -91,6 +91,29 @@ export class TranslationMemory extends CrowdinApi {
 
     /**
      * @param tmId tm identifier
+     * @param options optional paramerers for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany
+     */
+    listTmSegments(tmId: number, options?: PaginationOptions): Promise<ResponseList<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param tmId tm identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.post
+     */
+    addTmSegment(
+        tmId: number,
+        request: TranslationMemoryModel.AddTMSegment,
+    ): Promise<ResponseObject<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.clear
      */
     clearTm(tmId: number): Promise<void> {
@@ -172,6 +195,69 @@ export class TranslationMemory extends CrowdinApi {
         const url = `${this.url}/tms/${tmId}/imports/${importId}`;
         return this.get(url, this.defaultConfig());
     }
+
+    /**
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.get
+     */
+    getTmSegment(tmId: number, segmentId: number): Promise<ResponseObject<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.delete
+     */
+    deleteTmSegment(tmId: number, segmentId: number): Promise<void> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
+     * @param recordId record identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.records.delete
+     */
+    deleteTmSegmentRecord(tmId: number, segmentId: number, recordId: number): Promise<void> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}/records/${recordId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
+     * @param recordId record identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.records.patch
+     */
+    editTmSegmentRecord(
+        tmId: number,
+        segmentId: number,
+        recordId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}/records/${recordId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.records.post
+     */
+    addTmSegmentRecords(
+        tmId: number,
+        segmentId: number,
+        request: TranslationMemoryModel.AddTMSegment,
+    ): Promise<ResponseObject<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}/records`;
+        return this.post(url, request, this.defaultConfig());
+    }
 }
 
 export namespace TranslationMemoryModel {
@@ -246,5 +332,30 @@ export namespace TranslationMemoryModel {
 
     export interface ListTMsOptions extends PaginationOptions {
         groupId?: number;
+    }
+
+    export interface TMSegment {
+        id: number;
+        records: TMSegmentRecord[];
+    }
+
+    export interface TMSegmentRecord {
+        id: number;
+        languageId: string;
+        text: string;
+        usageCount: number;
+        createdBy: number;
+        updatedBy: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AddTMSegment {
+        records: AddTMSegmentRecord[];
+    }
+
+    export interface AddTMSegmentRecord {
+        languageId: string;
+        text: string;
     }
 }
