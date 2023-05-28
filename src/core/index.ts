@@ -51,6 +51,9 @@ export interface ClientConfig {
 
     /** Retry strategy configuration */
     retryConfig?: RetryConfig;
+
+    /** Http request timeout in ms */
+    httpRequestTimeout?: number;
 }
 
 export interface ResponseList<T> {
@@ -228,6 +231,11 @@ export abstract class CrowdinApi {
         }
         this.retryService = new RetryService(retryConfig);
 
+        if (config?.httpRequestTimeout) {
+            CrowdinApi.FETCH_INSTANCE.withTimeout(config?.httpRequestTimeout);
+            CrowdinApi.AXIOS_INSTANCE.defaults.timeout = config?.httpRequestTimeout;
+        }
+
         this.config = config;
     }
 
@@ -286,8 +294,7 @@ export abstract class CrowdinApi {
         return CrowdinApi.AXIOS_INSTANCE;
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    public withFetchAll(maxLimit?: number) {
+    public withFetchAll(maxLimit?: number): this {
         this.fetchAllFlag = true;
         this.maxLimit = maxLimit;
         return this;

@@ -14,6 +14,13 @@ export class FetchClient implements HttpClient {
     private requestIntervalMs = 10;
     private pendingRequests = 0;
 
+    private timeout: number | undefined;
+
+    withTimeout(timeout?: number): this {
+        this.timeout = timeout;
+        return this;
+    }
+
     get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T> {
         return this.request(url, 'GET', config);
     }
@@ -52,11 +59,21 @@ export class FetchClient implements HttpClient {
         }
         await this.waitInQueue();
 
-        return fetch(url, {
-            method: method,
-            headers: config ? config.headers : {},
-            body: body,
-        })
+        let request;
+        const headers = config ? config.headers : {};
+
+        if (this.timeout) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+            request = fetch(url, { method, headers, body, signal: controller.signal }).then(res => {
+                clearTimeout(timeoutId);
+                return res;
+            });
+        } else {
+            request = fetch(url, { method, headers, body });
+        }
+
+        return request
             .then(async res => {
                 if (res.status === 204) {
                     return {};
