@@ -227,6 +227,7 @@ export namespace ScreenshotsModel {
         size: Size;
         tagsCount: number;
         tags: Tag[];
+        labels: number[];
         createdAt: string;
         updatedAt: string;
     }
