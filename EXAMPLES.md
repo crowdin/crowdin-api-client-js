@@ -4,6 +4,7 @@
 - [Update file](#update-file)
 - [Create TM](#create-tm)
 - [Create Glossary](#create-glossary)
+- [Pre-Translate project](#pre-translate-project)
 
 ---
 
@@ -77,6 +78,7 @@ async function createTm(languageId: string, name: string, fileName: string, file
         storageId: storage.data.id,
         scheme
     });
+
     let status = importTm.data.status;
     while (status !== 'finished') {
         const progress = await translationMemoryApi.checkImportStatus(tm.data.id, importTm.data.identifier);
@@ -113,6 +115,7 @@ async function createGlossary(languageId: string, name: string, fileName: string
         storageId: storage.data.id,
         scheme
     });
+
     let status = importGlossary.data.status;
     while (status !== 'finished') {
         const progress = await glossariesApi.checkGlossaryImportStatus(glossary.data.id, importGlossary.data.identifier);
@@ -128,5 +131,40 @@ const schema = {
 };
 
 createGlossary('uk', 'test', file, fileContent, schema);
+
+```
+
+## Pre-Translate project
+
+```typescript
+import crowdin from '@crowdin/crowdin-api-client';
+
+const { translationsApi } = new crowdin({
+    token: 'token',
+    organization: 'org'
+});
+
+async function preTranslateProject(projectId: number, languageIds: string[], fileIds: number[]): Promise<string> {
+    const result = await translationsApi.applyPreTranslation(projectId, {
+        languageIds,
+        fileIds,
+    });
+
+    let status = result.data.status;
+    while (status !== 'finished') {
+        const progress = await translationsApi.preTranslationStatus(projectId, result.data.identifier);
+        status = progress.data.status;
+    }
+
+    //as an example we export translations for 1 file and 1 language
+    const translations = await translationsApi.exportProjectTranslation(projectId, {
+        targetLanguageId: languageIds[0],
+        fileIds: [fileIds[0]],
+    });
+
+    return translations.data.url;
+}
+
+preTranslateProject(123, ['uk'], [456]);
 
 ```
