@@ -5,6 +5,7 @@
 - [Create TM](#create-tm)
 - [Create Glossary](#create-glossary)
 - [Pre-Translate project](#pre-translate-project)
+- [Download translations](#download-translations)
 
 ---
 
@@ -166,5 +167,33 @@ async function preTranslateProject(projectId: number, languageIds: string[], fil
 }
 
 preTranslateProject(123, ['uk'], [456]);
+
+```
+
+## Download translations
+
+```typescript
+import crowdin from '@crowdin/crowdin-api-client';
+
+const { translationsApi } = new crowdin({
+    token: 'token',
+    organization: 'org'
+});
+
+async function downloadTranslations(projectId: number): Promise<string> {
+    const result = await translationsApi.buildProject(projectId);
+
+    let status = result.data.status;
+    while (status !== 'finished') {
+        const progress = await translationsApi.checkBuildStatus(projectId, result.data.id);
+        status = progress.data.status;
+    }
+
+    const translations = await translationsApi.downloadTranslations(projectId, result.data.id);
+
+    return translations.data.url;
+}
+
+downloadTranslations(123);
 
 ```
