@@ -3,6 +3,7 @@
 - [Create a file in a Crowdin project](#create-a-file-in-a-crowdin-project)
 - [Update file](#update-file)
 - [Create TM](#create-tm)
+- [Create Glossary](#create-glossary)
 
 ---
 
@@ -69,7 +70,7 @@ const { uploadStorageApi, translationMemoryApi } = new crowdin({
     organization: 'org'
 });
 
-async function addTm(languageId: string, name: string, fileName: string, fileContent: any, scheme: TranslationMemoryModel.Scheme): Promise<void> {
+async function createTm(languageId: string, name: string, fileName: string, fileContent: any, scheme: TranslationMemoryModel.Scheme): Promise<void> {
     const tm = await translationMemoryApi.addTm({ languageId, name });
     const storage = await uploadStorageApi.addStorage(fileName, fileContent);
     const importTm = await translationMemoryApi.importTm(tm.data.id, {
@@ -90,6 +91,42 @@ const schema = {
     uk: 1
 };
 
-addTm('uk', 'test', file, fileContent, schema);
+createTm('uk', 'test', file, fileContent, schema);
+
+```
+
+## Create Glossary
+
+```typescript
+import * as fs from 'fs';
+import crowdin, { GlossariesModel } from '@crowdin/crowdin-api-client';
+
+const { uploadStorageApi, glossariesApi } = new crowdin({
+    token: 'token',
+    organization: 'org'
+});
+
+async function createGlossary(languageId: string, name: string, fileName: string, fileContent: any, scheme: GlossariesModel.GlossaryFileScheme): Promise<void> {
+    const glossary = await glossariesApi.addGlossary({ languageId, name });
+    const storage = await uploadStorageApi.addStorage(fileName, fileContent);
+    const importGlossary = await glossariesApi.importGlossaryFile(glossary.data.id, {
+        storageId: storage.data.id,
+        scheme
+    });
+    let status = importGlossary.data.status;
+    while (status !== 'finished') {
+        const progress = await glossariesApi.checkGlossaryImportStatus(glossary.data.id, importGlossary.data.identifier);
+        status = progress.data.status;
+    }
+}
+
+const file = 'test.csv';
+const fileContent = fs.readFileSync(file);
+const schema = {
+    term_en: 0,
+    description_en: 1
+};
+
+createGlossary('uk', 'test', file, fileContent, schema);
 
 ```
