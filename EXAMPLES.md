@@ -6,6 +6,7 @@
 - [Create Glossary](#create-glossary)
 - [Pre-Translate project](#pre-translate-project)
 - [Download translations](#download-translations)
+- [Generate report](#generate-report)
 
 ---
 
@@ -192,6 +193,39 @@ async function downloadTranslations(projectId: number): Promise<string> {
     const translations = await translationsApi.downloadTranslations(projectId, result.data.id);
 
     return translations.data.url;
+}
+
+downloadTranslations(123);
+
+```
+
+## Generate report
+
+```typescript
+import crowdin from '@crowdin/crowdin-api-client';
+
+const { reportsApi } = new crowdin({
+    token: 'token',
+    organization: 'org'
+});
+
+async function downloadTranslations(projectId: number): Promise<string> {
+    const result = await reportsApi.generateReport(projectId, {
+        name: 'costs-estimation',
+        schema: {
+            languageId: 'uk',
+        },
+    });
+
+    let status = result.data.status;
+    while (status !== 'finished') {
+        const progress = await reportsApi.checkReportStatus(projectId, result.data.identifier);
+        status = progress.data.status;
+    }
+
+    const report = await reportsApi.downloadReport(projectId, result.data.identifier);
+
+    return report.data.url;
 }
 
 downloadTranslations(123);

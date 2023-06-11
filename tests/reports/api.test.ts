@@ -11,7 +11,7 @@ describe('Reports API', () => {
     const projectId = 2;
     const groupId = 23;
     const reportId = '123';
-    const reportName = 'testReport';
+    const reportName = 'costs-estimation';
     const downloadLink = 'test.com';
     const schema: ReportsModel.TopMembersSchema = {
         unit: 'chars',
