@@ -311,6 +311,8 @@ projectsGroupsApi.listProjects()
 
 You can generate Personal Access Token in your Crowdin Account Settings.
 
+For more examples please check [Examples](EXAMPLES.md)
+
 ### List of projects with Fetch API
 
 In addition if you use client in non-Node.js environment you might have a troubles with http calls.

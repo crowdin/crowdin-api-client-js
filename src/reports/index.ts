@@ -191,7 +191,7 @@ export namespace ReportsModel {
     }
 
     export interface GenerateReportRequest {
-        name: string;
+        name: 'costs-estimation' | 'translation-costs' | 'top-members' | 'contribution-raw-data';
         schema:
             | CostEstimateSchema
             | CostEstimateFuzzyModeSchema
