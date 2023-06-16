@@ -9,7 +9,8 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 <div align="center">
 
 [**`Live Demo`**](https://runkit.com/andrii-bodnar/crowdin-js-api-client-live-demo) &nbsp;|&nbsp;
-[**`API Client Docs`**](https://crowdin.github.io/crowdin-api-client-js/modules.html) &nbsp;|&nbsp;
+[**`Docs`**](https://crowdin.github.io/crowdin-api-client-js/modules.html) &nbsp;|&nbsp;
+[**`Examples`**](https://github.com/crowdin/crowdin-api-client-js/blob/master/EXAMPLES.md) &nbsp;|&nbsp;
 [**`Crowdin API`**](https://developer.crowdin.com/api/v2/) &nbsp;|&nbsp;
 [**`Crowdin Enterprise API`**](https://developer.crowdin.com/enterprise/api/v2/)
 
