@@ -257,6 +257,7 @@ export namespace ReportsModel {
         unit?: Unit;
         currency?: Currency;
         mode?: string;
+        languageId?: string;
         format?: Format;
         groupBy?: GroupBy;
         regularRates?: RegularRate[];
