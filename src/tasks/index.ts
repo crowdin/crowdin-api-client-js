@@ -61,9 +61,11 @@ export class Tasks extends CrowdinApi {
         request:
             | TasksModel.CreateTaskEnterpriseRequest
             | TasksModel.CreateTaskRequest
+            | TasksModel.CreateLanguageServiceTaskRequest
             | TasksModel.CreateTaskVendorOhtRequest
             | TasksModel.CreateTaskVendorGengoRequest
-            | TasksModel.CreateTaskVendorTranslatedRequest,
+            | TasksModel.CreateTaskVendorTranslatedRequest
+            | TasksModel.CreateTaskVendorManualRequest,
     ): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks`;
         return this.post(url, request, this.defaultConfig());
@@ -247,12 +249,13 @@ export namespace TasksModel {
         sourceLanguageId: string;
         targetLanguageId: string;
         description: string;
-        hash: string;
         translationUrl: string;
         wordsCount: number;
         filesCount: number;
         commentsCount: number;
         deadline: string;
+        startedAt: string;
+        resolvedAt: string;
         timeRange: string;
         workflowStepId: number;
         buyUrl: string;
@@ -270,7 +273,8 @@ export namespace TasksModel {
     }
 
     export interface CreateTaskEnterpriseRequest {
-        workflowStepId: number;
+        type?: Type;
+        workflowStepId?: number;
         title: string;
         languageId: string;
         fileIds: number[];
@@ -279,6 +283,7 @@ export namespace TasksModel {
         splitFiles?: boolean;
         skipAssignedStrings?: boolean;
         assignees?: CreateTaskAssignee[];
+        includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         labelIds?: number[];
         dateFrom?: string;
@@ -295,9 +300,27 @@ export namespace TasksModel {
         splitFiles?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
         labelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
+        startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateLanguageServiceTaskRequest {
+        title: string;
+        languageId: string;
+        fileIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        labelIds?: number[];
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        includeUntranslatedStringsOnly?: boolean;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -312,6 +335,8 @@ export namespace TasksModel {
         description?: string;
         expertise?: Expertise;
         labelIds?: number[];
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
         dateFrom?: string;
         dateTo?: string;
@@ -347,6 +372,25 @@ export namespace TasksModel {
         expertise?: Expertise;
         subject?: Subject;
         labelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskVendorManualRequest {
+        title: string;
+        languageId: string;
+        fileIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        skipAssignedStrings?: boolean;
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        labelIds?: number[];
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+        startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
     }

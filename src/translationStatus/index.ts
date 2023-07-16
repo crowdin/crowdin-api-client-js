@@ -270,6 +270,7 @@ export namespace TranslationStatusModel {
         total: number;
         translated: number;
         approved: number;
+        preTranslateAppliedTo: number;
     }
 
     export type Category =
