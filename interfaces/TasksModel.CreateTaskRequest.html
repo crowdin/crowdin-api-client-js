@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">CreateTaskRequest</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L288">tasks/index.ts:288</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L293">tasks/index.ts:293</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -35,11 +35,13 @@
 <a href="TasksModel.CreateTaskRequest.html#deadline" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>deadline?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#description" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>description?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#fileIds" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>file<wbr/>Ids</span></a>
+<a href="TasksModel.CreateTaskRequest.html#includePreTranslatedStringsOnly" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>include<wbr/>Pre<wbr/>Translated<wbr/>Strings<wbr/>Only?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#labelIds" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>label<wbr/>Ids?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#languageId" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>language<wbr/>Id</span></a>
 <a href="TasksModel.CreateTaskRequest.html#skipAssignedStrings" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>skip<wbr/>Assigned<wbr/>Strings?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#skipUntranslatedStrings" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>skip<wbr/>Untranslated<wbr/>Strings?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#splitFiles" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>split<wbr/>Files?</span></a>
+<a href="TasksModel.CreateTaskRequest.html#startedAt" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>started<wbr/>At?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#status" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>status?</span></a>
 <a href="TasksModel.CreateTaskRequest.html#title" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>title</span></a>
 <a href="TasksModel.CreateTaskRequest.html#type" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>type</span></a>
@@ -50,72 +52,82 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>assignees</span><a href="#assignees" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">assignees</span><span class="tsd-signature-symbol">?:</span> <a href="TasksModel.CreateTaskAssignee.html" class="tsd-signature-type tsd-kind-interface">CreateTaskAssignee</a><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L299">tasks/index.ts:299</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L305">tasks/index.ts:305</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="dateFrom" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>date<wbr/>From</span><a href="#dateFrom" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">date<wbr/>From</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L301">tasks/index.ts:301</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L308">tasks/index.ts:308</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="dateTo" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>date<wbr/>To</span><a href="#dateTo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">date<wbr/>To</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L302">tasks/index.ts:302</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L309">tasks/index.ts:309</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="deadline" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>deadline</span><a href="#deadline" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">deadline</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L300">tasks/index.ts:300</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L306">tasks/index.ts:306</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="description" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>description</span><a href="#description" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">description</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L294">tasks/index.ts:294</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L299">tasks/index.ts:299</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="fileIds" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>file<wbr/>Ids</span><a href="#fileIds" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">file<wbr/>Ids</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L291">tasks/index.ts:291</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L296">tasks/index.ts:296</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="includePreTranslatedStringsOnly" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>include<wbr/>Pre<wbr/>Translated<wbr/>Strings<wbr/>Only</span><a href="#includePreTranslatedStringsOnly" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">include<wbr/>Pre<wbr/>Translated<wbr/>Strings<wbr/>Only</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L303">tasks/index.ts:303</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="labelIds" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>label<wbr/>Ids</span><a href="#labelIds" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">label<wbr/>Ids</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L298">tasks/index.ts:298</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L304">tasks/index.ts:304</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="languageId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>language<wbr/>Id</span><a href="#languageId" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">language<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L290">tasks/index.ts:290</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L295">tasks/index.ts:295</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="skipAssignedStrings" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>skip<wbr/>Assigned<wbr/>Strings</span><a href="#skipAssignedStrings" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">skip<wbr/>Assigned<wbr/>Strings</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L296">tasks/index.ts:296</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L301">tasks/index.ts:301</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="skipUntranslatedStrings" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>skip<wbr/>Untranslated<wbr/>Strings</span><a href="#skipUntranslatedStrings" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">skip<wbr/>Untranslated<wbr/>Strings</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L297">tasks/index.ts:297</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L302">tasks/index.ts:302</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="splitFiles" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>split<wbr/>Files</span><a href="#splitFiles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">split<wbr/>Files</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L295">tasks/index.ts:295</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L300">tasks/index.ts:300</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="startedAt" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>started<wbr/>At</span><a href="#startedAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">started<wbr/>At</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L307">tasks/index.ts:307</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="status" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>status</span><a href="#status" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">status</span><span class="tsd-signature-symbol">?:</span> <a href="../modules/TasksModel.html" class="tsd-signature-type tsd-kind-namespace">TasksModel</a><span class="tsd-signature-symbol">.</span><a href="../types/TasksModel.Status.html" class="tsd-signature-type tsd-kind-type-alias">Status</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L293">tasks/index.ts:293</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L298">tasks/index.ts:298</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="title" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>title</span><a href="#title" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">title</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L289">tasks/index.ts:289</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L294">tasks/index.ts:294</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="type" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>type</span><a href="#type" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">type</span><span class="tsd-signature-symbol">:</span> <a href="../modules/TasksModel.html" class="tsd-signature-type tsd-kind-namespace">TasksModel</a><span class="tsd-signature-symbol">.</span><a href="../enums/TasksModel.Type.html" class="tsd-signature-type tsd-kind-enum">Type</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/bc0d6e1/src/tasks/index.ts#L292">tasks/index.ts:292</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/crowdin/crowdin-api-client-js/blob/99c3942/src/tasks/index.ts#L297">tasks/index.ts:297</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -138,11 +150,13 @@
 <li><a href="#deadline" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>deadline</span></a></li>
 <li><a href="#description" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>description</span></a></li>
 <li><a href="#fileIds" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>file<wbr/>Ids</span></a></li>
+<li><a href="#includePreTranslatedStringsOnly" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>include<wbr/>Pre<wbr/>Translated<wbr/>Strings<wbr/>Only</span></a></li>
 <li><a href="#labelIds" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>label<wbr/>Ids</span></a></li>
 <li><a href="#languageId" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>language<wbr/>Id</span></a></li>
 <li><a href="#skipAssignedStrings" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>skip<wbr/>Assigned<wbr/>Strings</span></a></li>
 <li><a href="#skipUntranslatedStrings" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>skip<wbr/>Untranslated<wbr/>Strings</span></a></li>
 <li><a href="#splitFiles" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>split<wbr/>Files</span></a></li>
+<li><a href="#startedAt" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>started<wbr/>At</span></a></li>
 <li><a href="#status" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>status</span></a></li>
 <li><a href="#title" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>title</span></a></li>
 <li><a href="#type" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>type</span></a></li></ul></div></details></div>
@@ -173,10 +187,12 @@
 <li><a href="TasksModel.AddTaskSettingsTemplate.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-256"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)"></path></g></svg><span>Add<wbr/>Task<wbr/>Settings<wbr/>Template</span></a></li>
 <li><a href="TasksModel.AssignedTeam.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Assigned<wbr/>Team</span></a></li>
 <li><a href="TasksModel.Assignee.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Assignee</span></a></li>
+<li><a href="TasksModel.CreateLanguageServiceTaskRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Language<wbr/>Service<wbr/>Task<wbr/>Request</span></a></li>
 <li><a href="TasksModel.CreateTaskAssignee.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Assignee</span></a></li>
 <li><a href="TasksModel.CreateTaskEnterpriseRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Enterprise<wbr/>Request</span></a></li>
 <li><a href="TasksModel.CreateTaskRequest.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Request</span></a></li>
 <li><a href="TasksModel.CreateTaskVendorGengoRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Vendor<wbr/>Gengo<wbr/>Request</span></a></li>
+<li><a href="TasksModel.CreateTaskVendorManualRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Vendor<wbr/>Manual<wbr/>Request</span></a></li>
 <li><a href="TasksModel.CreateTaskVendorOhtRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Vendor<wbr/>Oht<wbr/>Request</span></a></li>
 <li><a href="TasksModel.CreateTaskVendorTranslatedRequest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>Create<wbr/>Task<wbr/>Vendor<wbr/>Translated<wbr/>Request</span></a></li>
 <li><a href="TasksModel.ListTasksOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>List<wbr/>Tasks<wbr/>Options</span></a></li>
