@@ -128,6 +128,7 @@ export namespace BundlesModel {
         ignorePatterns: string[];
         exportPattern: string;
         isMultilingual: boolean;
+        includeProjectSourceLanguage: boolean;
         labelIds: number[];
         createdAt: string;
         updatedAt: string;
@@ -140,6 +141,7 @@ export namespace BundlesModel {
         ignorePatterns?: string[];
         exportPattern: string;
         isMultilingual?: boolean;
+        includeProjectSourceLanguage?: boolean;
         labelIds?: number[];
     }
 
