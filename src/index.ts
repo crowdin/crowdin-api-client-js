@@ -7,6 +7,7 @@ import { Issues } from './issues';
 import { Labels } from './labels';
 import { Languages } from './languages';
 import { MachineTranslation } from './machineTranslation';
+import { Notifications } from './notifications';
 import { OrganizationWebhooks } from './organizationWebhooks';
 import { ProjectsGroups } from './projectsGroups';
 import { Reports } from './reports';
@@ -35,6 +36,7 @@ export * from './issues';
 export * from './labels';
 export * from './languages';
 export * from './machineTranslation';
+export * from './notifications';
 export * from './organizationWebhooks';
 export * from './projectsGroups';
 export * from './reports';
@@ -87,6 +89,7 @@ export default class Client extends CrowdinApi {
     readonly labelsApi: Labels;
     readonly stringCommentsApi: StringComments;
     readonly bundlesApi: Bundles;
+    readonly notificationsApi: Notifications;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -116,5 +119,6 @@ export default class Client extends CrowdinApi {
         this.labelsApi = new Labels(credentials, config);
         this.stringCommentsApi = new StringComments(credentials, config);
         this.bundlesApi = new Bundles(credentials, config);
+        this.notificationsApi = new Notifications(credentials, config);
     }
 }

@@ -142,7 +142,7 @@ projectsGroupsApi.listProjects()
 <summary>Javascript ES6 modules</summary>
 
 ```javascript
-import crowdin, { SourceFilesModel } from '@crowdin/crowdin-api-client';
+import crowdin from '@crowdin/crowdin-api-client';
 
 // initialization of crowdin client
 const {
@@ -150,7 +150,7 @@ const {
   uploadStorageApi,
   sourceFilesApi,
   translationsApi
-} = new crowdin({
+} = new crowdin.default({
   token: 'personalAccessToken',
   organization: 'organizationName' // optional
 });
