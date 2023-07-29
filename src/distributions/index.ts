@@ -116,6 +116,7 @@ export namespace DistributionsModel {
         exportMode: ExportMode;
         name: string;
         fileIds: number[];
+        bundleIds: number[];
         format: string;
         exportPattern: string;
         labelIds: number[];
@@ -124,11 +125,21 @@ export namespace DistributionsModel {
     }
 
     export interface CreateDistributionRequest {
-        name: string;
-        fileIds: number[];
         exportMode?: ExportMode;
+        name: string;
+        fileIds?: number[];
+        bundleIds?: number[];
+        /**
+         * @deprecated This property is deprecated. Use bundleIds instead
+         */
         format?: string;
+        /**
+         * @deprecated This property is deprecated. Use bundleIds instead
+         */
         exportPattern?: string;
+        /**
+         * @deprecated This property is deprecated. Use bundleIds instead
+         */
         labelIds?: number[];
     }
 
