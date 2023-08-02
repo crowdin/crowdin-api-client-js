@@ -3,6 +3,8 @@ name: Publish
 on:
   release:
     types: [published]
+  repository_dispatch:
+    types: [publish]
 
 jobs:
   publish-npm:
