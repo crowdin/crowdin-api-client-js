@@ -1,0 +1,19 @@
+name: Release
+run-name: Release ${{ github.event.inputs.version }} version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: Version
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  version:
+    permissions:
+      contents: write
+    uses: crowdin/.github/.github/workflows/bump-version.yml@main

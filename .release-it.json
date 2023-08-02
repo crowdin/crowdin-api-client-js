@@ -1,0 +1,17 @@
+{
+  "git": {
+    "push": true,
+    "commit": true,
+    "commitMessage": "chore: version ${version} [skip ci]",
+    "requireBranch": "master",
+    "tag": true
+  },
+  "github": {
+    "release": true,
+    "autoGenerate": true,
+    "releaseName": "${version}"
+  },
+  "npm": {
+    "publish": false
+  }
+}
