@@ -272,6 +272,68 @@ export class ProjectsGroups extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany
+     */
+    listProjectStringsExporterSettings(
+        projectId: number,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post
+     */
+    addProjectStringsExporterSettings(
+        projectId: number,
+        request: ProjectsGroupsModel.AddProjectStringsExporterSettings,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId System strings exporter Settings Identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get
+     */
+    getProjectStringsExporterSettings(
+        projectId: number,
+        systemStringsExporterSettingsId: number,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId System strings exporter Settings Identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.delete
+     */
+    deleteProjectStringsExporterSettings(projectId: number, systemStringsExporterSettingsId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId System strings exporter Settings Identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.patch
+     */
+    editProjectStringsExporterSettings(
+        projectId: number,
+        systemStringsExporterSettingsId: number,
+        request: ProjectsGroupsModel.EditProjectStringsExporterSettings,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
 }
 
 export namespace ProjectsGroupsModel {
@@ -536,13 +598,32 @@ export namespace ProjectsGroupsModel {
         | PropertyFileFormatSettings
         | CommonFileFormatSettings
         | XmlFileFormatSettings
-        | DocxFileFormatSettings;
+        | DocxFileFormatSettings
+        | StringsExporterSettings;
 
     export interface ProjectFileFormatSettings {
         id: number;
         name: string;
         format: string;
         extensions: string[];
+        settings: Settings;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AddProjectStringsExporterSettings {
+        format: string;
+        settings: Settings;
+    }
+
+    export interface EditProjectStringsExporterSettings {
+        format: string;
+        settings: Settings;
+    }
+
+    export interface ProjectStringsExporterSettings {
+        id: number;
+        format: string;
         settings: Settings;
         createdAt: string;
         updatedAt: string;
@@ -578,5 +659,9 @@ export namespace ProjectsGroupsModel {
         translateHiddenRowsAndColumns?: boolean;
         importNotes?: boolean;
         importHiddenSlides?: boolean;
+    }
+
+    export interface StringsExporterSettings extends CommonFileFormatSettings {
+        convertPlaceHolders: boolean;
     }
 }
