@@ -697,11 +697,13 @@ export namespace SourceFilesModel {
 
     export interface GeneralExportOptions {
         exportPattern: string;
+        exportQuotes?: ExportQuotes;
     }
 
     export interface PropertyExportOptions {
         escapeQuotes: EscapeQuotes;
         exportPattern: string;
+        exportQuotes?: ExportQuotes;
     }
 
     export enum EscapeQuotes {
@@ -711,6 +713,10 @@ export namespace SourceFilesModel {
         THREE = 3,
     }
 
+    export enum ExportQuotes {
+        SINGLE = 'single',
+        DOUBLE = 'double',
+    }
     export type UpdateOption =
         | 'clear_translations_and_approvals'
         | 'keep_translations'
