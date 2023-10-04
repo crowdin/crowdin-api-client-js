@@ -15,6 +15,7 @@ describe('Projects and Groups API', () => {
     const sourceLanguageId = 'uk';
 
     const fileFormatSettingsId = 123;
+    const systemStringsExporterSettingsId = 45;
     const format = 'docx';
     const url = 'crowdin.com';
 
@@ -264,6 +265,68 @@ describe('Projects and Groups API', () => {
                     id: fileFormatSettingsId,
                     format,
                 },
+            })
+            .get(`/projects/${projectId}/strings-exporter-settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: projectId,
+                    format,
+                },
+            })
+            .post(
+                `/projects/${projectId}/strings-exporter-settings`,
+                {
+                    format,
+                    settings: {},
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: systemStringsExporterSettingsId,
+                },
+            })
+            .get(`/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: systemStringsExporterSettingsId,
+                },
+            })
+            .delete(`/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`,
+                {
+                    format: 'android',
+                    settings: {},
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: systemStringsExporterSettingsId,
+                    format: 'android',
+                },
             });
     });
 
@@ -389,5 +452,43 @@ describe('Projects and Groups API', () => {
         ]);
         expect(fileSettings.data.id).toBe(fileFormatSettingsId);
         expect(fileSettings.data.format).toBe(format);
+    });
+
+    it('List project strings exporter', async () => {
+        const listProjectsStrings = await api.listProjectStringsExporterSettings(projectId);
+        expect(listProjectsStrings.data.id).toBe(projectId);
+        expect(listProjectsStrings.data.format).toBe(format);
+    });
+
+    it('Add project strings exporter explorer', async () => {
+        const addProjectsStrings = await api.addProjectStringsExporterSettings(projectId, {
+            format,
+            settings: {},
+        });
+        expect(addProjectsStrings.data.id).toBe(systemStringsExporterSettingsId);
+    });
+
+    it('Get project strings exporter explorer', async () => {
+        const projectsStrings = await api.getProjectStringsExporterSettings(projectId, systemStringsExporterSettingsId);
+
+        expect(projectsStrings.data.id).toBe(systemStringsExporterSettingsId);
+    });
+
+    it('Delete project strings exporter explorer', async () => {
+        await api.deleteProjectStringsExporterSettings(projectId, systemStringsExporterSettingsId);
+    });
+
+    it('Edit project strings exporter explorer', async () => {
+        const projectsStrings = await api.editProjectStringsExporterSettings(
+            projectId,
+            systemStringsExporterSettingsId,
+            {
+                format: 'android',
+                settings: {},
+            },
+        );
+
+        expect(projectsStrings.data.id).toBe(systemStringsExporterSettingsId);
+        expect(projectsStrings.data.format).toBe('android');
     });
 });
