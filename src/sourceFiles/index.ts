@@ -703,6 +703,7 @@ export namespace SourceFilesModel {
         escapeQuotes: EscapeQuotes;
         exportPattern: string;
     }
+
     export interface JavaScriptExportOptions {
         exportPattern: string;
         exportQuotes?: ExportQuotes;
