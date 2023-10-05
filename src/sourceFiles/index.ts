@@ -717,6 +717,7 @@ export namespace SourceFilesModel {
         SINGLE = 'single',
         DOUBLE = 'double',
     }
+
     export type UpdateOption =
         | 'clear_translations_and_approvals'
         | 'keep_translations'
