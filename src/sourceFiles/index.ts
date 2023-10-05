@@ -565,7 +565,7 @@ export namespace SourceFilesModel {
         storageId: number;
         updateOption?: UpdateOption;
         importOptions?: ImportOptions;
-        exportOptions?: GeneralExportOptions | PropertyExportOptions;
+        exportOptions?: GeneralExportOptions | PropertyExportOptions | JavaScriptExportOptions;
         attachLabelIds?: number[];
         detachLabelIds?: number[];
     }
@@ -704,11 +704,21 @@ export namespace SourceFilesModel {
         exportPattern: string;
     }
 
+    export interface JavaScriptExportOptions {
+        exportPattern: string;
+        exportQuotes?: ExportQuotes;
+    }
+
     export enum EscapeQuotes {
         ZERO = 0,
         ONE = 1,
         TWO = 2,
         THREE = 3,
+    }
+
+    export enum ExportQuotes {
+        SINGLE = 'single',
+        DOUBLE = 'double',
     }
 
     export type UpdateOption =
