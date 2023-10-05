@@ -565,7 +565,7 @@ export namespace SourceFilesModel {
         storageId: number;
         updateOption?: UpdateOption;
         importOptions?: ImportOptions;
-        exportOptions?: GeneralExportOptions | PropertyExportOptions;
+        exportOptions?: GeneralExportOptions | PropertyExportOptions | JavaScriptExportOptions;
         attachLabelIds?: number[];
         detachLabelIds?: number[];
     }
@@ -697,11 +697,13 @@ export namespace SourceFilesModel {
 
     export interface GeneralExportOptions {
         exportPattern: string;
-        exportQuotes?: ExportQuotes;
     }
 
     export interface PropertyExportOptions {
         escapeQuotes: EscapeQuotes;
+        exportPattern: string;
+    }
+    export interface JavaScriptExportOptions {
         exportPattern: string;
         exportQuotes?: ExportQuotes;
     }
