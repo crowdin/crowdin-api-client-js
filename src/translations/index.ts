@@ -198,6 +198,8 @@ export namespace TranslationsModel {
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
         markAddedTranslationsAsDone?: boolean;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
     }
 
     export interface BuildProjectDirectoryTranslationRequest {
@@ -241,6 +243,8 @@ export namespace TranslationsModel {
         duplicateTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
     }
 
     export type Method = 'tm' | 'mt';

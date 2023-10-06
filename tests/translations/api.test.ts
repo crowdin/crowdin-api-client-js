@@ -18,6 +18,8 @@ describe('Translations API', () => {
     const directoryId = 61;
     const progress = 50;
     const languageId = 'uk';
+    const sampleLabelIds = [101, 102];
+    const sampleExcludeLabelIds = [103, 104];
 
     const limit = 25;
 
@@ -175,6 +177,29 @@ describe('Translations API', () => {
                 data: {
                     url: url,
                 },
+            })
+            .post(
+                `/projects/${projectId}/pre-translations`,
+                {
+                    languageIds: [],
+                    fileIds: [],
+                    labelIds: sampleLabelIds,
+                    excludeLabelIds: sampleExcludeLabelIds,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: preTranslationId,
+                    attributes: {
+                        labelIds: sampleLabelIds,
+                        excludeLabelIds: sampleExcludeLabelIds,
+                    },
+                },
             });
     });
 
@@ -188,6 +213,18 @@ describe('Translations API', () => {
             languageIds: [],
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Apply Pre-Translation with Label Filters', async () => {
+        const preTranslation = await api.applyPreTranslation(projectId, {
+            fileIds: [],
+            languageIds: [],
+            labelIds: sampleLabelIds,
+            excludeLabelIds: sampleExcludeLabelIds,
+        });
+        expect(preTranslation.data.identifier).toBe(preTranslationId);
+        expect(preTranslation.data.attributes.labelIds).toEqual(sampleLabelIds);
+        expect(preTranslation.data.attributes.excludeLabelIds).toEqual(sampleExcludeLabelIds);
     });
 
     it('Pre-translation status', async () => {
