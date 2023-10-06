@@ -21,7 +21,6 @@ describe('Translations API', () => {
     const sampleLabelIds = [101, 102];
     const sampleExcludeLabelIds = [103, 104];
 
-
     const limit = 25;
 
     beforeAll(() => {
@@ -199,8 +198,8 @@ describe('Translations API', () => {
                     attributes: {
                         labelIds: sampleLabelIds,
                         excludeLabelIds: sampleExcludeLabelIds,
-                    }
-                }
+                    },
+                },
             });
     });
 
@@ -224,10 +223,9 @@ describe('Translations API', () => {
             excludeLabelIds: sampleExcludeLabelIds,
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
-        expect(preTranslation.data.attributes.labelIds).toEqual(sampleLabelIds); 
-        expect(preTranslation.data.attributes.excludeLabelIds).toEqual(sampleExcludeLabelIds); 
+        expect(preTranslation.data.attributes.labelIds).toEqual(sampleLabelIds);
+        expect(preTranslation.data.attributes.excludeLabelIds).toEqual(sampleExcludeLabelIds);
     });
-    
 
     it('Pre-translation status', async () => {
         const preTranslation = await api.preTranslationStatus(projectId, preTranslationId);
