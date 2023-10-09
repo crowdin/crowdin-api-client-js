@@ -24,7 +24,7 @@ export class Reports extends CrowdinApi {
     generateGroupReport(
         groupId: number,
         request: ReportsModel.GenerateGroupReportRequest,
-    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
         const url = `${this.url}/groups/${groupId}/reports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -37,7 +37,7 @@ export class Reports extends CrowdinApi {
     checkGroupReportStatus(
         groupId: number,
         reportId: string,
-    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
         const url = `${this.url}/groups/${groupId}/reports/${reportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -58,7 +58,7 @@ export class Reports extends CrowdinApi {
      */
     generateOrganizationReport(
         request: ReportsModel.GenerateGroupReportRequest,
-    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
         const url = `${this.url}/reports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -69,7 +69,7 @@ export class Reports extends CrowdinApi {
      */
     checkOrganizationReportStatus(
         reportId: string,
-    ): Promise<ResponseObject<Status<ReportsModel.GroupReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
         const url = `${this.url}/reports/${reportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -91,7 +91,7 @@ export class Reports extends CrowdinApi {
     generateReport(
         projectId: number,
         request: ReportsModel.GenerateReportRequest,
-    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.ReportSchema>>>> {
         const url = `${this.url}/projects/${projectId}/reports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -104,7 +104,7 @@ export class Reports extends CrowdinApi {
     checkReportStatus(
         projectId: number,
         reportId: string,
-    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.ReportSchema>>>> {
         const url = `${this.url}/projects/${projectId}/reports/${reportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -185,44 +185,28 @@ export class Reports extends CrowdinApi {
 }
 
 export namespace ReportsModel {
+    export type GroupReportSchema =
+        | GroupTranslationCostsPerEditingSchema
+        | GroupTranslationCostSchema
+        | GroupTopMembersSchema;
+
     export interface GenerateGroupReportRequest {
         name: string;
-        schema: GroupTranslationCostSchema | GroupTopMembersSchema;
+        schema: GroupReportSchema;
     }
 
-    export interface GenerateReportRequest {
-        name: 'costs-estimation' | 'translation-costs' | 'top-members' | 'contribution-raw-data';
-        schema:
-            | CostEstimateSchema
-            | CostEstimateFuzzyModeSchema
-            | TranslationCostSchema
-            | TopMembersSchema
-            | ContributionRawDataSchema;
-    }
-
-    export interface GroupReportStatusAttributes extends ReportStatusAttributes {
-        projectIds: number[];
-    }
-
-    export interface ReportStatusAttributes {
-        format: Format;
-        reportName: string;
-        schema:
-            | CostEstimateSchema
-            | CostEstimateFuzzyModeSchema
-            | TranslationCostSchema
-            | TopMembersSchema
-            | ContributionRawDataSchema;
-    }
-
-    export interface GroupTranslationCostSchema {
+    export interface GroupTranslationCostsPerEditingSchema {
         projectIds?: number[];
         unit?: Unit;
         currency?: Currency;
         format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: NetRateSchemas;
         groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
+        userIds?: number[];
     }
 
     export interface GroupTopMembersSchema {
@@ -235,39 +219,91 @@ export namespace ReportsModel {
         dateTo?: string;
     }
 
-    export interface CostEstimateSchema {
+    export type ReportSchema =
+        | CostEstimationPostEndingSchema
+        | CostEstimationPostEndingSchemaByTask
+        | CostEstimateSchema
+        | CostEstimateFuzzyModeSchema
+        | TranslationCostsPostEndingSchema
+        | TranslationCostsPostEndingSchemaByTask
+        | TranslationCostSchema
+        | TopMembersSchema
+        | ContributionRawDataSchema;
+
+    export interface GenerateReportRequest {
+        name:
+            | 'costs-estimation'
+            | 'translation-costs'
+            | 'top-members'
+            | 'contribution-raw-data'
+            | 'costs-estimation-pe'
+            | 'translation-costs-pe';
+        schema: ReportSchema;
+    }
+
+    export interface ReportStatusAttributes<S> {
+        format: Format;
+        reportName: string;
+        schema: S;
+    }
+
+    export interface CostEstimationPostEndingSchema {
         unit?: Unit;
         currency?: Currency;
-        mode?: string;
+        format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: Omit<NetRateSchemas, 'mtMatch' | 'suggestionMatch'>;
+        calculateInternalMatches?: boolean;
+        includePreTranslatedStrings?: boolean;
         languageId?: string;
         fileIds?: number[];
-        format?: Format;
-        regularRates?: RegularRate[];
-        individualRates?: IndividualRate[];
+        directoryIds?: number[];
+        branchIds?: number[];
         dateFrom?: string;
         dateTo?: string;
-        stepTypes?: Array<TranslateStep | ProofreadStep>;
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
     }
 
-    export interface CostEstimateFuzzyModeSchema extends CostEstimateSchema {
-        calculateInternalFuzzyMatches?: boolean;
-    }
-
-    export interface TranslationCostSchema {
+    export interface CostEstimationPostEndingSchemaByTask {
         unit?: Unit;
         currency?: Currency;
-        mode?: string;
-        languageId?: string;
         format?: Format;
-        groupBy?: GroupBy;
-        regularRates?: RegularRate[];
+        baseRates?: BaseRate;
         individualRates?: IndividualRate[];
-        dateFrom?: string;
-        dateTo?: string;
-        stepTypes?: Array<TranslateStep | ProofreadStep>;
+        netRateSchemes?: Omit<NetRateSchemas, 'mtMatch' | 'suggestionMatch'>;
+        calculateInternalMatches?: boolean;
+        includePreTranslatedStrings?: boolean;
+        taskId?: number;
     }
 
-    export type TranslationCostFuzzyModeSchema = TranslationCostSchema;
+    export interface TranslationCostsPostEndingSchemaByTask {
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: NetRateSchemas;
+        taskId: number;
+    }
+
+    export interface TranslationCostsPostEndingSchema {
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: NetRateSchemas;
+        groupBy: GroupBy;
+        dateFrom?: string;
+        dateTo?: string;
+        languageId?: string;
+        userIds?: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+    }
 
     export interface TopMembersSchema {
         unit?: Unit;
@@ -291,15 +327,15 @@ export namespace ReportsModel {
         name: string;
         currency: Currency;
         unit: Unit;
-        mode: 'fuzzy' | 'simple';
         config: ReportSettinsConfig;
         createdAt: string;
         updatedAt: string;
     }
 
     export interface ReportSettinsConfig {
-        regularRates: RegularRate[];
-        individualRates: UsersIndividualRate[];
+        baseRates: BaseRate;
+        netRateSchemes: NetRateSchemas[];
+        individualRates: IndividualRate[];
     }
 
     export type Unit = 'strings' | 'words' | 'chars' | 'chars_with_spaces';
@@ -330,6 +366,101 @@ export namespace ReportsModel {
 
     export type Format = 'xlsx' | 'csv' | 'json';
 
+    export interface BaseRate {
+        fullTranslation: number;
+        proofread: number;
+    }
+
+    export interface IndividualRate extends BaseRate {
+        languageIds: string[];
+        userIds: number[];
+        fullTranslation: number;
+        proofread: number;
+    }
+
+    export interface NetRateSchemas {
+        tmMatch: {
+            matchType: Mode;
+            price: number;
+        }[];
+        mtMatch: {
+            matchType: Mode;
+            price: number;
+        }[];
+        suggestionMatch: {
+            matchType: Mode;
+            price: number;
+        }[];
+    }
+
+    export type Mode = 'no_match' | 'tm_match' | 'approval' | '99-95' | '94-90' | '89-80' | 'perfect' | '100';
+
+    export type ContributionMode = 'translations' | 'approvals' | 'votes';
+
+    export type GroupBy = 'user' | 'language';
+
+    export type LabelIncludeType = 'strings_with_label' | 'strings_without_label';
+
+    /**
+     * @deprecated
+     */
+    export interface GroupTranslationCostSchema {
+        projectIds?: number[];
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        groupBy?: GroupBy;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    /**
+     * @deprecated
+     */
+    export interface CostEstimateSchema {
+        unit?: Unit;
+        currency?: Currency;
+        mode?: string;
+        languageId?: string;
+        fileIds?: number[];
+        format?: Format;
+        regularRates?: RegularRate[];
+        individualRates?: IndividualRate[];
+        dateFrom?: string;
+        dateTo?: string;
+        stepTypes?: Array<TranslateStep | ProofreadStep>;
+    }
+
+    /**
+     * @deprecated
+     */
+    export interface CostEstimateFuzzyModeSchema extends CostEstimateSchema {
+        calculateInternalFuzzyMatches?: boolean;
+    }
+
+    /**
+     * @deprecated
+     */
+    export interface TranslationCostSchema {
+        unit?: Unit;
+        currency?: Currency;
+        mode?: string;
+        languageId?: string;
+        format?: Format;
+        groupBy?: GroupBy;
+        regularRates?: RegularRate[];
+        individualRates?: IndividualRate[];
+        dateFrom?: string;
+        dateTo?: string;
+        stepTypes?: Array<TranslateStep | ProofreadStep>;
+    }
+
+    /**
+     * @deprecated
+     */
+    export type TranslationCostFuzzyModeSchema = TranslationCostSchema;
+
+    //used only in deprecated types
     export interface TranslateStep {
         type: string;
         mode: string;
@@ -348,19 +479,4 @@ export namespace ReportsModel {
         mode: Mode;
         value: number;
     }
-
-    export interface UsersIndividualRate extends IndividualRate {
-        userIds: number[];
-    }
-
-    export interface IndividualRate {
-        languageIds: string[];
-        rates: RegularRate[];
-    }
-
-    export type Mode = 'no_match' | 'tm_match' | 'approval' | '99-95' | '94-90' | '89-80' | 'perfect' | '100';
-
-    export type ContributionMode = 'translations' | 'approvals' | 'votes';
-
-    export type GroupBy = 'user' | 'language';
 }
