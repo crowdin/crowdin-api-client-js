@@ -28,7 +28,8 @@ describe('Reports API', () => {
     const unit: ReportsModel.Unit = 'words';
     const config: ReportsModel.ReportSettinsConfig = {
         individualRates: [],
-        regularRates: [],
+        baseRates: { fullTranslation: 0, proofread: 0 },
+        netRateSchemes: [],
     };
 
     beforeAll(() => {
@@ -168,7 +169,6 @@ describe('Reports API', () => {
                     name: reportName,
                     currency,
                     unit,
-                    mode: 'simple',
                     config,
                 },
                 {
@@ -289,7 +289,6 @@ describe('Reports API', () => {
         const template = await api.addReportSettingsTemplate(projectId, {
             config,
             currency,
-            mode: 'simple',
             name: reportName,
             unit,
         });
