@@ -31,6 +31,7 @@ describe('Reports API', () => {
         baseRates: { fullTranslation: 0, proofread: 0 },
         netRateSchemes: [],
     };
+    const isPublic = false;
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -170,6 +171,7 @@ describe('Reports API', () => {
                     currency,
                     unit,
                     config,
+                    isPublic,
                 },
                 {
                     reqheaders: {
@@ -291,6 +293,7 @@ describe('Reports API', () => {
             currency,
             name: reportName,
             unit,
+            isPublic,
         });
         expect(template.data.id).toBe(reportSettingsTemplateId);
     });
