@@ -328,6 +328,7 @@ export namespace ReportsModel {
         currency: Currency;
         unit: Unit;
         config: ReportSettinsConfig;
+        isPublic: boolean;
         createdAt: string;
         updatedAt: string;
     }
