@@ -535,6 +535,7 @@ export namespace SourceFilesModel {
         directoryId: number;
         name: string;
         title: string;
+        context: string;
         type: string;
         path: string;
         status: string;
@@ -554,7 +555,9 @@ export namespace SourceFilesModel {
         branchId?: number;
         directoryId?: number;
         title?: string;
+        context?: string;
         type?: FileType;
+        parserVersion?: number;
         importOptions?: ImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
         attachLabelIds?: number[];
@@ -644,13 +647,21 @@ export namespace SourceFilesModel {
 
     export interface SpreadsheetImportOptions {
         firstLineContainsHeader: boolean;
+        contentSegmentation: boolean;
+        srxStorageId: number;
         importTranslations: boolean;
         scheme: Scheme;
     }
 
     export interface Scheme {
+        none: number;
         identifier: number;
         sourcePhrase: number;
+        sourceOrTranslation: number;
+        translation: number;
+        context: number;
+        maxLength: number;
+        labels: number;
         [key: string]: number;
     }
 
@@ -702,6 +713,7 @@ export namespace SourceFilesModel {
     export interface PropertyExportOptions {
         escapeQuotes: EscapeQuotes;
         exportPattern: string;
+        escapeSpecialCharacters?: 0 | 1;
     }
 
     export interface JavaScriptExportOptions {
