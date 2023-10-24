@@ -1,5 +1,10 @@
 import { CrowdinApi, ResponseObject } from '../core';
 
+/**
+ * Crowdin Apps are web applications that can be integrated with Crowdin to extend its functionality.
+ *
+ * Use the API to manage the necessary app data.
+ */
 export class Applications extends CrowdinApi {
     /**
      * @param applicationId application identifier
