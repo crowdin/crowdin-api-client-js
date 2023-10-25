@@ -2,6 +2,8 @@
 
 :tada: First off, thanks for taking the time to contribute! :tada:
 
+The Crowdin API client provides methods that essentially call Crowdin's APIs. This makes it much easier for other developers to make calls to Crowdin's APIs, as the client abstracts a lot of the work required. In short, the API client provides a lightweight interface for making API requests to Crowdin.
+
 The following is a set of guidelines for contributing to Crowdin JavaScript Client. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 This project and everyone participating in it are governed by the [Code of Conduct](/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
