@@ -29,6 +29,8 @@ export class StringTranslations extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param fileId file identifier
+     * @param labelIds label Identifiers
+     * @param excludeLabelIds exclude label Identifiers
      * @deprecated optional parameters should be passed through an object
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
      */
@@ -40,6 +42,8 @@ export class StringTranslations extends CrowdinApi {
         limit?: number,
         offset?: number,
         fileId?: number,
+        labelIds?: string,
+        excludeLabelIds?: string,
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     listTranslationApprovals(
         projectId: number,
@@ -49,6 +53,8 @@ export class StringTranslations extends CrowdinApi {
         deprecatedLimit?: number,
         deprecatedOffset?: number,
         deprecatedFileId?: number,
+        deprecatedLabelIds?: string,
+        deprecatedExcludeLabelIds?: string,
     ): Promise<ResponseList<StringTranslationsModel.Approval>> {
         let url = `${this.url}/projects/${projectId}/approvals`;
         if (isOptionalNumber(options, '1' in arguments)) {
@@ -59,12 +65,16 @@ export class StringTranslations extends CrowdinApi {
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
                 fileId: deprecatedFileId,
+                labelIds: deprecatedLabelIds,
+                excludeLabelIds: deprecatedExcludeLabelIds,
             };
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
         url = this.addQueryParam(url, 'translationId', options.translationId);
         url = this.addQueryParam(url, 'fileId', options.fileId);
+        url = this.addQueryParam(url, 'labelIds', options.labelIds);
+        url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -327,6 +337,8 @@ export class StringTranslations extends CrowdinApi {
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
+     * @param labelIds label Identifiers
+     * @param excludeLabelIds exclude label Identifiers
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
@@ -337,6 +349,8 @@ export class StringTranslations extends CrowdinApi {
         stringId?: number,
         languageId?: string,
         translationId?: number,
+        labelIds?: string,
+        excludeLabelIds?: string,
         limit?: number,
         offset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
@@ -345,6 +359,8 @@ export class StringTranslations extends CrowdinApi {
         options?: number | StringTranslationsModel.ListTranslationVotesOptions,
         deprecatedLanguageId?: string,
         deprecatedTranslationId?: number,
+        deprecatedLabelIds?: string,
+        deprecatedExcludeLabelIds?: string,
         deprecatedLimit?: number,
         deprecatedOffset?: number,
     ): Promise<ResponseList<StringTranslationsModel.Vote>> {
@@ -354,6 +370,8 @@ export class StringTranslations extends CrowdinApi {
                 stringId: options,
                 languageId: deprecatedLanguageId,
                 translationId: deprecatedTranslationId,
+                labelIds: deprecatedLabelIds,
+                excludeLabelIds: deprecatedExcludeLabelIds,
                 limit: deprecatedLimit,
                 offset: deprecatedOffset,
             };
@@ -361,6 +379,8 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'languageId', options.languageId);
         url = this.addQueryParam(url, 'translationId', options.translationId);
+        url = this.addQueryParam(url, 'labelIds', options.labelIds);
+        url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -404,6 +424,8 @@ export namespace StringTranslationsModel {
         languageId?: string;
         translationId?: number;
         fileId?: number;
+        labelIds?: string;
+        excludeLabelIds?: string;
     }
 
     export interface Approval {
@@ -500,6 +522,8 @@ export namespace StringTranslationsModel {
         stringId?: number;
         languageId?: string;
         translationId?: number;
+        labelIds?: string;
+        excludeLabelIds?: string;
     }
 
     export interface Vote {
