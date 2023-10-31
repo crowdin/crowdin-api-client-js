@@ -507,6 +507,7 @@ export namespace SourceFilesModel {
         name: string;
         title: string;
         exportPattern: string;
+        path: string;
         priority: Priority;
         createdAt: string;
         updatedAt: string;
