@@ -272,6 +272,69 @@ export class ProjectsGroups extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/file-format-settings/${fileFormatSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param projectId
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany
+     */
+    listProjectStringExporterSettings(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post
+     */
+    addProjectStringExporterSettings(
+        projectId: number,
+        request: ProjectsGroupsModel.AddProjectStringExporterSettingsRequest,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId
+     * @param systemStringsExporterSettingsId
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get
+     */
+    getProjectStringExporterSettings(
+        projectId: number,
+        systemStringsExporterSettingsId: number,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId file format settings identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.delete
+     */
+    deleteProjectStringsExporterSettings(projectId: number, systemStringsExporterSettingsId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId file format settings identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.patch
+     */
+    editProjectStringsExporterSettings(
+        projectId: number,
+        systemStringsExporterSettingsId: number,
+        request: ProjectsGroupsModel.AddProjectStringExporterSettingsRequest,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
 }
 
 export namespace ProjectsGroupsModel {
@@ -578,5 +641,35 @@ export namespace ProjectsGroupsModel {
         translateHiddenRowsAndColumns?: boolean;
         importNotes?: boolean;
         importHiddenSlides?: boolean;
+    }
+
+    export type StringSettings =
+        | AndroidStringsExporterSettings
+        | MacOSXStringsExporterSettings
+        | XliffStringsExporterSettings;
+
+    export interface ProjectStringExporterSettings {
+        id: number;
+        format: string;
+        settings: StringSettings;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AndroidStringsExporterSettings {
+        convertPlaceholders?: boolean;
+    }
+
+    export interface MacOSXStringsExporterSettings {
+        convertPlaceholders?: boolean;
+    }
+
+    export interface XliffStringsExporterSettings {
+        convertPlaceholders?: boolean;
+    }
+
+    export interface AddProjectStringExporterSettingsRequest {
+        format: string;
+        settings: StringSettings;
     }
 }

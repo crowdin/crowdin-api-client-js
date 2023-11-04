@@ -20,6 +20,8 @@ describe('Projects and Groups API', () => {
 
     const limit = 25;
 
+    const stringExporterSettingsId = 2;
+
     beforeAll(() => {
         scope = nock(api.url)
             .get('/groups', undefined, {
@@ -264,6 +266,75 @@ describe('Projects and Groups API', () => {
                     id: fileFormatSettingsId,
                     format,
                 },
+            })
+            .get(`/projects/${projectId}/strings-exporter-settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringExporterSettingsId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/strings-exporter-settings`,
+                {
+                    format,
+                    settings: {},
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: stringExporterSettingsId,
+                },
+            })
+            .get(`/projects/${projectId}/strings-exporter-settings/${stringExporterSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: stringExporterSettingsId,
+                },
+            })
+            .delete(`/projects/${projectId}/strings-exporter-settings/${stringExporterSettingsId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/strings-exporter-settings/${stringExporterSettingsId}`,
+                {
+                    format,
+                    settings: {},
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: stringExporterSettingsId,
+                    format,
+                },
             });
     });
 
@@ -389,5 +460,38 @@ describe('Projects and Groups API', () => {
         ]);
         expect(fileSettings.data.id).toBe(fileFormatSettingsId);
         expect(fileSettings.data.format).toBe(format);
+    });
+
+    it('List project string exporter settings', async () => {
+        const stringSettingsList = await api.listProjectStringExporterSettings(projectId);
+        expect(stringSettingsList.data.length).toBe(1);
+        expect(stringSettingsList.data[0].data.id).toBe(stringExporterSettingsId);
+        expect(stringSettingsList.pagination.limit).toBe(limit);
+    });
+
+    it('Add project string exporter settings', async () => {
+        const stringSettings = await api.addProjectStringExporterSettings(projectId, {
+            format,
+            settings: {},
+        });
+        expect(stringSettings.data.id).toBe(stringExporterSettingsId);
+    });
+
+    it('Get project string exporter setttings', async () => {
+        const stringSettings = await api.getProjectStringExporterSettings(projectId, stringExporterSettingsId);
+        expect(stringSettings.data.id).toBe(stringExporterSettingsId);
+    });
+
+    it('Delete project string exporter settings', async () => {
+        await api.deleteProjectStringsExporterSettings(projectId, stringExporterSettingsId);
+    });
+
+    it('Edit project string exporter settings', async () => {
+        const stringSettings = await api.editProjectStringsExporterSettings(projectId, stringExporterSettingsId, {
+            format,
+            settings: {},
+        });
+        expect(stringSettings.data.id).toBe(stringExporterSettingsId);
+        expect(stringSettings.data.format).toBe(format);
     });
 });
