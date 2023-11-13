@@ -274,7 +274,8 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
-     * @param projectId
+     * @param projectId project identifier
+     * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany
      */
     listProjectStringExporterSettings(
@@ -299,8 +300,8 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
-     * @param projectId
-     * @param systemStringsExporterSettingsId
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get
      */
     getProjectStringExporterSettings(
@@ -325,7 +326,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param projectId project identifier
      * @param systemStringsExporterSettingsId file format settings identifier
      * @param request request body
-     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.patch
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.patch
      */
     editProjectStringsExporterSettings(
         projectId: number,
@@ -643,7 +644,7 @@ export namespace ProjectsGroupsModel {
         importHiddenSlides?: boolean;
     }
 
-    export type StringSettings =
+    export type StringExporterSettings =
         | AndroidStringsExporterSettings
         | MacOSXStringsExporterSettings
         | XliffStringsExporterSettings;
@@ -651,7 +652,7 @@ export namespace ProjectsGroupsModel {
     export interface ProjectStringExporterSettings {
         id: number;
         format: string;
-        settings: StringSettings;
+        settings: StringExporterSettings;
         createdAt: string;
         updatedAt: string;
     }
@@ -670,6 +671,6 @@ export namespace ProjectsGroupsModel {
 
     export interface AddProjectStringExporterSettingsRequest {
         format: string;
-        settings: StringSettings;
+        settings: StringExporterSettings;
     }
 }
