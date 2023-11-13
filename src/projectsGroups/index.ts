@@ -296,6 +296,7 @@ export namespace ProjectsGroupsModel {
 
     export interface Project {
         id: number;
+        type?: Type;
         groupId: number;
         userId: number;
         sourceLanguageId: string;
@@ -316,6 +317,7 @@ export namespace ProjectsGroupsModel {
         createdAt: string;
         updatedAt: string;
         lastActivity: string;
+        sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
     }
 
@@ -329,9 +331,9 @@ export namespace ProjectsGroupsModel {
         languageAccessPolicy?: LanguageAccessPolicy;
         cname?: string;
         description?: string;
-        translateDuplicates?: TranslateDuplicates;
         tagDetection?: TagDetection;
         isMtAllowed?: boolean;
+        taskBasedAccessControl?: boolean;
         autoSubstitution?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
@@ -349,8 +351,9 @@ export namespace ProjectsGroupsModel {
         qaChecksIgnorableCategories?: CheckCategories;
         languageMapping?: LanguageMapping;
         glossaryAccess?: boolean;
-        notificationSettings?: NotificationSettings;
         normalizePlaceholder?: boolean;
+        notificationSettings?: NotificationSettings;
+        tmContextType?: TmContextType;
         saveMetaInfoInSource?: boolean;
     }
 
@@ -367,6 +370,7 @@ export namespace ProjectsGroupsModel {
         translateDuplicates?: TranslateDuplicates;
         tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
+        taskBasedAccessControl?: boolean;
         autoSubstitution?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
@@ -376,21 +380,21 @@ export namespace ProjectsGroupsModel {
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
-        inContext?: boolean;
-        inContextProcessHiddenStrings?: boolean;
-        inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
         qaCheckCategories?: CheckCategories;
         qaChecksIgnorableCategories?: CheckCategories;
         languageMapping?: LanguageMapping;
         glossaryAccess?: boolean;
         notificationSettings?: NotificationSettings;
+        normalizePlaceholder?: boolean;
+        tmContextType?: TmContextType;
     }
 
     export interface CreateProjectEnterpriseRequest {
         name: string;
         sourceLanguageId: string;
         templateId?: number;
+        steps?: WorkflowTemplateStepConfig[];
         groupId?: number;
         targetLanguageIds?: string[];
         vendorId?: number;
@@ -399,6 +403,7 @@ export namespace ProjectsGroupsModel {
         translateDuplicates?: TranslateDuplicates;
         tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
+        taskBasedAccessControl?: boolean;
         autoSubstitution?: boolean;
         showTmSuggestionsDialects?: boolean;
         autoTranslateDialects?: boolean;
@@ -415,19 +420,23 @@ export namespace ProjectsGroupsModel {
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
+        qaApprovalsCount?: number;
         qaCheckCategories?: CheckCategories;
         qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
+        tmContextType?: TmContextType;
         languageMapping?: LanguageMapping;
-        notificationSettings?: NotificationSettings;
         glossaryAccess?: boolean;
+        notificationSettings?: NotificationSettings;
     }
 
     export interface ProjectSettings extends Project {
+        clientOrganizationId?: number;
         translateDuplicates: TranslateDuplicates;
         tagsDetection: TagDetection;
         glossaryAccess: boolean;
         isMtAllowed: boolean;
+        taskBasedAccessControl: boolean;
         hiddenStringsProofreadersAccess: boolean;
         autoSubstitution: boolean;
         exportTranslatedOnly: boolean;
@@ -439,6 +448,7 @@ export namespace ProjectsGroupsModel {
         autoTranslateDialects: boolean;
         showTmSuggestionsDialects: boolean;
         useGlobalTm: boolean;
+        tmContextType: TmContextType;
         normalizePlaceholder: boolean;
         saveMetaInfoInSource: boolean;
         inContext: boolean;
@@ -447,6 +457,7 @@ export namespace ProjectsGroupsModel {
         inContextPseudoLanguage: LanguagesModel.Language;
         isSuspended: boolean;
         qaCheckIsActive: boolean;
+        qaApprovalsCount: number;
         qaCheckCategories: CheckCategories;
         qaChecksIgnorableCategories: CheckCategories;
         customQaCheckIds: number[];
@@ -457,6 +468,22 @@ export namespace ProjectsGroupsModel {
         defaultGlossaryId: number;
         assignedGlossaries: number[];
         assignedTms: { [id: string]: { priority: number } };
+        tmPenalties: {
+            autoSubstitution: number;
+            tmPriority: {
+                priority: number;
+                penalty: number;
+            };
+            multipleTranslations: number;
+            timeSinceLastUsage: {
+                months: number;
+                penalty: number;
+            };
+            timeSinceLastModified: {
+                months: number;
+                penalty: number;
+            };
+        };
     }
 
     export enum Type {
@@ -536,6 +563,12 @@ export namespace ProjectsGroupsModel {
         | PropertyFileFormatSettings
         | CommonFileFormatSettings
         | XmlFileFormatSettings
+        | MdxV2FormatSettings
+        | FmHtmlFormatSettings
+        | HtmlFormatSettings
+        | JsonFormatSettings
+        | MdxV1FormatSettings
+        | JavaScriptFileFormatSettings
         | DocxFileFormatSettings;
 
     export interface ProjectFileFormatSettings {
@@ -559,6 +592,11 @@ export namespace ProjectsGroupsModel {
         exportPattern?: string;
     }
 
+    export interface JavaScriptFileFormatSettings {
+        exportPattern?: 'string';
+        exportQuotes?: 'single' | 'double';
+    }
+
     export interface CommonFileFormatSettings {
         contentSegmentation?: boolean;
         srxStorageId?: number;
@@ -571,6 +609,30 @@ export namespace ProjectsGroupsModel {
         translatableElements?: string[];
     }
 
+    export interface JsonFormatSettings extends CommonFileFormatSettings {
+        type?: 'i18next_json' | 'nestjs_i18n';
+    }
+
+    export interface MdxV2FormatSettings extends CommonFileFormatSettings {
+        excludeCodeBlocks?: boolean;
+        excludedFrontMatterElements?: string[];
+    }
+
+    export interface MdxV1FormatSettings extends CommonFileFormatSettings {
+        excludeCodeBlocks?: boolean;
+        excludedFrontMatterElements?: string[];
+        type?: 'mdx_v1' | 'mdx_v2';
+    }
+
+    export interface FmHtmlFormatSettings extends CommonFileFormatSettings {
+        excludedElements?: boolean;
+        excludedFrontMatterElements?: string[];
+    }
+
+    export interface HtmlFormatSettings extends CommonFileFormatSettings {
+        excludedElements?: boolean;
+    }
+
     export interface DocxFileFormatSettings extends CommonFileFormatSettings {
         cleanTagsAggressively?: boolean;
         translateHiddenText?: boolean;
@@ -578,5 +640,40 @@ export namespace ProjectsGroupsModel {
         translateHiddenRowsAndColumns?: boolean;
         importNotes?: boolean;
         importHiddenSlides?: boolean;
+    }
+
+    export type TmContextType = 'segmentContext' | 'auto' | 'prevAndNextSegment';
+
+    export type WorkflowTemplateStepConfig =
+        | WorkflowTemplateStepConfigTranslateProofread
+        | WorkflowTemplateStepConfigVendor
+        | WorkflowTemplateStepConfigTMPreTranslate
+        | WorkflowTemplateStepConfigMTPreTranslate;
+
+    export interface WorkflowTemplateStepConfigTranslateProofread {
+        id: number;
+        languages?: string[];
+        assignees?: number[];
+    }
+
+    export interface WorkflowTemplateStepConfigVendor {
+        id: number;
+        languages?: string[];
+        vendorId?: number;
+    }
+
+    export interface WorkflowTemplateStepConfigTMPreTranslate {
+        id: number;
+        languages?: string[];
+        config?: {
+            minRelevant?: number;
+            autoSubstitution?: boolean;
+        };
+    }
+
+    export interface WorkflowTemplateStepConfigMTPreTranslate {
+        id: number;
+        languages?: string[];
+        mtId?: number;
     }
 }
