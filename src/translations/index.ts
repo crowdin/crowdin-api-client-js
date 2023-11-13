@@ -35,7 +35,7 @@ export class Translations extends CrowdinApi {
      */
     applyPreTranslation(
         projectId: number,
-        request: TranslationsModel.PreTranslateRequest,
+        request: TranslationsModel.PreTranslateRequest | TranslationsModel.PreTranslateStringsRequest,
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations`;
         return this.post(url, request, this.defaultConfig());
@@ -143,6 +143,15 @@ export class Translations extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    uploadTranslationStrings(
+        projectId: number,
+        languageId: string,
+        request: TranslationsModel.UploadTranslationStringsRequest,
+    ): Promise<ResponseObject<TranslationsModel.UploadTranslationStringsResponse>> {
+        const url = `${this.url}/projects/${projectId}/translations/${languageId}`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
     /**
      * @param projectId project identifier
      * @param buildId build identifier
@@ -202,6 +211,24 @@ export namespace TranslationsModel {
         excludeLabelIds?: number[];
     }
 
+    export interface PreTranslateStringsRequest {
+        languageIds: string[];
+        branchIds?: number[];
+        method?: Method;
+        engineId?: number;
+        autoApproveOption?: AutoApproveOption;
+        duplicateTranslations?: boolean;
+        skipApprovedTranslations?: boolean;
+        translateUntranslatedOnly?: boolean;
+        translateWithPerfectMatchOnly?: boolean;
+        markAddedTranslationsAsDone?: boolean;
+        fallbackLanguages?: {
+            languageId: string;
+        }[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+    }
+
     export interface BuildProjectDirectoryTranslationRequest {
         targetLanguageIds?: string[];
         skipUntranslatedStrings?: boolean;
@@ -238,11 +265,14 @@ export namespace TranslationsModel {
     export interface PreTranslationStatusAttributes {
         languageIds: string[];
         fileIds: number[];
+        branchIds: number[];
         method: Method;
         autoApproveOption: AutoApproveOption;
         duplicateTranslations: boolean;
+        skipApprovedTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
+        markAddedTranslationsAsDone: boolean;
         labelIds?: number[];
         excludeLabelIds?: number[];
     }
@@ -297,11 +327,26 @@ export namespace TranslationsModel {
         translateHidden?: boolean;
     }
 
+    export interface UploadTranslationStringsRequest {
+        storageId: number;
+        branchId: number;
+        importEqSuggestions?: boolean;
+        autoApproveImported?: boolean;
+        translateHidden?: boolean;
+    }
+
     export interface UploadTranslationResponse {
         projectId: number;
         storageId: number;
         languageId: string;
         fileId: number;
+    }
+
+    export interface UploadTranslationStringsResponse {
+        projectId: number;
+        storageId: number;
+        languageId: string;
+        branchId: number;
     }
 
     export interface ExportProjectTranslationRequest {
@@ -312,8 +357,10 @@ export namespace TranslationsModel {
         directoryIds?: number[];
         fileIds?: number[];
         skipUntranslatedStrings?: boolean;
+        exportApprovedOnly?: boolean;
         skipUntranslatedFiles?: boolean;
         exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
     }
 
     export interface ListProjectBuildsOptions extends PaginationOptions {

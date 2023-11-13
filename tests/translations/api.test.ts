@@ -15,6 +15,7 @@ describe('Translations API', () => {
     const url = 'test.com';
     const storageId = 5;
     const fileId = 51;
+    const branchId = 71;
     const directoryId = 61;
     const progress = 50;
     const languageId = 'uk';
@@ -145,8 +146,8 @@ describe('Translations API', () => {
             .post(
                 `/projects/${projectId}/translations/${languageId}`,
                 {
-                    storageId: storageId,
-                    fileId: fileId,
+                    storageId,
+                    fileId,
                 },
                 {
                     reqheaders: {
@@ -157,6 +158,26 @@ describe('Translations API', () => {
             .reply(200, {
                 data: {
                     fileId,
+                    storageId,
+                    languageId,
+                    projectId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/translations/${languageId}`,
+                {
+                    storageId,
+                    branchId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    branchId,
                     storageId,
                     languageId,
                     projectId,
@@ -274,10 +295,21 @@ describe('Translations API', () => {
 
     it('Upload Translation', async () => {
         const res = await api.uploadTranslation(projectId, languageId, {
-            storageId: storageId,
-            fileId: fileId,
+            storageId,
+            fileId,
         });
         expect(res.data.fileId).toBe(fileId);
+        expect(res.data.languageId).toBe(languageId);
+        expect(res.data.projectId).toBe(projectId);
+        expect(res.data.storageId).toBe(storageId);
+    });
+
+    it('Upload Translation String-based', async () => {
+        const res = await api.uploadTranslationStrings(projectId, languageId, {
+            storageId,
+            branchId,
+        });
+        expect(res.data.branchId).toBe(branchId);
         expect(res.data.languageId).toBe(languageId);
         expect(res.data.projectId).toBe(projectId);
         expect(res.data.storageId).toBe(storageId);
