@@ -6,7 +6,9 @@ import {
     PatchRequest,
     ResponseList,
     ResponseObject,
+    Status,
 } from '../core';
+import { SourceFilesModel } from '../sourceFiles';
 
 /**
  * Source strings are the text units for translation. Instead of modifying source files, you can manage source strings one by one.
@@ -14,6 +16,30 @@ import {
  * Use API to add, edit, or delete some specific strings in the source-based and files-based projects.
  */
 export class SourceStrings extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param uploadId export identifier
+     */
+    uploadStringsStatus(
+        projectId: number,
+        uploadId: string,
+    ): Promise<ResponseObject<Status<SourceStringsModel.UploadStringsStatus>>> {
+        const url = `${this.url}/projects/${projectId}/strings/uploads/${uploadId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request payload
+     */
+    uploadStrings(
+        projectId: number,
+        request: SourceStringsModel.UploadStringsRequest,
+    ): Promise<ResponseObject<Status<SourceStringsModel.UploadStringsStatus>>> {
+        const url = `${this.url}/projects/${projectId}/strings/uploads`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
@@ -97,7 +123,7 @@ export class SourceStrings extends CrowdinApi {
      */
     addString(
         projectId: number,
-        request: SourceStringsModel.CreateStringRequest,
+        request: SourceStringsModel.CreateStringRequest | SourceStringsModel.CreateStringStringsBasedRequest,
     ): Promise<ResponseObject<SourceStringsModel.String>> {
         const url = `${this.url}/projects/${projectId}/strings`;
         return this.post(url, request, this.defaultConfig());
@@ -119,10 +145,16 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param stringId string identifier
+     * @param query query params
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.get
      */
-    getString(projectId: number, stringId: number): Promise<ResponseObject<SourceStringsModel.String>> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+    getString(
+        projectId: number,
+        stringId: number,
+        query?: { denormalizePlaceholders: BooleanInt },
+    ): Promise<ResponseObject<SourceStringsModel.String>> {
+        let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+        url = this.addQueryParam(url, 'denormalizePlaceholders', query?.denormalizePlaceholders);
         return this.get(url, this.defaultConfig());
     }
 
@@ -153,6 +185,45 @@ export class SourceStrings extends CrowdinApi {
 }
 
 export namespace SourceStringsModel {
+    export type UploadStringsType =
+        | 'auto'
+        | 'android'
+        | 'macosx'
+        | 'arb'
+        | 'csv'
+        | 'json'
+        | 'xliff'
+        | 'xliff_two'
+        | 'xlsx';
+
+    export interface UploadStringsStatus {
+        branchId: number;
+        storageId: number;
+        fileType: UploadStringsType;
+        parserVersion: number;
+        labelIds: number[];
+        importOptions: {
+            firstLineContainsHeader: boolean;
+            importTranslations: boolean;
+            scheme: SourceFilesModel.Scheme;
+        };
+    }
+
+    export interface UploadStringsRequest {
+        branchId: number;
+        storageId: number;
+        type?: UploadStringsType;
+        parserVersion?: number;
+        labelIds?: number[];
+        updateStrings?: boolean;
+        cleanupMode?: boolean;
+        importOptions?: {
+            firstLineContainsHeader: boolean;
+            importTranslations: boolean;
+            scheme: SourceFilesModel.Scheme;
+        };
+    }
+
     export interface ListProjectStringsOptions extends PaginationOptions {
         fileId?: number;
         filter?: string;
@@ -189,6 +260,16 @@ export namespace SourceStringsModel {
         text: string | PluralText;
         identifier?: string;
         fileId?: number;
+        context?: string;
+        isHidden?: boolean;
+        maxLength?: number;
+        labelIds?: number[];
+    }
+
+    export interface CreateStringStringsBasedRequest {
+        text: string | PluralText;
+        identifier: string;
+        branchId: number;
         context?: string;
         isHidden?: boolean;
         maxLength?: number;

@@ -12,11 +12,41 @@ describe('Source Strings API', () => {
     const stringIdentifier = '222';
     const stringId = 123;
     const stringText = 'text. Sample text';
+    const uploadId = '123-123';
+    const branchId = 1212;
+    const storageId = 2332;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/projects/${projectId}/strings/uploads/${uploadId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: uploadId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/strings/uploads`,
+                {
+                    storageId,
+                    branchId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: uploadId,
+                },
+            })
             .get(`/projects/${projectId}/strings`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -125,6 +155,19 @@ describe('Source Strings API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('Upload strings status', async () => {
+        const status = await api.uploadStringsStatus(projectId, uploadId);
+        expect(status.data.identifier).toBe(uploadId);
+    });
+
+    it('Upload strings', async () => {
+        const status = await api.uploadStrings(projectId, {
+            branchId,
+            storageId,
+        });
+        expect(status.data.identifier).toBe(uploadId);
     });
 
     it('List project strings', async () => {
