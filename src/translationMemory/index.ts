@@ -47,6 +47,7 @@ export class TranslationMemory extends CrowdinApi {
         }
         let url = `${this.url}/tms`;
         url = this.addQueryParam(url, 'groupId', options.groupId);
+        url = this.addQueryParam(url, 'userId', options.userId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -219,6 +220,22 @@ export class TranslationMemory extends CrowdinApi {
     /**
      * @param tmId tm identifier
      * @param segmentId segment identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.patch
+     */
+    editTmSegment(
+        tmId: number,
+        segmentId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<TranslationMemoryModel.TMSegment>> {
+        const url = `${this.url}/tms/${tmId}/segments/${segmentId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @deprecated
+     * @param tmId tm identifier
+     * @param segmentId segment identifier
      * @param recordId record identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.records.delete
      */
@@ -228,6 +245,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @deprecated
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param recordId record identifier
@@ -245,6 +263,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @deprecated
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param request request body
@@ -286,7 +305,11 @@ export namespace TranslationMemoryModel {
         targetLanguageId: string;
         autoSubstitution: boolean;
         minRelevant: number;
-        expression: string;
+        expressions: string[];
+        /**
+         * @deprecated
+         */
+        expression?: string;
     }
 
     export interface ConcordanceSearchResponse {
@@ -332,6 +355,7 @@ export namespace TranslationMemoryModel {
 
     export interface ListTMsOptions extends PaginationOptions {
         groupId?: number;
+        userId?: number;
     }
 
     export interface TMSegment {
