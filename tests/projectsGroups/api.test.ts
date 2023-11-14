@@ -463,7 +463,7 @@ describe('Projects and Groups API', () => {
     });
 
     it('List project string exporter settings', async () => {
-        const stringSettingsList = await api.listProjectStringExporterSettings(projectId);
+        const stringSettingsList = await api.listProjectStringsExporterSettings(projectId);
         expect(stringSettingsList.data.length).toBe(1);
         expect(stringSettingsList.data[0].data.id).toBe(stringExporterSettingsId);
         expect(stringSettingsList.pagination.limit).toBe(limit);

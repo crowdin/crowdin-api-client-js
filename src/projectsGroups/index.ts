@@ -278,7 +278,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany
      */
-    listProjectStringExporterSettings(
+    listProjectStringsExporterSettings(
         projectId: number,
         options?: PaginationOptions,
     ): Promise<ResponseList<ProjectsGroupsModel.ProjectStringExporterSettings>> {
