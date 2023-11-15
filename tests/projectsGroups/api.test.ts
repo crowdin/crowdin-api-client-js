@@ -470,7 +470,7 @@ describe('Projects and Groups API', () => {
     });
 
     it('Add project string exporter settings', async () => {
-        const stringSettings = await api.addProjectStringExporterSettings(projectId, {
+        const stringSettings = await api.addProjectStringsExporterSettings(projectId, {
             format,
             settings: {},
         });
@@ -478,7 +478,7 @@ describe('Projects and Groups API', () => {
     });
 
     it('Get project string exporter setttings', async () => {
-        const stringSettings = await api.getProjectStringExporterSettings(projectId, stringExporterSettingsId);
+        const stringSettings = await api.getProjectStringsExporterSettings(projectId, stringExporterSettingsId);
         expect(stringSettings.data.id).toBe(stringExporterSettingsId);
     });
 

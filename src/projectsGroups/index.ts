@@ -281,7 +281,7 @@ export class ProjectsGroups extends CrowdinApi {
     listProjectStringsExporterSettings(
         projectId: number,
         options?: PaginationOptions,
-    ): Promise<ResponseList<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+    ): Promise<ResponseList<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
         const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
         return this.getList(url, options?.limit, options?.offset);
     }
@@ -291,10 +291,10 @@ export class ProjectsGroups extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post
      */
-    addProjectStringExporterSettings(
+    addProjectStringsExporterSettings(
         projectId: number,
-        request: ProjectsGroupsModel.AddProjectStringExporterSettingsRequest,
-    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        request: ProjectsGroupsModel.AddProjectStringsExporterSettingsRequest,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
         const url = `${this.url}/projects/${projectId}/strings-exporter-settings`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -304,10 +304,10 @@ export class ProjectsGroups extends CrowdinApi {
      * @param systemStringsExporterSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get
      */
-    getProjectStringExporterSettings(
+    getProjectStringsExporterSettings(
         projectId: number,
         systemStringsExporterSettingsId: number,
-    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
         const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -331,8 +331,8 @@ export class ProjectsGroups extends CrowdinApi {
     editProjectStringsExporterSettings(
         projectId: number,
         systemStringsExporterSettingsId: number,
-        request: ProjectsGroupsModel.AddProjectStringExporterSettingsRequest,
-    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringExporterSettings>> {
+        request: ProjectsGroupsModel.AddProjectStringsExporterSettingsRequest,
+    ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
         const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -644,15 +644,15 @@ export namespace ProjectsGroupsModel {
         importHiddenSlides?: boolean;
     }
 
-    export type StringExporterSettings =
+    export type StringsExporterSettings =
         | AndroidStringsExporterSettings
         | MacOSXStringsExporterSettings
         | XliffStringsExporterSettings;
 
-    export interface ProjectStringExporterSettings {
+    export interface ProjectStringsExporterSettings {
         id: number;
         format: string;
-        settings: StringExporterSettings;
+        settings: StringsExporterSettings;
         createdAt: string;
         updatedAt: string;
     }
@@ -669,8 +669,8 @@ export namespace ProjectsGroupsModel {
         convertPlaceholders?: boolean;
     }
 
-    export interface AddProjectStringExporterSettingsRequest {
+    export interface AddProjectStringsExporterSettingsRequest {
         format: string;
-        settings: StringExporterSettings;
+        settings: StringsExporterSettings;
     }
 }
