@@ -8,6 +8,7 @@ import {
     ResponseList,
     ResponseObject,
 } from '../core';
+import { LanguagesModel } from '../languages';
 
 /**
  * Create and assign tasks to get files translated or proofread by specific people.
@@ -48,6 +49,7 @@ export class Tasks extends CrowdinApi {
         }
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'status', options.status);
+        url = this.addQueryParam(url, 'assigneeId', options.assigneeId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -60,12 +62,21 @@ export class Tasks extends CrowdinApi {
         projectId: number,
         request:
             | TasksModel.CreateTaskEnterpriseRequest
+            | TasksModel.CreateTaskEnterpriseVendorRequest
+            | TasksModel.CreateTaskEnterpriseStringsBasedRequest
+            | TasksModel.CreateTaskEnterpriseVendorStringsBasedRequest
             | TasksModel.CreateTaskRequest
+            | TasksModel.CreateTaskStringsBasedRequest
             | TasksModel.CreateLanguageServiceTaskRequest
+            | TasksModel.CreateLanguageServiceTaskStringsBasedRequest
             | TasksModel.CreateTaskVendorOhtRequest
+            | TasksModel.CreateTaskVendorOhtStringsBasedRequest
             | TasksModel.CreateTaskVendorGengoRequest
+            | TasksModel.CreateTaskVendorGengoStringsBasedRequest
             | TasksModel.CreateTaskVendorTranslatedRequest
-            | TasksModel.CreateTaskVendorManualRequest,
+            | TasksModel.CreateTaskVendorTranslatedStringsBasedRequest
+            | TasksModel.CreateTaskVendorManualRequest
+            | TasksModel.CreateTaskVendorManualStringsBasedRequest,
     ): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks`;
         return this.post(url, request, this.defaultConfig());
@@ -261,6 +272,9 @@ export namespace TasksModel {
         buyUrl: string;
         createdAt: string;
         updatedAt: string;
+        sourceLanguage: LanguagesModel.Language;
+        targetLanguages: LanguagesModel.Language[];
+        branchIds: number[];
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
@@ -273,19 +287,77 @@ export namespace TasksModel {
     }
 
     export interface CreateTaskEnterpriseRequest {
-        type?: Type;
-        workflowStepId?: number;
+        type: Type;
+        workflowStepId: number;
         title: string;
         languageId: string;
         fileIds: number[];
         status?: Status;
         description?: string;
+        /**
+         * @deprecated
+         */
         splitFiles?: boolean;
+        splitContent?: boolean;
         skipAssignedStrings?: boolean;
         assignees?: CreateTaskAssignee[];
+        assignedTeams?: AssignedTeam[];
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
+        startedAt?: string;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskEnterpriseVendorRequest {
+        workflowStepId: number;
+        title: string;
+        languageId: string;
+        fileIds: number[];
+        description?: string;
+        skipAssignedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
+        startedAt?: string;
+        labelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskEnterpriseVendorStringsBasedRequest {
+        workflowStepId: number;
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        description?: string;
+        skipAssignedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
+        startedAt?: string;
+        labelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskEnterpriseStringsBasedRequest {
+        type: Type;
+        workflowStepId: number;
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        status?: Status;
+        description?: string;
+        splitContent?: boolean;
+        skipAssignedStrings?: boolean;
+        assignees?: CreateTaskAssignee[];
+        assignedTeams?: AssignedTeam[];
+        includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
+        startedAt?: string;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -297,11 +369,36 @@ export namespace TasksModel {
         type: Type;
         status?: Status;
         description?: string;
+        /**
+         * @deprecated
+         */
         splitFiles?: boolean;
+        splitContent?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+        startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskStringsBasedRequest {
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        type: Type;
+        status?: Status;
+        description?: string;
+        splitContent?: boolean;
+        skipAssignedStrings?: boolean;
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
@@ -318,6 +415,24 @@ export namespace TasksModel {
         status?: Status;
         description?: string;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        includeUntranslatedStringsOnly?: boolean;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateLanguageServiceTaskStringsBasedRequest {
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
@@ -335,6 +450,25 @@ export namespace TasksModel {
         description?: string;
         expertise?: Expertise;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        includeUntranslatedStringsOnly?: boolean;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskVendorOhtStringsBasedRequest {
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        expertise?: Expertise;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
@@ -357,6 +491,27 @@ export namespace TasksModel {
         usePreferred?: boolean;
         editService?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskVendorGengoStringsBasedRequest {
+        title: string;
+        branchIds: string;
+        fileIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        expertise?: Expertise;
+        tone?: Tone;
+        purpose?: Purpose;
+        customerMessage?: string;
+        usePreferred?: boolean;
+        editService?: boolean;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -372,6 +527,23 @@ export namespace TasksModel {
         expertise?: Expertise;
         subject?: Subject;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskVendorTranslatedStringsBasedRequest {
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        expertise?: Expertise;
+        subject?: Subject;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -388,6 +560,27 @@ export namespace TasksModel {
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+        startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskVendorManualStringsBasedRequest {
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        type: Type;
+        vendor: string;
+        status?: Status;
+        description?: string;
+        skipAssignedStrings?: boolean;
+        skipUntranslatedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
@@ -501,6 +694,7 @@ export namespace TasksModel {
 
     export interface ListTasksOptions extends PaginationOptions {
         status?: TasksModel.Status;
+        assigneeId?: number;
     }
 
     export interface TaskSettingsTemplate {
@@ -517,6 +711,6 @@ export namespace TasksModel {
     }
 
     export interface TaskSettingsTemplateConfig {
-        languages: { languageId: string; userIds: number[]; teamIds?: number[] }[];
+        languages: { languageId?: string; userIds?: number[]; teamIds?: number[] }[];
     }
 }
