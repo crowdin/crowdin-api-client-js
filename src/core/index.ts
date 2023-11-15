@@ -156,7 +156,7 @@ export function handleHttpClientError(error: HttpClientError): never {
         const validationCodes: { key: string; codes: string[] }[] = [];
         const validationMessages: string[] = [];
         crowdinResponseErrors.forEach((e: any) => {
-            if (e.error.key && Array.isArray(e.error?.errors)) {
+            if (e.error?.key && Array.isArray(e.error?.errors)) {
                 const codes: string[] = [];
                 e.error.errors.forEach((er: any) => {
                     if (er.message && er.code) {
