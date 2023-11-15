@@ -287,7 +287,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
-     * @param projectId
+     * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post
      */
