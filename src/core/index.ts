@@ -132,32 +132,48 @@ export class CrowdinError extends Error {
  * @internal
  */
 export class CrowdinValidationError extends CrowdinError {
-    public validationCodes: { key: string; codes: string[] }[];
-    constructor(messsage: string, validationCodes: { key: string; codes: string[] }[]) {
-        super(messsage, 400);
-        this.validationCodes = validationCodes;
+    public validationCodes?: { key: string; codes: string[] }[];
+    constructor({
+        message,
+        code,
+        validationCodes,
+    }: {
+        message: string;
+        code?: number;
+        validationCodes?: { key: string; codes: string[] }[];
+    }) {
+        super(message, code || 400);
+        this.validationCodes = validationCodes || [];
     }
+}
+
+function isAxiosError(error: any): error is AxiosError {
+    return !!error.response?.data;
 }
 
 /**
  * @internal
  */
 export function handleHttpClientError(error: HttpClientError): never {
-    const crowdinResponseErrors =
-        error instanceof AxiosError
-            ? error.response?.data?.errors
-            : error instanceof FetchClientJsonPayloadError
-            ? error.jsonPayload && typeof error.jsonPayload === 'object' && 'errors' in error.jsonPayload
-                ? error.jsonPayload.errors
-                : null
-            : null;
+    let crowdinResponseErrors: any = null;
+
+    if (isAxiosError(error)) {
+        crowdinResponseErrors = (error.response?.data as any)?.errors || (error.response?.data as any)?.error;
+    } else if (error instanceof FetchClientJsonPayloadError) {
+        crowdinResponseErrors =
+            error.jsonPayload &&
+            typeof error.jsonPayload === 'object' &&
+            ('errors' in error.jsonPayload || 'error' in error.jsonPayload)
+                ? error.jsonPayload.errors || error.jsonPayload.error
+                : null;
+    }
 
     if (Array.isArray(crowdinResponseErrors)) {
         const validationCodes: { key: string; codes: string[] }[] = [];
         const validationMessages: string[] = [];
         crowdinResponseErrors.forEach((e: any) => {
             if (typeof e.index === 'number' && Array.isArray(e.errors)) {
-                throw new CrowdinValidationError(JSON.stringify(crowdinResponseErrors, null, 2), []);
+                throw new CrowdinValidationError({ message: JSON.stringify(crowdinResponseErrors, null, 2) });
             }
             if (e.error?.key && Array.isArray(e.error?.errors)) {
                 const codes: string[] = [];
@@ -171,8 +187,11 @@ export function handleHttpClientError(error: HttpClientError): never {
             }
         });
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
-        throw new CrowdinValidationError(message, validationCodes);
+        throw new CrowdinValidationError({ message, validationCodes });
+    } else if (crowdinResponseErrors?.message && crowdinResponseErrors?.code) {
+        throw new CrowdinValidationError({ ...crowdinResponseErrors });
     }
+
     if (error instanceof Error) {
         const code =
             error instanceof AxiosError && error.response?.status
