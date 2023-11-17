@@ -237,7 +237,7 @@ export namespace TasksModel {
         id: number;
         projectId: number;
         creatorId: number;
-        type: Type;
+        type: Type | TypeVendor;
         vendor: string;
         status: Status;
         title: string;
@@ -278,7 +278,7 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
         splitFiles?: boolean;
         skipAssignedStrings?: boolean;
@@ -286,6 +286,7 @@ export namespace TasksModel {
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -295,13 +296,15 @@ export namespace TasksModel {
         languageId: string;
         fileIds: number[];
         type: Type;
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
         splitFiles?: boolean;
+        splitContent?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
@@ -313,11 +316,12 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
@@ -329,12 +333,13 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
         expertise?: Expertise;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
@@ -346,17 +351,18 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
-        vendor: string;
-        status?: Status;
+        type: TypeVendor.TRANSLATE_BY_VENDOR;
+        vendor: 'gengo';
+        status?: RequestStatus;
         description?: string;
-        expertise?: Expertise;
+        expertise?: 'standard' | 'pro';
         tone?: Tone;
         purpose?: Purpose;
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -365,13 +371,14 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
-        vendor: string;
-        status?: Status;
+        type: TypeVendor.TRANSLATE_BY_VENDOR;
+        vendor: 'translated';
+        status?: RequestStatus;
         description?: string;
-        expertise?: Expertise;
+        expertise?: TranslatedExpertise;
         subject?: Subject;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -380,14 +387,15 @@ export namespace TasksModel {
         title: string;
         languageId: string;
         fileIds: number[];
-        type: Type;
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         labelIds?: number[];
+        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
@@ -402,10 +410,16 @@ export namespace TasksModel {
 
     export type Status = 'todo' | 'in_progress' | 'done' | 'closed';
 
+    export type RequestStatus = Extract<Status, 'todo' | 'in_progress'>;
+
     export enum Type {
         TRANSLATE = 0,
         PROOFREAD = 1,
+    }
+
+    export enum TypeVendor {
         TRANSLATE_BY_VENDOR = 2,
+        PROOFREAD_BY_VENDOR = 3,
     }
 
     export interface Assignee {
@@ -449,11 +463,18 @@ export namespace TasksModel {
         | 'training-employee-handbooks'
         | 'forex-crypto';
 
+    export enum TranslatedExpertise {
+        ECONOMY = 'P',
+        PROFESSIONAL = 'T',
+        PREMIUM = 'R',
+    }
+
     export type Tone = '' | 'Informal' | 'Friendly' | 'Business' | 'Formal' | 'other';
 
     export type Purpose =
         | 'standard'
         | 'Personal use'
+        | 'Business'
         | 'Online content'
         | 'App/Web localization'
         | 'Media content'
