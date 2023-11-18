@@ -248,7 +248,7 @@ export namespace TasksModel {
         id: number;
         projectId: number;
         creatorId: number;
-        type: Type;
+        type: Type | TypeVendor;
         vendor: string;
         status: Status;
         title: string;
@@ -286,14 +286,21 @@ export namespace TasksModel {
         isArchived: boolean;
     }
 
-    export interface CreateTaskEnterpriseRequest {
-        type: Type;
-        workflowStepId: number;
+    interface CreateTaskBase {
         title: string;
         languageId: string;
         fileIds: number[];
-        status?: Status;
+        status?: RequestStatus;
         description?: string;
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface CreateTaskEnterpriseRequest extends CreateTaskBase {
+        type: Type;
+        workflowStepId: number;
         /**
          * @deprecated
          */
@@ -305,140 +312,72 @@ export namespace TasksModel {
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         startedAt?: string;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskEnterpriseVendorRequest {
+    export interface CreateTaskEnterpriseVendorRequest extends CreateTaskBase {
         workflowStepId: number;
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        description?: string;
         skipAssignedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         startedAt?: string;
-        labelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskRequest extends CreateTaskBase {
         type: Type;
-        status?: Status;
-        description?: string;
-        /**
-         * @deprecated
-         */
         splitFiles?: boolean;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateLanguageServiceTaskRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        type: Type;
+    export interface CreateLanguageServiceTaskRequest extends CreateTaskBase {
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
-        description?: string;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorOhtRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        type: Type;
+    export interface CreateTaskVendorOhtRequest extends CreateTaskBase {
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
-        description?: string;
         expertise?: Expertise;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorGengoRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        type: Type;
-        vendor: string;
-        status?: Status;
-        description?: string;
-        expertise?: Expertise;
+    export interface CreateTaskVendorGengoRequest extends CreateTaskBase {
+        type: TypeVendor.TRANSLATE_BY_VENDOR;
+        vendor: 'gengo';
+        expertise?: 'standard' | 'pro';
         tone?: Tone;
         purpose?: Purpose;
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorTranslatedRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        type: Type;
-        vendor: string;
-        status?: Status;
-        description?: string;
-        expertise?: Expertise;
+    export interface CreateTaskVendorTranslatedRequest extends CreateTaskBase {
+        type: TypeVendor.TRANSLATE_BY_VENDOR;
+        vendor: 'translated';
+        expertise?: TranslatedExpertise;
         subject?: Subject;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorManualRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        type: Type;
+    export interface CreateTaskVendorManualRequest extends CreateTaskBase {
+        type: TypeVendor;
         vendor: string;
-        status?: Status;
-        description?: string;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
     export type CreateTaskEnterpriseVendorStringsBasedRequest = Omit<CreateTaskEnterpriseVendorRequest, 'fileIds'> & {
@@ -478,10 +417,16 @@ export namespace TasksModel {
 
     export type Status = 'todo' | 'in_progress' | 'done' | 'closed';
 
+    export type RequestStatus = Extract<Status, 'todo' | 'in_progress'>;
+
     export enum Type {
         TRANSLATE = 0,
         PROOFREAD = 1,
+    }
+
+    export enum TypeVendor {
         TRANSLATE_BY_VENDOR = 2,
+        PROOFREAD_BY_VENDOR = 3,
     }
 
     export interface Assignee {
@@ -525,11 +470,18 @@ export namespace TasksModel {
         | 'training-employee-handbooks'
         | 'forex-crypto';
 
+    export enum TranslatedExpertise {
+        ECONOMY = 'P',
+        PROFESSIONAL = 'T',
+        PREMIUM = 'R',
+    }
+
     export type Tone = '' | 'Informal' | 'Friendly' | 'Business' | 'Formal' | 'other';
 
     export type Purpose =
         | 'standard'
         | 'Personal use'
+        | 'Business'
         | 'Online content'
         | 'App/Web localization'
         | 'Media content'
