@@ -36,6 +36,6 @@ export namespace VendorsModel {
         id: number;
         name: string;
         description: string;
-        status: string;
+        status: 'pending' | 'confirmed' | 'rejected';
     }
 }

@@ -1,5 +1,6 @@
 import { Applications } from './applications';
 import { Bundles } from './bundles';
+import { Clients } from './clients';
 import { ClientConfig, Credentials, CrowdinApi } from './core';
 import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
@@ -30,6 +31,7 @@ import { Workflows } from './workflows';
 
 export * from './applications';
 export * from './bundles';
+export * from './clients';
 export * from './core';
 export * from './dictionaries';
 export * from './distributions';
@@ -93,6 +95,7 @@ export default class Client extends CrowdinApi {
     readonly stringCommentsApi: StringComments;
     readonly bundlesApi: Bundles;
     readonly notificationsApi: Notifications;
+    readonly clientsApi: Clients;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -124,5 +127,6 @@ export default class Client extends CrowdinApi {
         this.stringCommentsApi = new StringComments(credentials, config);
         this.bundlesApi = new Bundles(credentials, config);
         this.notificationsApi = new Notifications(credentials, config);
+        this.clientsApi = new Clients(credentials, config);
     }
 }

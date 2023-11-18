@@ -11,6 +11,7 @@ describe('Bundles API', () => {
     const projectId = 2;
     const bundleId = 3;
     const fileId = 4;
+    const branchId = 41;
     const exportId = '123';
     const exportUrl = 'test.com';
     const name = 'test';
@@ -141,6 +142,24 @@ describe('Bundles API', () => {
                     offset: 0,
                     limit: limit,
                 },
+            })
+            .get(`/projects/${projectId}/bundles/${bundleId}/branches`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: branchId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -205,5 +224,12 @@ describe('Bundles API', () => {
         expect(files.data.length).toBe(1);
         expect(files.data[0].data.id).toBe(fileId);
         expect(files.pagination.limit).toBe(limit);
+    });
+
+    it('Bundle list branches', async () => {
+        const branches = await api.listBundleBranches(projectId, bundleId);
+        expect(branches.data.length).toBe(1);
+        expect(branches.data[0].data.id).toBe(branchId);
+        expect(branches.pagination.limit).toBe(limit);
     });
 });

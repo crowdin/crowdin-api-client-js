@@ -163,7 +163,7 @@ describe('Translation Memory API', () => {
                     targetLanguageId: languageId,
                     autoSubstitution: true,
                     minRelevant: 60,
-                    expression: 'Welcome!',
+                    expressions: ['Welcome!'],
                 },
                 {
                     reqheaders: {
@@ -252,6 +252,26 @@ describe('Translation Memory API', () => {
                 },
             })
             .reply(200)
+            .patch(
+                `/tms/${tmId}/segments/${segmentId}`,
+                [
+                    {
+                        value: segmentRecordText,
+                        op: 'replace',
+                        path: `/records/${segmentRecordId}/text`,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: segmentId,
+                },
+            })
             .delete(`/tms/${tmId}/segments/${segmentId}/records/${segmentRecordId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -372,7 +392,7 @@ describe('Translation Memory API', () => {
     it('Concordance search in TMs', async () => {
         const res = await api.concordanceSearch(projectId, {
             autoSubstitution: true,
-            expression: 'Welcome!',
+            expressions: ['Welcome!'],
             minRelevant: 60,
             sourceLanguageId: languageId,
             targetLanguageId: languageId,
@@ -410,6 +430,17 @@ describe('Translation Memory API', () => {
 
     it('Delete TM Segment', async () => {
         await api.deleteTmSegment(tmId, segmentId);
+    });
+
+    it('Edit TM Segment', async () => {
+        const segment = await api.editTmSegment(tmId, segmentId, [
+            {
+                value: segmentRecordText,
+                op: 'replace',
+                path: `/records/${segmentRecordId}/text`,
+            },
+        ]);
+        expect(segment.data.id).toBe(segmentId);
     });
 
     it('Delete TM Segment Record', async () => {

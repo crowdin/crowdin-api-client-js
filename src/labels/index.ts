@@ -8,7 +8,7 @@ export class Labels extends CrowdinApi {
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
-    listLabels(projectId: number, options?: PaginationOptions): Promise<ResponseList<LabelsModel.Label>>;
+    listLabels(projectId: number, options?: LabelsModel.ListLabelsParams): Promise<ResponseList<LabelsModel.Label>>;
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -19,13 +19,14 @@ export class Labels extends CrowdinApi {
     listLabels(projectId: number, limit?: number, offset?: number): Promise<ResponseList<LabelsModel.Label>>;
     listLabels(
         projectId: number,
-        options?: number | PaginationOptions,
+        options?: number | LabelsModel.ListLabelsParams,
         deprecatedOffset?: number,
     ): Promise<ResponseList<LabelsModel.Label>> {
         if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
-        const url = `${this.url}/projects/${projectId}/labels`;
+        let url = `${this.url}/projects/${projectId}/labels`;
+        url = this.addQueryParam(url, 'isSystem', options.isSystem);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -134,9 +135,14 @@ export class Labels extends CrowdinApi {
 }
 
 export namespace LabelsModel {
+    export interface ListLabelsParams extends PaginationOptions {
+        isSystem?: number;
+    }
+
     export interface Label {
         id: number;
         title: string;
+        isSystem: boolean;
     }
 
     export interface AddLabelRequest {

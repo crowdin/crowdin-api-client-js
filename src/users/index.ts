@@ -64,6 +64,7 @@ export class Users extends CrowdinApi {
         url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'role', options.role);
         url = this.addQueryParam(url, 'languageId', options.languageId);
+        url = this.addQueryParam(url, 'workflowStepId', options.workflowStepId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -212,6 +213,7 @@ export namespace UsersModel {
         search?: string;
         role?: Role;
         languageId?: string;
+        workflowStepId?: number;
     }
 
     export interface ListUsersOptions extends PaginationOptions {
@@ -225,6 +227,7 @@ export namespace UsersModel {
         firstName?: string;
         lastName?: string;
         timezone?: string;
+        adminAccess?: boolean;
     }
 
     export interface User {
@@ -267,6 +270,7 @@ export namespace UsersModel {
         firstName: string;
         lastName: string;
         isManager: boolean;
+        isDeveloperr: boolean;
         managerOfGroup: Group;
         /**
          * @deprecated
@@ -291,11 +295,14 @@ export namespace UsersModel {
 
     export interface AddProjectMemberRequest {
         userIds: number[];
+        usernames: string[];
+        emails: string[];
         /**
          * @deprecated
          */
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        developerAccess?: boolean;
         /**
          * @deprecated
          */
@@ -304,8 +311,8 @@ export namespace UsersModel {
     }
 
     export interface AddProjectMemberResponse {
-        skipped: ResponseObject<ProjectMember>[];
-        added: ResponseObject<ProjectMember>[];
+        skipped: ResponseObject<ProjectMember | EnterpriseProjectMember>[];
+        added: ResponseObject<ProjectMember | EnterpriseProjectMember>[];
         pagination: Pagination;
     }
 

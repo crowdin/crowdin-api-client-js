@@ -433,6 +433,7 @@ export namespace GlossariesModel {
         type?: Type;
         gender?: Gender;
         note?: string;
+        url?: string;
         conceptId?: number;
     }
 

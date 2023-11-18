@@ -103,17 +103,29 @@ export namespace MachineTranslationModel {
         type: number;
         credentials: Credentials;
         projectIds: number[];
+        supportedLanguageIds: string[];
+        supportedLanguagePairs: Record<string, string[]>;
+        enabledLanguageIds: string[];
+        enabledProjectIds: number[];
+        isEnabled: boolean;
     }
 
-    export interface Credentials {
-        [key: string]: number;
-    }
+    export type Credentials =
+        | { apiKey: string }
+        | { credentials: string }
+        | { model: string; apiKey: string }
+        | { endpoint: string; apiKey: string }
+        | { url: string }
+        | { accessKey: string; secretKey: string };
 
     export interface CreateMachineTranslationRequest {
         name: string;
         groupId?: number;
         type: string;
-        credentials: string[];
+        credentials: Credentials;
+        enabledLanguageIds?: string[];
+        enabledProjectIds?: number[];
+        isEnabled?: boolean;
     }
 
     export interface TranslateRequest {

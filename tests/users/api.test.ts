@@ -39,6 +39,8 @@ describe('Users API', () => {
                 `/projects/${projectId}/members`,
                 {
                     userIds: [id],
+                    emails: [],
+                    usernames: [],
                 },
                 {
                     reqheaders: {
@@ -180,6 +182,8 @@ describe('Users API', () => {
     it('Add Project Member', async () => {
         const resp = await api.addProjectMember(projectId, {
             userIds: [id],
+            emails: [],
+            usernames: [],
         });
         expect(resp.added.length).toBe(1);
         expect(resp.added[0].data.id).toBe(memberId);

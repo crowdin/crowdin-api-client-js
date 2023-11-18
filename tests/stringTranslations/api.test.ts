@@ -170,7 +170,7 @@ describe('String Translations API', () => {
             })
             .reply(200)
             .put(
-                `/projects/${projectId}/translations/${translationId}/restore`,
+                `/projects/${projectId}/translations/${translationId}`,
                 {},
                 {
                     reqheaders: {

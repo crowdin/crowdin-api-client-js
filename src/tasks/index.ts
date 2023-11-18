@@ -8,6 +8,7 @@ import {
     ResponseList,
     ResponseObject,
 } from '../core';
+import { LanguagesModel } from '../languages';
 
 /**
  * Create and assign tasks to get files translated or proofread by specific people.
@@ -48,6 +49,7 @@ export class Tasks extends CrowdinApi {
         }
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'status', options.status);
+        url = this.addQueryParam(url, 'assigneeId', options.assigneeId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -60,12 +62,21 @@ export class Tasks extends CrowdinApi {
         projectId: number,
         request:
             | TasksModel.CreateTaskEnterpriseRequest
+            | TasksModel.CreateTaskEnterpriseVendorRequest
+            | TasksModel.CreateTaskEnterpriseStringsBasedRequest
+            | TasksModel.CreateTaskEnterpriseVendorStringsBasedRequest
             | TasksModel.CreateTaskRequest
+            | TasksModel.CreateTaskStringsBasedRequest
             | TasksModel.CreateLanguageServiceTaskRequest
+            | TasksModel.CreateLanguageServiceTaskStringsBasedRequest
             | TasksModel.CreateTaskVendorOhtRequest
+            | TasksModel.CreateTaskVendorOhtStringsBasedRequest
             | TasksModel.CreateTaskVendorGengoRequest
+            | TasksModel.CreateTaskVendorGengoStringsBasedRequest
             | TasksModel.CreateTaskVendorTranslatedRequest
-            | TasksModel.CreateTaskVendorManualRequest,
+            | TasksModel.CreateTaskVendorTranslatedStringsBasedRequest
+            | TasksModel.CreateTaskVendorManualRequest
+            | TasksModel.CreateTaskVendorManualStringsBasedRequest,
     ): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks`;
         return this.post(url, request, this.defaultConfig());
@@ -261,6 +272,9 @@ export namespace TasksModel {
         buyUrl: string;
         createdAt: string;
         updatedAt: string;
+        sourceLanguage: LanguagesModel.Language;
+        targetLanguages: LanguagesModel.Language[];
+        branchIds: number[];
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
@@ -285,13 +299,27 @@ export namespace TasksModel {
     }
 
     export interface CreateTaskEnterpriseRequest extends CreateTaskBase {
-        type?: Type;
-        workflowStepId?: number;
+        type: Type;
+        workflowStepId: number;
+        /**
+         * @deprecated
+         */
         splitFiles?: boolean;
+        splitContent?: boolean;
         skipAssignedStrings?: boolean;
         assignees?: CreateTaskAssignee[];
+        assignedTeams?: AssignedTeam[];
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
+        startedAt?: string;
+    }
+
+    export interface CreateTaskEnterpriseVendorRequest extends CreateTaskBase {
+        workflowStepId: number;
+        skipAssignedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
+        startedAt?: string;
     }
 
     export interface CreateTaskRequest extends CreateTaskBase {
@@ -351,6 +379,36 @@ export namespace TasksModel {
         deadline?: string;
         startedAt?: string;
     }
+
+    export type CreateTaskEnterpriseVendorStringsBasedRequest = Omit<CreateTaskEnterpriseVendorRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateTaskEnterpriseStringsBasedRequest = Omit<CreateTaskEnterpriseRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateTaskStringsBasedRequest = Omit<CreateTaskRequest, 'fileIds'> & { branchIds: number[] };
+
+    export type CreateTaskVendorManualStringsBasedRequest = Omit<CreateTaskVendorManualRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateTaskVendorTranslatedStringsBasedRequest = Omit<CreateTaskVendorTranslatedRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateTaskVendorGengoStringsBasedRequest = Omit<CreateTaskVendorGengoRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateTaskVendorOhtStringsBasedRequest = Omit<CreateTaskVendorOhtRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export type CreateLanguageServiceTaskStringsBasedRequest = Omit<CreateLanguageServiceTaskRequest, 'fileIds'> & {
+        branchIds: number[];
+    };
 
     export interface CreateTaskAssignee {
         id: number;
@@ -471,6 +529,7 @@ export namespace TasksModel {
 
     export interface ListTasksOptions extends PaginationOptions {
         status?: TasksModel.Status;
+        assigneeId?: number;
     }
 
     export interface TaskSettingsTemplate {
@@ -487,6 +546,6 @@ export namespace TasksModel {
     }
 
     export interface TaskSettingsTemplateConfig {
-        languages: { languageId: string; userIds: number[]; teamIds?: number[] }[];
+        languages: { languageId?: string; userIds?: number[]; teamIds?: number[] }[];
     }
 }

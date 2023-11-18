@@ -41,7 +41,9 @@ export class Distributions extends CrowdinApi {
      */
     createDistribution(
         projectId: number,
-        request: DistributionsModel.CreateDistributionRequest,
+        request:
+            | DistributionsModel.CreateDistributionRequest
+            | DistributionsModel.CreateDistributionStringsBasedRequest,
     ): Promise<ResponseObject<DistributionsModel.Distribution>> {
         const url = `${this.url}/projects/${projectId}/distributions`;
         return this.post(url, request, this.defaultConfig());
@@ -90,7 +92,9 @@ export class Distributions extends CrowdinApi {
     getDistributionRelease(
         projectId: number,
         hash: string,
-    ): Promise<ResponseObject<DistributionsModel.DistributionRelease>> {
+    ): Promise<
+        ResponseObject<DistributionsModel.DistributionRelease | DistributionsModel.DistributionStringsBasedRelease>
+    > {
         const url = `${this.url}/projects/${projectId}/distributions/${hash}/release`;
         return this.get(url, this.defaultConfig());
     }
@@ -104,7 +108,9 @@ export class Distributions extends CrowdinApi {
     createDistributionRelease(
         projectId: number,
         hash: string,
-    ): Promise<ResponseObject<DistributionsModel.DistributionRelease>> {
+    ): Promise<
+        ResponseObject<DistributionsModel.DistributionRelease | DistributionsModel.DistributionStringsBasedRelease>
+    > {
         const url = `${this.url}/projects/${projectId}/distributions/${hash}/release`;
         return this.post(url, {}, this.defaultConfig());
     }
@@ -143,11 +149,24 @@ export namespace DistributionsModel {
         labelIds?: number[];
     }
 
+    export interface CreateDistributionStringsBasedRequest {
+        name: string;
+        bundleIds: number[];
+    }
+
     export interface DistributionRelease {
         status: string;
         progress: number;
         currentLanguageId: string;
         currentFileId: number;
+        date: string;
+    }
+
+    export interface DistributionStringsBasedRelease {
+        status: string;
+        progress: number;
+        currentLanguageId: string;
+        currentBranchId: number;
         date: string;
     }
 

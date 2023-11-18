@@ -309,7 +309,7 @@ export class StringTranslations extends CrowdinApi {
         projectId: number,
         translationId: number,
     ): Promise<ResponseObject<StringTranslationsModel.StringTranslation>> {
-        const url = `${this.url}/projects/${projectId}/translations/${translationId}/restore`;
+        const url = `${this.url}/projects/${projectId}/translations/${translationId}`;
         return this.put(url, {}, this.defaultConfig());
     }
 
@@ -434,7 +434,6 @@ export namespace StringTranslationsModel {
         translationId: number;
         stringId: number;
         languageId: string;
-        workflowStepId: number;
         createdAt: string;
     }
 
@@ -445,9 +444,11 @@ export namespace StringTranslationsModel {
     export interface StringTranslation {
         id: number;
         text: string;
-        pluralCategoryName: string;
+        pluralCategoryName: PluralCategoryName;
         user: User;
         rating: number;
+        provider: string;
+        isPreTranslated: boolean;
         createdAt: string;
     }
 
@@ -515,7 +516,7 @@ export namespace StringTranslationsModel {
         stringId: number;
         languageId: string;
         text: string;
-        pluralCategoryName?: string;
+        pluralCategoryName?: PluralCategoryName;
     }
 
     export interface ListTranslationVotesOptions extends PaginationOptions {
@@ -551,4 +552,6 @@ export namespace StringTranslationsModel {
     export interface ListStringTranslationsOptions extends PaginationOptions {
         denormalizePlaceholders?: BooleanInt;
     }
+
+    export type PluralCategoryName = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other';
 }

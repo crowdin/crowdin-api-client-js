@@ -147,6 +147,7 @@ export namespace TeamsModel {
          */
         accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        developerAccess?: boolean;
         /**
          * @deprecated
          */
@@ -162,6 +163,7 @@ export namespace TeamsModel {
     export interface ProjectTeamResource {
         id: number;
         hasManagerAccess: boolean;
+        hasDeveloperAccess: boolean;
         /**
          * @deprecated
          */

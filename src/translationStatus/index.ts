@@ -1,4 +1,5 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
+import { LanguagesModel } from '../languages';
 
 /**
  * Status represents the general localization progress on both translations and proofreading.
@@ -249,20 +250,28 @@ export class TranslationStatus extends CrowdinApi {
 
 export namespace TranslationStatusModel {
     export interface LanguageProgress {
-        languageId: string;
         words: Words;
         phrases: Words;
         translationProgress: number;
         approvalProgress: number;
         eTag: string;
+        languageId: string;
+        language: LanguagesModel.Language;
     }
 
     export interface FileProgress {
-        fileId: number;
         words: Words;
         phrases: Words;
         translationProgress: number;
         approvalProgress: number;
+        /**
+         * for strings-based projects
+         */
+        branchId: number;
+        /**
+         * for non strings-based projects
+         */
+        fileId: number;
         eTag: string;
     }
 

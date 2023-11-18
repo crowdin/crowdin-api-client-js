@@ -57,8 +57,8 @@ export class Reports extends CrowdinApi {
      * @see https://support.crowdin.com/enterprise/api/#operation/api.reports.post
      */
     generateOrganizationReport(
-        request: ReportsModel.GenerateGroupReportRequest,
-    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
+        request: ReportsModel.GenerateOrganizationReportRequest,
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.OrganizationReportSchema>>>> {
         const url = `${this.url}/reports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -69,7 +69,7 @@ export class Reports extends CrowdinApi {
      */
     checkOrganizationReportStatus(
         reportId: string,
-    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.GroupReportSchema>>>> {
+    ): Promise<ResponseObject<Status<ReportsModel.ReportStatusAttributes<ReportsModel.OrganizationReportSchema>>>> {
         const url = `${this.url}/reports/${reportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -187,12 +187,22 @@ export class Reports extends CrowdinApi {
 export namespace ReportsModel {
     export type GroupReportSchema =
         | GroupTranslationCostsPerEditingSchema
+        | GroupTranslationCostsPerEditingByTaskSchema
+        | CostsEstimationSchema
+        | CostsEstimationByTaskSchema
         | GroupTranslationCostSchema
         | GroupTopMembersSchema;
+
+    export type OrganizationReportSchema = GroupTranslationCostsPerEditingSchema | GroupTopMembersSchema;
 
     export interface GenerateGroupReportRequest {
         name: string;
         schema: GroupReportSchema;
+    }
+
+    export interface GenerateOrganizationReportRequest {
+        name: string;
+        schema: OrganizationReportSchema;
     }
 
     export interface GroupTranslationCostsPerEditingSchema {
@@ -206,7 +216,51 @@ export namespace ReportsModel {
         groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
+        languageId?: string[];
         userIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface GroupTranslationCostsPerEditingByTaskSchema {
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: NetRateSchemas;
+        taskId?: number;
+    }
+
+    export interface CostsEstimationSchema {
+        projectIds?: number[];
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        baseRates: BaseRate;
+        individualRates: IndividualRate[];
+        netRateSchemes: NetRateSchemas;
+        calculateInternalMatches?: boolean;
+        includePreTranslatedStrings?: boolean;
+        languageId?: string;
+        branchIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface CostsEstimationByTaskSchema {
+        unit?: Unit;
+        currency?: Currency;
+        format?: Format;
+        baseRates?: BaseRate;
+        individualRates?: IndividualRate[];
+        netRateSchemes?: NetRateSchemas;
+        calculateInternalMatches?: boolean;
+        includePreTranslatedStrings?: boolean;
+        taskId?: number;
     }
 
     export interface GroupTopMembersSchema {
@@ -215,6 +269,15 @@ export namespace ReportsModel {
         languageId?: string;
         format?: Format;
         groupBy?: GroupBy;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface RawDataSchema {
+        mode: ContributionMode;
+        unit?: Unit;
+        languageId?: string;
+        userId?: number;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -244,6 +307,7 @@ export namespace ReportsModel {
     export interface ReportStatusAttributes<S> {
         format: Format;
         reportName: string;
+        projectIds?: number[];
         schema: S;
     }
 
@@ -384,11 +448,11 @@ export namespace ReportsModel {
             matchType: Mode;
             price: number;
         }[];
-        mtMatch: {
+        mtMatch?: {
             matchType: Mode;
             price: number;
         }[];
-        suggestionMatch: {
+        suggestionMatch?: {
             matchType: Mode;
             price: number;
         }[];

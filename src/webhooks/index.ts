@@ -88,8 +88,8 @@ export namespace WebhooksModel {
         name: string;
         url: string;
         events: Event[];
-        headers: string[];
-        payload: string[];
+        headers: Record<string, string>;
+        payload: Record<string, any>;
         isActive: boolean;
         batchingEnabled: boolean;
         requestType: RequestType;
@@ -107,7 +107,7 @@ export namespace WebhooksModel {
         events: Event[];
         headers?: Record<string, string>;
         requestType: RequestType;
-        payload?: any;
+        payload?: Record<string, any>;
     }
 
     export type ContentType = 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded';
