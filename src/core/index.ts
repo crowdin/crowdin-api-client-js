@@ -132,23 +132,15 @@ export class CrowdinError extends Error {
  * @internal
  */
 export class CrowdinValidationError extends CrowdinError {
-    public validationCodes?: { key: string; codes: string[] }[];
-    constructor({
-        message,
-        code,
-        validationCodes,
-    }: {
-        message: string;
-        code?: number;
-        validationCodes?: { key: string; codes: string[] }[];
-    }) {
-        super(message, code || 400);
-        this.validationCodes = validationCodes || [];
+    public validationCodes: { key: string; codes: string[] }[];
+    constructor(message: string, validationCodes: { key: string; codes: string[] }[]) {
+        super(message, 400);
+        this.validationCodes = validationCodes;
     }
 }
 
 function isAxiosError(error: any): error is AxiosError {
-    return !!error.response?.data;
+    return error instanceof AxiosError || !!error.response?.data;
 }
 
 /**
@@ -173,7 +165,7 @@ export function handleHttpClientError(error: HttpClientError): never {
         const validationMessages: string[] = [];
         crowdinResponseErrors.forEach((e: any) => {
             if (typeof e.index === 'number' && Array.isArray(e.errors)) {
-                throw new CrowdinValidationError({ message: JSON.stringify(crowdinResponseErrors, null, 2) });
+                throw new CrowdinValidationError(JSON.stringify(crowdinResponseErrors, null, 2), []);
             }
             if (e.error?.key && Array.isArray(e.error?.errors)) {
                 const codes: string[] = [];
@@ -187,9 +179,9 @@ export function handleHttpClientError(error: HttpClientError): never {
             }
         });
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
-        throw new CrowdinValidationError({ message, validationCodes });
+        throw new CrowdinValidationError(message, validationCodes);
     } else if (crowdinResponseErrors?.message && crowdinResponseErrors?.code) {
-        throw new CrowdinValidationError({ ...crowdinResponseErrors });
+        throw new CrowdinError(crowdinResponseErrors.message, crowdinResponseErrors.code);
     }
 
     if (error instanceof Error) {
