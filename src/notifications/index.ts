@@ -28,7 +28,10 @@ export class Notifications extends CrowdinApi {
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.notify.post
      */
     sendNotificationToOrganizationMembers(
-        request: NotificationsModel.NotificationByUsers | NotificationsModel.NotificationByRole,
+        request:
+            | NotificationsModel.Notification
+            | NotificationsModel.NotificationByUsers
+            | NotificationsModel.NotificationByRole,
     ): Promise<void> {
         const url = `${this.url}/notify`;
         return this.post(url, request, this.defaultConfig());
