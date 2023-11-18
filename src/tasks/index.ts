@@ -272,135 +272,84 @@ export namespace TasksModel {
         isArchived: boolean;
     }
 
-    export interface CreateTaskEnterpriseRequest {
-        type?: Type;
-        workflowStepId?: number;
+    interface CreateTaskBase {
         title: string;
         languageId: string;
         fileIds: number[];
         status?: RequestStatus;
         description?: string;
-        splitFiles?: boolean;
-        skipAssignedStrings?: boolean;
-        assignees?: CreateTaskAssignee[];
-        includePreTranslatedStringsOnly?: boolean;
-        deadline?: string;
         labelIds?: number[];
         excludeLabelIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
 
-    export interface CreateTaskRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskEnterpriseRequest extends CreateTaskBase {
+        type?: Type;
+        workflowStepId?: number;
+        splitFiles?: boolean;
+        skipAssignedStrings?: boolean;
+        assignees?: CreateTaskAssignee[];
+        includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
+    }
+
+    export interface CreateTaskRequest extends CreateTaskBase {
         type: Type;
-        status?: RequestStatus;
-        description?: string;
         splitFiles?: boolean;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateLanguageServiceTaskRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateLanguageServiceTaskRequest extends CreateTaskBase {
         type: TypeVendor;
         vendor: string;
-        status?: RequestStatus;
-        description?: string;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorOhtRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskVendorOhtRequest extends CreateTaskBase {
         type: TypeVendor;
         vendor: string;
-        status?: RequestStatus;
-        description?: string;
         expertise?: Expertise;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         includeUntranslatedStringsOnly?: boolean;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorGengoRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskVendorGengoRequest extends CreateTaskBase {
         type: TypeVendor.TRANSLATE_BY_VENDOR;
         vendor: 'gengo';
-        status?: RequestStatus;
-        description?: string;
         expertise?: 'standard' | 'pro';
         tone?: Tone;
         purpose?: Purpose;
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorTranslatedRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskVendorTranslatedRequest extends CreateTaskBase {
         type: TypeVendor.TRANSLATE_BY_VENDOR;
         vendor: 'translated';
-        status?: RequestStatus;
-        description?: string;
         expertise?: TranslatedExpertise;
         subject?: Subject;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
     }
 
-    export interface CreateTaskVendorManualRequest {
-        title: string;
-        languageId: string;
-        fileIds: number[];
+    export interface CreateTaskVendorManualRequest extends CreateTaskBase {
         type: TypeVendor;
         vendor: string;
-        status?: RequestStatus;
-        description?: string;
         skipAssignedStrings?: boolean;
         skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
-        dateFrom?: string;
-        dateTo?: string;
     }
 
     export interface CreateTaskAssignee {
