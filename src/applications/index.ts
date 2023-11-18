@@ -11,7 +11,10 @@ export class Applications extends CrowdinApi {
      * @param path path implemented by the application
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.api.get
      */
-    getApplicationData(applicationId: string, path: string): Promise<ResponseObject<JSON>> {
+    getApplicationData(
+        applicationId: string,
+        path: string,
+    ): Promise<ResponseObject<ApplicationsModel.ApplicationData>> {
         const url = `${this.url}/applications/${applicationId}/api/${path}`;
         return this.get(url, this.defaultConfig());
     }
@@ -26,7 +29,7 @@ export class Applications extends CrowdinApi {
         applicationId: string,
         path: string,
         request: ApplicationsModel.ApplicationData,
-    ): Promise<ResponseObject<JSON>> {
+    ): Promise<ResponseObject<ApplicationsModel.ApplicationData>> {
         const url = `${this.url}/applications/${applicationId}/api/${path}`;
         return this.put(url, request, this.defaultConfig());
     }
@@ -41,7 +44,7 @@ export class Applications extends CrowdinApi {
         applicationId: string,
         path: string,
         request: ApplicationsModel.ApplicationData,
-    ): Promise<ResponseObject<JSON>> {
+    ): Promise<ResponseObject<ApplicationsModel.ApplicationData>> {
         const url = `${this.url}/applications/${applicationId}/api/${path}`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -66,7 +69,7 @@ export class Applications extends CrowdinApi {
         applicationId: string,
         path: string,
         request: ApplicationsModel.ApplicationData,
-    ): Promise<ResponseObject<JSON>> {
+    ): Promise<ResponseObject<ApplicationsModel.ApplicationData>> {
         const url = `${this.url}/applications/${applicationId}/api/${path}`;
         return this.patch(url, request, this.defaultConfig());
     }
