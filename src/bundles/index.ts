@@ -114,8 +114,22 @@ export class Bundles extends CrowdinApi {
         projectId: number,
         bundleId: number,
         options?: PaginationOptions,
-    ): Promise<ResponseList<BundlesModel.BundleFile>> {
+    ): Promise<ResponseList<SourceFilesModel.File>> {
         const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/files`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId bundle identifier
+     * @param options optional parameters for the request
+     */
+    listBundleBranches(
+        projectId: number,
+        bundleId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<SourceFilesModel.Branch>> {
+        const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/branches`;
         return this.getList(url, options?.limit, options?.offset);
     }
 }
@@ -123,6 +137,7 @@ export class Bundles extends CrowdinApi {
 export namespace BundlesModel {
     export interface Bundle {
         id: number;
+        name: string;
         format: string;
         sourcePatterns: string[];
         ignorePatterns: string[];
@@ -130,6 +145,7 @@ export namespace BundlesModel {
         isMultilingual: boolean;
         includeProjectSourceLanguage: boolean;
         labelIds: number[];
+        excludeLabelIds: number[];
         createdAt: string;
         updatedAt: string;
     }
@@ -143,18 +159,7 @@ export namespace BundlesModel {
         isMultilingual?: boolean;
         includeProjectSourceLanguage?: boolean;
         labelIds?: number[];
-    }
-
-    export interface BundleFile {
-        id: number;
-        projectId: number;
-        branchId: number;
-        directoryId: number;
-        name: string;
-        title: string;
-        type: SourceFilesModel.FileType;
-        path: string;
-        status: string;
+        excludeLabelIds?: number[];
     }
 
     export interface ExportAttributes {
