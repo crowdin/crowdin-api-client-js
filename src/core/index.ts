@@ -133,24 +133,32 @@ export class CrowdinError extends Error {
  */
 export class CrowdinValidationError extends CrowdinError {
     public validationCodes: { key: string; codes: string[] }[];
-    constructor(messsage: string, validationCodes: { key: string; codes: string[] }[]) {
-        super(messsage, 400);
+    constructor(message: string, validationCodes: { key: string; codes: string[] }[]) {
+        super(message, 400);
         this.validationCodes = validationCodes;
     }
+}
+
+function isAxiosError(error: any): error is AxiosError {
+    return error instanceof AxiosError || !!error.response?.data;
 }
 
 /**
  * @internal
  */
 export function handleHttpClientError(error: HttpClientError): never {
-    const crowdinResponseErrors =
-        error instanceof AxiosError
-            ? error.response?.data?.errors
-            : error instanceof FetchClientJsonPayloadError
-            ? error.jsonPayload && typeof error.jsonPayload === 'object' && 'errors' in error.jsonPayload
-                ? error.jsonPayload.errors
-                : null
-            : null;
+    let crowdinResponseErrors: any = null;
+
+    if (isAxiosError(error)) {
+        crowdinResponseErrors = (error.response?.data as any)?.errors || (error.response?.data as any)?.error;
+    } else if (error instanceof FetchClientJsonPayloadError) {
+        crowdinResponseErrors =
+            error.jsonPayload &&
+            typeof error.jsonPayload === 'object' &&
+            ('errors' in error.jsonPayload || 'error' in error.jsonPayload)
+                ? error.jsonPayload.errors || error.jsonPayload.error
+                : null;
+    }
 
     if (Array.isArray(crowdinResponseErrors)) {
         const validationCodes: { key: string; codes: string[] }[] = [];
@@ -172,7 +180,10 @@ export function handleHttpClientError(error: HttpClientError): never {
         });
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
         throw new CrowdinValidationError(message, validationCodes);
+    } else if (crowdinResponseErrors?.message && crowdinResponseErrors?.code) {
+        throw new CrowdinError(crowdinResponseErrors.message, crowdinResponseErrors.code);
     }
+
     if (error instanceof Error) {
         const code =
             error instanceof AxiosError && error.response?.status

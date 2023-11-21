@@ -18,6 +18,13 @@ const genericCrowdinErrorPayload = {
     ],
 };
 
+const genericCrowdinSingleErrorPayload = {
+    error: {
+        message: 'test_errors_error_msg',
+        code: 403,
+    },
+};
+
 const stringBatchOperationsErrorPayload = {
     errors: [
         {
@@ -86,6 +93,11 @@ describe('core http error handling', () => {
                 },
             ]);
         }
+    });
+
+    it('should extract Crowdin API single message with axios client', async () => {
+        const error = createAxiosError(genericCrowdinSingleErrorPayload);
+        expect(() => handleHttpClientError(error)).toThrowError(genericCrowdinSingleErrorPayload.error.message);
     });
 
     it('should print full error message for stringBatchOperations axios errors', async () => {
