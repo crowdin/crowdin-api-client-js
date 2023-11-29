@@ -9,10 +9,13 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 export class Screenshots extends CrowdinApi {
     /**
      * @param projectId project identifier
-     * @param options optional pagination parameters for the request
+     * @param options search options
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany
      */
-    listScreenshots(projectId: number, options?: PaginationOptions): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
+    listScreenshots(
+        projectId: number,
+        options?: ScreenshotsModel.ListScreenshotParams,
+    ): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
     /**
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -27,13 +30,16 @@ export class Screenshots extends CrowdinApi {
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
     listScreenshots(
         projectId: number,
-        options?: number | PaginationOptions,
+        options?: number | ScreenshotsModel.ListScreenshotParams,
         deprecatedOffset?: number,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>> {
         if (isOptionalNumber(options, '1' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
-        const url = `${this.url}/projects/${projectId}/screenshots`;
+        let url = `${this.url}/projects/${projectId}/screenshots`;
+        url = this.addQueryParam(url, 'stringId', options.stringId);
+        url = this.addQueryParam(url, 'labelIds', options.labelIds);
+        url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -219,6 +225,12 @@ export class Screenshots extends CrowdinApi {
 }
 
 export namespace ScreenshotsModel {
+    export interface ListScreenshotParams extends PaginationOptions {
+        stringId?: number;
+        labelIds?: string;
+        excludeLabelIds?: string;
+    }
+
     export interface Screenshot {
         id: number;
         userId: number;
@@ -228,6 +240,7 @@ export namespace ScreenshotsModel {
         tagsCount: number;
         tags: Tag[];
         labels: number[];
+        labelIds: number[];
         createdAt: string;
         updatedAt: string;
     }
@@ -239,6 +252,7 @@ export namespace ScreenshotsModel {
         fileId?: number;
         branchId?: number;
         directoryId?: number;
+        labelIds?: number[];
     }
 
     export interface UpdateScreenshotRequest {
