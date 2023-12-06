@@ -80,6 +80,10 @@ const taskCreationErrorPayload = {
     ],
 };
 
+const unrecognizedErrorPayload = {
+    errors: [{ foo: 'bar' }],
+};
+
 const createAxiosError = (errorPayload: unknown): AxiosError => {
     /**
      * Create an axios error matching Crowdin error responses.
@@ -130,6 +134,11 @@ describe('core http error handling', () => {
         expect(() => handleHttpClientError(error)).toThrowError(
             JSON.stringify(taskCreationErrorPayload.errors, null, 2),
         );
+    });
+
+    it('should return default message for unrecognized axios errors', async () => {
+        const error = createAxiosError(unrecognizedErrorPayload);
+        expect(() => handleHttpClientError(error)).toThrowError('Validation error');
     });
 
     it('should extract Crowdin API messages with fetch client', async () => {
