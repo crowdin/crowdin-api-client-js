@@ -164,7 +164,7 @@ export function handleHttpClientError(error: HttpClientError): never {
         const validationCodes: { key: string; codes: string[] }[] = [];
         const validationMessages: string[] = [];
         crowdinResponseErrors.forEach((e: any) => {
-            if (typeof e.index === 'number' && Array.isArray(e.errors)) {
+            if (typeof e.index === 'number' || typeof e.error?.key === 'number') {
                 throw new CrowdinValidationError(JSON.stringify(crowdinResponseErrors, null, 2), []);
             }
             if (e.error?.key && Array.isArray(e.error?.errors)) {

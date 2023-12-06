@@ -62,6 +62,28 @@ const stringBatchOperationsErrorPayload = {
     ],
 };
 
+const taskCreationErrorPayload = {
+    errors: [
+        {
+            error: {
+                key: 0,
+                errors: [
+                    {
+                        code: 'languageId',
+                        message: {
+                            languageNotSupported: 'This language pair is not supported by vendor',
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+};
+
+const unrecognizedErrorPayload = {
+    errors: [{ foo: 'bar' }],
+};
+
 const createAxiosError = (errorPayload: unknown): AxiosError => {
     /**
      * Create an axios error matching Crowdin error responses.
@@ -105,6 +127,18 @@ describe('core http error handling', () => {
         expect(() => handleHttpClientError(error)).toThrowError(
             JSON.stringify(stringBatchOperationsErrorPayload.errors, null, 2),
         );
+    });
+
+    it('should print full error message for taskCreation axios errors', async () => {
+        const error = createAxiosError(taskCreationErrorPayload);
+        expect(() => handleHttpClientError(error)).toThrowError(
+            JSON.stringify(taskCreationErrorPayload.errors, null, 2),
+        );
+    });
+
+    it('should return default message for unrecognized axios errors', async () => {
+        const error = createAxiosError(unrecognizedErrorPayload);
+        expect(() => handleHttpClientError(error)).toThrowError('Validation error');
     });
 
     it('should extract Crowdin API messages with fetch client', async () => {
