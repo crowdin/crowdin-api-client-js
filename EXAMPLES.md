@@ -209,11 +209,39 @@ const { reportsApi } = new crowdin({
     organization: 'org'
 });
 
-async function downloadTranslations(projectId: number): Promise<string> {
+async function costsEstimationPostEditingReport(projectId: number): Promise<string> {
     const result = await reportsApi.generateReport(projectId, {
-        name: 'costs-estimation',
+        name: 'costs-estimation-pe',
         schema: {
             languageId: 'uk',
+            currency: 'USD',
+            unit: 'words',
+            format: 'json',
+            calculateInternalMatches: true,
+            includePreTranslatedStrings: false,
+            baseRates: {
+                fullTranslation: 0.6,
+                proofread: 0.05,
+            },
+            individualRates: [{
+                languageIds: [
+                    "ee"
+                ],
+                fullTranslation: 0.1,
+                proofread: 0.12
+            }],
+            netRateSchemes: {
+                tmMatch: [{
+                    matchType: "perfect",
+                    price: 0.01
+                }, {
+                    matchType: "100",
+                    price: 0.5
+                }, {
+                    matchType: "99-82",
+                    price: 0.7
+                }]
+            },
         },
     });
 
@@ -228,6 +256,5 @@ async function downloadTranslations(projectId: number): Promise<string> {
     return report.data.url;
 }
 
-downloadTranslations(123);
-
+costsEstimationPostEditingReport(123);
 ```
