@@ -22,7 +22,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 [![npm](https://img.shields.io/npm/v/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
 [![npm](https://img.shields.io/npm/dt/@crowdin/crowdin-api-client?logo=npm&cacheSeconds=1800)](https://www.npmjs.com/package/@crowdin/crowdin-api-client)
-[![GitHub Used by](https://img.shields.io/static/v1?label=Used%20by&message=4.1k&color=brightgreen&logo=github&cacheSeconds=10000)](https://github.com/crowdin/crowdin-api-client-js/network/dependents?package_id=UGFja2FnZS0yOTQyNTU3MzA0)
+[![GitHub Used by](https://img.shields.io/static/v1?label=Used%20by&message=4.1k&color=brightgreen&logo=github&cacheSeconds=10000)](https://github.com/crowdin/crowdin-api-client-js/network/dependents)
 [![Tests](https://github.com/crowdin/crowdin-api-client-js/actions/workflows/basic.yml/badge.svg)](https://github.com/crowdin/crowdin-api-client-js/actions/workflows/basic.yml)
 [![codecov](https://codecov.io/gh/crowdin/crowdin-api-client-js/branch/master/graph/badge.svg)](https://codecov.io/gh/crowdin/crowdin-api-client-js)
 [![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-js?cacheSeconds=3600)](https://github.com/crowdin/crowdin-api-client-js/graphs/contributors)
