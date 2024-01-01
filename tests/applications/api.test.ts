@@ -11,9 +11,49 @@ describe('Applications API', () => {
     const applicationId = 'abc';
     const path = 'test';
     const url = `/applications/${applicationId}/api/${path}`;
+    const installUrl = '/applications/installations';
 
     beforeAll(() => {
         scope = nock(api.url)
+            .post(installUrl, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(installUrl + `/${applicationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(installUrl, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                installUrl + `/${applicationId}`,
+                [
+                    {
+                        op: 'replace',
+                        path: '/permissions',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200)
+            .delete(installUrl + `/${applicationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
             .post(
                 url,
                 {},
@@ -60,6 +100,31 @@ describe('Applications API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('List Application Installations', async () => {
+        await api.listApplicationInstallations();
+    });
+
+    it('Install Application', async () => {
+        await api.installApplication('https://localhost.dev/crowdin.json');
+    });
+
+    it('Get Application Installation', async () => {
+        await api.getApplicationInstallation(applicationId);
+    });
+
+    it('Edit Application Installation', async () => {
+        await api.editApplicationInstallation(applicationId, [
+            {
+                op: 'replace',
+                path: '/permissions',
+            },
+        ]);
+    });
+
+    it('Delete Application Installation', async () => {
+        await api.deleteApplicationInstallation(applicationId);
     });
 
     it('Add Application Data', async () => {
