@@ -5,6 +5,7 @@ on:
     types: [published]
   repository_dispatch:
     types: [publish]
+  workflow_dispatch:
 
 jobs:
   publish-npm:
