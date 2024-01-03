@@ -488,6 +488,10 @@ Need help working with Crowdin JavaScript client or have any questions? [Contact
 
 If you want to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
 
+## Security
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B40134%2F192ac70bb4ea8a4ba1051e955aa05572.svg?type=large&issueType=license)](https://app.fossa.com/projects/custom%2B40134%2F192ac70bb4ea8a4ba1051e955aa05572?ref=badge_large&issueType=license)
+
 ## License
 
 <pre>
