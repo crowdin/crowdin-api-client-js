@@ -25,7 +25,7 @@ export class Applications extends CrowdinApi {
         permissions?: ApplicationsModel.ApplicationPermissions,
     ): Promise<ResponseObject<ApplicationsModel.ApplicationData>> {
         const url = `${this.url}/applications/installations`;
-        return this.post(url, { applicationUrl, permissions }, this.defaultConfig());
+        return this.post(url, { url: applicationUrl, permissions: permissions }, this.defaultConfig());
     }
 
     /**
