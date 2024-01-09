@@ -254,15 +254,15 @@ export abstract class CrowdinApi {
     }
 
     graphql<T>(req: { query: string; operationName?: string; variables?: any }): Promise<ResponseObject<T>> {
-        if (!this.organization) {
-            throw new Error('GraphQL API could be used only with Crowdin Enterprise.');
+        let url;
+
+        if (this.organization) {
+            url = `https://${this.organization}.api.crowdin.com/api/graphql`;
+        } else {
+            url = 'https://api.crowdin.com/api/graphql';
         }
 
-        return this.post<ResponseObject<T>>(
-            `https://${this.organization}.api.crowdin.com/api/graphql`,
-            req,
-            this.defaultConfig(),
-        );
+        return this.post<ResponseObject<T>>(url, req, this.defaultConfig());
     }
 
     protected addQueryParam(url: string, name: string, value?: string | number): string {
