@@ -99,12 +99,7 @@ export class TranslationMemory extends CrowdinApi {
         tmId: number,
         options?: TranslationMemoryModel.ListSegmentsOptions,
     ): Promise<ResponseList<TranslationMemoryModel.TMSegment>> {
-        let url = `${this.url}/tms/${tmId}/segments`;
-
-        if (options?.croql) {
-            url = this.addQueryParam(url, 'croql', options.croql);
-        }
-
+        const url = this.addQueryParam(`${this.url}/tms/${tmId}/segments`, 'croql', options?.croql);
         return this.getList(url, options?.limit, options?.offset);
     }
 
