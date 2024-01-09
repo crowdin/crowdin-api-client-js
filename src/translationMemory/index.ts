@@ -95,8 +95,12 @@ export class TranslationMemory extends CrowdinApi {
      * @param options optional paramerers for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany
      */
-    listTmSegments(tmId: number, options?: PaginationOptions): Promise<ResponseList<TranslationMemoryModel.TMSegment>> {
-        const url = `${this.url}/tms/${tmId}/segments`;
+    listTmSegments(
+        tmId: number,
+        options?: TranslationMemoryModel.ListSegmentsOptions,
+    ): Promise<ResponseList<TranslationMemoryModel.TMSegment>> {
+        let url = `${this.url}/tms/${tmId}/segments`;
+        url = this.addQueryParam(url, 'croql', options?.croql);
         return this.getList(url, options?.limit, options?.offset);
     }
 
@@ -356,6 +360,10 @@ export namespace TranslationMemoryModel {
     export interface ListTMsOptions extends PaginationOptions {
         groupId?: number;
         userId?: number;
+    }
+
+    export interface ListSegmentsOptions extends PaginationOptions {
+        croql?: string;
     }
 
     export interface TMSegment {
