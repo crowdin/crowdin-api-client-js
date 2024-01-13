@@ -4,6 +4,10 @@ tests
 .vscode
 .eslint
 .prettierrc
+.idea
+coverage
+junit.xml
+sandbox.js
 jestconfig.json
 tsconfig.json
 yarn.lock

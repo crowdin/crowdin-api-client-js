@@ -22,12 +22,17 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install npm CLI
-        run: npm install -g npm@9.9.2
+        run: npm install -g npm@latest
 
       - name: Install dependencies and build
         run: |
+          npm -v
           npm ci
           npm run build
+
+      - name: Publish Dry Run
+        run: |
+          npm publish --dry-run
 
       - name: Publish the package
         run: |

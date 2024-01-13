@@ -22,7 +22,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3w
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -37,10 +37,13 @@ jobs:
             ${{ runner.os }}-
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+
+      - name: Print Node version
+        run: npm -v
 
       - name: Install dependencies
         run: npm install
@@ -50,6 +53,9 @@ jobs:
 
       - name: Tests
         run: npm run test
+
+      - name: Publish Dry Run
+        run: npm publish --dry-run
 
   code-coverage:
     runs-on: ubuntu-latest
@@ -70,7 +76,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
           cache: 'npm'
