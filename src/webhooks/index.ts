@@ -113,16 +113,31 @@ export namespace WebhooksModel {
     export type ContentType = 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded';
 
     export type Event =
+        | 'file.added'
+        | 'file.updated'
+        | 'file.reverted'
+        | 'file.deleted'
         | 'file.translated'
         | 'file.approved'
         | 'project.translated'
         | 'project.approved'
+        | 'project.built'
         | 'translation.updated'
+        | 'string.added'
+        | 'string.updated'
+        | 'string.deleted'
+        | 'stringComment.created'
+        | 'stringComment.updated'
+        | 'stringComment.deleted'
+        | 'stringComment.restored'
         | 'suggestion.added'
         | 'suggestion.updated'
         | 'suggestion.deleted'
         | 'suggestion.approved'
-        | 'suggestion.disapproved';
+        | 'suggestion.disapproved'
+        | 'task.added'
+        | 'task.statusChanged'
+        | 'task.deleted';
 
     export type RequestType = 'POST' | 'GET';
 }
