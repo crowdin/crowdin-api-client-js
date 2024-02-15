@@ -27,6 +27,7 @@ import { Users } from './users';
 import { Vendors } from './vendors';
 import { Webhooks } from './webhooks';
 import { Workflows } from './workflows';
+import { SecurityLogs } from './securityLogs';
 
 export * from './applications';
 export * from './bundles';
@@ -57,6 +58,7 @@ export * from './users';
 export * from './vendors';
 export * from './webhooks';
 export * from './workflows';
+export * from './securityLogs';
 
 /**
  * @internal
@@ -82,6 +84,7 @@ export default class Client extends CrowdinApi {
     readonly workflowsApi: Workflows;
     readonly usersApi: Users;
     readonly vendorsApi: Vendors;
+    readonly securityLogs: SecurityLogs;
     /**
      * @deprecated use stringCommentsApi instead
      */
@@ -124,5 +127,6 @@ export default class Client extends CrowdinApi {
         this.stringCommentsApi = new StringComments(credentials, config);
         this.bundlesApi = new Bundles(credentials, config);
         this.notificationsApi = new Notifications(credentials, config);
+        this.securityLogs = new SecurityLogs(credentials, config);
     }
 }
