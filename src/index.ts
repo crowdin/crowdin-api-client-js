@@ -14,6 +14,7 @@ import { OrganizationWebhooks } from './organizationWebhooks';
 import { ProjectsGroups } from './projectsGroups';
 import { Reports } from './reports';
 import { Screenshots } from './screenshots';
+import { SecurityLogs } from './securityLogs';
 import { SourceFiles } from './sourceFiles';
 import { SourceStrings } from './sourceStrings';
 import { StringComments } from './stringComments';
@@ -45,6 +46,7 @@ export * from './organizationWebhooks';
 export * from './projectsGroups';
 export * from './reports';
 export * from './screenshots';
+export * from './securityLogs';
 export * from './sourceFiles';
 export * from './sourceStrings';
 export * from './stringComments';
@@ -96,6 +98,7 @@ export default class Client extends CrowdinApi {
     readonly bundlesApi: Bundles;
     readonly notificationsApi: Notifications;
     readonly clientsApi: Clients;
+    readonly securityLogsApi: SecurityLogs;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -128,5 +131,6 @@ export default class Client extends CrowdinApi {
         this.bundlesApi = new Bundles(credentials, config);
         this.notificationsApi = new Notifications(credentials, config);
         this.clientsApi = new Clients(credentials, config);
+        this.securityLogsApi = new SecurityLogs(credentials, config);
     }
 }
