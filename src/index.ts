@@ -4,6 +4,7 @@ import { Clients } from './clients';
 import { ClientConfig, Credentials, CrowdinApi } from './core';
 import { Dictionaries } from './dictionaries';
 import { Distributions } from './distributions';
+import { Fields } from './fields';
 import { Glossaries } from './glossaries';
 import { Issues } from './issues';
 import { Labels } from './labels';
@@ -36,6 +37,7 @@ export * from './clients';
 export * from './core';
 export * from './dictionaries';
 export * from './distributions';
+export * from './fields';
 export * from './glossaries';
 export * from './issues';
 export * from './labels';
@@ -99,6 +101,7 @@ export default class Client extends CrowdinApi {
     readonly notificationsApi: Notifications;
     readonly clientsApi: Clients;
     readonly securityLogsApi: SecurityLogs;
+    readonly fieldsApi: Fields;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -132,5 +135,6 @@ export default class Client extends CrowdinApi {
         this.notificationsApi = new Notifications(credentials, config);
         this.clientsApi = new Clients(credentials, config);
         this.securityLogsApi = new SecurityLogs(credentials, config);
+        this.fieldsApi = new Fields(credentials, config);
     }
 }
