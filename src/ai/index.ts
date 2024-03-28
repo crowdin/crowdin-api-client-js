@@ -130,7 +130,7 @@ export class AI extends CrowdinApi {
     createAIProxyChatCompletion(
         userId: number,
         aiProviderId: number,
-        request?: object,
+        request?: AIModel.OtherChatCompletionRequest | AIModel.GoogleGeminiChatCompletionRequest,
     ): Promise<ResponseObject<AIModel.AIProviderProxyResponseData>> {
         const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/chat/completions`;
 
@@ -256,4 +256,12 @@ export namespace AIModel {
         data: object;
     }
     /* ai Provider Models Section END*/
+
+    export interface OtherChatCompletionRequest {
+        [key: string]: object | string;
+    }
+
+    export interface GoogleGeminiChatCompletionRequest extends OtherChatCompletionRequest {
+        model: string;
+    }
 }
