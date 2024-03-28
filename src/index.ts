@@ -1,3 +1,4 @@
+import { AI } from './ai';
 import { Applications } from './applications';
 import { Bundles } from './bundles';
 import { Clients } from './clients';
@@ -31,6 +32,7 @@ import { Vendors } from './vendors';
 import { Webhooks } from './webhooks';
 import { Workflows } from './workflows';
 
+export * from './ai';
 export * from './applications';
 export * from './bundles';
 export * from './clients';
@@ -68,6 +70,7 @@ export * from './workflows';
  * @internal
  */
 export default class Client extends CrowdinApi {
+    readonly AIApi: AI;
     readonly applicationsApi: Applications;
     readonly sourceFilesApi: SourceFiles;
     readonly glossariesApi: Glossaries;
@@ -105,6 +108,7 @@ export default class Client extends CrowdinApi {
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
+        this.AIApi = new AI(credentials, config);
         this.applicationsApi = new Applications(credentials, config);
         this.sourceFilesApi = new SourceFiles(credentials, config);
         this.glossariesApi = new Glossaries(credentials, config);
