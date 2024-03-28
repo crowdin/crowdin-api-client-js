@@ -144,6 +144,7 @@ export namespace AIModel {
         projectId?: number;
         action?: string;
     }
+
     export interface AIPromptResponse {
         id: number;
         name: string;
