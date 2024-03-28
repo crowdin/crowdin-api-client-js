@@ -127,7 +127,7 @@ export class AI extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.chat.completions.post
      */
-    proxyAIProvider(
+    createAIProxyChatCompletion(
         userId: number,
         aiProviderId: number,
         request?: object,
@@ -140,11 +140,9 @@ export class AI extends CrowdinApi {
 
 export namespace AIModel {
     /* ai Prompts Section START*/
-    export interface ListAIPromptsOptions {
+    export interface ListAIPromptsOptions extends PaginationOptions {
         projectId?: number;
         action?: string;
-        limit?: number;
-        offset?: number;
     }
     export interface AIPromptResponse {
         id: number;

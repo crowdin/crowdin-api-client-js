@@ -293,7 +293,7 @@ describe('AI API', () => {
     });
 
     it('Create AI Proxy Chat Completion', async () => {
-        const proxy = await api.proxyAIProvider(userId, aiProviderId, field);
+        const proxy = await api.createAIProxyChatCompletion(userId, aiProviderId, field);
         expect(proxy.data).toStrictEqual(field);
     });
 });
