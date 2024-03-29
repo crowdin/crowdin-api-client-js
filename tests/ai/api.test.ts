@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { AI, AIModel, Credentials } from '../../src';
+import { Ai, AiModel, Credentials } from '../../src';
 
 describe('AI API', () => {
     let scope: nock.Scope;
@@ -7,7 +7,7 @@ describe('AI API', () => {
         token: 'testToken',
         organization: 'testOrg',
     };
-    const api: AI = new AI(userCredentials);
+    const api: Ai = new Ai(userCredentials);
 
     const aiPromptId = 3;
     const aiProviderId = 4;
@@ -18,7 +18,7 @@ describe('AI API', () => {
     const action = 'promptAction';
     const mode = 'advanced';
     const prompt = 'translate <string>';
-    const config: AIModel.AIPromptConfigAdvanced = {
+    const config: AiModel.AiPromptConfigAdvanced = {
         mode,
         prompt,
     };
@@ -197,6 +197,178 @@ describe('AI API', () => {
                     limit: limit,
                 },
             })
+            .post(`/ai/providers/${aiProviderId}/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .get(`/users/${userId}/ai/prompts`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: aiPromptId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/users/${userId}/ai/prompts`,
+                {
+                    name,
+                    action,
+                    aiProviderId,
+                    aiModelId,
+                    config,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiPromptId,
+                },
+            })
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: aiPromptId,
+                },
+            })
+            .delete(`/users/${userId}/ai/prompts/${aiPromptId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/users/${userId}/ai/prompts/${aiPromptId}`,
+                [
+                    {
+                        value: name,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiPromptId,
+                },
+            })
+            .get(`/users/${userId}/ai/providers`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: aiProviderId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/users/${userId}/ai/providers`,
+                {
+                    name,
+                    type,
+                    credentials,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiProviderId,
+                },
+            })
+            .get(`/users/${userId}/ai/providers/${aiProviderId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: aiProviderId,
+                },
+            })
+            .delete(`/users/${userId}/ai/providers/${aiProviderId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/users/${userId}/ai/providers/${aiProviderId}`,
+                [
+                    {
+                        value: name,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiProviderId,
+                },
+            })
+            .get(`/users/${userId}/ai/providers/${aiProviderId}/models`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: aiModelId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(`/users/${userId}/ai/providers/${aiProviderId}/chat/completions`, field, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -210,16 +382,15 @@ describe('AI API', () => {
     afterAll(() => {
         scope.done();
     });
-
-    it('List AI Prompts', async () => {
-        const prompts = await api.listAIPrompts();
+    it('List AI Organization Prompts', async () => {
+        const prompts = await api.listAiOrganizationPrompts();
         expect(prompts.data.length).toBe(1);
         expect(prompts.data[0].data.id).toBe(aiPromptId);
         expect(prompts.pagination.limit).toBe(limit);
     });
 
-    it('Add AI Prompt', async () => {
-        const prompt = await api.addAIPrompt({
+    it('Add AI Organization Prompt', async () => {
+        const prompt = await api.addAiOrganizationPrompt({
             name,
             action,
             aiProviderId,
@@ -229,17 +400,17 @@ describe('AI API', () => {
         expect(prompt.data.id).toBe(aiPromptId);
     });
 
-    it('Get AI Prompt', async () => {
-        const prompt = await api.getAIPrompt(aiPromptId);
+    it('Get AI Organization Prompt', async () => {
+        const prompt = await api.getAiOrganizationPrompt(aiPromptId);
         expect(prompt.data.id).toBe(aiPromptId);
     });
 
-    it('Delete AI Prompt', async () => {
-        await api.deleteAIPrompt(aiPromptId);
+    it('Delete AI Organization Prompt', async () => {
+        await api.deleteAiOrganizationPrompt(aiPromptId);
     });
 
-    it('Edit AI Prompt', async () => {
-        const prompt = await api.editAIPrompt(aiPromptId, [
+    it('Edit AI Organization Prompt', async () => {
+        const prompt = await api.editAiOrganizationPrompt(aiPromptId, [
             {
                 op: 'replace',
                 path: '/name',
@@ -249,15 +420,15 @@ describe('AI API', () => {
         expect(prompt.data.id).toBe(aiPromptId);
     });
 
-    it('List AI Providers', async () => {
-        const providers = await api.listAIProviders();
+    it('List AI Organization Providers', async () => {
+        const providers = await api.listAiOrganizationProviders();
         expect(providers.data.length).toBe(1);
         expect(providers.data[0].data.id).toBe(aiProviderId);
         expect(providers.pagination.limit).toBe(limit);
     });
 
-    it('Add AI Provider', async () => {
-        const provider = await api.addAIProvider({
+    it('Add AI Organization Provider', async () => {
+        const provider = await api.addAiOrganizationProvider({
             name,
             type,
             credentials,
@@ -265,17 +436,17 @@ describe('AI API', () => {
         expect(provider.data.id).toBe(aiProviderId);
     });
 
-    it('Get AI Provider', async () => {
-        const provider = await api.getAIProvider(aiProviderId);
+    it('Get AI Organization Provider', async () => {
+        const provider = await api.getAiOrganizationProvider(aiProviderId);
         expect(provider.data.id).toBe(aiProviderId);
     });
 
-    it('Delete AI Provider', async () => {
-        await api.deleteAIProvider(aiProviderId);
+    it('Delete AI Organization Provider', async () => {
+        await api.deleteAiOrganizationProvider(aiProviderId);
     });
 
-    it('Edit AI Provider', async () => {
-        const provider = await api.editAIProvider(aiProviderId, [
+    it('Edit AI Organization Provider', async () => {
+        const provider = await api.editAiOrganizationProvider(aiProviderId, [
             {
                 op: 'replace',
                 path: '/name',
@@ -285,15 +456,101 @@ describe('AI API', () => {
         expect(provider.data.id).toBe(aiProviderId);
     });
 
-    it('List AI Provider Models', async () => {
-        const providers = await api.listAIProviderModels(aiProviderId);
+    it('List AI Organization Provider Models', async () => {
+        const providers = await api.listAiOrganizationProviderModels(aiProviderId);
         expect(providers.data.length).toBe(1);
         expect(providers.data[0].data.id).toBe(aiModelId);
         expect(providers.pagination.limit).toBe(limit);
     });
 
-    it('Create AI Proxy Chat Completion', async () => {
-        const proxy = await api.createAIProxyChatCompletion(userId, aiProviderId, field);
+    it('Create AI Organization Proxy Chat Completion', async () => {
+        const proxy = await api.createAiOrganizationProxyChatCompletion(aiProviderId, field);
+        expect(proxy.data).toStrictEqual(field);
+    });
+
+    it('List AI User Prompts', async () => {
+        const prompts = await api.listAiUserPrompts(userId);
+        expect(prompts.data.length).toBe(1);
+        expect(prompts.data[0].data.id).toBe(aiPromptId);
+        expect(prompts.pagination.limit).toBe(limit);
+    });
+
+    it('Add AI User Prompt', async () => {
+        const prompt = await api.addAiUserPrompt(userId, {
+            name,
+            action,
+            aiProviderId,
+            aiModelId,
+            config,
+        });
+        expect(prompt.data.id).toBe(aiPromptId);
+    });
+
+    it('Get AI User Prompt', async () => {
+        const prompt = await api.getAiUserPrompt(userId, aiPromptId);
+        expect(prompt.data.id).toBe(aiPromptId);
+    });
+
+    it('Delete AI User Prompt', async () => {
+        await api.deleteAiUserPrompt(userId, aiPromptId);
+    });
+
+    it('Edit AI User Prompt', async () => {
+        const prompt = await api.editAiUserPrompt(userId, aiPromptId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: name,
+            },
+        ]);
+        expect(prompt.data.id).toBe(aiPromptId);
+    });
+
+    it('List AI User Providers', async () => {
+        const providers = await api.listAiUserProviders(userId);
+        expect(providers.data.length).toBe(1);
+        expect(providers.data[0].data.id).toBe(aiProviderId);
+        expect(providers.pagination.limit).toBe(limit);
+    });
+
+    it('Add AI User Provider', async () => {
+        const provider = await api.addAiUserProvider(userId, {
+            name,
+            type,
+            credentials,
+        });
+        expect(provider.data.id).toBe(aiProviderId);
+    });
+
+    it('Get AI User Provider', async () => {
+        const provider = await api.getAiUserProvider(userId, aiProviderId);
+        expect(provider.data.id).toBe(aiProviderId);
+    });
+
+    it('Delete AI User Provider', async () => {
+        await api.deleteAiUserProvider(userId, aiProviderId);
+    });
+
+    it('Edit AI User Provider', async () => {
+        const provider = await api.editAiUserProvider(userId, aiProviderId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: name,
+            },
+        ]);
+        expect(provider.data.id).toBe(aiProviderId);
+    });
+
+    it('List AI User Provider Models', async () => {
+        const providers = await api.listAiUserProviderModels(userId, aiProviderId);
+        expect(providers.data.length).toBe(1);
+        expect(providers.data[0].data.id).toBe(aiModelId);
+        expect(providers.pagination.limit).toBe(limit);
+    });
+
+    it('Create AI User Proxy Chat Completion', async () => {
+        const proxy = await api.createAiUserProxyChatCompletion(userId, aiProviderId, field);
         expect(proxy.data).toStrictEqual(field);
     });
 });
