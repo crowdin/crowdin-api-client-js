@@ -1,4 +1,4 @@
-import { AI } from './ai';
+import { Ai } from './ai';
 import { Applications } from './applications';
 import { Bundles } from './bundles';
 import { Clients } from './clients';
@@ -70,7 +70,7 @@ export * from './workflows';
  * @internal
  */
 export default class Client extends CrowdinApi {
-    readonly AIApi: AI;
+    readonly aiApi: Ai;
     readonly applicationsApi: Applications;
     readonly sourceFilesApi: SourceFiles;
     readonly glossariesApi: Glossaries;
@@ -108,7 +108,7 @@ export default class Client extends CrowdinApi {
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
-        this.AIApi = new AI(credentials, config);
+        this.aiApi = new Ai(credentials, config);
         this.applicationsApi = new Applications(credentials, config);
         this.sourceFilesApi = new SourceFiles(credentials, config);
         this.glossariesApi = new Glossaries(credentials, config);
