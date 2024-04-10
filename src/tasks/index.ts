@@ -275,6 +275,7 @@ export namespace TasksModel {
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
         branchIds: number[];
+        webUrl: string;
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
