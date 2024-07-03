@@ -440,7 +440,11 @@ export namespace GlossariesModel {
     export interface ConcordanceSearchRequest extends PaginationOptions {
         sourceLanguageId: string;
         targetLanguageId: string;
-        expression: string;
+        expressions: string[];
+        /**
+         * @deprecated
+         */
+        expression?: string;
     }
 
     export interface ConcordanceSearchResponse {

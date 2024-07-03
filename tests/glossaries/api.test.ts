@@ -312,7 +312,7 @@ describe('Glossaries API', () => {
                 {
                     sourceLanguageId: termLanguageId,
                     targetLanguageId: termLanguageId,
-                    expression: 'Welcome!',
+                    expressions: ['Welcome!'],
                 },
                 {
                     reqheaders: {
@@ -482,7 +482,7 @@ describe('Glossaries API', () => {
         const res = await api.concordanceSearch(projectId, {
             sourceLanguageId: termLanguageId,
             targetLanguageId: termLanguageId,
-            expression: 'Welcome!',
+            expressions: ['Welcome!'],
         });
         expect(res.data.length).toBe(1);
         expect(res.data[0].data.glossary.id).toBe(glossaryId);
