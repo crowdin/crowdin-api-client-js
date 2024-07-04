@@ -227,6 +227,9 @@ export class Screenshots extends CrowdinApi {
 export namespace ScreenshotsModel {
     export interface ListScreenshotParams extends PaginationOptions {
         stringIds?: number[];
+        /**
+         * @deprecated use stringIds instead
+         */
         stringId?: number;
         labelIds?: string;
         excludeLabelIds?: string;
