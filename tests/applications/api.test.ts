@@ -107,7 +107,9 @@ describe('Applications API', () => {
     });
 
     it('Install Application', async () => {
-        await api.installApplication('https://localhost.dev/crowdin.json');
+        await api.installApplication({
+            url: 'https://localhost.dev/crowdin.json',
+        });
     });
 
     it('Get Application Installation', async () => {

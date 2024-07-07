@@ -347,10 +347,6 @@ export namespace TranslationsModel {
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         translateHidden?: boolean;
-        /**
-         * @deprecated
-         */
-        markAddedTranslationsAsDone?: boolean;
     }
 
     export interface UploadTranslationStringsRequest {
