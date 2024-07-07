@@ -40,7 +40,7 @@ describe('Organization Webhooks API', () => {
                 {
                     name: name,
                     url: url,
-                    events: [],
+                    events: ['project.created'],
                     requestType: requestType,
                 },
                 {
@@ -108,7 +108,7 @@ describe('Organization Webhooks API', () => {
         const webhook = await api.addWebhook({
             name: name,
             url: url,
-            events: [],
+            events: ['project.created'],
             requestType: requestType,
         });
         expect(webhook.data.id).toBe(webhookId);

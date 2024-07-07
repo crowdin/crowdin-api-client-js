@@ -101,12 +101,12 @@ export namespace WebhooksModel {
     export interface AddWebhookRequest {
         name: string;
         url: string;
+        events: Event[];
+        requestType: RequestType;
         isActive?: boolean;
         batchingEnabled?: boolean;
         contentType?: ContentType;
-        events: Event[];
         headers?: Record<string, string>;
-        requestType: RequestType;
         payload?: Record<string, any>;
     }
 
