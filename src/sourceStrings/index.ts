@@ -113,6 +113,7 @@ export class SourceStrings extends CrowdinApi {
         url = this.addQueryParam(url, 'croql', options.croql);
         url = this.addQueryParam(url, 'branchId', options.branchId);
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -207,6 +208,8 @@ export namespace SourceStringsModel {
             importTranslations: boolean;
             scheme: SourceFilesModel.Scheme;
         };
+        updateStrings: boolean;
+        cleanupMode: boolean;
     }
 
     export interface UploadStringsRequest {
@@ -233,33 +236,36 @@ export namespace SourceStringsModel {
         croql?: string;
         branchId?: number;
         directoryId?: number;
+        orderBy?: number;
     }
 
     export interface String {
         id: number;
         projectId: number;
-        fileId: number;
         branchId: number;
         identifier: string;
         text: string | PluralText;
         type: Type;
         context: string;
         maxLength: number;
+        isHidden: boolean;
         isDuplicate: boolean;
         masterStringId: boolean;
-        isHidden: boolean;
-        revision: number;
         hasPlurals: boolean;
         isIcu: boolean;
         labelIds: number[];
+        webUrl: string;
         createdAt: string;
         updatedAt: string;
+        fileId: number;
+        directoryId: number;
+        revision: number;
     }
 
     export interface CreateStringRequest {
         text: string | PluralText;
         identifier?: string;
-        fileId?: number;
+        fileId: number;
         context?: string;
         isHidden?: boolean;
         maxLength?: number;

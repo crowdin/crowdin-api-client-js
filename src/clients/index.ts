@@ -23,5 +23,6 @@ export namespace ClientsModel {
         name: string;
         description: string;
         status: 'pending' | 'confirmed' | 'rejected';
+        webUrl: string;
     }
 }

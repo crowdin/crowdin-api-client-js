@@ -15,6 +15,7 @@ import {
  * In Crowdin Enterprise users are the members of your organization with the defined access levels.
  * Use API to get the list of organization users and to check the information on a specific user.
  */
+//TODO add missing endpoints
 export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
@@ -65,6 +66,7 @@ export class Users extends CrowdinApi {
         url = this.addQueryParam(url, 'role', options.role);
         url = this.addQueryParam(url, 'languageId', options.languageId);
         url = this.addQueryParam(url, 'workflowStepId', options.workflowStepId);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -159,6 +161,7 @@ export class Users extends CrowdinApi {
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'twoFactor', options.twoFactor);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -214,12 +217,14 @@ export namespace UsersModel {
         role?: Role;
         languageId?: string;
         workflowStepId?: number;
+        orderBy?: string;
     }
 
     export interface ListUsersOptions extends PaginationOptions {
         status?: Status;
         search?: string;
         twoFactor?: TwoFactor;
+        orderBy?: string;
     }
 
     export interface InviteUserRequest {
@@ -297,17 +302,17 @@ export namespace UsersModel {
         userIds: number[];
         usernames: string[];
         emails: string[];
-        /**
-         * @deprecated
-         */
-        accessToAllWorkflowSteps?: boolean;
         managerAccess?: boolean;
+        roles?: ProjectRole[];
         developerAccess?: boolean;
         /**
          * @deprecated
          */
+        accessToAllWorkflowSteps?: boolean;
+        /**
+         * @deprecated
+         */
         permissions?: Permissions;
-        roles?: ProjectRole[];
     }
 
     export interface AddProjectMemberResponse {
@@ -317,16 +322,17 @@ export namespace UsersModel {
     }
 
     export interface ReplaceProjectMemberRequest {
+        managerAccess?: boolean;
+        developerAccess?: boolean;
+        roles?: ProjectRole[];
         /**
          * @deprecated
          */
         accessToAllWorkflowSteps?: boolean;
-        managerAccess?: boolean;
         /**
          * @deprecated
          */
         permissions?: Permissions;
-        roles?: ProjectRole[];
     }
 
     export interface Permissions {

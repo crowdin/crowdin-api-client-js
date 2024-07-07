@@ -133,6 +133,6 @@ export namespace FieldsModel {
         type: Type;
         description?: string;
         entities: Entity[];
-        config: Config;
+        config?: Config;
     }
 }

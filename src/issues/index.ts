@@ -6,6 +6,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class Issues extends CrowdinApi {
     /**
+     * @deprecated
      * @param projectId project identifier
      * @param options optional parameters for listing reported issues
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.issues.getMany
@@ -52,6 +53,7 @@ export class Issues extends CrowdinApi {
     }
 
     /**
+     * @deprecated
      * @param projectId project identifier
      * @param issueId issue identifier
      * @param request request body

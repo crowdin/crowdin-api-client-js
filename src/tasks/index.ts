@@ -50,6 +50,7 @@ export class Tasks extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/tasks`;
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'assigneeId', options.assigneeId);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -60,8 +61,8 @@ export class Tasks extends CrowdinApi {
      */
     addTask(
         projectId: number,
-        request:
-            | TasksModel.CreateTaskEnterpriseRequest
+        request: //TODO review create task types (https://github.com/crowdin/crowdin-api-client-js/issues/376)
+        | TasksModel.CreateTaskEnterpriseRequest
             | TasksModel.CreateTaskEnterpriseVendorRequest
             | TasksModel.CreateTaskEnterpriseStringsBasedRequest
             | TasksModel.CreateTaskEnterpriseVendorStringsBasedRequest
@@ -159,6 +160,7 @@ export class Tasks extends CrowdinApi {
         }
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'isArchived', options.isArchived);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -275,12 +277,16 @@ export namespace TasksModel {
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
         branchIds: number[];
+        labelIds: number[];
+        excludeLabelIds: number[];
+        precedingTaskId: number;
         webUrl: string;
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
         status?: Status;
         isArchived?: BooleanInt;
+        orderBy?: string;
     }
 
     export interface UserTask extends Task {
@@ -531,6 +537,7 @@ export namespace TasksModel {
     export interface ListTasksOptions extends PaginationOptions {
         status?: TasksModel.Status;
         assigneeId?: number;
+        orderBy?: string;
     }
 
     export interface TaskSettingsTemplate {

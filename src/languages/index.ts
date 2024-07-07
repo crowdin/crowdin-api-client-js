@@ -87,13 +87,13 @@ export namespace LanguagesModel {
 
     export interface AddLanguageRequest {
         name: string;
-        dialectOf?: string;
         code: string;
         localeCode: string;
-        twoLettersCode?: string;
-        threeLettersCode: string;
         textDirection: TextDirection;
         pluralCategoryNames: string[];
+        threeLettersCode: string;
+        twoLettersCode?: string;
+        dialectOf?: string;
     }
 
     export type TextDirection = 'ltr' | 'rtl';

@@ -216,10 +216,7 @@ describe('Translations API', () => {
             .reply(200, {
                 data: {
                     identifier: preTranslationId,
-                    attributes: {
-                        labelIds: sampleLabelIds,
-                        excludeLabelIds: sampleExcludeLabelIds,
-                    },
+                    attributes: {},
                 },
             });
     });
@@ -244,8 +241,6 @@ describe('Translations API', () => {
             excludeLabelIds: sampleExcludeLabelIds,
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
-        expect(preTranslation.data.attributes.labelIds).toEqual(sampleLabelIds);
-        expect(preTranslation.data.attributes.excludeLabelIds).toEqual(sampleExcludeLabelIds);
     });
 
     it('Pre-translation status', async () => {

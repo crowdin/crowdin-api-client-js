@@ -41,7 +41,7 @@ describe('Web-hooks API', () => {
                 {
                     name: name,
                     url: url,
-                    events: [],
+                    events: ['file.added'],
                     requestType: requestType,
                 },
                 {
@@ -109,7 +109,7 @@ describe('Web-hooks API', () => {
         const webhook = await api.addWebhook(projectId, {
             name: name,
             url: url,
-            events: [],
+            events: ['file.added'],
             requestType: requestType,
         });
         expect(webhook.data.id).toBe(webhookId);

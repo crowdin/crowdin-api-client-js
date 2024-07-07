@@ -55,6 +55,7 @@ export class ProjectsGroups extends CrowdinApi {
         let url = `${this.url}/groups`;
         url = this.addQueryParam(url, 'parentId', options.parentId);
         url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -133,6 +134,8 @@ export class ProjectsGroups extends CrowdinApi {
         let url = `${this.url}/projects`;
         url = this.addQueryParam(url, 'groupId', options.groupId);
         url = this.addQueryParam(url, 'hasManagerAccess', options.hasManagerAccess);
+        url = this.addQueryParam(url, 'type', options.type);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -141,10 +144,7 @@ export class ProjectsGroups extends CrowdinApi {
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.post
      */
     addProject(
-        request:
-            | ProjectsGroupsModel.CreateProjectEnterpriseRequest
-            | ProjectsGroupsModel.FilesBasedCreateProjectRequest
-            | ProjectsGroupsModel.StringsBasedCreateProjectRequest,
+        request: ProjectsGroupsModel.CreateProjectEnterpriseRequest | ProjectsGroupsModel.CreateProjectRequest,
     ): Promise<ResponseObject<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>> {
         const url = `${this.url}/projects`;
         return this.post(url, request, this.defaultConfig());
@@ -348,6 +348,7 @@ export namespace ProjectsGroupsModel {
         userId: number;
         subgroupsCount: number;
         projectsCount: number;
+        webUrl: string;
         createdAt: string;
         updatedAt: string;
     }
@@ -361,34 +362,37 @@ export namespace ProjectsGroupsModel {
     export interface Project {
         id: number;
         type?: Type;
-        groupId: number;
         userId: number;
         sourceLanguageId: string;
         targetLanguageIds: string[];
         languageAccessPolicy: LanguageAccessPolicy;
         name: string;
-        cname: string;
         identifier: string;
         description: string;
         visibility: string;
         logo: string;
-        background: string;
-        isExternal: boolean;
-        externalType: string;
-        workflowId: number;
-        hasCrowdsourcing: boolean;
         publicDownloads: boolean;
         createdAt: string;
         updatedAt: string;
         lastActivity: string;
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
+        webUrl: string;
+        savingsReportSettingsTemplateId: number;
+        //community
+        cname: string;
+        //enterprise
+        groupId: number;
+        background: string;
+        isExternal: boolean;
+        externalType: string;
+        workflowId: number;
+        hasCrowdsourcing: boolean;
     }
 
-    export interface FilesBasedCreateProjectRequest {
+    export interface CreateProjectRequest {
         name: string;
         identifier: string;
-        type?: Type;
         sourceLanguageId: string;
         targetLanguageIds?: string[];
         visibility?: JoinPolicy;
@@ -405,52 +409,25 @@ export namespace ProjectsGroupsModel {
         useGlobalTm?: boolean;
         showTmSuggestionsDialects?: boolean;
         skipUntranslatedStrings?: boolean;
-        skipUntranslatedFiles?: boolean;
         exportApprovedOnly?: boolean;
+        qaCheckIsActive?: boolean;
+        qaCheckCategories?: CheckCategories;
+        qaChecksIgnorableCategories?: CheckCategories;
+        languageMapping?: LanguageMapping;
+        glossaryAccess?: boolean;
+        normalizePlaceholder?: boolean;
+        notificationSettings?: NotificationSettings;
+        tmPreTranslate?: ProjectSettings['tmPreTranslate'];
+        mtPreTranslate?: ProjectSettings['mtPreTranslate'];
+        aiPreTranslate?: ProjectSettings['aiPreTranslate'];
+        assistActionAiPromptId?: number;
+        savingsReportSettingsTemplateId?: number;
+        saveMetaInfoInSource?: boolean;
+        type?: BooleanInt;
+        skipUntranslatedFiles?: boolean;
         inContext?: boolean;
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
-        qaCheckIsActive?: boolean;
-        qaCheckCategories?: CheckCategories;
-        qaChecksIgnorableCategories?: CheckCategories;
-        languageMapping?: LanguageMapping;
-        glossaryAccess?: boolean;
-        normalizePlaceholder?: boolean;
-        notificationSettings?: NotificationSettings;
-        tmContextType?: TmContextType;
-        saveMetaInfoInSource?: boolean;
-    }
-
-    export interface StringsBasedCreateProjectRequest {
-        name: string;
-        identifier?: string;
-        type?: Type;
-        sourceLanguageId: string;
-        targetLanguageIds?: string[];
-        visibility?: JoinPolicy;
-        languageAccessPolicy?: LanguageAccessPolicy;
-        cname?: string;
-        description?: string;
-        translateDuplicates?: TranslateDuplicates;
-        tagsDetection?: TagDetection;
-        isMtAllowed?: boolean;
-        taskBasedAccessControl?: boolean;
-        autoSubstitution?: boolean;
-        autoTranslateDialects?: boolean;
-        publicDownloads?: boolean;
-        hiddenStringsProofreadersAccess?: boolean;
-        useGlobalTm?: boolean;
-        showTmSuggestionsDialects?: boolean;
-        skipUntranslatedStrings?: boolean;
-        skipUntranslatedFiles?: boolean;
-        exportApprovedOnly?: boolean;
-        qaCheckIsActive?: boolean;
-        qaCheckCategories?: CheckCategories;
-        qaChecksIgnorableCategories?: CheckCategories;
-        languageMapping?: LanguageMapping;
-        glossaryAccess?: boolean;
-        notificationSettings?: NotificationSettings;
-        normalizePlaceholder?: boolean;
         tmContextType?: TmContextType;
     }
 
@@ -475,27 +452,31 @@ export namespace ProjectsGroupsModel {
         hiddenStringsProofreadersAccess?: boolean;
         delayedWorkflowStart?: boolean;
         skipUntranslatedStrings?: boolean;
-        skipUntranslatedFiles?: boolean;
         exportWithMinApprovalsCount?: number;
         exportStringsThatPassedWorkflow?: number;
         normalizePlaceholder?: boolean;
-        saveMetaInfoInSource?: boolean;
-        inContext?: boolean;
-        inContextProcessHiddenStrings?: boolean;
-        inContextPseudoLanguageId?: string;
         qaCheckIsActive?: boolean;
         qaApprovalsCount?: number;
         qaCheckCategories?: CheckCategories;
         qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
-        tmContextType?: TmContextType;
         languageMapping?: LanguageMapping;
         glossaryAccess?: boolean;
         notificationSettings?: NotificationSettings;
+        savingsReportSettingsTemplateId?: number;
+        languages?: string[];
+        mtId?: number;
+        assistActionAiPromptId?: number;
+        saveMetaInfoInSource?: boolean;
+        type?: BooleanInt;
+        skipUntranslatedFiles?: boolean;
+        inContext?: boolean;
+        inContextProcessHiddenStrings?: boolean;
+        inContextPseudoLanguageId?: string;
+        tmContextType?: TmContextType;
     }
 
     export interface ProjectSettings extends Project {
-        clientOrganizationId?: number;
         translateDuplicates: TranslateDuplicates;
         tagsDetection: TagDetection;
         glossaryAccess: boolean;
@@ -505,33 +486,20 @@ export namespace ProjectsGroupsModel {
         autoSubstitution: boolean;
         exportTranslatedOnly: boolean;
         skipUntranslatedStrings: boolean;
-        skipUntranslatedFiles: boolean;
         exportApprovedOnly: boolean;
-        exportWithMinApprovalsCount: number;
-        exportStringsThatPassedWorkflow: boolean;
         autoTranslateDialects: boolean;
-        showTmSuggestionsDialects: boolean;
         useGlobalTm: boolean;
-        tmContextType: TmContextType;
-        normalizePlaceholder: boolean;
-        saveMetaInfoInSource: boolean;
-        inContext: boolean;
-        inContextProcessHiddenStrings: string;
-        inContextPseudoLanguageId: string;
-        inContextPseudoLanguage: LanguagesModel.Language;
+        showTmSuggestionsDialects: boolean;
         isSuspended: boolean;
         qaCheckIsActive: boolean;
-        qaApprovalsCount: number;
         qaCheckCategories: CheckCategories;
         qaChecksIgnorableCategories: CheckCategories;
-        customQaCheckIds: number[];
         languageMapping: LanguageMapping;
-        delayedWorkflowStart: boolean;
         notificationSettings: NotificationSettings;
         defaultTmId: number;
         defaultGlossaryId: number;
-        assignedGlossaries: number[];
         assignedTms: { [id: string]: { priority: number } };
+        assignedGlossaries: number[];
         tmPenalties: {
             autoSubstitution: number;
             tmPriority: {
@@ -548,6 +516,46 @@ export namespace ProjectsGroupsModel {
                 penalty: number;
             };
         };
+        normalizePlaceholder: boolean;
+        tmPreTranslate: {
+            enabled: boolean;
+            autoApproveOption:
+                | 'all'
+                | 'perfectMatchOnly'
+                | 'exceptAutoSubstituted'
+                | 'perfectMatchApprovedOnly'
+                | 'none';
+            minimumMatchRatio: 'perfect' | '100';
+        };
+        mtPreTranslate: {
+            enabled: boolean;
+            mts: {
+                mtId: number;
+                languageIds: string[];
+            }[];
+        };
+        aiPreTranslate: {
+            enabled: boolean;
+            aiPrompts: {
+                aiPromptId: number;
+                languageIds: string[];
+            }[];
+        };
+        assistActionAiPromptId: number;
+        saveMetaInfoInSource: boolean;
+        skipUntranslatedFiles: boolean;
+        inContext: boolean;
+        inContextProcessHiddenStrings: string;
+        inContextPseudoLanguageId: string;
+        inContextPseudoLanguage: LanguagesModel.Language;
+        tmContextType: TmContextType;
+        //enterprise
+        clientOrganizationId: number;
+        exportWithMinApprovalsCount: number;
+        exportStringsThatPassedWorkflow: boolean;
+        qaApprovalsCount: number;
+        customQaCheckIds: number[];
+        delayedWorkflowStart: boolean;
     }
 
     export enum Type {
@@ -616,11 +624,14 @@ export namespace ProjectsGroupsModel {
     export interface ListGroupsOptions extends PaginationOptions {
         parentId?: number;
         userId?: number;
+        orderBy?: string;
     }
 
     export interface ListProjectsOptions extends PaginationOptions {
         groupId?: number;
         hasManagerAccess?: BooleanInt;
+        orderBy?: string;
+        type?: BooleanInt;
     }
 
     export type Settings =

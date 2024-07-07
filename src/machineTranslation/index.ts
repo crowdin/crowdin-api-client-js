@@ -114,15 +114,16 @@ export namespace MachineTranslationModel {
         | { apiKey: string }
         | { credentials: string }
         | { model: string; apiKey: string }
+        | { isSystemCredentials: boolean; apiKey: string }
         | { endpoint: string; apiKey: string }
         | { url: string }
         | { accessKey: string; secretKey: string };
 
     export interface CreateMachineTranslationRequest {
         name: string;
-        groupId?: number;
         type: string;
         credentials: Credentials;
+        groupId?: number;
         enabledLanguageIds?: string[];
         enabledProjectIds?: number[];
         isEnabled?: boolean;

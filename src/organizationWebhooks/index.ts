@@ -11,7 +11,7 @@ export class OrganizationWebhooks extends CrowdinApi {
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.getMany
      */
-    listWebhooks(options?: PaginationOptions): Promise<ResponseList<WebhooksModel.Webhook>> {
+    listWebhooks(options?: PaginationOptions): Promise<ResponseList<OrganizationWebhooksModel.OrganizationWebhook>> {
         const url = `${this.url}/webhooks`;
         return this.getList(url, options?.limit, options?.offset);
     }
@@ -20,7 +20,9 @@ export class OrganizationWebhooks extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.post
      */
-    addWebhook(request: WebhooksModel.AddWebhookRequest): Promise<ResponseObject<WebhooksModel.Webhook>> {
+    addWebhook(
+        request: OrganizationWebhooksModel.AddOrganizationWebhookRequest,
+    ): Promise<ResponseObject<OrganizationWebhooksModel.OrganizationWebhook>> {
         const url = `${this.url}/webhooks`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -29,7 +31,7 @@ export class OrganizationWebhooks extends CrowdinApi {
      * @param webhookId webhook identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.get
      */
-    getWebhook(webhookId: number): Promise<ResponseObject<WebhooksModel.Webhook>> {
+    getWebhook(webhookId: number): Promise<ResponseObject<OrganizationWebhooksModel.OrganizationWebhook>> {
         const url = `${this.url}/webhooks/${webhookId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -48,8 +50,23 @@ export class OrganizationWebhooks extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.patch
      */
-    editWebhook(webhookId: number, request: PatchRequest[]): Promise<ResponseObject<WebhooksModel.Webhook>> {
+    editWebhook(
+        webhookId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<OrganizationWebhooksModel.OrganizationWebhook>> {
         const url = `${this.url}/webhooks/${webhookId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+}
+
+export namespace OrganizationWebhooksModel {
+    export type OrganizationWebhook = Omit<WebhooksModel.Webhook, 'projectId' | 'events'> & {
+        events: Event[];
+    };
+
+    export type AddOrganizationWebhookRequest = Omit<WebhooksModel.AddWebhookRequest, 'events'> & {
+        events: Event[];
+    };
+
+    export type Event = 'group.created' | 'group.deleted' | 'project.created' | 'project.deleted';
 }

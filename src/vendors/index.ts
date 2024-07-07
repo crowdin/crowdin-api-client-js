@@ -37,5 +37,6 @@ export namespace VendorsModel {
         name: string;
         description: string;
         status: 'pending' | 'confirmed' | 'rejected';
+        webUrl: string;
     }
 }
