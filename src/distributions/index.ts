@@ -119,15 +119,12 @@ export class Distributions extends CrowdinApi {
 export namespace DistributionsModel {
     export interface Distribution {
         hash: string;
-        exportMode: ExportMode;
         name: string;
-        fileIds: number[];
         bundleIds: number[];
-        format: string;
-        exportPattern: string;
-        labelIds: number[];
         createdAt: string;
         updatedAt: string;
+        exportMode: ExportMode;
+        fileIds: number[];
     }
 
     export interface CreateDistributionRequest {
@@ -135,18 +132,6 @@ export namespace DistributionsModel {
         name: string;
         fileIds?: number[];
         bundleIds?: number[];
-        /**
-         * @deprecated This property is deprecated. Use bundleIds instead
-         */
-        format?: string;
-        /**
-         * @deprecated This property is deprecated. Use bundleIds instead
-         */
-        exportPattern?: string;
-        /**
-         * @deprecated This property is deprecated. Use bundleIds instead
-         */
-        labelIds?: number[];
     }
 
     export interface CreateDistributionStringsBasedRequest {
