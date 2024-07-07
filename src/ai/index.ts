@@ -2,6 +2,20 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 
 export class Ai extends CrowdinApi {
     /**
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post
+     */
+    cloneAiOrganizationPrompt(
+        aiPromptId: number,
+        request: { name?: string } = {},
+    ): Promise<ResponseObject<AiModel.AiPromptResponse>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/clones`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.getMany
      */
@@ -139,6 +153,42 @@ export class Ai extends CrowdinApi {
         request?: AiModel.OtherChatCompletionRequest | AiModel.GoogleGeminiChatCompletionRequest,
     ): Promise<ResponseObject<AiModel.AiProviderProxyResponseData>> {
         const url = `${this.url}/ai/providers/${aiProviderId}/chat/completions`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.get
+     */
+    getAiOrganizationSettings(): Promise<ResponseObject<AiModel.AiSettings>> {
+        const url = `${this.url}/ai/settings`;
+        return this.get(url);
+    }
+
+    /**
+     * @param request request body
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.patch
+     */
+    editAiOrganizationSettings(request: PatchRequest[]): Promise<ResponseObject<AiModel.AiSettings>> {
+        const url = `${this.url}/ai/settings`;
+
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    // Community
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.clones.post
+     */
+    cloneAiUserPrompt(
+        userId: number,
+        aiPromptId: number,
+        request: { name?: string } = {},
+    ): Promise<ResponseObject<AiModel.AiPromptResponse>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/clones`;
 
         return this.post(url, request, this.defaultConfig());
     }
@@ -311,6 +361,26 @@ export class Ai extends CrowdinApi {
 
         return this.post(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param userId user Identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.get
+     */
+    getAiUsertSettings(userId: number): Promise<ResponseObject<AiModel.AiSettings>> {
+        const url = `${this.url}/users/${userId}/ai/settings`;
+        return this.get(url);
+    }
+
+    /**
+     * @param userId user Identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.patch
+     */
+    editAiUserSettings(userId: number, request: PatchRequest[]): Promise<ResponseObject<AiModel.AiSettings>> {
+        const url = `${this.url}/users/${userId}/ai/settings`;
+
+        return this.patch(url, request, this.defaultConfig());
+    }
 }
 
 export namespace AiModel {
@@ -325,10 +395,11 @@ export namespace AiModel {
         name: string;
         action: string;
         aiProviderId: number;
-        AiModelId: string;
+        aiModelId: string;
         isEnabled: boolean;
         enabledProjectIds: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced;
+        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiModel.AiPromptConfigExternal;
+        promptPreview: string;
         createdAt: string;
         updatedAt: string;
     }
@@ -347,23 +418,33 @@ export namespace AiModel {
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
         fileContent?: boolean;
-        fileContext?: boolean;
+        screenshots?: boolean;
         publicProjectDescription?: boolean;
+        siblingsStrings?: boolean;
+        filteredStrings?: boolean;
     }
 
     export interface AiPromptConfigAdvanced {
         mode: 'advanced';
         prompt: string;
+        screenshots?: boolean;
+    }
+
+    export interface AiPromptConfigExternal {
+        mode: 'external';
+        external: string;
+        key: string;
+        options?: any;
     }
 
     export interface AddAiPromptRequest {
         name: string;
         action: string;
-        aiProviderId: number;
-        aiModelId: string;
+        aiProviderId?: number;
+        aiModelId?: string;
         isEnabled?: boolean;
         enabledProjectIds?: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced;
+        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiPromptConfigExternal;
     }
     /* ai Prompts Section END*/
 
@@ -373,22 +454,24 @@ export namespace AiModel {
         name: string;
         type: string;
         credentials:
-            | AiModel.AiProviderCredentialsOpenAi
+            | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
-            | AiProviderCredentialsGoogleGemini;
+            | AiProviderCredentialsGoogleGemini
+            | AiProviderCredentialsCustom;
         config: AiModel.AiProviderConfig;
         isEnabled: boolean;
+        useSystemCredentials: boolean;
         createdAt: string;
         updatedAt: string;
+        promptsCount: string;
     }
 
-    export interface AiProviderCredentialsOpenAi {
+    export interface AiProviderCredentialsBasic {
         apiKey: string;
     }
 
-    export interface AiProviderCredentialsAzureOpenAi {
+    export interface AiProviderCredentialsAzureOpenAi extends AiProviderCredentialsBasic {
         resourceName: string;
-        apiKey: string;
         deploymentName: string;
         apiVersion: string;
     }
@@ -399,24 +482,31 @@ export namespace AiModel {
         serviceAccountKey: string;
     }
 
+    export interface AiProviderCredentialsCustom {
+        identifier: string;
+        key: string;
+    }
+
     export interface AiProviderConfig {
         actionRules?: AiModel.AiProviderConfigActionRule[];
     }
 
     export interface AiProviderConfigActionRule {
-        action?: string;
+        action?: 'pre_translate' | 'assist';
         availableAiModelIds?: string[];
     }
 
     export interface AddAiProviderRequest {
         name: string;
         type: string;
-        credentials:
-            | AiModel.AiProviderCredentialsOpenAi
+        credentials?:
+            | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
-            | AiProviderCredentialsGoogleGemini;
+            | AiProviderCredentialsGoogleGemini
+            | AiProviderCredentialsCustom;
         config?: AiModel.AiProviderConfig;
         isEnabled?: boolean;
+        useSystemCredentials?: boolean;
     }
     /* ai Providers Section END*/
 
@@ -432,8 +522,13 @@ export namespace AiModel {
     }
     /* ai Provider Models Section END*/
 
+    export interface AiSettings {
+        assistActionAiPromptId: number;
+    }
+
     export interface OtherChatCompletionRequest {
-        [key: string]: object | string;
+        stream?: boolean;
+        [key: string]: any;
     }
 
     export interface GoogleGeminiChatCompletionRequest extends OtherChatCompletionRequest {

@@ -28,11 +28,26 @@ describe('AI API', () => {
         apiKey,
     };
     const field = { send: 'to AI' };
+    const assistActionAiPromptId = 2;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .post(
+                `/ai/prompts/${aiPromptId}/clones`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiPromptId,
+                },
+            })
             .get('/ai/prompts', undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -205,6 +220,50 @@ describe('AI API', () => {
             .reply(200, {
                 data: field,
             })
+            .get('/ai/settings', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    assistActionAiPromptId,
+                },
+            })
+            .patch(
+                '/ai/settings',
+                [
+                    {
+                        value: name,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    assistActionAiPromptId,
+                },
+            })
+            .post(
+                `/users/${userId}/ai/prompts/${aiPromptId}/clones`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: aiPromptId,
+                },
+            })
             .get(`/users/${userId}/ai/prompts`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -376,12 +435,48 @@ describe('AI API', () => {
             })
             .reply(200, {
                 data: field,
+            })
+            .get(`/users/${userId}/ai/settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    assistActionAiPromptId,
+                },
+            })
+            .patch(
+                `/users/${userId}/ai/settings`,
+                [
+                    {
+                        value: name,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    assistActionAiPromptId,
+                },
             });
     });
 
     afterAll(() => {
         scope.done();
     });
+
+    it('Clone AI Organization Prompt', async () => {
+        const prompt = await api.cloneAiOrganizationPrompt(aiPromptId);
+        expect(prompt.data.id).toBe(aiPromptId);
+    });
+
     it('List AI Organization Prompts', async () => {
         const prompts = await api.listAiOrganizationPrompts();
         expect(prompts.data.length).toBe(1);
@@ -468,6 +563,27 @@ describe('AI API', () => {
         expect(proxy.data).toStrictEqual(field);
     });
 
+    it('Get AI Organization Settings', async () => {
+        const settings = await api.getAiOrganizationSettings();
+        expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('Edit AI Organization Settings', async () => {
+        const settings = await api.editAiOrganizationSettings([
+            {
+                op: 'replace',
+                path: '/name',
+                value: name,
+            },
+        ]);
+        expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('Clone AI User Prompt', async () => {
+        const prompt = await api.cloneAiUserPrompt(userId, aiPromptId);
+        expect(prompt.data.id).toBe(aiPromptId);
+    });
+
     it('List AI User Prompts', async () => {
         const prompts = await api.listAiUserPrompts(userId);
         expect(prompts.data.length).toBe(1);
@@ -552,5 +668,21 @@ describe('AI API', () => {
     it('Create AI User Proxy Chat Completion', async () => {
         const proxy = await api.createAiUserProxyChatCompletion(userId, aiProviderId, field);
         expect(proxy.data).toStrictEqual(field);
+    });
+
+    it('Get AI User Settings', async () => {
+        const settings = await api.getAiUsertSettings(userId);
+        expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('Edit AI User Settings', async () => {
+        const settings = await api.editAiUserSettings(userId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: name,
+            },
+        ]);
+        expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
     });
 });
