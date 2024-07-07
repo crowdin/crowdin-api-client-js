@@ -15,6 +15,7 @@ import {
  * Use API to keep the source files up to date, check on file revisions, and manage project branches.
  * Before adding source files to the project, upload each file to the Storage first.
  */
+//TODO add missing branch endpoints (https://github.com/crowdin/crowdin-api-client-js/issues/380)
 export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier

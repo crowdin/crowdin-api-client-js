@@ -61,7 +61,7 @@ export class Tasks extends CrowdinApi {
      */
     addTask(
         projectId: number,
-        request: //TODO review create task types
+        request: //TODO review create task types (https://github.com/crowdin/crowdin-api-client-js/issues/376)
         | TasksModel.CreateTaskEnterpriseRequest
             | TasksModel.CreateTaskEnterpriseVendorRequest
             | TasksModel.CreateTaskEnterpriseStringsBasedRequest

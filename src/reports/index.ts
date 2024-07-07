@@ -15,6 +15,7 @@ import {
  * You can then export reports in .xlsx or .csv file formats.
  * Report generation is an asynchronous operation and shall be completed with a sequence of API methods.
  */
+//TODO add missing endpoints (https://github.com/crowdin/crowdin-api-client-js/issues/391)
 export class Reports extends CrowdinApi {
     /**
      * @param groupId group identifier

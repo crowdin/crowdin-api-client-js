@@ -48,6 +48,7 @@ export class TranslationMemory extends CrowdinApi {
         let url = `${this.url}/tms`;
         url = this.addQueryParam(url, 'groupId', options.groupId);
         url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -101,6 +102,7 @@ export class TranslationMemory extends CrowdinApi {
     ): Promise<ResponseList<TranslationMemoryModel.TMSegment>> {
         let url = `${this.url}/tms/${tmId}/segments`;
         url = this.addQueryParam(url, 'croql', options?.croql);
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
         return this.getList(url, options?.limit, options?.offset);
     }
 
@@ -292,10 +294,10 @@ export namespace TranslationMemoryModel {
         languageId: string;
         languageIds: string[];
         segmentsCount: number;
-        defaultProjectId: number;
         defaultProjectIds: number[];
         projectIds: number[];
         createdAt: string;
+        webUrl: string;
     }
 
     export interface AddTranslationMemoryRequest {
@@ -360,10 +362,12 @@ export namespace TranslationMemoryModel {
     export interface ListTMsOptions extends PaginationOptions {
         groupId?: number;
         userId?: number;
+        orderBy?: string;
     }
 
     export interface ListSegmentsOptions extends PaginationOptions {
         croql?: string;
+        orderBy?: string;
     }
 
     export interface TMSegment {
