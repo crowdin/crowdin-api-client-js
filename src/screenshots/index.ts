@@ -40,6 +40,7 @@ export class Screenshots extends CrowdinApi {
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -233,12 +234,14 @@ export namespace ScreenshotsModel {
         stringId?: number;
         labelIds?: string;
         excludeLabelIds?: string;
+        orderBy?: string;
     }
 
     export interface Screenshot {
         id: number;
         userId: number;
         url: string;
+        webUrl: string;
         name: string;
         size: Size;
         tagsCount: number;
