@@ -9,6 +9,7 @@ import {
     ResponseObject,
 } from '../core';
 
+//TODO add missing endpoints
 export class Teams extends CrowdinApi {
     /**
      * @param projectId project identifier
@@ -35,11 +36,15 @@ export class Teams extends CrowdinApi {
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>>;
-    listTeams(options?: number | PaginationOptions, deprecatedOffset?: number): Promise<ResponseList<TeamsModel.Team>> {
+    listTeams(
+        options?: number | ({ orderBy?: string } & PaginationOptions),
+        deprecatedOffset?: number,
+    ): Promise<ResponseList<TeamsModel.Team>> {
         if (isOptionalNumber(options, '0' in arguments)) {
             options = { limit: options, offset: deprecatedOffset };
         }
-        const url = `${this.url}/teams`;
+        let url = `${this.url}/teams`;
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -183,6 +188,7 @@ export namespace TeamsModel {
         id: number;
         name: string;
         totalMembers: number;
+        webUrl: string;
         createdAt: string;
         updatedAt: string;
     }
