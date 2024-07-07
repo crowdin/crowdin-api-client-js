@@ -75,6 +75,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'fileId', options.fileId);
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -192,6 +193,12 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
         url = this.addQueryParam(url, 'croql', options.croql);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'approvedOnly', options.approvedOnly);
+        url = this.addQueryParam(url, 'passedWorkflow', options.passedWorkflow);
+        url = this.addQueryParam(url, 'branchId', options.branchId);
+        url = this.addQueryParam(url, 'directoryId', options.directoryId);
+        url = this.addQueryParam(url, 'minApprovalCount', options.minApprovalCount);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -258,6 +265,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -381,6 +389,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'translationId', options.translationId);
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -426,6 +435,7 @@ export namespace StringTranslationsModel {
         fileId?: number;
         labelIds?: string;
         excludeLabelIds?: string;
+        orderBy?: string;
     }
 
     export interface Approval {
@@ -458,6 +468,12 @@ export namespace StringTranslationsModel {
         labelIds?: string;
         denormalizePlaceholders?: BooleanInt;
         croql?: string;
+        approvedOnly?: BooleanInt;
+        passedWorkflow?: BooleanInt;
+        orderBy?: string;
+        branchId?: number;
+        minApprovalCount?: number;
+        directoryId?: number;
     }
 
     export interface PlainLanguageTranslation {
@@ -523,6 +539,7 @@ export namespace StringTranslationsModel {
         stringId?: number;
         languageId?: string;
         translationId?: number;
+        fileId?: number;
         labelIds?: string;
         excludeLabelIds?: string;
     }
@@ -551,6 +568,7 @@ export namespace StringTranslationsModel {
 
     export interface ListStringTranslationsOptions extends PaginationOptions {
         denormalizePlaceholders?: BooleanInt;
+        orderBy?: string;
     }
 
     export type PluralCategoryName = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other';
