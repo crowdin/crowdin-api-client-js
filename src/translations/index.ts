@@ -286,8 +286,6 @@ export namespace TranslationsModel {
         skipApprovedTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
     }
 
     export type Method = 'tm' | 'mt';
@@ -301,7 +299,7 @@ export namespace TranslationsModel {
         projectId: number;
         status: BuildStatus;
         progress: number;
-        attributes: Attribute[];
+        attributes: Attribute;
         createdAt: string;
         updatedAt: string;
         finishedAt: string;
@@ -310,7 +308,7 @@ export namespace TranslationsModel {
     export interface Attribute {
         branchId: number;
         directoryId: number;
-        targetLanguagesId: string[];
+        targetLanguageIds: string[];
         skipUntranslatedStrings: boolean;
         skipUntranslatedFiles: boolean;
         // community
@@ -343,7 +341,7 @@ export namespace TranslationsModel {
 
     export interface UploadTranslationRequest {
         storageId: number;
-        fileId: number;
+        fileId?: number;
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         translateHidden?: boolean;
