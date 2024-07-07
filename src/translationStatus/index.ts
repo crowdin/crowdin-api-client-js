@@ -241,8 +241,16 @@ export class TranslationStatus extends CrowdinApi {
                 languageIds: deprecatedLanguageIds,
             };
         }
-        url = this.addQueryParam(url, 'category', options.category);
-        url = this.addQueryParam(url, 'validation', options.validation);
+        url = this.addQueryParam(
+            url,
+            'category',
+            Array.isArray(options.category) ? options.category.join(',') : options.category,
+        );
+        url = this.addQueryParam(
+            url,
+            'validation',
+            Array.isArray(options.validation) ? options.validation.join(',') : options.validation,
+        );
         url = this.addQueryParam(url, 'languageIds', options.languageIds);
         return this.getList(url, options.limit, options.offset);
     }
@@ -335,8 +343,8 @@ export namespace TranslationStatusModel {
         | 'icu_check';
 
     export interface ListQaCheckIssuesOptions extends PaginationOptions {
-        category?: Category;
-        validation?: Validation;
+        category?: Category | Category[];
+        validation?: Validation | Validation[];
         languageIds?: string;
     }
 
