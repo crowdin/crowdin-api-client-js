@@ -15,6 +15,7 @@ describe('Source Strings API', () => {
     const uploadId = '123-123';
     const branchId = 1212;
     const storageId = 2332;
+    const fileId = 111;
 
     const limit = 25;
 
@@ -71,6 +72,7 @@ describe('Source Strings API', () => {
                 {
                     identifier: stringIdentifier,
                     text: stringText,
+                    fileId,
                 },
                 {
                     reqheaders: {
@@ -182,6 +184,7 @@ describe('Source Strings API', () => {
         const string = await api.addString(projectId, {
             identifier: stringIdentifier,
             text: stringText,
+            fileId,
         });
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);

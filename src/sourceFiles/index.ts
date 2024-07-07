@@ -553,7 +553,6 @@ export namespace SourceFilesModel {
         parserVersion: number;
         createdAt: string;
         updatedAt: string;
-        fields?: any;
     }
 
     export interface CreateFileRequest {
@@ -569,7 +568,6 @@ export namespace SourceFilesModel {
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
         excludedTargetLanguages?: string[];
         attachLabelIds?: number[];
-        fields?: any;
     }
 
     export interface ReplaceFileFromStorageRequest {

@@ -464,7 +464,6 @@ export namespace ProjectsGroupsModel {
         glossaryAccess?: boolean;
         notificationSettings?: NotificationSettings;
         savingsReportSettingsTemplateId?: number;
-        fields?: ProjectSettings['fields'];
         languages?: string[];
         mtId?: number;
         assistActionAiPromptId?: number;
@@ -551,9 +550,6 @@ export namespace ProjectsGroupsModel {
         inContextPseudoLanguage: LanguagesModel.Language;
         tmContextType: TmContextType;
         //enterprise
-        fields: {
-            fieldSlug: any;
-        };
         clientOrganizationId: number;
         exportWithMinApprovalsCount: number;
         exportStringsThatPassedWorkflow: boolean;
