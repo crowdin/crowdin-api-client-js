@@ -55,6 +55,7 @@ export class StringComments extends CrowdinApi {
         url = this.addQueryParam(url, 'targetLanguageId', options.targetLanguageId);
         url = this.addQueryParam(url, 'issueType', options.issueType);
         url = this.addQueryParam(url, 'issueStatus', options.issueStatus);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -117,20 +118,31 @@ export namespace StringCommentsModel {
         targetLanguageId?: string;
         issueType?: IssueType;
         issueStatus?: IssueStatus;
+        orderBy?: string;
     }
 
     export interface StringComment {
         id: number;
+        isShared?: boolean;
         text: string;
         userId: number;
         stringId: number;
         user: User;
         string: StringModel;
+        projectId: number;
         languageId: string;
         type: Type;
         issueType: IssueType;
         issueStatus: IssueStatus;
         resolverId: number;
+        senderOrganization: {
+            id: number;
+            domain: string;
+        };
+        resolverOrganization: {
+            id: number;
+            domain: string;
+        };
         resolver: User;
         resolvedAt: string;
         createdAt: string;
@@ -158,6 +170,7 @@ export namespace StringCommentsModel {
         text: string;
         targetLanguageId: string;
         type: Type;
+        isShared?: boolean;
         issueType?: IssueType;
     }
 
