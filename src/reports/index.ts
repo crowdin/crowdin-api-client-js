@@ -185,15 +185,9 @@ export class Reports extends CrowdinApi {
 }
 
 export namespace ReportsModel {
-    export type GroupReportSchema =
-        | GroupTranslationCostsPerEditingSchema
-        | GroupTranslationCostsPerEditingByTaskSchema
-        | CostsEstimationSchema
-        | CostsEstimationByTaskSchema
-        | GroupTranslationCostSchema
-        | GroupTopMembersSchema;
+    export type GroupReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
 
-    export type OrganizationReportSchema = GroupTranslationCostsPerEditingSchema | GroupTopMembersSchema;
+    export type OrganizationReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
 
     export interface GenerateGroupReportRequest {
         name: string;
@@ -205,7 +199,7 @@ export namespace ReportsModel {
         schema: OrganizationReportSchema;
     }
 
-    export interface GroupTranslationCostsPerEditingSchema {
+    export interface GroupTranslationCostsPostEditingSchema {
         projectIds?: number[];
         unit?: Unit;
         currency?: Currency;
@@ -213,14 +207,11 @@ export namespace ReportsModel {
         baseRates: BaseRate;
         individualRates: IndividualRate[];
         netRateSchemes: NetRateSchemas;
+        excludeApprovalsForEditedTranslations?: boolean;
         groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
-        languageId?: string[];
         userIds?: number[];
-        branchIds?: number[];
-        labelIds?: number[];
-        labelIncludeType?: LabelIncludeType;
     }
 
     export interface GroupTranslationCostsPerEditingByTaskSchema {
@@ -268,7 +259,6 @@ export namespace ReportsModel {
         unit?: Unit;
         languageId?: string;
         format?: Format;
-        groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -285,11 +275,8 @@ export namespace ReportsModel {
     export type ReportSchema =
         | CostEstimationPostEndingSchema
         | CostEstimationPostEndingSchemaByTask
-        | CostEstimateSchema
-        | CostEstimateFuzzyModeSchema
         | TranslationCostsPostEndingSchema
         | TranslationCostsPostEndingSchemaByTask
-        | TranslationCostSchema
         | TopMembersSchema
         | ContributionRawDataSchema;
 
@@ -328,6 +315,7 @@ export namespace ReportsModel {
         dateTo?: string;
         labelIds?: number[];
         labelIncludeType?: LabelIncludeType;
+        workflowStepId?: number;
     }
 
     export interface CostEstimationPostEndingSchemaByTask {
@@ -349,7 +337,8 @@ export namespace ReportsModel {
         baseRates: BaseRate;
         individualRates: IndividualRate[];
         netRateSchemes: NetRateSchemas;
-        taskId: number;
+        taskId?: number;
+        excludeApprovalsForEditedTranslations?: boolean;
     }
 
     export interface TranslationCostsPostEndingSchema {
@@ -359,7 +348,8 @@ export namespace ReportsModel {
         baseRates: BaseRate;
         individualRates: IndividualRate[];
         netRateSchemes: NetRateSchemas;
-        groupBy: GroupBy;
+        excludeApprovalsForEditedTranslations?: boolean;
+        groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
         languageId?: string;
@@ -367,6 +357,9 @@ export namespace ReportsModel {
         fileIds?: number[];
         directoryIds?: number[];
         branchIds?: number[];
+        labelIds?: number;
+        labelIncludeType?: LabelIncludeType;
+        workflowStepId?: number;
     }
 
     export interface TopMembersSchema {
@@ -382,6 +375,25 @@ export namespace ReportsModel {
         unit?: Unit;
         languageId?: string;
         userId?: string;
+        columns?: Column[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        tmIds?: number[];
+        mtIds?: number[];
+        aiPromptIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface ContributionRawDataSchemaByTask {
+        mode: ContributionMode;
+        unit?: Unit;
+        taskId: number;
+        columns?: Column[];
+        tmIds?: number[];
+        mtIds?: number[];
+        aiPromptIds?: number[];
         dateFrom?: string;
         dateTo?: string;
     }
@@ -466,82 +478,29 @@ export namespace ReportsModel {
 
     export type LabelIncludeType = 'strings_with_label' | 'strings_without_label';
 
-    /**
-     * @deprecated
-     */
-    export interface GroupTranslationCostSchema {
-        projectIds?: number[];
-        unit?: Unit;
-        currency?: Currency;
-        format?: Format;
-        groupBy?: GroupBy;
-        dateFrom?: string;
-        dateTo?: string;
-    }
-
-    /**
-     * @deprecated
-     */
-    export interface CostEstimateSchema {
-        unit?: Unit;
-        currency?: Currency;
-        mode?: string;
-        languageId?: string;
-        fileIds?: number[];
-        format?: Format;
-        regularRates?: RegularRate[];
-        individualRates?: IndividualRate[];
-        dateFrom?: string;
-        dateTo?: string;
-        stepTypes?: Array<TranslateStep | ProofreadStep>;
-    }
-
-    /**
-     * @deprecated
-     */
-    export interface CostEstimateFuzzyModeSchema extends CostEstimateSchema {
-        calculateInternalFuzzyMatches?: boolean;
-    }
-
-    /**
-     * @deprecated
-     */
-    export interface TranslationCostSchema {
-        unit?: Unit;
-        currency?: Currency;
-        mode?: string;
-        languageId?: string;
-        format?: Format;
-        groupBy?: GroupBy;
-        regularRates?: RegularRate[];
-        individualRates?: IndividualRate[];
-        dateFrom?: string;
-        dateTo?: string;
-        stepTypes?: Array<TranslateStep | ProofreadStep>;
-    }
-
-    /**
-     * @deprecated
-     */
-    export type TranslationCostFuzzyModeSchema = TranslationCostSchema;
-
-    //used only in deprecated types
-    export interface TranslateStep {
-        type: string;
-        mode: string;
-        regularRates: RegularRate[];
-        individualRates: IndividualRate[];
-    }
-
-    export interface ProofreadStep {
-        type: string;
-        mode: string;
-        regularRates: RegularRate[];
-        individualRates: IndividualRate[];
-    }
-
-    export interface RegularRate {
-        mode: Mode;
-        value: number;
-    }
+    export type Column =
+        | 'userId'
+        | 'languageId'
+        | 'stringId'
+        | 'translationId'
+        | 'fileId'
+        | 'filePath'
+        | 'pluralForm'
+        | 'sourceStringTextHash'
+        | 'mtEngine'
+        | 'mtId'
+        | 'tmName'
+        | 'tmId'
+        | 'aiPromptName'
+        | 'aiPromptId'
+        | 'preTranslated'
+        | 'tmMatch'
+        | 'mtMatch'
+        | 'aiMatch'
+        | 'suggestionMatch'
+        | 'sourceUnits'
+        | 'targetUnits'
+        | 'createdAt'
+        | 'updatedAt'
+        | 'mark';
 }

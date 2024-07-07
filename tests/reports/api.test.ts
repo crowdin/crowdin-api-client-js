@@ -20,7 +20,6 @@ describe('Reports API', () => {
     };
     const groupSchema: ReportsModel.GroupTopMembersSchema = {
         format: 'json',
-        groupBy: 'language',
         projectIds: [projectId],
     };
     const reportSettingsTemplateId = 234;
