@@ -26,7 +26,7 @@ export class Labels extends CrowdinApi {
             options = { limit: options, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/labels`;
-        url = this.addQueryParam(url, 'isSystem', options.isSystem);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -136,13 +136,12 @@ export class Labels extends CrowdinApi {
 
 export namespace LabelsModel {
     export interface ListLabelsParams extends PaginationOptions {
-        isSystem?: number;
+        orderBy?: string;
     }
 
     export interface Label {
         id: number;
         title: string;
-        isSystem: boolean;
     }
 
     export interface AddLabelRequest {
