@@ -50,6 +50,7 @@ export class SourceFiles extends CrowdinApi {
         }
         let url = `${this.url}/projects/${projectId}/branches`;
         url = this.addQueryParam(url, 'name', options.name);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -154,6 +155,7 @@ export class SourceFiles extends CrowdinApi {
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
         url = this.addQueryParam(url, 'filter', options.filter);
         url = this.addQueryParam(url, 'recursion', options.recursion);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -258,6 +260,7 @@ export class SourceFiles extends CrowdinApi {
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
         url = this.addQueryParam(url, 'recursion', options.recursion);
         url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -497,6 +500,7 @@ export namespace SourceFilesModel {
         directoryId?: number;
         filter?: string;
         recursion?: string;
+        orderBy?: string;
     }
 
     export interface Directory {
@@ -514,9 +518,9 @@ export namespace SourceFilesModel {
     }
 
     export interface CreateDirectoryRequest {
+        name: string;
         branchId?: number;
         directoryId?: number;
-        name: string;
         title?: string;
         exportPattern?: string;
         priority?: Priority;
@@ -527,6 +531,7 @@ export namespace SourceFilesModel {
         directoryId?: number;
         recursion?: any;
         filter?: string;
+        orderBy?: string;
     }
 
     export interface File {
@@ -548,6 +553,7 @@ export namespace SourceFilesModel {
         parserVersion: number;
         createdAt: string;
         updatedAt: string;
+        fields?: any;
     }
 
     export interface CreateFileRequest {
@@ -561,19 +567,23 @@ export namespace SourceFilesModel {
         parserVersion?: number;
         importOptions?: ImportOptions;
         exportOptions?: GeneralExportOptions | PropertyExportOptions;
-        attachLabelIds?: number[];
         excludedTargetLanguages?: string[];
+        attachLabelIds?: number[];
+        fields?: any;
     }
 
     export interface ReplaceFileFromStorageRequest {
         storageId: number;
+        name?: string;
         updateOption?: UpdateOption;
         importOptions?: ImportOptions;
-        exportOptions?: GeneralExportOptions | PropertyExportOptions | JavaScriptExportOptions;
+        exportOptions?: GeneralExportOptions | PropertyExportOptions | JavaScriptExportOptions | MdExportOptions;
         attachLabelIds?: number[];
         detachLabelIds?: number[];
+        replaceModifiedContext?: boolean;
     }
 
+    //TODO review types
     export type ImportOptions =
         | SpreadsheetImportOptions
         | XmlImportOptions
@@ -722,6 +732,14 @@ export namespace SourceFilesModel {
         exportQuotes?: ExportQuotes;
     }
 
+    export interface MdExportOptions {
+        exportPattern?: string;
+        strongMarker?: 'asterisk' | 'underscore';
+        emphasisMarker?: 'asterisk' | 'underscore';
+        unorderedListBullet?: 'asterisks' | 'plus' | 'plus';
+        tableColumnWidth?: 'consolidate' | 'evenly_distribute_cells';
+    }
+
     export enum EscapeQuotes {
         ZERO = 0,
         ONE = 1,
@@ -758,6 +776,7 @@ export namespace SourceFilesModel {
 
     export interface ListProjectBranchesOptions extends PaginationOptions {
         name?: string;
+        orderBy?: string;
     }
 
     export interface ListReviewedSourceFilesBuildOptions extends PaginationOptions {
