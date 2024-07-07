@@ -202,11 +202,15 @@ export namespace TranslationsModel {
         fileIds: number[];
         method?: Method;
         engineId?: number;
+        aiPromptId?: number;
         autoApproveOption?: AutoApproveOption;
         duplicateTranslations?: boolean;
+        skipApprovedTranslations?: boolean;
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
-        markAddedTranslationsAsDone?: boolean;
+        fallbackLanguages?: {
+            languageId?: string[];
+        };
         labelIds?: number[];
         excludeLabelIds?: number[];
     }
@@ -216,15 +220,15 @@ export namespace TranslationsModel {
         branchIds?: number[];
         method?: Method;
         engineId?: number;
+        aiPromptId?: number;
         autoApproveOption?: AutoApproveOption;
         duplicateTranslations?: boolean;
         skipApprovedTranslations?: boolean;
         translateUntranslatedOnly?: boolean;
         translateWithPerfectMatchOnly?: boolean;
-        markAddedTranslationsAsDone?: boolean;
         fallbackLanguages?: {
-            languageId: string;
-        }[];
+            languageId: string[];
+        };
         labelIds?: number[];
         excludeLabelIds?: number[];
     }
@@ -233,8 +237,12 @@ export namespace TranslationsModel {
         targetLanguageIds?: string[];
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
-        exportApprovedOnly?: boolean;
+        preserveFolderHierarchy?: boolean;
+        // enterprise
+        exportStringsThatPassedWorkflow?: boolean;
         exportWithMinApprovalsCount?: number;
+        // community
+        exportApprovedOnly?: boolean;
     }
 
     export interface BuildProjectDirectoryTranslationResponse {
@@ -242,6 +250,9 @@ export namespace TranslationsModel {
         projectId: number;
         status: BuildStatus;
         progress: number;
+        createdAt: string;
+        updatedAt: string;
+        finishedAt: string;
     }
 
     export type BuildStatus = 'created' | 'inProgress' | 'canceled' | 'failed' | 'finished';
@@ -254,8 +265,11 @@ export namespace TranslationsModel {
         exportAsXliff?: boolean;
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
+        // community
         exportApprovedOnly?: boolean;
+        // enterprise
         exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
     }
 
     export interface BuildProjectFileTranslationResponse extends DownloadLink {
@@ -272,7 +286,6 @@ export namespace TranslationsModel {
         skipApprovedTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
-        markAddedTranslationsAsDone: boolean;
         labelIds?: number[];
         excludeLabelIds?: number[];
     }
@@ -285,19 +298,26 @@ export namespace TranslationsModel {
 
     export interface Build {
         id: number;
+        projectId: number;
         status: BuildStatus;
         progress: number;
         attributes: Attribute[];
+        createdAt: string;
+        updatedAt: string;
+        finishedAt: string;
     }
 
     export interface Attribute {
-        projectId: number;
         branchId: number;
+        directoryId: number;
         targetLanguagesId: string[];
         skipUntranslatedStrings: boolean;
-        exportApprovedOnly: boolean;
-        exportWithMinApprovalsCount: number;
         skipUntranslatedFiles: boolean;
+        // community
+        exportApprovedOnly: boolean;
+        // enterprise
+        exportWithMinApprovalsCount: number;
+        exportStringsThatPassedWorkflow: boolean;
     }
 
     export interface BuildRequest {
@@ -305,8 +325,11 @@ export namespace TranslationsModel {
         targetLanguageIds?: string[];
         skipUntranslatedStrings?: boolean;
         skipUntranslatedFiles?: boolean;
+        // community
         exportApprovedOnly?: boolean;
+        // enterprise
         exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
     }
 
     export interface PseudoBuildRequest {
@@ -323,8 +346,11 @@ export namespace TranslationsModel {
         fileId: number;
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
-        markAddedTranslationsAsDone?: boolean;
         translateHidden?: boolean;
+        /**
+         * @deprecated
+         */
+        markAddedTranslationsAsDone?: boolean;
     }
 
     export interface UploadTranslationStringsRequest {
@@ -357,8 +383,10 @@ export namespace TranslationsModel {
         directoryIds?: number[];
         fileIds?: number[];
         skipUntranslatedStrings?: boolean;
-        exportApprovedOnly?: boolean;
         skipUntranslatedFiles?: boolean;
+        // community
+        exportApprovedOnly?: boolean;
+        // enterprise
         exportWithMinApprovalsCount?: number;
         exportStringsThatPassedWorkflow?: boolean;
     }
