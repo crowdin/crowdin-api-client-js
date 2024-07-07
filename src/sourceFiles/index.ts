@@ -581,7 +581,7 @@ export namespace SourceFilesModel {
         replaceModifiedContext?: boolean;
     }
 
-    //TODO review types
+    //TODO review import options types
     export type ImportOptions =
         | SpreadsheetImportOptions
         | XmlImportOptions
