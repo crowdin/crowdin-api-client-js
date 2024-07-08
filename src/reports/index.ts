@@ -15,8 +15,152 @@ import {
  * You can then export reports in .xlsx or .csv file formats.
  * Report generation is an asynchronous operation and shall be completed with a sequence of API methods.
  */
-//TODO add missing endpoints (https://github.com/crowdin/crowdin-api-client-js/issues/391)
 export class Reports extends CrowdinApi {
+    /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.getMany
+     */
+    listOrganizationReportArchives(
+        options?: ReportsModel.ListReportArchiveParams,
+    ): Promise<ResponseList<ReportsModel.ReportArchive>> {
+        let url = `${this.url}/reports/archives`;
+        url = this.addQueryParam(url, 'scopeId', options?.scopeId);
+        url = this.addQueryParam(url, 'scopeType', options?.scopeType);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.get
+     */
+    getOrganizationReportArchive(archiveId: number): Promise<ResponseObject<ReportsModel.ReportArchive>> {
+        const url = `${this.url}/reports/archives/${archiveId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.delete
+     */
+    deleteOrganizationReportArchive(archiveId: number): Promise<void> {
+        const url = `${this.url}/reports/archives/${archiveId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.post
+     */
+    exportOrganizationReportArchive(
+        archiveId: number,
+        request: { format?: ReportsModel.Format } = {},
+    ): Promise<ResponseObject<Status<ReportsModel.ReportArchiveStatusAttribute>>> {
+        const url = `${this.url}/reports/archives/${archiveId}/exports`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @param exportId export identifier
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.get
+     */
+    checkOrganizationReportArchiveStatus(
+        archiveId: number,
+        exportId: string,
+    ): Promise<ResponseObject<Status<ReportsModel.ReportArchiveStatusAttribute>>> {
+        const url = `${this.url}/reports/archives/${archiveId}/exports/${exportId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @param exportId export identifier
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.download.get
+     */
+    downloadOrganizationReportArchive(archiveId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/reports/archives/${archiveId}/exports/${exportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.reports.archives.getMany
+     */
+    listUserReportArchives(
+        userId: number,
+        options?: ReportsModel.ListReportArchiveParams,
+    ): Promise<ResponseList<ReportsModel.ReportArchive>> {
+        let url = `${this.url}/users/${userId}/reports/archives`;
+        url = this.addQueryParam(url, 'scopeId', options?.scopeId);
+        url = this.addQueryParam(url, 'scopeType', options?.scopeType);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.get
+     */
+    getUserReportArchive(userId: number, archiveId: number): Promise<ResponseObject<ReportsModel.ReportArchive>> {
+        const url = `${this.url}/users/${userId}/reports/archives/${archiveId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.delete
+     */
+    deleteUserReportArchive(userId: number, archiveId: number): Promise<void> {
+        const url = `${this.url}/users/${userId}/reports/archives/${archiveId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param archiveId archive identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.reports.archives.exports.post
+     */
+    exportUserReportArchive(
+        userId: number,
+        archiveId: number,
+        request: { format?: ReportsModel.Format } = {},
+    ): Promise<ResponseObject<Status<ReportsModel.ReportArchiveStatusAttribute>>> {
+        const url = `${this.url}/users/${userId}/reports/archives/${archiveId}/exports`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param archiveId archive identifier
+     * @param exportId export identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.exports.get
+     */
+    checkUserReportArchiveStatus(
+        userId: number,
+        archiveId: number,
+        exportId: string,
+    ): Promise<ResponseObject<Status<ReportsModel.ReportArchiveStatusAttribute>>> {
+        const url = `${this.url}/users/${userId}/reports/archives/${archiveId}/exports/${exportId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param archiveId archive identifier
+     * @param exportId export identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.exports.download.get
+     */
+    downloadUserReportArchive(
+        userId: number,
+        archiveId: number,
+        exportId: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/reports/archives/${archiveId}/exports/${exportId}/download`;
+        return this.get(url, this.defaultConfig());
+    }
+
     /**
      * @param groupId group identifier
      * @param request request body
@@ -186,6 +330,28 @@ export class Reports extends CrowdinApi {
 }
 
 export namespace ReportsModel {
+    export interface ReportArchive {
+        id: number;
+        scopeType: number;
+        scopeId: number;
+        userId: number;
+        name: string;
+        webUrl: string;
+        scheme: any;
+        createdAt: string;
+    }
+
+    export interface ListReportArchiveParams extends PaginationOptions {
+        scopeType: string;
+        scopeId: number;
+    }
+
+    export interface ReportArchiveStatusAttribute {
+        format: Format;
+        reportName: string;
+        schema: any;
+    }
+
     export type GroupReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
 
     export type OrganizationReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
