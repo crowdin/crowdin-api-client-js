@@ -566,7 +566,7 @@ export namespace SourceFilesModel {
         type?: FileType;
         parserVersion?: number;
         importOptions?: ImportOptions;
-        exportOptions?: GeneralExportOptions | PropertyExportOptions;
+        exportOptions?: ExportOptions;
         excludedTargetLanguages?: string[];
         attachLabelIds?: number[];
     }
@@ -576,21 +576,30 @@ export namespace SourceFilesModel {
         name?: string;
         updateOption?: UpdateOption;
         importOptions?: ImportOptions;
-        exportOptions?: GeneralExportOptions | PropertyExportOptions | JavaScriptExportOptions | MdExportOptions;
+        exportOptions?: ExportOptions;
         attachLabelIds?: number[];
         detachLabelIds?: number[];
         replaceModifiedContext?: boolean;
     }
 
-    //TODO review import options types
+    export type ExportOptions =
+        | GeneralExportOptions
+        | PropertyExportOptions
+        | JavaScriptExportOptions
+        | MdExportOptions;
+
     export type ImportOptions =
         | SpreadsheetImportOptions
         | XmlImportOptions
-        | OtherImportOptions
+        | WebXmlImportOptions
         | DocxFileImportOptions
         | HtmlFileImportOptions
         | HtmlFrontMatterFileImportOptions
-        | MdxV1FileImportOptions;
+        | MdxFileImportOptions
+        | MdFileImportOptions
+        | StringCatalogFileImportOptions
+        | AdocFileImportOptions
+        | OtherImportOptions;
 
     export interface RestoreFile {
         revisionId: number;
@@ -640,6 +649,7 @@ export namespace SourceFilesModel {
         | 'nsh'
         | 'wxl'
         | 'xliff'
+        | 'xliff_two'
         | 'html'
         | 'haml'
         | 'txt'
@@ -650,17 +660,34 @@ export namespace SourceFilesModel {
         | 'fm_md'
         | 'mediawiki'
         | 'docx'
+        | 'xlsx'
         | 'sbv'
+        | 'properties_play'
+        | 'properties_xml'
+        | 'maxthon'
+        | 'go_json'
+        | 'dita'
+        | 'mif'
+        | 'idml'
+        | 'stringsdict'
+        | 'plist'
         | 'vtt'
+        | 'vdf'
         | 'srt'
-        | 'arb';
+        | 'stf'
+        | 'toml'
+        | 'contentful_rt'
+        | 'svg'
+        | 'js'
+        | 'coffee'
+        | 'nestjs_i18n';
 
     export interface SpreadsheetImportOptions {
-        firstLineContainsHeader: boolean;
-        contentSegmentation: boolean;
-        srxStorageId: number;
-        importTranslations: boolean;
-        scheme: Scheme;
+        firstLineContainsHeader?: boolean;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
+        importTranslations?: boolean;
+        scheme?: Scheme;
     }
 
     export interface Scheme {
@@ -676,39 +703,63 @@ export namespace SourceFilesModel {
     }
 
     export interface XmlImportOptions {
-        translateContent: boolean;
-        translateAttributes: boolean;
-        contentSegmentation: boolean;
-        translatableElements: string[];
-        srxStorageId: number;
+        translateContent?: boolean;
+        translateAttributes?: boolean;
+        inlineTags?: string[];
+        contentSegmentation?: boolean;
+        translatableElements?: string[];
+        srxStorageId?: number;
+    }
+
+    export interface WebXmlImportOptions {
+        inlineTags?: string[];
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface DocxFileImportOptions {
-        cleanTagsAggressively: boolean;
-        translateHiddenText: boolean;
-        translateHyperlinkUrls: boolean;
-        translateHiddenRowsAndColumns: boolean;
-        importNotes: boolean;
-        importHiddenSlides: boolean;
-        contentSegmentation: boolean;
-        srxStorageId: number;
+        cleanTagsAggressively?: boolean;
+        translateHiddenText?: boolean;
+        translateHyperlinkUrls?: boolean;
+        translateHiddenRowsAndColumns?: boolean;
+        importNotes?: boolean;
+        importHiddenSlides?: boolean;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface HtmlFileImportOptions {
-        excludedElements: string[];
-        contentSegmentation: boolean;
-        srxStorageId: number;
+        excludedElements?: string[];
+        inlineTags?: string[];
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface HtmlFrontMatterFileImportOptions extends HtmlFileImportOptions {
-        excludedFrontMatterElements: string[];
+        excludedFrontMatterElements?: string[];
     }
 
-    export interface MdxV1FileImportOptions {
-        excludedFrontMatterElements: string[];
-        excludeCodeBlocks: boolean;
-        contentSegmentation: boolean;
-        srxStorageId: number;
+    export interface MdxFileImportOptions {
+        excludedFrontMatterElements?: string[];
+        excludeCodeBlocks?: boolean;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
+    }
+
+    export interface MdFileImportOptions {
+        excludedFrontMatterElements?: string[];
+        excludeCodeBlocks?: boolean;
+        inlineTags?: string[];
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
+    }
+
+    export interface StringCatalogFileImportOptions {
+        importKeyAsSource?: boolean;
+    }
+
+    export interface AdocFileImportOptions {
+        excludeIncludeDirectives?: boolean;
     }
 
     export interface OtherImportOptions {
@@ -717,17 +768,17 @@ export namespace SourceFilesModel {
     }
 
     export interface GeneralExportOptions {
-        exportPattern: string;
+        exportPattern?: string;
     }
 
     export interface PropertyExportOptions {
-        escapeQuotes: EscapeQuotes;
-        exportPattern: string;
+        escapeQuotes?: EscapeQuotes;
+        exportPattern?: string;
         escapeSpecialCharacters?: 0 | 1;
     }
 
     export interface JavaScriptExportOptions {
-        exportPattern: string;
+        exportPattern?: string;
         exportQuotes?: ExportQuotes;
     }
 
