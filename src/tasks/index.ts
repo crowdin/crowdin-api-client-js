@@ -59,26 +59,7 @@ export class Tasks extends CrowdinApi {
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.post
      */
-    addTask(
-        projectId: number,
-        request: //TODO review create task types (https://github.com/crowdin/crowdin-api-client-js/issues/376)
-        | TasksModel.CreateTaskEnterpriseRequest
-            | TasksModel.CreateTaskEnterpriseVendorRequest
-            | TasksModel.CreateTaskEnterpriseStringsBasedRequest
-            | TasksModel.CreateTaskEnterpriseVendorStringsBasedRequest
-            | TasksModel.CreateTaskRequest
-            | TasksModel.CreateTaskStringsBasedRequest
-            | TasksModel.CreateLanguageServiceTaskRequest
-            | TasksModel.CreateLanguageServiceTaskStringsBasedRequest
-            | TasksModel.CreateTaskVendorOhtRequest
-            | TasksModel.CreateTaskVendorOhtStringsBasedRequest
-            | TasksModel.CreateTaskVendorGengoRequest
-            | TasksModel.CreateTaskVendorGengoStringsBasedRequest
-            | TasksModel.CreateTaskVendorTranslatedRequest
-            | TasksModel.CreateTaskVendorTranslatedStringsBasedRequest
-            | TasksModel.CreateTaskVendorManualRequest
-            | TasksModel.CreateTaskVendorManualStringsBasedRequest,
-    ): Promise<ResponseObject<TasksModel.Task>> {
+    addTask(projectId: number, request: TasksModel.CreateTaskRequest): Promise<ResponseObject<TasksModel.Task>> {
         const url = `${this.url}/projects/${projectId}/tasks`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -251,20 +232,18 @@ export namespace TasksModel {
         projectId: number;
         creatorId: number;
         type: Type | TypeVendor;
-        vendor: string;
         status: Status;
         title: string;
         assignees: Assignee[];
         assignedTeams: AssignedTeam[];
-        fileIds: number[];
         progress: Progress;
         translateProgress: Progress;
         sourceLanguageId: string;
         targetLanguageId: string;
         description: string;
         translationUrl: string;
+        webUrl: string;
         wordsCount: number;
-        filesCount: number;
         commentsCount: number;
         deadline: string;
         startedAt: string;
@@ -276,11 +255,13 @@ export namespace TasksModel {
         updatedAt: string;
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
-        branchIds: number[];
         labelIds: number[];
         excludeLabelIds: number[];
         precedingTaskId: number;
-        webUrl: string;
+        filesCount: number;
+        fileIds: number[];
+        branchIds: number[];
+        vendor: string;
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
@@ -293,25 +274,45 @@ export namespace TasksModel {
         isArchived: boolean;
     }
 
-    interface CreateTaskBase {
-        title: string;
-        languageId: string;
-        fileIds: number[];
-        status?: RequestStatus;
-        description?: string;
-        labelIds?: number[];
-        excludeLabelIds?: number[];
-        dateFrom?: string;
-        dateTo?: string;
-    }
+    //Task create definitions
 
-    export interface CreateTaskEnterpriseRequest extends CreateTaskBase {
+    export type CreateTaskRequest =
+        | CreateTaskEnterpriseByBranchIds
+        | CreateTaskEnterpriseByFileIds
+        | CreateTaskEnterpriseByStringIds
+        | CreateTaskEnterpriseVendorByBranchIds
+        | CreateTaskEnterpriseVendorByFileIds
+        | CreateTaskEnterpriseVendorByStringIds
+        | CreateTaskEnterprisePendingTask
+        | CreateTaskByFileIds
+        | CreateTaskByStringIds
+        | CreateTaskByBranchIds
+        | CreateTaskByFileIdsLanguageService
+        | CreateTaskByStringIdsLanguageService
+        | CreateTaskByBranchIdsLanguageService
+        | CreateTaskVendorOhtByFileIds
+        | CreateTaskVendorOhtByStringIds
+        | CreateTaskVendorOhtByBranchIds
+        | CreateTaskVendorGengoByFileIds
+        | CreateTaskVendorGengoByStringIds
+        | CreateTaskVendorGengoByBranchIds
+        | CreateTaskVendorManualByFileIds
+        | CreateTaskVendorManualByStringIds
+        | CreateTaskVendorManualByBranchIds
+        | CreateTaskPendingTask
+        | CreateTaskPendingTaskLanguageService
+        | CreateTaskPendingTaskVendorManual;
+
+    export interface CreateTaskEnterpriseByBranchIds {
         type: Type;
         workflowStepId: number;
-        /**
-         * @deprecated
-         */
-        splitFiles?: boolean;
+        title: string;
+        languageId: string;
+        branchIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
         assignees?: CreateTaskAssignee[];
@@ -319,103 +320,240 @@ export namespace TasksModel {
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateTaskEnterpriseVendorRequest extends CreateTaskBase {
+    export interface CreateTaskEnterpriseByStringIds {
+        type: Type;
         workflowStepId: number;
+        title: string;
+        languageId: string;
+        stringIds: number[];
+        status?: RequestStatus;
+        description?: string;
+        splitContent?: boolean;
         skipAssignedStrings?: boolean;
+        assignees?: CreateTaskAssignee[];
+        assignedTeams?: AssignedTeam[];
         includePreTranslatedStringsOnly?: boolean;
         deadline?: string;
         startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateTaskRequest extends CreateTaskBase {
+    export type CreateTaskEnterpriseVendorByStringIds = Omit<
+        CreateTaskEnterpriseByStringIds,
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
+    >;
+
+    export type CreateTaskEnterpriseVendorByBranchIds = Omit<
+        CreateTaskEnterpriseByBranchIds,
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
+    >;
+
+    export type CreateTaskEnterpriseByFileIds = Omit<CreateTaskEnterpriseByBranchIds, 'branchIds'> & {
+        fileIds: number[];
+    };
+
+    export type CreateTaskEnterpriseVendorByFileIds = Omit<
+        CreateTaskEnterpriseByFileIds,
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
+    >;
+
+    export interface CreateTaskEnterprisePendingTask {
+        precedingTaskId: number;
+        type: Type.PROOFREAD;
+        title: string;
+        description?: string;
+        assignees?: CreateTaskAssignee[];
+        assignedTeams?: AssignedTeam[];
+        deadline?: string;
+    }
+
+    export interface CreateTaskByFileIds {
+        title: string;
+        languageId: string;
         type: Type;
-        splitFiles?: boolean;
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
-        skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateLanguageServiceTaskRequest extends CreateTaskBase {
+    export type CreateTaskByStringIds = Omit<CreateTaskByFileIds, 'fileIds' | 'labelIds' | 'excludeLabelIds'> & {
+        stringIds: number;
+    };
+
+    export type CreateTaskByBranchIds = Omit<CreateTaskByFileIds, 'fileIds'> & { branchIds: number };
+
+    export interface CreateTaskByFileIdsLanguageService {
+        title: string;
+        languageId: string;
         type: TypeVendor;
-        vendor: string;
-        skipUntranslatedStrings?: boolean;
+        vendor: 'crowdin_language_service';
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         includePreTranslatedStringsOnly?: boolean;
-        includeUntranslatedStringsOnly?: boolean;
+        assignees?: CreateTaskAssignee[];
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateTaskVendorOhtRequest extends CreateTaskBase {
+    export type CreateTaskByStringIdsLanguageService = Omit<
+        CreateTaskByFileIdsLanguageService,
+        'fileIds' | 'labelIds' | 'excludeLabelIds'
+    > & {
+        stringIds: number[];
+    };
+
+    export type CreateTaskByBranchIdsLanguageService = Omit<CreateTaskByFileIdsLanguageService, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export interface CreateTaskVendorOhtByFileIds {
+        title: string;
+        languageId: string;
         type: TypeVendor;
-        vendor: string;
+        vendor: 'oht';
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         expertise?: Expertise;
-        skipUntranslatedStrings?: boolean;
+        editService?: boolean;
         includePreTranslatedStringsOnly?: boolean;
-        includeUntranslatedStringsOnly?: boolean;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateTaskVendorGengoRequest extends CreateTaskBase {
+    export type CreateTaskVendorOhtByStringIds = Omit<
+        CreateTaskVendorOhtByFileIds,
+        'fileIds' | 'labelIds' | 'excludeLabelIds'
+    > & {
+        stringIds: number[];
+    };
+
+    export type CreateTaskVendorOhtByBranchIds = Omit<CreateTaskVendorOhtByFileIds, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export interface CreateTaskVendorGengoByFileIds {
+        title: string;
+        languageId: string;
         type: TypeVendor.TRANSLATE_BY_VENDOR;
         vendor: 'gengo';
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         expertise?: 'standard' | 'pro';
         tone?: Tone;
         purpose?: Purpose;
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export interface CreateTaskVendorTranslatedRequest extends CreateTaskBase {
-        type: TypeVendor.TRANSLATE_BY_VENDOR;
-        vendor: 'translated';
-        expertise?: TranslatedExpertise;
-        subject?: Subject;
-    }
+    export type CreateTaskVendorGengoByStringIds = Omit<
+        CreateTaskVendorGengoByFileIds,
+        'fileIds' | 'labelIds' | 'excludeLabelIds'
+    > & {
+        stringIds: number[];
+    };
 
-    export interface CreateTaskVendorManualRequest extends CreateTaskBase {
+    export type CreateTaskVendorGengoByBranchIds = Omit<CreateTaskVendorGengoByFileIds, 'fileIds'> & {
+        branchIds: number[];
+    };
+
+    export interface CreateTaskVendorManualByFileIds {
+        title: string;
+        languageId: string;
         type: TypeVendor;
-        vendor: string;
+        vendor:
+            | 'alconost'
+            | 'babbleon'
+            | 'tomedes'
+            | 'e2f'
+            | 'write_path_admin'
+            | 'inlingo'
+            | 'acclaro'
+            | 'translate_by_humans'
+            | 'lingo24'
+            | 'assertio_language_services'
+            | 'gte_localize'
+            | 'kettu_solutions'
+            | 'languageline_solutions';
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
         skipAssignedStrings?: boolean;
-        skipUntranslatedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         assignees?: CreateTaskAssignee[];
         deadline?: string;
         startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
     }
 
-    export type CreateTaskEnterpriseVendorStringsBasedRequest = Omit<CreateTaskEnterpriseVendorRequest, 'fileIds'> & {
+    export type CreateTaskVendorManualByStringIds = Omit<
+        CreateTaskVendorManualByFileIds,
+        'fileIds' | 'labelIds' | 'excludeLabelIds'
+    > & {
+        stringIds: number[];
+    };
+
+    export type CreateTaskVendorManualByBranchIds = Omit<CreateTaskVendorManualByFileIds, 'fileIds'> & {
         branchIds: number[];
     };
 
-    export type CreateTaskEnterpriseStringsBasedRequest = Omit<CreateTaskEnterpriseRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
+    export interface CreateTaskPendingTask {
+        precedingTaskId: number;
+        type: Type.PROOFREAD;
+        title: string;
+        description?: string;
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+    }
 
-    export type CreateTaskStringsBasedRequest = Omit<CreateTaskRequest, 'fileIds'> & { branchIds: number[] };
+    export interface CreateTaskPendingTaskLanguageService {
+        precedingTaskId: number;
+        type: TypeVendor.PROOFREAD_BY_VENDOR;
+        vendor: 'crowdin_language_service';
+        title: string;
+        description?: string;
+        deadline?: string;
+    }
 
-    export type CreateTaskVendorManualStringsBasedRequest = Omit<CreateTaskVendorManualRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
+    export interface CreateTaskPendingTaskVendorManual {
+        precedingTaskId: number;
+        type: TypeVendor.PROOFREAD_BY_VENDOR;
+        vendor: CreateTaskVendorManualByFileIds['vendor'];
+        title: string;
+        description?: string;
+        deadline?: string;
+    }
 
-    export type CreateTaskVendorTranslatedStringsBasedRequest = Omit<CreateTaskVendorTranslatedRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
-
-    export type CreateTaskVendorGengoStringsBasedRequest = Omit<CreateTaskVendorGengoRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
-
-    export type CreateTaskVendorOhtStringsBasedRequest = Omit<CreateTaskVendorOhtRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
-
-    export type CreateLanguageServiceTaskStringsBasedRequest = Omit<CreateLanguageServiceTaskRequest, 'fileIds'> & {
-        branchIds: number[];
-    };
+    //END
 
     export interface CreateTaskAssignee {
         id: number;
@@ -465,15 +603,12 @@ export namespace TasksModel {
         | 'marketing-consumer-media'
         | 'business-finance'
         | 'legal-certificate'
-        | 'cv'
         | 'medical'
-        | 'patents'
         | 'ad-words-banners'
         | 'automotive-aerospace'
         | 'scientific'
         | 'scientific-academic'
         | 'tourism'
-        | 'certificates-translation'
         | 'training-employee-handbooks'
         | 'forex-crypto';
 
