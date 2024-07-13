@@ -17,7 +17,6 @@ import { TeamsModel } from '../teams';
  * In Crowdin Enterprise users are the members of your organization with the defined access levels.
  * Use API to get the list of organization users and to check the information on a specific user.
  */
-//TODO add missing endpoints
 export class Users extends CrowdinApi {
     /**
      * @param projectId project identifier
