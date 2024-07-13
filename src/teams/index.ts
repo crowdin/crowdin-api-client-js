@@ -8,9 +8,35 @@ import {
     ResponseList,
     ResponseObject,
 } from '../core';
+import { ProjectsGroupsModel } from '../projectsGroups';
 
-//TODO add missing endpoints
 export class Teams extends CrowdinApi {
+    /**
+     * @param teamId team identifier
+     * @param options request options
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.getMany
+     */
+    listTeamProjectPermissions(
+        teamId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TeamsModel.ProjectPermissions>> {
+        const url = `${this.url}/teams/${teamId}/projects/permissions`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param teamId team identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.patch
+     */
+    editTeamProjectPermissions(
+        teamId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<TeamsModel.ProjectPermissions>> {
+        const url = `${this.url}/teams/${teamId}/projects/permissions`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
     /**
      * @param projectId project identifier
      * @param request request body
@@ -145,19 +171,25 @@ export class Teams extends CrowdinApi {
 }
 
 export namespace TeamsModel {
+    export interface ProjectPermissions {
+        id: number;
+        roles: ProjectRole[];
+        project: ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings;
+    }
+
     export interface AddTeamToProjectRequest {
         teamId: number;
+        managerAccess?: boolean;
+        developerAccess?: boolean;
+        roles?: ProjectRole[];
         /**
          * @deprecated
          */
         accessToAllWorkflowSteps?: boolean;
-        managerAccess?: boolean;
-        developerAccess?: boolean;
         /**
          * @deprecated
          */
         permissions?: Permissions;
-        roles?: ProjectRole[];
     }
 
     export interface ProjectTeamResources {
