@@ -7,6 +7,7 @@ import {
     PatchRequest,
     ResponseList,
     ResponseObject,
+    Status,
 } from '../core';
 
 /**
@@ -15,8 +16,48 @@ import {
  * Use API to keep the source files up to date, check on file revisions, and manage project branches.
  * Before adding source files to the project, upload each file to the Storage first.
  */
-//TODO add missing branch endpoints (https://github.com/crowdin/crowdin-api-client-js/issues/380)
 export class SourceFiles extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param cloneId clone branch identifier
+     * @see https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.branch.get
+     */
+    getClonedBranch(
+        projectId: number,
+        branchId: number,
+        cloneId: string,
+    ): Promise<ResponseObject<SourceFilesModel.Branch>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/clones/${cloneId}/branch`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.post
+     */
+    clonedBranch(
+        projectId: number,
+        branchId: number,
+        request: SourceFilesModel.CloneBranchRequest,
+    ): Promise<ResponseObject<Status<{}>>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/clones`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param cloneId clone branch identifier
+     * @see https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.get
+     */
+    checkBranchClonedStatus(projectId: number, branchId: number, cloneId: string): Promise<ResponseObject<Status<{}>>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/clones/${cloneId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
     /**
      * @param projectId project identifier
      * @param options optional parameters for the request
@@ -492,6 +533,11 @@ export namespace SourceFilesModel {
         title?: string;
         exportPattern?: string;
         priority?: Priority;
+    }
+
+    export interface CloneBranchRequest {
+        name: string;
+        title?: string;
     }
 
     export type Priority = 'low' | 'normal' | 'high';
