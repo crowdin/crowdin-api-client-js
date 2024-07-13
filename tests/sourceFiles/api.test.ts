@@ -27,11 +27,50 @@ describe('Source Files API', () => {
 
     const buildId = 121212;
 
+    const cloneId = 'test12312';
+
     const fileId = 321;
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/projects/${projectId}/branches/${branchId}/clones/${cloneId}/branch`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: branchId,
+                    name: branchName,
+                },
+            })
+            .post(
+                `/projects/${projectId}/branches/${branchId}/clones`,
+                {
+                    name: branchName,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: cloneId,
+                },
+            })
+            .get(`/projects/${projectId}/branches/${branchId}/clones/${cloneId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: cloneId,
+                },
+            })
             .get(`/projects/${projectId}/branches`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -406,6 +445,24 @@ describe('Source Files API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('Get Cloned Branch', async () => {
+        const branch = await api.getClonedBranch(projectId, branchId, cloneId);
+        expect(branch.data.id).toBe(branchId);
+        expect(branch.data.name).toBe(branchName);
+    });
+
+    it('Clone branch', async () => {
+        const clone = await api.clonedBranch(projectId, branchId, {
+            name: branchName,
+        });
+        expect(clone.data.identifier).toBe(cloneId);
+    });
+
+    it('Check Branch Clone Status', async () => {
+        const clone = await api.checkBranchClonedStatus(projectId, branchId, cloneId);
+        expect(clone.data.identifier).toBe(cloneId);
     });
 
     it('List project branches', async () => {
