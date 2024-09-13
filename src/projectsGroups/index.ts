@@ -379,6 +379,8 @@ export namespace ProjectsGroupsModel {
         targetLanguages: LanguagesModel.Language[];
         webUrl: string;
         savingsReportSettingsTemplateId: number;
+        defaultTmId?: number;
+        defaultGlossaryId?: number;
         //community
         cname: string;
         //enterprise
