@@ -379,6 +379,8 @@ export namespace ProjectsGroupsModel {
         targetLanguages: LanguagesModel.Language[];
         webUrl: string;
         savingsReportSettingsTemplateId: number;
+        defaultTmId?: number;
+        defaultGlossaryId?: number;
         //community
         cname: string;
         //enterprise
@@ -422,6 +424,8 @@ export namespace ProjectsGroupsModel {
         aiPreTranslate?: ProjectSettings['aiPreTranslate'];
         assistActionAiPromptId?: number;
         savingsReportSettingsTemplateId?: number;
+        defaultTmId?: number;
+        defaultGlossaryId?: number;
         saveMetaInfoInSource?: boolean;
         type?: BooleanInt;
         skipUntranslatedFiles?: boolean;
@@ -464,6 +468,8 @@ export namespace ProjectsGroupsModel {
         glossaryAccess?: boolean;
         notificationSettings?: NotificationSettings;
         savingsReportSettingsTemplateId?: number;
+        defaultTmId?: number;
+        defaultGlossaryId?: number;
         languages?: string[];
         mtId?: number;
         assistActionAiPromptId?: number;
