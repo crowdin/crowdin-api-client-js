@@ -445,16 +445,16 @@ export namespace ReportsModel {
         | TranslationCostsPostEndingSchema
         | TranslationCostsPostEndingSchemaByTask
         | TopMembersSchema
-        | ContributionRawDataSchema;
+        | ContributionRawDataSchema
+        | PreTranslateEfficiencySchema;
 
     export interface GenerateReportRequest {
         name:
-            | 'costs-estimation'
-            | 'translation-costs'
             | 'top-members'
             | 'contribution-raw-data'
             | 'costs-estimation-pe'
-            | 'translation-costs-pe';
+            | 'translation-costs-pe'
+            | 'pre-translate-efficiency';
         schema: ReportSchema;
     }
 
@@ -516,6 +516,7 @@ export namespace ReportsModel {
         individualRates: IndividualRate[];
         netRateSchemes: NetRateSchemas;
         excludeApprovalsForEditedTranslations?: boolean;
+        preTranslatedStringsCategorizationAdjustment?: boolean;
         groupBy?: GroupBy;
         dateFrom?: string;
         dateTo?: string;
@@ -561,6 +562,15 @@ export namespace ReportsModel {
         tmIds?: number[];
         mtIds?: number[];
         aiPromptIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface PreTranslateEfficiencySchema {
+        unit?: Unit;
+        format?: Format;
+        postEditingCategories?: PostEditingCategories[];
+        languageId?: string;
         dateFrom?: string;
         dateTo?: string;
     }
@@ -644,6 +654,8 @@ export namespace ReportsModel {
     export type GroupBy = 'user' | 'language';
 
     export type LabelIncludeType = 'strings_with_label' | 'strings_without_label';
+
+    export type PostEditingCategories = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
 
     export type Column =
         | 'userId'
