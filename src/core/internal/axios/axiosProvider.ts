@@ -16,9 +16,9 @@ export class AxiosProvider {
     }
 
     private configureRequest(): void {
-        this.axios.interceptors.request.use(config => {
+        this.axios.interceptors.request.use((config) => {
             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 const interval = setInterval(() => {
                     if (this.pendingRequests < AxiosProvider.CROWDIN_API_MAX_CONCURRENT_REQUESTS) {
                         this.pendingRequests++;
@@ -32,7 +32,7 @@ export class AxiosProvider {
 
     private configureResponse(): void {
         this.axios.interceptors.response.use(
-            response => {
+            (response) => {
                 this.pendingRequests = Math.max(0, this.pendingRequests - 1);
                 return Promise.resolve(response.data);
             },

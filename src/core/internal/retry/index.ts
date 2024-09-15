@@ -26,7 +26,9 @@ export class RetryService {
                 const result = await func();
                 return result;
             } catch (error) {
-                const skip = this.config.conditions.map(condition => condition.test(error)).find(skip => skip === true);
+                const skip = this.config.conditions
+                    .map((condition) => condition.test(error))
+                    .find((skip) => skip === true);
                 if (skip || i === this.config.retries) {
                     throw error;
                 }
@@ -45,7 +47,9 @@ export class RetryService {
                 const result = func();
                 return result;
             } catch (error) {
-                const skip = this.config.conditions.map(condition => condition.test(error)).find(skip => skip === true);
+                const skip = this.config.conditions
+                    .map((condition) => condition.test(error))
+                    .find((skip) => skip === true);
                 if (skip || i === this.config.retries) {
                     throw error;
                 }
