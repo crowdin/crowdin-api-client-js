@@ -569,7 +569,7 @@ export namespace ReportsModel {
     export interface PreTranslateEfficiencySchema {
         unit?: Unit;
         format?: Format;
-        postEditingCategories?: PostEditingCategories[];
+        postEditingCategories?: string[];
         languageId?: string;
         dateFrom?: string;
         dateTo?: string;
@@ -654,8 +654,6 @@ export namespace ReportsModel {
     export type GroupBy = 'user' | 'language';
 
     export type LabelIncludeType = 'strings_with_label' | 'strings_without_label';
-
-    export type PostEditingCategories = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
 
     export type Column =
         | 'userId'
