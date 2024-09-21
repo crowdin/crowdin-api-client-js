@@ -210,6 +210,7 @@ export namespace SourceStringsModel {
         };
         updateStrings: boolean;
         cleanupMode: boolean;
+        updateOption: UpdateOption;
     }
 
     export interface UploadStringsRequest {
@@ -225,6 +226,7 @@ export namespace SourceStringsModel {
             importTranslations: boolean;
             scheme: SourceFilesModel.Scheme;
         };
+        updateOption?: UpdateOption;
     }
 
     export interface ListProjectStringsOptions extends PaginationOptions {
@@ -298,4 +300,8 @@ export namespace SourceStringsModel {
     }
 
     export type Scope = 'identifier' | 'text' | 'context';
+    export type UpdateOption =
+        | 'clear_translations_and_approvals'
+        | 'keep_translations'
+        | 'keep_translations_and_approvals';
 }
