@@ -43,7 +43,7 @@ export class Ai extends CrowdinApi {
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
      */
-    generateAiOrganizationPromptFineTuningJob(
+    createAiOrganizationPromptFineTuningJob(
         aiPromptId: number,
         request: AiModel.GenerateFineTuningJob,
     ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
@@ -377,7 +377,7 @@ export class Ai extends CrowdinApi {
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
      */
-    generateAiUserPromptFineTuningJob(
+    createAiUserPromptFineTuningJob(
         userId: number,
         aiPromptId: number,
         request: AiModel.GenerateFineTuningJob,

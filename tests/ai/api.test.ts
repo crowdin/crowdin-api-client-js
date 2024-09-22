@@ -16,6 +16,8 @@ describe('AI API', () => {
     const reportId = 'test-id';
     const completionId = 'test-id2';
     const link = 'crowdin.com/test.pdf';
+    const projectId = 123;
+    const jobId = 'test-job';
 
     const name = 'name';
     const action = 'pre_translate';
@@ -27,7 +29,7 @@ describe('AI API', () => {
     };
     const generateAiCompletion: AiModel.GenerateAiPromptCompletionRequest = {
         resources: {
-            projectId: 123,
+            projectId,
             targetLanguageId: 'uk',
             stringIds: [1],
         },
@@ -51,6 +53,68 @@ describe('AI API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
+            .post(
+                `/ai/prompts/${aiPromptId}/fine-tuning/datasets`,
+                {
+                    projectIds: [projectId],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .post(
+                `/ai/prompts/${aiPromptId}/fine-tuning/jobs`,
+                {
+                    trainingOptions: { projectIds: [projectId] },
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
             .post(
                 `/ai/prompts/${aiPromptId}/clones`,
                 {},
@@ -331,6 +395,68 @@ describe('AI API', () => {
             .reply(200, {
                 data: {
                     assistActionAiPromptId,
+                },
+            })
+            .post(
+                `/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets`,
+                {
+                    projectIds: [projectId],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .post(
+                `/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs`,
+                {
+                    trainingOptions: { projectIds: [projectId] },
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
                 },
             })
             .post(
@@ -621,6 +747,33 @@ describe('AI API', () => {
         scope.done();
     });
 
+    it('Generate AI Organization Prompt Fine-Tuning Dataset', async () => {
+        const res = await api.generateAiOrganizationPromptFineTuningDataset(aiPromptId, { projectIds: [projectId] });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI Organization Prompt Fine-Tuning Dataset Status', async () => {
+        const res = await api.getAiOrganizationPromptFineTuningDatasetStatus(aiPromptId, jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Create AI Organization Prompt Fine-Tuning Job', async () => {
+        const res = await api.createAiOrganizationPromptFineTuningJob(aiPromptId, {
+            trainingOptions: { projectIds: [projectId] },
+        });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI Organization Prompt Fine-Tuning Job Status', async () => {
+        const res = await api.getAiOrganizationPromptFineTuningJobStatus(aiPromptId, jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Download AI Organization Prompt Fine-Tuning Dataset', async () => {
+        const res = await api.downloadAiOrganizationPromptFineTuningDataset(aiPromptId, jobId);
+        expect(res.data.url).toBe(link);
+    });
+
     it('Clone AI Organization Prompt', async () => {
         const prompt = await api.cloneAiOrganizationPrompt(aiPromptId);
         expect(prompt.data.id).toBe(aiPromptId);
@@ -760,6 +913,33 @@ describe('AI API', () => {
             },
         ]);
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('Generate AI User Prompt Fine-Tuning Dataset', async () => {
+        const res = await api.generateAiUserPromptFineTuningDataset(userId, aiPromptId, { projectIds: [projectId] });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI User Prompt Fine-Tuning Dataset Status', async () => {
+        const res = await api.getAiUserPromptFineTuningDatasetStatus(userId, aiPromptId, jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Create AI User Prompt Fine-Tuning Job', async () => {
+        const res = await api.createAiUserPromptFineTuningJob(userId, aiPromptId, {
+            trainingOptions: { projectIds: [projectId] },
+        });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI User Prompt Fine-Tuning Job Status', async () => {
+        const res = await api.getAiUserPromptFineTuningJobStatus(userId, aiPromptId, jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Download AI User Prompt Fine-Tuning Dataset', async () => {
+        const res = await api.downloadAiUserPromptFineTuningDataset(userId, aiPromptId, jobId);
+        expect(res.data.url).toBe(link);
     });
 
     it('Clone AI User Prompt', async () => {
