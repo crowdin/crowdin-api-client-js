@@ -1,6 +1,8 @@
 import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 export class Ai extends CrowdinApi {
+    //TODO new methods
+
     /**
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -36,6 +38,8 @@ export class Ai extends CrowdinApi {
 
         return this.post(url, request, this.defaultConfig());
     }
+
+    //TODO new methods
 
     /**
      * @param aiPromptId ai Prompt identifier.
@@ -157,6 +161,8 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    //TODO AI Report
+
     /**
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.get
      */
@@ -176,6 +182,8 @@ export class Ai extends CrowdinApi {
     }
 
     // Community
+
+    //TODO new methods
 
     /**
      * @param userId user identifier
@@ -223,6 +231,8 @@ export class Ai extends CrowdinApi {
 
         return this.post(url, request, this.defaultConfig());
     }
+
+    //TODO new methods
 
     /**
      * @param userId user identifier
@@ -362,6 +372,8 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    //TODO AI Report
+
     /**
      * @param userId user Identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.get
@@ -387,19 +399,24 @@ export namespace AiModel {
     /* ai Prompts Section START*/
     export interface ListAiPromptsOptions extends PaginationOptions {
         projectId?: number;
-        action?: string;
+        action?: Action;
     }
 
     export interface AiPromptResponse {
         id: number;
         name: string;
-        action: string;
+        action: Action;
         aiProviderId: number;
         aiModelId: string;
         isEnabled: boolean;
         enabledProjectIds: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiModel.AiPromptConfigExternal;
+        config:
+            | AiModel.AiPromptConfigBasicPreTranslate
+            | AiModel.AiPromptConfigBasicAssistAction
+            | AiModel.AiPromptConfigAdvanced
+            | AiModel.AiPromptConfigExternal;
         promptPreview: string;
+        isFineTuningAvailable: boolean;
         createdAt: string;
         updatedAt: string;
     }
@@ -409,7 +426,7 @@ export namespace AiModel {
         languageIds?: string[];
     }
 
-    export interface AiPromptConfigBasic {
+    export interface AiPromptConfigBasicPreTranslate {
         mode: 'basic';
         companyDescription?: string;
         projectDescription?: string;
@@ -418,6 +435,20 @@ export namespace AiModel {
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
         fileContent?: boolean;
+        fileContext?: boolean;
+        screenshots?: boolean;
+        publicProjectDescription?: boolean;
+    }
+
+    export interface AiPromptConfigBasicAssistAction {
+        mode: 'basic';
+        companyDescription?: string;
+        projectDescription?: string;
+        audienceDescription?: string;
+        otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
+        glossaryTerms?: boolean;
+        tmSuggestions?: boolean;
+        fileContext?: boolean;
         screenshots?: boolean;
         publicProjectDescription?: boolean;
         siblingsStrings?: boolean;
@@ -426,25 +457,30 @@ export namespace AiModel {
 
     export interface AiPromptConfigAdvanced {
         mode: 'advanced';
-        prompt: string;
         screenshots?: boolean;
+        prompt: string;
+        otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
     }
 
     export interface AiPromptConfigExternal {
         mode: 'external';
-        external: string;
+        identifier: string;
         key: string;
         options?: any;
     }
 
     export interface AddAiPromptRequest {
         name: string;
-        action: string;
+        action: Action;
         aiProviderId?: number;
         aiModelId?: string;
         isEnabled?: boolean;
         enabledProjectIds?: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiPromptConfigExternal;
+        config:
+            | AiModel.AiPromptConfigBasicPreTranslate
+            | AiModel.AiPromptConfigBasicAssistAction
+            | AiModel.AiPromptConfigAdvanced
+            | AiPromptConfigExternal;
     }
     /* ai Prompts Section END*/
 
@@ -452,7 +488,7 @@ export namespace AiModel {
     export interface AiProviderResponse {
         id: number;
         name: string;
-        type: string;
+        type: ProviderType;
         credentials:
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
@@ -498,7 +534,7 @@ export namespace AiModel {
 
     export interface AddAiProviderRequest {
         name: string;
-        type: string;
+        type: ProviderType;
         credentials?:
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
@@ -524,6 +560,12 @@ export namespace AiModel {
 
     export interface AiSettings {
         assistActionAiPromptId: number;
+        showSuggestion: boolean;
+        shortcuts: {
+            name: string;
+            prompt: string;
+            enabled: boolean;
+        }[];
     }
 
     export interface OtherChatCompletionRequest {
@@ -534,4 +576,7 @@ export namespace AiModel {
     export interface GoogleGeminiChatCompletionRequest extends OtherChatCompletionRequest {
         model: string;
     }
+
+    export type Action = 'pre_translate' | 'assist';
+    export type ProviderType = 'open_ai' | 'azure_open_ai' | 'google_gemini' | 'mistral_ai' | 'anthropic' | 'custom_ai';
 }

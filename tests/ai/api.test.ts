@@ -15,14 +15,14 @@ describe('AI API', () => {
     const userId = 2;
 
     const name = 'name';
-    const action = 'promptAction';
+    const action = 'pre_translate';
     const mode = 'advanced';
     const prompt = 'translate <string>';
     const config: AiModel.AiPromptConfigAdvanced = {
         mode,
         prompt,
     };
-    const type = 'type';
+    const type = 'open_ai';
     const apiKey = 'aainriualusefiueriub3ljhdbfalkjdf';
     const credentials = {
         apiKey,
