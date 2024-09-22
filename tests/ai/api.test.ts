@@ -13,6 +13,8 @@ describe('AI API', () => {
     const aiProviderId = 4;
     const aiModelId = 'gpt-4';
     const userId = 2;
+    const reportId = 'test-id';
+    const link = 'crowdin.com/test.pdf';
 
     const name = 'name';
     const action = 'pre_translate';
@@ -31,6 +33,13 @@ describe('AI API', () => {
     const assistActionAiPromptId = 2;
 
     const limit = 25;
+    const generateReportReq: AiModel.AiReport = {
+        type: 'tokens-usage-raw-data',
+        schema: {
+            dateFrom: new Date().toISOString(),
+            dateTo: new Date().toISOString(),
+        },
+    };
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -219,6 +228,36 @@ describe('AI API', () => {
             })
             .reply(200, {
                 data: field,
+            })
+            .post('/ai/reports', generateReportReq, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .get(`/ai/reports/${reportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .get(`/ai/reports/${reportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
             })
             .get('/ai/settings', undefined, {
                 reqheaders: {
@@ -436,6 +475,36 @@ describe('AI API', () => {
             .reply(200, {
                 data: field,
             })
+            .post(`/users/${userId}/ai/reports`, generateReportReq, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .get(`/users/${userId}/ai/reports/${reportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .get(`/users/${userId}/ai/reports/${reportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
             .get(`/users/${userId}/ai/settings`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -563,6 +632,21 @@ describe('AI API', () => {
         expect(proxy.data).toStrictEqual(field);
     });
 
+    it('Generate AI Organization Report', async () => {
+        const report = await api.generateAiOrganizationReport(generateReportReq);
+        expect(report.data.identifier).toStrictEqual(reportId);
+    });
+
+    it('Get AI Organization Report', async () => {
+        const report = await api.checkAiOrganizationReportStatus(reportId);
+        expect(report.data.identifier).toStrictEqual(reportId);
+    });
+
+    it('Download AI Organization Report', async () => {
+        const resp = await api.downloadAiOrganizationReport(reportId);
+        expect(resp.data.url).toStrictEqual(link);
+    });
+
     it('Get AI Organization Settings', async () => {
         const settings = await api.getAiOrganizationSettings();
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
@@ -668,6 +752,21 @@ describe('AI API', () => {
     it('Create AI User Proxy Chat Completion', async () => {
         const proxy = await api.createAiUserProxyChatCompletion(userId, aiProviderId, field);
         expect(proxy.data).toStrictEqual(field);
+    });
+
+    it('Generate AI User Report', async () => {
+        const report = await api.generateAiUserReport(userId, generateReportReq);
+        expect(report.data.identifier).toStrictEqual(reportId);
+    });
+
+    it('Get AI User Report', async () => {
+        const report = await api.checkAiUserReportStatus(userId, reportId);
+        expect(report.data.identifier).toStrictEqual(reportId);
+    });
+
+    it('Download AI User Report', async () => {
+        const resp = await api.downloadAiUserReport(userId, reportId);
+        expect(resp.data.url).toStrictEqual(link);
     });
 
     it('Get AI User Settings', async () => {
