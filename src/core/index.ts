@@ -117,6 +117,8 @@ export interface Attribute {
     [key: string]: string;
 }
 
+export type PlainObject = Record<string, any>;
+
 /**
  * @internal
  */

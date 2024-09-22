@@ -1,6 +1,85 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    PaginationOptions,
+    PatchRequest,
+    PlainObject,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 export class Ai extends CrowdinApi {
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
+     */
+    generateAiOrganizationPromptFineTuningDataset(
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningDataset,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.get
+     */
+    getAiOrganizationPromptFineTuningDatasetStatus(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
+     */
+    createAiOrganizationPromptFineTuningJob(
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningJob,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/jobs`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
+     */
+    getAiOrganizationPromptFineTuningJobStatus(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
+     */
+    downloadAiOrganizationPromptFineTuningDataset(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
     /**
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -38,6 +117,59 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param aiPromptId ai Prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post
+     */
+    generateAiOrganizationPromptCompletion(
+        aiPromptId: number,
+        request: AiModel.GenerateAiPromptCompletionRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get
+     */
+    getAiOrganizationPromptCompletionStatus(
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete
+     */
+    cancelAiOrganizationPromptCompletion(aiPromptId: number, completionId: string): Promise<void> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download
+     */
+    downloadAiOrganizationPromptCompletion(
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param aiPromptId ai Prompt identifier.
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get
      */
@@ -48,7 +180,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
-     * @param aiPromptId ai Prompt identifier.
+     * @param aiPromptId ai Prompt identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete
      */
     deleteAiOrganizationPrompt(aiPromptId: number): Promise<void> {
@@ -158,6 +290,36 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.post
+     */
+    generateAiOrganizationReport(request: AiModel.AiReport): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/ai/reports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.get
+     */
+    checkAiOrganizationReportStatus(aiReportId: string): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/ai/reports/${aiReportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.download.download
+     */
+    downloadAiOrganizationReport(aiReportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/reports/${aiReportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.get
      */
     getAiOrganizationSettings(): Promise<ResponseObject<AiModel.AiSettings>> {
@@ -176,6 +338,86 @@ export class Ai extends CrowdinApi {
     }
 
     // Community
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
+     */
+    generateAiUserPromptFineTuningDataset(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningDataset,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.get
+     */
+    getAiUserPromptFineTuningDatasetStatus(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
+     */
+    createAiUserPromptFineTuningJob(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningJob,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.jobs.get
+     */
+    getAiUserPromptFineTuningJobStatus(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.download.get
+     */
+    downloadAiUserPromptFineTuningDataset(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param userId user identifier
@@ -222,6 +464,66 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/users/${userId}/ai/prompts`;
 
         return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.completions.post
+     */
+    generateAiUserPromptCompletion(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateAiPromptCompletionRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.get
+     */
+    getAiUserPromptCompletionStatus(
+        userId: number,
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.delete
+     */
+    cancelAiUserPromptCompletion(userId: number, aiPromptId: number, completionId: string): Promise<void> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.download.download
+     */
+    downloadAiUserPromptCompletion(
+        userId: number,
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}/download`;
+
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -363,6 +665,39 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.post
+     */
+    generateAiUserReport(userId: number, request: AiModel.AiReport): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/users/${userId}/ai/reports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.get
+     */
+    checkAiUserReportStatus(userId: number, aiReportId: string): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/users/${userId}/ai/reports/${aiReportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.download.download
+     */
+    downloadAiUserReport(userId: number, aiReportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/reports/${aiReportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param userId user Identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.get
      */
@@ -384,22 +719,74 @@ export class Ai extends CrowdinApi {
 }
 
 export namespace AiModel {
+    /* ai Fine-Tuning Section START*/
+    export interface FineTuningDataset {
+        projectIds: number[];
+        purpose: 'training' | 'validation';
+        dateFrom: string;
+        dateTo: string;
+        maxFileSize: number;
+        minExamplesCount: number;
+        maxExamplesCount: number;
+    }
+
+    export interface GenerateFineTuningDataset {
+        projectIds: number[];
+        purpose?: 'training' | 'validation';
+        dateFrom?: string;
+        dateTo?: string;
+        maxFileSize?: number;
+        minExamplesCount?: number;
+        maxExamplesCount?: number;
+    }
+
+    export interface GenerateFineTuningJob {
+        dryRun?: boolean;
+        hyperparameters?: {
+            batchSize: number;
+            learningRateMultiplier: number;
+            nEpochs: number;
+        };
+        trainingOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        validationOptions?: Omit<GenerateFineTuningDataset, 'purpose'>;
+    }
+
+    export interface FineTuningJob {
+        dryRun: boolean;
+        hyperparameters: {
+            batchSize: number;
+            learningRateMultiplier: number;
+            nEpochs: number;
+        };
+        trainingOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        validationOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        fineTunedModel: string;
+        trainedTokensCount: number;
+        metadata: PlainObject;
+    }
+    /* ai Fine-Tuning Section END*/
+
     /* ai Prompts Section START*/
     export interface ListAiPromptsOptions extends PaginationOptions {
         projectId?: number;
-        action?: string;
+        action?: Action;
     }
 
     export interface AiPromptResponse {
         id: number;
         name: string;
-        action: string;
+        action: Action;
         aiProviderId: number;
         aiModelId: string;
         isEnabled: boolean;
         enabledProjectIds: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiModel.AiPromptConfigExternal;
+        config:
+            | AiModel.AiPromptConfigBasicPreTranslate
+            | AiModel.AiPromptConfigBasicAssistAction
+            | AiModel.AiPromptConfigAdvanced
+            | AiModel.AiPromptConfigExternal;
         promptPreview: string;
+        isFineTuningAvailable: boolean;
         createdAt: string;
         updatedAt: string;
     }
@@ -409,7 +796,7 @@ export namespace AiModel {
         languageIds?: string[];
     }
 
-    export interface AiPromptConfigBasic {
+    export interface AiPromptConfigBasicPreTranslate {
         mode: 'basic';
         companyDescription?: string;
         projectDescription?: string;
@@ -418,6 +805,20 @@ export namespace AiModel {
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
         fileContent?: boolean;
+        fileContext?: boolean;
+        screenshots?: boolean;
+        publicProjectDescription?: boolean;
+    }
+
+    export interface AiPromptConfigBasicAssistAction {
+        mode: 'basic';
+        companyDescription?: string;
+        projectDescription?: string;
+        audienceDescription?: string;
+        otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
+        glossaryTerms?: boolean;
+        tmSuggestions?: boolean;
+        fileContext?: boolean;
         screenshots?: boolean;
         publicProjectDescription?: boolean;
         siblingsStrings?: boolean;
@@ -426,25 +827,71 @@ export namespace AiModel {
 
     export interface AiPromptConfigAdvanced {
         mode: 'advanced';
-        prompt: string;
         screenshots?: boolean;
+        prompt: string;
+        otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
     }
 
     export interface AiPromptConfigExternal {
         mode: 'external';
-        external: string;
+        identifier: string;
         key: string;
         options?: any;
     }
 
     export interface AddAiPromptRequest {
         name: string;
-        action: string;
+        action: Action;
         aiProviderId?: number;
         aiModelId?: string;
         isEnabled?: boolean;
         enabledProjectIds?: number[];
-        config: AiModel.AiPromptConfigBasic | AiModel.AiPromptConfigAdvanced | AiPromptConfigExternal;
+        config:
+            | AiModel.AiPromptConfigBasicPreTranslate
+            | AiModel.AiPromptConfigBasicAssistAction
+            | AiModel.AiPromptConfigAdvanced
+            | AiPromptConfigExternal;
+    }
+
+    export interface GenerateAiPromptCompletionRequest {
+        resources:
+            | AiModel.AiPromptResourceWithPreTranslate
+            | AiModel.AiPromptResourceWithPreTranslate
+            | AiModel.AiPromptResourceWithCustom;
+        tools?: {
+            tool: {
+                type: 'function';
+                function: {
+                    description?: string;
+                    name: string;
+                    parameters?: PlainObject;
+                };
+            };
+        }[];
+        tool_choice?: string | PlainObject;
+    }
+
+    export interface AiPromptCompletionAttribute {
+        aiPromptId: number;
+    }
+
+    export interface AiPromptResourceWithPreTranslate {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
+    }
+
+    export interface AiPromptResourceWithAssist {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
+        filteredStringsIds?: number[];
+    }
+
+    export interface AiPromptResourceWithCustom {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
     }
     /* ai Prompts Section END*/
 
@@ -452,7 +899,7 @@ export namespace AiModel {
     export interface AiProviderResponse {
         id: number;
         name: string;
-        type: string;
+        type: ProviderType;
         credentials:
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
@@ -498,7 +945,7 @@ export namespace AiModel {
 
     export interface AddAiProviderRequest {
         name: string;
-        type: string;
+        type: ProviderType;
         credentials?:
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
@@ -516,14 +963,9 @@ export namespace AiModel {
     }
     /* ai Provider Models Section END*/
 
-    /* ai Provider Models Section START*/
+    /* ai Proxy Chat Section START*/
     export interface AiProviderProxyResponseData {
         data: object;
-    }
-    /* ai Provider Models Section END*/
-
-    export interface AiSettings {
-        assistActionAiPromptId: number;
     }
 
     export interface OtherChatCompletionRequest {
@@ -534,4 +976,39 @@ export namespace AiModel {
     export interface GoogleGeminiChatCompletionRequest extends OtherChatCompletionRequest {
         model: string;
     }
+    /* ai Proxy Chat Section END*/
+
+    /* ai Report Section START*/
+    export type AiReport = AiReportTokenUsage;
+
+    export interface AiReportTokenUsage {
+        type: 'tokens-usage-raw-data';
+        schema: AiReportGeneralSchema;
+    }
+
+    export interface AiReportGeneralSchema {
+        dateFrom: string;
+        dateTo: string;
+        format?: 'json' | 'csv';
+        projectIds?: number[];
+        promptIds?: number[];
+        userIds?: number[];
+    }
+
+    /* ai Report Section END*/
+
+    /* ai Settings Section START*/
+    export interface AiSettings {
+        assistActionAiPromptId: number;
+        showSuggestion: boolean;
+        shortcuts: {
+            name: string;
+            prompt: string;
+            enabled: boolean;
+        }[];
+    }
+    /* ai Settings Section END*/
+
+    export type Action = 'pre_translate' | 'assist';
+    export type ProviderType = 'open_ai' | 'azure_open_ai' | 'google_gemini' | 'mistral_ai' | 'anthropic' | 'custom_ai';
 }
