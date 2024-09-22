@@ -1,4 +1,12 @@
-import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    CrowdinApi,
+    DownloadLink,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+    Status,
+} from '../core';
 
 export class Ai extends CrowdinApi {
     //TODO new methods
@@ -161,7 +169,35 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
-    //TODO AI Report
+    /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.post
+     */
+    generateAiOrganizationReport(request: AiModel.AiReport): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/ai/reports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.get
+     */
+    checkAiOrganizationReportStatus(aiReportId: string): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/ai/reports/${aiReportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.download.download
+     */
+    downloadAiOrganizationReport(aiReportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/reports/${aiReportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.get
@@ -372,7 +408,38 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
-    //TODO AI Report
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.post
+     */
+    generateAiUserReport(userId: number, request: AiModel.AiReport): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/users/${userId}/ai/reports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.get
+     */
+    checkAiUserReportStatus(userId: number, aiReportId: string): Promise<ResponseObject<Status<AiModel.AiReport>>> {
+        const url = `${this.url}/users/${userId}/ai/reports/${aiReportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiReportId report identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.download.download
+     */
+    downloadAiUserReport(userId: number, aiReportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/reports/${aiReportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param userId user Identifier
@@ -552,20 +619,9 @@ export namespace AiModel {
     }
     /* ai Provider Models Section END*/
 
-    /* ai Provider Models Section START*/
+    /* ai Proxy Chat Section START*/
     export interface AiProviderProxyResponseData {
         data: object;
-    }
-    /* ai Provider Models Section END*/
-
-    export interface AiSettings {
-        assistActionAiPromptId: number;
-        showSuggestion: boolean;
-        shortcuts: {
-            name: string;
-            prompt: string;
-            enabled: boolean;
-        }[];
     }
 
     export interface OtherChatCompletionRequest {
@@ -576,6 +632,38 @@ export namespace AiModel {
     export interface GoogleGeminiChatCompletionRequest extends OtherChatCompletionRequest {
         model: string;
     }
+    /* ai Proxy Chat Section END*/
+
+    /* ai Report Section START*/
+    export type AiReport = AiReportTokenUsage;
+
+    export interface AiReportTokenUsage {
+        type: 'tokens-usage-raw-data';
+        schema: AiReportGeneralSchema;
+    }
+
+    export interface AiReportGeneralSchema {
+        dateFrom: string;
+        dateTo: string;
+        format?: 'json' | 'csv';
+        projectIds?: number[];
+        promptIds?: number[];
+        userIds?: number[];
+    }
+
+    /* ai Report Section END*/
+
+    /* ai Settings Section START*/
+    export interface AiSettings {
+        assistActionAiPromptId: number;
+        showSuggestion: boolean;
+        shortcuts: {
+            name: string;
+            prompt: string;
+            enabled: boolean;
+        }[];
+    }
+    /* ai Settings Section END*/
 
     export type Action = 'pre_translate' | 'assist';
     export type ProviderType = 'open_ai' | 'azure_open_ai' | 'google_gemini' | 'mistral_ai' | 'anthropic' | 'custom_ai';
