@@ -10,7 +10,75 @@ import {
 } from '../core';
 
 export class Ai extends CrowdinApi {
-    //TODO new methods
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
+     */
+    generateAiOrganizationPromptFineTuningDataset(
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningDataset,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.get
+     */
+    getAiOrganizationPromptFineTuningDatasetStatus(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
+     */
+    generateAiOrganizationPromptFineTuningJob(
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningJob,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/jobs`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
+     */
+    getAiOrganizationPromptFineTuningJobStatus(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
+     */
+    downloadAiOrganizationPromptFineTuningDataset(
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param aiPromptId ai prompt identifier
@@ -271,7 +339,85 @@ export class Ai extends CrowdinApi {
 
     // Community
 
-    //TODO new methods
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
+     */
+    generateAiUserPromptFineTuningDataset(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningDataset,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.get
+     */
+    getAiUserPromptFineTuningDatasetStatus(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningDataset>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
+     */
+    generateAiUserPromptFineTuningJob(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateFineTuningJob,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.jobs.get
+     */
+    getAiUserPromptFineTuningJobStatus(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.FineTuningJob>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai prompt identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.download.get
+     */
+    downloadAiUserPromptFineTuningDataset(
+        userId: number,
+        aiPromptId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param userId user identifier
@@ -573,6 +719,53 @@ export class Ai extends CrowdinApi {
 }
 
 export namespace AiModel {
+    /* ai Fine-Tuning Section START*/
+    export interface FineTuningDataset {
+        projectIds: number[];
+        purpose: 'training' | 'validation';
+        dateFrom: string;
+        dateTo: string;
+        maxFileSize: number;
+        minExamplesCount: number;
+        maxExamplesCount: number;
+    }
+
+    export interface GenerateFineTuningDataset {
+        projectIds: number[];
+        purpose?: 'training' | 'validation';
+        dateFrom?: string;
+        dateTo?: string;
+        maxFileSize?: number;
+        minExamplesCount?: number;
+        maxExamplesCount?: number;
+    }
+
+    export interface GenerateFineTuningJob {
+        dryRun?: boolean;
+        hyperparameters?: {
+            batchSize: number;
+            learningRateMultiplier: number;
+            nEpochs: number;
+        };
+        trainingOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        validationOptions?: Omit<GenerateFineTuningDataset, 'purpose'>;
+    }
+
+    export interface FineTuningJob {
+        dryRun: boolean;
+        hyperparameters: {
+            batchSize: number;
+            learningRateMultiplier: number;
+            nEpochs: number;
+        };
+        trainingOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        validationOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
+        fineTunedModel: string;
+        trainedTokensCount: number;
+        metadata: PlainObject;
+    }
+    /* ai Fine-Tuning Section END*/
+
     /* ai Prompts Section START*/
     export interface ListAiPromptsOptions extends PaginationOptions {
         projectId?: number;
