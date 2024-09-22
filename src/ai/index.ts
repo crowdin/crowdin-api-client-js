@@ -3,6 +3,7 @@ import {
     DownloadLink,
     PaginationOptions,
     PatchRequest,
+    PlainObject,
     ResponseList,
     ResponseObject,
     Status,
@@ -47,7 +48,58 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
-    //TODO new methods
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post
+     */
+    generateAiOrganizationPromptCompletion(
+        aiPromptId: number,
+        request: AiModel.GenerateAiPromptCompletionRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get
+     */
+    getAiOrganizationPromptCompletionStatus(
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete
+     */
+    cancelAiOrganizationPromptCompletion(aiPromptId: number, completionId: string): Promise<void> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download
+     */
+    downloadAiOrganizationPromptCompletion(
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/prompts/${aiPromptId}/completions/${completionId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param aiPromptId ai Prompt identifier.
@@ -60,7 +112,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
-     * @param aiPromptId ai Prompt identifier.
+     * @param aiPromptId ai Prompt identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete
      */
     deleteAiOrganizationPrompt(aiPromptId: number): Promise<void> {
@@ -268,7 +320,65 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
-    //TODO new methods
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.completions.post
+     */
+    generateAiUserPromptCompletion(
+        userId: number,
+        aiPromptId: number,
+        request: AiModel.GenerateAiPromptCompletionRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.get
+     */
+    getAiUserPromptCompletionStatus(
+        userId: number,
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiPromptCompletionAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.delete
+     */
+    cancelAiUserPromptCompletion(userId: number, aiPromptId: number, completionId: string): Promise<void> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId ai Prompt identifier
+     * @param completionId completion identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.download.download
+     */
+    downloadAiUserPromptCompletion(
+        userId: number,
+        aiPromptId: number,
+        completionId: string,
+    ): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
 
     /**
      * @param userId user identifier
@@ -548,6 +658,47 @@ export namespace AiModel {
             | AiModel.AiPromptConfigBasicAssistAction
             | AiModel.AiPromptConfigAdvanced
             | AiPromptConfigExternal;
+    }
+
+    export interface GenerateAiPromptCompletionRequest {
+        resources:
+            | AiModel.AiPromptResourceWithPreTranslate
+            | AiModel.AiPromptResourceWithPreTranslate
+            | AiModel.AiPromptResourceWithCustom;
+        tools?: {
+            tool: {
+                type: 'function';
+                function: {
+                    description?: string;
+                    name: string;
+                    parameters?: PlainObject;
+                };
+            };
+        }[];
+        tool_choice?: string | PlainObject;
+    }
+
+    export interface AiPromptCompletionAttribute {
+        aiPromptId: number;
+    }
+
+    export interface AiPromptResourceWithPreTranslate {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
+    }
+
+    export interface AiPromptResourceWithAssist {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
+        filteredStringsIds?: number[];
+    }
+
+    export interface AiPromptResourceWithCustom {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
     }
     /* ai Prompts Section END*/
 

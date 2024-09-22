@@ -14,6 +14,7 @@ describe('AI API', () => {
     const aiModelId = 'gpt-4';
     const userId = 2;
     const reportId = 'test-id';
+    const completionId = 'test-id2';
     const link = 'crowdin.com/test.pdf';
 
     const name = 'name';
@@ -23,6 +24,13 @@ describe('AI API', () => {
     const config: AiModel.AiPromptConfigAdvanced = {
         mode,
         prompt,
+    };
+    const generateAiCompletion: AiModel.GenerateAiPromptCompletionRequest = {
+        resources: {
+            projectId: 123,
+            targetLanguageId: 'uk',
+            stringIds: [1],
+        },
     };
     const type = 'open_ai';
     const apiKey = 'aainriualusefiueriub3ljhdbfalkjdf';
@@ -93,6 +101,42 @@ describe('AI API', () => {
             .reply(200, {
                 data: {
                     id: aiPromptId,
+                },
+            })
+            .post(`/ai/prompts/${aiPromptId}/completions`, generateAiCompletion, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: completionId,
+                },
+            })
+            .get(`/ai/prompts/${aiPromptId}/completions/${completionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: completionId,
+                },
+            })
+            .delete(`/ai/prompts/${aiPromptId}/completions/${completionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(`/ai/prompts/${aiPromptId}/completions/${completionId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
                 },
             })
             .get(`/ai/prompts/${aiPromptId}`, undefined, {
@@ -341,6 +385,42 @@ describe('AI API', () => {
                     id: aiPromptId,
                 },
             })
+            .post(`/users/${userId}/ai/prompts/${aiPromptId}/completions`, generateAiCompletion, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: completionId,
+                },
+            })
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: completionId,
+                },
+            })
+            .delete(`/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(`/users/${userId}/ai/prompts/${aiPromptId}/completions/${completionId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
             .get(`/users/${userId}/ai/prompts/${aiPromptId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -564,6 +644,25 @@ describe('AI API', () => {
         expect(prompt.data.id).toBe(aiPromptId);
     });
 
+    it('Generate AI Organization Prompt Completion', async () => {
+        const res = await api.generateAiOrganizationPromptCompletion(aiPromptId, generateAiCompletion);
+        expect(res.data.identifier).toBe(completionId);
+    });
+
+    it('Get AI Prompt Organization Completion Status', async () => {
+        const res = await api.getAiOrganizationPromptCompletionStatus(aiPromptId, completionId);
+        expect(res.data.identifier).toBe(completionId);
+    });
+
+    it('Cancel AI Prompt Organization Completion', async () => {
+        await api.cancelAiOrganizationPromptCompletion(aiPromptId, completionId);
+    });
+
+    it('Download AI Prompt Organization Completion', async () => {
+        const res = await api.downloadAiOrganizationPromptCompletion(aiPromptId, completionId);
+        expect(res.data.url).toBe(link);
+    });
+
     it('Get AI Organization Prompt', async () => {
         const prompt = await api.getAiOrganizationPrompt(aiPromptId);
         expect(prompt.data.id).toBe(aiPromptId);
@@ -684,6 +783,25 @@ describe('AI API', () => {
             config,
         });
         expect(prompt.data.id).toBe(aiPromptId);
+    });
+
+    it('Generate AI User Prompt Completion', async () => {
+        const res = await api.generateAiUserPromptCompletion(userId, aiPromptId, generateAiCompletion);
+        expect(res.data.identifier).toBe(completionId);
+    });
+
+    it('Get AI Prompt User Completion Status', async () => {
+        const res = await api.getAiUserPromptCompletionStatus(userId, aiPromptId, completionId);
+        expect(res.data.identifier).toBe(completionId);
+    });
+
+    it('Cancel AI Prompt User Completion', async () => {
+        await api.cancelAiUserPromptCompletion(userId, aiPromptId, completionId);
+    });
+
+    it('Download AI Prompt User Completion', async () => {
+        const res = await api.downloadAiUserPromptCompletion(userId, aiPromptId, completionId);
+        expect(res.data.url).toBe(link);
     });
 
     it('Get AI User Prompt', async () => {
