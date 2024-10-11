@@ -94,6 +94,17 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param stringId string identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.deleteMany
+     */
+    removeStringApprovals(projectId: number, stringId: number): Promise<void> {
+        let url = `${this.url}/projects/${projectId}/approvals`;
+        url = this.addQueryParam(url, 'stringId', stringId);
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param approvalId approval identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.get
      */
@@ -288,7 +299,7 @@ export class StringTranslations extends CrowdinApi {
      * @param languageId language identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
      */
-    deleteAllTranslations(projectId: number, stringId: number, languageId: string): Promise<void> {
+    deleteAllTranslations(projectId: number, stringId: number, languageId?: string): Promise<void> {
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);

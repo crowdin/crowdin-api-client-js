@@ -55,6 +55,15 @@ describe('String Translations API', () => {
                     id: approvalId,
                 },
             })
+            .delete(`/projects/${projectId}/approvals`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                stringId: stringId,
+            })
+            .reply(200)
             .get(`/projects/${projectId}/approvals/${approvalId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -150,7 +159,6 @@ describe('String Translations API', () => {
             })
             .query({
                 stringId: stringId,
-                languageId: languageId,
             })
             .reply(200)
             .get(`/projects/${projectId}/translations/${translationId}`, undefined, {
@@ -254,6 +262,10 @@ describe('String Translations API', () => {
         expect(approval.data.id).toBe(approvalId);
     });
 
+    it('Remove String Approvals', async () => {
+        await api.removeStringApprovals(projectId, stringId);
+    });
+
     it('Approval Info', async () => {
         const approval = await api.approvalInfo(projectId, approvalId);
         expect(approval.data.id).toBe(approvalId);
@@ -297,7 +309,7 @@ describe('String Translations API', () => {
     });
 
     it('Delete All Translations', async () => {
-        await api.deleteAllTranslations(projectId, stringId, languageId);
+        await api.deleteAllTranslations(projectId, stringId);
     });
 
     it('Translation Info', async () => {
