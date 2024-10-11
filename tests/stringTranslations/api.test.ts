@@ -159,7 +159,6 @@ describe('String Translations API', () => {
             })
             .query({
                 stringId: stringId,
-                languageId: languageId,
             })
             .reply(200)
             .get(`/projects/${projectId}/translations/${translationId}`, undefined, {
@@ -310,7 +309,7 @@ describe('String Translations API', () => {
     });
 
     it('Delete All Translations', async () => {
-        await api.deleteAllTranslations(projectId, stringId, languageId);
+        await api.deleteAllTranslations(projectId, stringId);
     });
 
     it('Translation Info', async () => {

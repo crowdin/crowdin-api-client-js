@@ -299,7 +299,7 @@ export class StringTranslations extends CrowdinApi {
      * @param languageId language identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
      */
-    deleteAllTranslations(projectId: number, stringId: number, languageId: string): Promise<void> {
+    deleteAllTranslations(projectId: number, stringId: number, languageId?: string): Promise<void> {
         let url = `${this.url}/projects/${projectId}/translations`;
         url = this.addQueryParam(url, 'stringId', stringId);
         url = this.addQueryParam(url, 'languageId', languageId);
