@@ -142,6 +142,7 @@ export namespace LabelsModel {
     export interface Label {
         id: number;
         title: string;
+        isSystem?: boolean;
     }
 
     export interface AddLabelRequest {
