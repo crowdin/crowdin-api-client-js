@@ -21,11 +21,30 @@ describe('Translations API', () => {
     const languageId = 'uk';
     const sampleLabelIds = [101, 102];
     const sampleExcludeLabelIds = [103, 104];
+    const sampleStatus = 'canceled';
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/projects/${projectId}/pre-translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            identifier: preTranslationId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(
                 `/projects/${projectId}/pre-translations`,
                 {
@@ -48,6 +67,26 @@ describe('Translations API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
+            .reply(200, {
+                data: {
+                    identifier: preTranslationId,
+                },
+            })
+            .patch(
+                `/projects/${projectId}/pre-translations/${preTranslationId}`,
+                [
+                    {
+                        value: sampleStatus,
+                        op: 'replace',
+                        path: '/status',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
             .reply(200, {
                 data: {
                     identifier: preTranslationId,
@@ -225,6 +264,13 @@ describe('Translations API', () => {
         scope.done();
     });
 
+    it('List Pre-Translations', async () => {
+        const preTranslations = await api.listPreTranslations(projectId);
+        expect(preTranslations.data.length).toBe(1);
+        expect(preTranslations.data[0].data.identifier).toBe(preTranslationId);
+        expect(preTranslations.pagination.limit).toBe(limit);
+    });
+
     it('Apply Pre-Translation', async () => {
         const preTranslation = await api.applyPreTranslation(projectId, {
             fileIds: [],
@@ -245,6 +291,17 @@ describe('Translations API', () => {
 
     it('Pre-translation status', async () => {
         const preTranslation = await api.preTranslationStatus(projectId, preTranslationId);
+        expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Edit Pre-translation', async () => {
+        const preTranslation = await api.editPreTranslation(projectId, preTranslationId, [
+            {
+                op: 'replace',
+                path: '/status',
+                value: sampleStatus,
+            },
+        ]);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
     });
 

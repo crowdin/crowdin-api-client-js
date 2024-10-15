@@ -3,6 +3,7 @@ import {
     DownloadLink,
     isOptionalNumber,
     PaginationOptions,
+    PatchRequest,
     ResponseList,
     ResponseObject,
     Status,
@@ -15,6 +16,19 @@ import {
  * Pre-translate and build are asynchronous operations and shall be completed with sequence of API methods.
  */
 export class Translations extends CrowdinApi {
+    /**
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.getMany
+     */
+    listPreTranslations(
+        projectId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
     /**
      * @param projectId project identifier
      * @param preTranslationId pre translation identifier
@@ -39,6 +53,21 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations`;
         return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param preTranslationId pre translation identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.patch
+     */
+    editPreTranslation(
+        projectId: number,
+        preTranslationId: string,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
+        return this.patch(url, request, this.defaultConfig());
     }
 
     /**
