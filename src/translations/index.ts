@@ -317,7 +317,7 @@ export namespace TranslationsModel {
         translateWithPerfectMatchOnly: boolean;
     }
 
-    export type Method = 'tm' | 'mt';
+    export type Method = 'tm' | 'mt' | 'ai';
 
     export type AutoApproveOption = 'all' | 'exceptAutoSubstituted' | 'perfectMatchOnly' | 'none';
 
