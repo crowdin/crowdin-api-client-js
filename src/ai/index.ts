@@ -856,7 +856,8 @@ export namespace AiModel {
     export interface GenerateAiPromptCompletionRequest {
         resources:
             | AiModel.AiPromptResourceWithPreTranslate
-            | AiModel.AiPromptResourceWithPreTranslate
+            | AiModel.AiPromptResourceWithAssist
+            | AiModel.AiPromptResourceWithAlignment
             | AiModel.AiPromptResourceWithCustom;
         tools?: {
             tool: {
@@ -879,6 +880,14 @@ export namespace AiModel {
         projectId: number;
         targetLanguageId: string;
         stringIds: number[];
+        overridePromptValues?: OverridePromptValues;
+    }
+
+    export interface AiPromptResourceWithAlignment {
+        projectId: number;
+        targetLanguageId: string;
+        stringIds: number[];
+        overridePromptValues?: OverridePromptValues;
     }
 
     export interface AiPromptResourceWithAssist {
@@ -886,12 +895,18 @@ export namespace AiModel {
         targetLanguageId: string;
         stringIds: number[];
         filteredStringsIds?: number[];
+        overridePromptValues?: OverridePromptValues;
     }
 
     export interface AiPromptResourceWithCustom {
         projectId: number;
         targetLanguageId: string;
         stringIds: number[];
+        overridePromptValues?: OverridePromptValues;
+    }
+
+    export interface OverridePromptValues {
+        [key: string]: any;
     }
     /* ai Prompts Section END*/
 
