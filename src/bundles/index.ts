@@ -147,6 +147,7 @@ export namespace BundlesModel {
         labelIds: number[];
         excludeLabelIds: number[];
         createdAt: string;
+        webUrl: string;
         updatedAt: string;
     }
 
