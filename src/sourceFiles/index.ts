@@ -146,6 +146,51 @@ export class SourceFiles extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/string-based/#tag/Branches/operation/api.projects.branches.merges.post
+     */
+    mergeBranch(
+        projectId: number,
+        branchId: number,
+        request: SourceFilesModel.MergeBranchRequest,
+    ): Promise<ResponseObject<Status<SourceFilesModel.MergeBranchAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/merges`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param mergeId merge branch identifier
+     * @see https://support.crowdin.com/developer/api/v2/string-based/#tag/Branches/operation/api.projects.branches.merges.get
+     */
+    checkBranchMergeStatus(
+        projectId: number,
+        branchId: number,
+        mergeId: string,
+    ): Promise<ResponseObject<Status<SourceFilesModel.MergeBranchAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/merges/${mergeId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param mergeId merge branch identifier
+     * @see https://support.crowdin.com/developer/api/v2/string-based/#tag/Branches/operation/api.projects.branches.merges.summary.get
+     */
+    getBranchMergeSummary(
+        projectId: number,
+        branchId: number,
+        mergeId: string,
+    ): Promise<ResponseObject<SourceFilesModel.MergeBranchSummary>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/merges/${mergeId}/summary`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.getMany
      */
@@ -538,6 +583,30 @@ export namespace SourceFilesModel {
     export interface CloneBranchRequest {
         name: string;
         title?: string;
+    }
+
+    export interface MergeBranchRequest {
+        deleteAfterMerge?: boolean;
+        sourceBranchId: number;
+        dryRun?: boolean;
+    }
+
+    export interface MergeBranchAttributes {
+        sourceBranchId: number;
+        deleteAfterMerge: boolean;
+    }
+
+    export interface MergeBranchSummary {
+        status: string;
+        sourceBranchId: number;
+        targetBranchId: number;
+        dryRun: boolean;
+        details: {
+            added: number;
+            deleted: number;
+            updated: number;
+            conflicted: number;
+        };
     }
 
     export type Priority = 'low' | 'normal' | 'high';
