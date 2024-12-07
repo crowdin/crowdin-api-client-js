@@ -230,15 +230,16 @@ export namespace SourceStringsModel {
     }
 
     export interface ListProjectStringsOptions extends PaginationOptions {
-        fileId?: number;
-        filter?: string;
+        orderBy?: string;
         denormalizePlaceholders?: BooleanInt;
         labelIds?: string;
-        scope?: SourceStringsModel.Scope;
-        croql?: string;
+        fileId?: number;
         branchId?: number;
         directoryId?: number;
-        orderBy?: number;
+        taskId?: number;
+        croql?: string;
+        filter?: string;
+        scope?: SourceStringsModel.Scope;
     }
 
     export interface String {
