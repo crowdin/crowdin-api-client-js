@@ -197,6 +197,7 @@ export class Glossaries extends CrowdinApi {
         url = this.addQueryParam(url, 'translationOfTermId', options.translationOfTermId);
         url = this.addQueryParam(url, 'conceptId', options.conceptId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'croql', options.croql);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -417,6 +418,7 @@ export namespace GlossariesModel {
         languageId?: string;
         conceptId?: number;
         orderBy?: string;
+        croql?: string;
         /**
          * @deprecated
          */
