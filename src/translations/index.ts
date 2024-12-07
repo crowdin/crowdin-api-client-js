@@ -374,14 +374,16 @@ export namespace TranslationsModel {
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         translateHidden?: boolean;
+        addToTm?: boolean;
     }
 
     export interface UploadTranslationStringsRequest {
         storageId: number;
-        branchId: number;
+        branchId?: number;
         importEqSuggestions?: boolean;
         autoApproveImported?: boolean;
         translateHidden?: boolean;
+        addToTm?: boolean;
     }
 
     export interface UploadTranslationResponse {
