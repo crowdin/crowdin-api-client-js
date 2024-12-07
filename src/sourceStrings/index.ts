@@ -114,6 +114,7 @@ export class SourceStrings extends CrowdinApi {
         url = this.addQueryParam(url, 'branchId', options.branchId);
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'taskId', options.taskId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -230,15 +231,16 @@ export namespace SourceStringsModel {
     }
 
     export interface ListProjectStringsOptions extends PaginationOptions {
-        fileId?: number;
-        filter?: string;
+        orderBy?: string;
         denormalizePlaceholders?: BooleanInt;
         labelIds?: string;
-        scope?: SourceStringsModel.Scope;
-        croql?: string;
+        fileId?: number;
         branchId?: number;
         directoryId?: number;
-        orderBy?: number;
+        taskId?: number;
+        croql?: string;
+        filter?: string;
+        scope?: SourceStringsModel.Scope;
     }
 
     export interface String {

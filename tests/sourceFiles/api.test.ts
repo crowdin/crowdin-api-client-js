@@ -16,6 +16,9 @@ describe('Source Files API', () => {
     const fileRevisionId = 888;
 
     const branchId = 12;
+    const sourceBranchId = 14;
+    const mergeBranchId = 'merge-123';
+    const mergeBranchStatus = 'merged';
     const branchName = 'master';
     const branchTitle = 'testTitle';
     const storageId = 123;
@@ -158,6 +161,42 @@ describe('Source Files API', () => {
                     id: branchId,
                     name: branchName,
                     title: branchTitle,
+                },
+            })
+            .post(
+                `/projects/${projectId}/branches/${branchId}/merges`,
+                {
+                    sourceBranchId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: mergeBranchId,
+                },
+            })
+            .get(`/projects/${projectId}/branches/${branchId}/merges/${mergeBranchId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: mergeBranchId,
+                },
+            })
+            .get(`/projects/${projectId}/branches/${branchId}/merges/${mergeBranchId}/summary`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    status: mergeBranchStatus,
                 },
             })
             .get(`/projects/${projectId}/directories`, undefined, {
@@ -504,6 +543,23 @@ describe('Source Files API', () => {
         expect(branch.data.id).toBe(branchId);
         expect(branch.data.name).toBe(branchName);
         expect(branch.data.title).toBe(branchTitle);
+    });
+
+    it('Merge branch', async () => {
+        const mergeStatus = await api.mergeBranch(projectId, branchId, {
+            sourceBranchId,
+        });
+        expect(mergeStatus.data.identifier).toBe(mergeBranchId);
+    });
+
+    it('Check Branch Merge Status', async () => {
+        const mergeStatus = await api.checkBranchMergeStatus(projectId, branchId, mergeBranchId);
+        expect(mergeStatus.data.identifier).toBe(mergeBranchId);
+    });
+
+    it('Get Branch Merge Summary', async () => {
+        const mergeStatus = await api.getBranchMergeSummary(projectId, branchId, mergeBranchId);
+        expect(mergeStatus.data.status).toBe(mergeBranchStatus);
     });
 
     it('List project directories', async () => {

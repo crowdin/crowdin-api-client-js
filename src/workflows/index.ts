@@ -1,4 +1,5 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import { SourceStringsModel } from '../sourceStrings';
 
 /**
  * Workflows are the sequences of steps that content in your project should go through (e.g. pre-translation, translation, proofreading).
@@ -48,6 +49,24 @@ export class Workflows extends CrowdinApi {
     getWorkflowStep(projectId: number, stepId: number): Promise<ResponseObject<WorkflowModel.WorkflowStep>> {
         const url = `${this.url}/projects/${projectId}/workflow-steps/${stepId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stepId workflow step identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Workflows/operation/api.projects.workflow-steps.strings.getMany
+     */
+    listStringsOnTheWorkflowStep(
+        projectId: number,
+        stepId: number,
+        options?: WorkflowModel.ListStringsOntheWorkflowStepOptions,
+    ): Promise<ResponseList<SourceStringsModel.String>> {
+        let url = `${this.url}/projects/${projectId}/workflow-steps/${stepId}/strings`;
+        url = this.addQueryParam(url, 'languageIds', options?.languageIds);
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        url = this.addQueryParam(url, 'status', options?.status);
+        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
@@ -102,8 +121,15 @@ export namespace WorkflowModel {
             assignees: { [language: string]: number[] };
         };
     }
+
     export interface ListWorkflowTemplatesOptions extends PaginationOptions {
         groupId?: number;
+    }
+
+    export interface ListStringsOntheWorkflowStepOptions extends PaginationOptions {
+        languageIds?: string;
+        orderBy?: string;
+        status?: 'todo' | 'done' | 'pending' | 'incomplete' | 'need_review';
     }
 
     export interface Workflow {
