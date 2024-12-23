@@ -9,11 +9,6 @@ describe('AI API', () => {
     };
     const api: Ai = new Ai(userCredentials);
 
-    const aiPlaceholderId = 12356;
-    const aiPlaceholderDescription = 'Product description';
-    const aiPlaceholderPlaceholder = '%custom:productDescription%';
-    const aiPlaceholderValue =
-        'The product is the professional consulting service that transform challenges into opportunities.';
     const aiPromptId = 3;
     const aiProviderId = 4;
     const aiModelId = 'gpt-4';
@@ -23,7 +18,6 @@ describe('AI API', () => {
     const link = 'crowdin.com/test.pdf';
     const projectId = 123;
     const jobId = 'test-job';
-    const eventId = '12312event';
 
     const name = 'name';
     const action = 'pre_translate';
@@ -66,78 +60,6 @@ describe('AI API', () => {
 
     beforeAll(() => {
         scope = nock(api.url)
-            .get('/ai/settings/custom-placeholders', undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: aiPlaceholderId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .post(
-                '/ai/settings/custom-placeholders',
-                {
-                    description: aiPlaceholderDescription,
-                    placeholder: aiPlaceholderPlaceholder,
-                    value: aiPlaceholderValue,
-                },
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
-            .get(`/ai/settings/custom-placeholders/${aiPlaceholderId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
-            .delete(`/ai/settings/custom-placeholders/${aiPlaceholderId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200)
-            .patch(
-                `/ai/settings/custom-placeholders/${aiPlaceholderId}`,
-                [
-                    {
-                        value: aiPlaceholderValue,
-                        op: 'replace',
-                        path: '/value',
-                    },
-                ],
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
             .post(
                 `/ai/prompts/${aiPromptId}/fine-tuning/datasets`,
                 {
@@ -162,42 +84,6 @@ describe('AI API', () => {
             .reply(200, {
                 data: {
                     identifier: jobId,
-                },
-            })
-            .get(`/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobId}/events`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: eventId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .get('/ai/prompts/fine-tuning/jobs', undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            identifier: jobId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
                 },
             })
             .post(
@@ -518,78 +404,6 @@ describe('AI API', () => {
                     assistActionAiPromptId,
                 },
             })
-            .get(`/users/${userId}/ai/settings/custom-placeholders`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: aiPlaceholderId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .post(
-                `/users/${userId}/ai/settings/custom-placeholders`,
-                {
-                    description: aiPlaceholderDescription,
-                    placeholder: aiPlaceholderPlaceholder,
-                    value: aiPlaceholderValue,
-                },
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
-            .get(`/users/${userId}/ai/settings/custom-placeholders/${aiPlaceholderId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
-            .delete(`/users/${userId}/ai/settings/custom-placeholders/${aiPlaceholderId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200)
-            .patch(
-                `/users/${userId}/ai/settings/custom-placeholders/${aiPlaceholderId}`,
-                [
-                    {
-                        value: aiPlaceholderValue,
-                        op: 'replace',
-                        path: '/value',
-                    },
-                ],
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(200, {
-                data: {
-                    id: aiPlaceholderId,
-                },
-            })
             .post(
                 `/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets`,
                 {
@@ -614,42 +428,6 @@ describe('AI API', () => {
             .reply(200, {
                 data: {
                     identifier: jobId,
-                },
-            })
-            .get(`/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobId}/events`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            id: eventId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
-                },
-            })
-            .get(`/users/${userId}/ai/prompts/fine-tuning/jobs`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200, {
-                data: [
-                    {
-                        data: {
-                            identifier: jobId,
-                        },
-                    },
-                ],
-                pagination: {
-                    offset: 0,
-                    limit: limit,
                 },
             })
             .post(
@@ -976,42 +754,6 @@ describe('AI API', () => {
         scope.done();
     });
 
-    it('List AI Organization Custom Placeholders', async () => {
-        const placeholders = await api.listAiOrganizationCustomPlaceholders();
-        expect(placeholders.data.length).toBe(1);
-        expect(placeholders.data[0].data.id).toBe(aiPlaceholderId);
-        expect(placeholders.pagination.limit).toBe(limit);
-    });
-
-    it('Add AI Organization Custom Placeholders', async () => {
-        const placeholder = await api.addAiOrganizationCustomPlaceholder({
-            description: aiPlaceholderDescription,
-            placeholder: aiPlaceholderPlaceholder,
-            value: aiPlaceholderValue,
-        });
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
-    it('Get AI Organization Custom Placeholders', async () => {
-        const placeholder = await api.getAiOrganizationCustomPlaceholder(aiPlaceholderId);
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
-    it('Delete AI Organization Custom Placeholders', async () => {
-        await api.deleteAiOrganizationCustomPlaceholder(aiPlaceholderId);
-    });
-
-    it('Edit AI Organization Custom Placeholders', async () => {
-        const placeholder = await api.editAiOrganizationCustomPlaceholder(aiPlaceholderId, [
-            {
-                op: 'replace',
-                path: '/value',
-                value: aiPlaceholderValue,
-            },
-        ]);
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
     it('Generate AI Organization Prompt Fine-Tuning Dataset', async () => {
         const res = await api.generateAiOrganizationPromptFineTuningDataset(aiPromptId, { projectIds: [projectId] });
         expect(res.data.identifier).toBe(jobId);
@@ -1020,20 +762,6 @@ describe('AI API', () => {
     it('Get AI Organization Prompt Fine-Tuning Dataset Status', async () => {
         const res = await api.getAiOrganizationPromptFineTuningDatasetStatus(aiPromptId, jobId);
         expect(res.data.identifier).toBe(jobId);
-    });
-
-    it('List AI Organization Prompt Fine-Tuning Events', async () => {
-        const res = await api.listAiOrganizationPromptFineTuningEvents(aiPromptId, jobId);
-        expect(res.data.length).toBe(1);
-        expect(res.data[0].data.id).toBe(eventId);
-        expect(res.pagination.limit).toBe(limit);
-    });
-
-    it('List AI Organization Prompt Fine-Tuning Jobs', async () => {
-        const res = await api.listAiOrganizationPromptFineTuningJobs();
-        expect(res.data.length).toBe(1);
-        expect(res.data[0].data.identifier).toBe(jobId);
-        expect(res.pagination.limit).toBe(limit);
     });
 
     it('Create AI Organization Prompt Fine-Tuning Job', async () => {
@@ -1194,42 +922,6 @@ describe('AI API', () => {
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
     });
 
-    it('List AI User Custom Placeholders', async () => {
-        const placeholders = await api.listAiUserCustomPlaceholders(userId);
-        expect(placeholders.data.length).toBe(1);
-        expect(placeholders.data[0].data.id).toBe(aiPlaceholderId);
-        expect(placeholders.pagination.limit).toBe(limit);
-    });
-
-    it('Add AI User Custom Placeholders', async () => {
-        const placeholder = await api.addAiUserCustomPlaceholder(userId, {
-            description: aiPlaceholderDescription,
-            placeholder: aiPlaceholderPlaceholder,
-            value: aiPlaceholderValue,
-        });
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
-    it('Get AI User Custom Placeholders', async () => {
-        const placeholder = await api.getAiUserCustomPlaceholder(userId, aiPlaceholderId);
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
-    it('Delete AI User Custom Placeholders', async () => {
-        await api.deleteAiUserCustomPlaceholder(userId, aiPlaceholderId);
-    });
-
-    it('Edit AI User Custom Placeholders', async () => {
-        const placeholder = await api.editAiUserCustomPlaceholder(userId, aiPlaceholderId, [
-            {
-                op: 'replace',
-                path: '/value',
-                value: aiPlaceholderValue,
-            },
-        ]);
-        expect(placeholder.data.id).toBe(aiPlaceholderId);
-    });
-
     it('Generate AI User Prompt Fine-Tuning Dataset', async () => {
         const res = await api.generateAiUserPromptFineTuningDataset(userId, aiPromptId, { projectIds: [projectId] });
         expect(res.data.identifier).toBe(jobId);
@@ -1238,20 +930,6 @@ describe('AI API', () => {
     it('Get AI User Prompt Fine-Tuning Dataset Status', async () => {
         const res = await api.getAiUserPromptFineTuningDatasetStatus(userId, aiPromptId, jobId);
         expect(res.data.identifier).toBe(jobId);
-    });
-
-    it('List AI User Prompt Fine-Tuning Events', async () => {
-        const res = await api.listAiUserPromptFineTuningEvents(userId, aiPromptId, jobId);
-        expect(res.data.length).toBe(1);
-        expect(res.data[0].data.id).toBe(eventId);
-        expect(res.pagination.limit).toBe(limit);
-    });
-
-    it('List AI User Prompt Fine-Tuning Jobs', async () => {
-        const res = await api.listAiUserPromptFineTuningJobs(userId);
-        expect(res.data.length).toBe(1);
-        expect(res.data[0].data.identifier).toBe(jobId);
-        expect(res.pagination.limit).toBe(limit);
     });
 
     it('Create AI User Prompt Fine-Tuning Job', async () => {

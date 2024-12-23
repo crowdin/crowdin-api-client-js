@@ -11,61 +11,6 @@ import {
 
 export class Ai extends CrowdinApi {
     /**
-     * @param options request options
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany
-     */
-    listAiOrganizationCustomPlaceholders(
-        options?: PaginationOptions,
-    ): Promise<ResponseList<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/ai/settings/custom-placeholders`;
-        return this.getList(url, options?.limit, options?.offset);
-    }
-
-    /**
-     * @param request request body
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post
-     */
-    addAiOrganizationCustomPlaceholder(
-        request: AiModel.AddCustomPlaceholderRequest,
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/ai/settings/custom-placeholders`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get
-     */
-    getAiOrganizationCustomPlaceholder(
-        aiCustomPlaceholderId: number,
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete
-     */
-    deleteAiOrganizationCustomPlaceholder(aiCustomPlaceholderId: number): Promise<void> {
-        const url = `${this.url}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.delete(url, this.defaultConfig());
-    }
-
-    /**
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @param request request body
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch
-     */
-    editAiOrganizationCustomPlaceholder(
-        aiCustomPlaceholderId: number,
-        request: PatchRequest[],
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.patch(url, request, this.defaultConfig());
-    }
-
-    /**
      * @param aiPromptId ai prompt identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
@@ -91,34 +36,6 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
 
         return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param aiPromptId ai prompt identifier
-     * @param jobIdentifier job identifier
-     * @param options request options
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.events.getMany
-     */
-    listAiOrganizationPromptFineTuningEvents(
-        aiPromptId: number,
-        jobIdentifier: string,
-        options?: PaginationOptions,
-    ): Promise<ResponseList<AiModel.PromptFineTuningEvent>> {
-        const url = `${this.url}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}/events`;
-        return this.getList(url, options?.limit, options?.offset);
-    }
-
-    /**
-     * @param options request options
-     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany
-     */
-    listAiOrganizationPromptFineTuningJobs(
-        options?: AiModel.ListPromptFineTuningJobsOptions,
-    ): Promise<ResponseList<Status<AiModel.FineTuningJob>>> {
-        let url = `${this.url}/ai/prompts/fine-tuning/jobs`;
-        url = this.addQueryParam(url, 'statuses', options?.statuses);
-        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
-        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
@@ -351,8 +268,11 @@ export class Ai extends CrowdinApi {
         aiProviderId: number,
         options?: PaginationOptions,
     ): Promise<ResponseList<AiModel.AiProviderModelResponse>> {
-        const url = `${this.url}/ai/providers/${aiProviderId}/models`;
-        return this.getList(url, options?.limit, options?.offset);
+        let url = `${this.url}/ai/providers/${aiProviderId}/models`;
+        url = this.addQueryParam(url, 'limit', options?.limit);
+        url = this.addQueryParam(url, 'offset', options?.offset);
+
+        return this.getList(url);
     }
 
     /**
@@ -421,70 +341,6 @@ export class Ai extends CrowdinApi {
 
     /**
      * @param userId user identifier
-     * @param options request options
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompt.custom.placeholders.getMany
-     */
-    listAiUserCustomPlaceholders(
-        userId: number,
-        options?: PaginationOptions,
-    ): Promise<ResponseList<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders`;
-        return this.getList(url, options?.limit, options?.offset);
-    }
-
-    /**
-     * @param userId user identifier
-     * @param request request body
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.post
-     */
-    addAiUserCustomPlaceholder(
-        userId: number,
-        request: AiModel.AddCustomPlaceholderRequest,
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param userId user identifier
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.get
-     */
-    getAiUserCustomPlaceholder(
-        userId: number,
-        aiCustomPlaceholderId: number,
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param userId user identifier
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.delete
-     */
-    deleteAiUserCustomPlaceholder(userId: number, aiCustomPlaceholderId: number): Promise<void> {
-        const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.delete(url, this.defaultConfig());
-    }
-
-    /**
-     * @param userId user identifier
-     * @param aiCustomPlaceholderId ai custom placeholder identifier
-     * @param request request body
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.patch
-     */
-    editAiUserCustomPlaceholder(
-        userId: number,
-        aiCustomPlaceholderId: number,
-        request: PatchRequest[],
-    ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
-        const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
-        return this.patch(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
@@ -513,38 +369,6 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/datasets/${jobIdentifier}`;
 
         return this.get(url, this.defaultConfig());
-    }
-
-    /**
-     * @param userId user identifier
-     * @param aiPromptId ai prompt identifier
-     * @param jobIdentifier job identifier
-     * @param options request options
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.events.getMany
-     */
-    listAiUserPromptFineTuningEvents(
-        userId: number,
-        aiPromptId: number,
-        jobIdentifier: string,
-        options?: PaginationOptions,
-    ): Promise<ResponseList<AiModel.PromptFineTuningEvent>> {
-        const url = `${this.url}/users/${userId}/ai/prompts/${aiPromptId}/fine-tuning/jobs/${jobIdentifier}/events`;
-        return this.getList(url, options?.limit, options?.offset);
-    }
-
-    /**
-     * @param userId user identifier
-     * @param options request options
-     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany
-     */
-    listAiUserPromptFineTuningJobs(
-        userId: number,
-        options?: AiModel.ListPromptFineTuningJobsOptions,
-    ): Promise<ResponseList<Status<AiModel.FineTuningJob>>> {
-        let url = `${this.url}/users/${userId}/ai/prompts/fine-tuning/jobs`;
-        url = this.addQueryParam(url, 'statuses', options?.statuses);
-        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
-        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
@@ -895,27 +719,9 @@ export class Ai extends CrowdinApi {
 }
 
 export namespace AiModel {
-    /* ai Custom Placeholder Section START*/
-    export interface CustomPlaceholder {
-        id: number;
-        description: string;
-        placeholder: string;
-        value: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    export interface AddCustomPlaceholderRequest {
-        description: string;
-        placeholder: string;
-        value: string;
-    }
-    /* ai Custom Placeholder Section END*/
-
     /* ai Fine-Tuning Section START*/
     export interface FineTuningDataset {
         projectIds: number[];
-        tmIds: number[];
         purpose: 'training' | 'validation';
         dateFrom: string;
         dateTo: string;
@@ -925,8 +731,7 @@ export namespace AiModel {
     }
 
     export interface GenerateFineTuningDataset {
-        projectIds?: number[];
-        tmIds?: number[];
+        projectIds: number[];
         purpose?: 'training' | 'validation';
         dateFrom?: string;
         dateTo?: string;
@@ -948,7 +753,6 @@ export namespace AiModel {
 
     export interface FineTuningJob {
         dryRun: boolean;
-        aiPromptId: number;
         hyperparameters: {
             batchSize: number;
             learningRateMultiplier: number;
@@ -956,31 +760,9 @@ export namespace AiModel {
         };
         trainingOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
         validationOptions: Omit<GenerateFineTuningDataset, 'purpose'>;
-        baseModel: string;
         fineTunedModel: string;
         trainedTokensCount: number;
-        trainingDatasetUrl: string;
-        validationDatasetUrl: string;
         metadata: PlainObject;
-    }
-
-    export interface PromptFineTuningEvent {
-        id: string;
-        type: string;
-        message: string;
-        data: {
-            step: number;
-            totalSteps: number;
-            trainingLoss: number;
-            validationLoss: number;
-            fullValidationLoss: number;
-        };
-        createdAt: string;
-    }
-
-    export interface ListPromptFineTuningJobsOptions extends PaginationOptions {
-        statuses: string;
-        orderBy: string;
     }
     /* ai Fine-Tuning Section END*/
 
@@ -1001,7 +783,6 @@ export namespace AiModel {
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
             | AiModel.AiPromptConfigBasicAssistAction
-            | AiModel.AiPromptConfigBasicAligmentAction
             | AiModel.AiPromptConfigAdvanced
             | AiModel.AiPromptConfigExternal;
         promptPreview: string;
@@ -1017,45 +798,22 @@ export namespace AiModel {
 
     export interface AiPromptConfigBasicPreTranslate {
         mode: 'basic';
-        /**
-         * @deprecated
-         */
         companyDescription?: string;
-        /**
-         * @deprecated
-         */
         projectDescription?: string;
-        /**
-         * @deprecated
-         */
         audienceDescription?: string;
-        customPlaceholders?: string[];
         otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
-        /**
-         * @deprecated
-         */
         fileContent?: boolean;
         fileContext?: boolean;
         screenshots?: boolean;
         publicProjectDescription?: boolean;
-        siblingsStrings?: boolean;
     }
 
     export interface AiPromptConfigBasicAssistAction {
         mode: 'basic';
-        /**
-         * @deprecated
-         */
         companyDescription?: string;
-        /**
-         * @deprecated
-         */
         projectDescription?: string;
-        /**
-         * @deprecated
-         */
         audienceDescription?: string;
         otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
         glossaryTerms?: boolean;
@@ -1065,12 +823,6 @@ export namespace AiModel {
         publicProjectDescription?: boolean;
         siblingsStrings?: boolean;
         filteredStrings?: boolean;
-    }
-
-    export interface AiPromptConfigBasicAligmentAction {
-        mode: 'basic';
-        customPlaceholders?: string[];
-        publicProjectDescription?: boolean;
     }
 
     export interface AiPromptConfigAdvanced {
@@ -1097,7 +849,6 @@ export namespace AiModel {
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
             | AiModel.AiPromptConfigBasicAssistAction
-            | AiModel.AiPromptConfigBasicAligmentAction
             | AiModel.AiPromptConfigAdvanced
             | AiPromptConfigExternal;
     }
@@ -1127,36 +878,31 @@ export namespace AiModel {
 
     export interface AiPromptResourceWithPreTranslate {
         projectId: number;
-        sourceLanguageId?: string;
-        targetLanguageId?: string;
-        stringIds?: number[];
+        targetLanguageId: string;
+        stringIds: number[];
         overridePromptValues?: OverridePromptValues;
     }
 
     export interface AiPromptResourceWithAlignment {
         projectId: number;
-        sourceLanguageId?: string;
-        targetLanguageId?: string;
-        stringIds?: number[];
+        targetLanguageId: string;
+        stringIds: number[];
         overridePromptValues?: OverridePromptValues;
     }
 
     export interface AiPromptResourceWithAssist {
         projectId: number;
-        sourceLanguageId?: string;
-        targetLanguageId?: string;
-        stringIds?: number[];
+        targetLanguageId: string;
+        stringIds: number[];
         filteredStringsIds?: number[];
         overridePromptValues?: OverridePromptValues;
     }
 
     export interface AiPromptResourceWithCustom {
         projectId: number;
-        sourceLanguageId?: string;
-        targetLanguageId?: string;
-        stringIds?: number[];
+        targetLanguageId: string;
+        stringIds: number[];
         overridePromptValues?: OverridePromptValues;
-        customInstruction?: string;
     }
 
     export interface OverridePromptValues {
