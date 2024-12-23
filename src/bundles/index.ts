@@ -159,6 +159,7 @@ export namespace BundlesModel {
         exportPattern: string;
         isMultilingual?: boolean;
         includeProjectSourceLanguage?: boolean;
+        includeInContextPseudoLanguage?: boolean;
         labelIds?: number[];
         excludeLabelIds?: number[];
     }

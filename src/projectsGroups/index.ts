@@ -361,7 +361,7 @@ export namespace ProjectsGroupsModel {
 
     export interface Project {
         id: number;
-        type?: Type;
+        type: Type;
         userId: number;
         sourceLanguageId: string;
         targetLanguageIds: string[];
@@ -379,8 +379,6 @@ export namespace ProjectsGroupsModel {
         targetLanguages: LanguagesModel.Language[];
         webUrl: string;
         savingsReportSettingsTemplateId: number;
-        defaultTmId?: number;
-        defaultGlossaryId?: number;
         //community
         cname: string;
         //enterprise
@@ -388,8 +386,11 @@ export namespace ProjectsGroupsModel {
         background: string;
         isExternal: boolean;
         externalType: string;
+        externalProjectId: number;
+        externalOrganizationId: number;
         workflowId: number;
         hasCrowdsourcing: boolean;
+        publicUrl: string;
     }
 
     export interface CreateProjectRequest {
@@ -416,22 +417,27 @@ export namespace ProjectsGroupsModel {
         qaCheckCategories?: CheckCategories;
         qaChecksIgnorableCategories?: CheckCategories;
         languageMapping?: LanguageMapping;
+        /**
+         * @deprecated
+         */
         glossaryAccess?: boolean;
+        glossaryAccessOption?: GlossaryAccessOption;
         normalizePlaceholder?: boolean;
         notificationSettings?: NotificationSettings;
         tmPreTranslate?: ProjectSettings['tmPreTranslate'];
         mtPreTranslate?: ProjectSettings['mtPreTranslate'];
         aiPreTranslate?: ProjectSettings['aiPreTranslate'];
         assistActionAiPromptId?: number;
+        editorSuggestionAiPromptId?: number;
         savingsReportSettingsTemplateId?: number;
         defaultTmId?: number;
         defaultGlossaryId?: number;
-        saveMetaInfoInSource?: boolean;
-        type?: BooleanInt;
-        skipUntranslatedFiles?: boolean;
         inContext?: boolean;
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
+        saveMetaInfoInSource?: boolean;
+        type?: BooleanInt;
+        skipUntranslatedFiles?: boolean;
         tmContextType?: TmContextType;
     }
 
@@ -449,6 +455,7 @@ export namespace ProjectsGroupsModel {
         tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
         taskBasedAccessControl?: boolean;
+        taskReviewerIds?: number[];
         autoSubstitution?: boolean;
         showTmSuggestionsDialects?: boolean;
         autoTranslateDialects?: boolean;
@@ -465,27 +472,34 @@ export namespace ProjectsGroupsModel {
         qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
         languageMapping?: LanguageMapping;
+        /**
+         * @deprecated
+         */
         glossaryAccess?: boolean;
+        glossaryAccessOption?: GlossaryAccessOption;
         notificationSettings?: NotificationSettings;
         savingsReportSettingsTemplateId?: number;
+        assistActionAiPromptId?: number;
+        editorSuggestionAiPromptId?: number;
+        alignmentActionAiPromptId?: number;
         defaultTmId?: number;
         defaultGlossaryId?: number;
-        languages?: string[];
-        mtId?: number;
-        assistActionAiPromptId?: number;
-        saveMetaInfoInSource?: boolean;
-        type?: BooleanInt;
-        skipUntranslatedFiles?: boolean;
         inContext?: boolean;
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
+        saveMetaInfoInSource?: boolean;
+        type?: BooleanInt;
+        skipUntranslatedFiles?: boolean;
         tmContextType?: TmContextType;
     }
+
+    export type GlossaryAccessOption = 'readOnly' | 'fullAccess' | 'manageDrafts';
 
     export interface ProjectSettings extends Project {
         translateDuplicates: TranslateDuplicates;
         tagsDetection: TagDetection;
         glossaryAccess: boolean;
+        glossaryAccessOption: GlossaryAccessOption;
         isMtAllowed: boolean;
         taskBasedAccessControl: boolean;
         hiddenStringsProofreadersAccess: boolean;
@@ -548,20 +562,24 @@ export namespace ProjectsGroupsModel {
             }[];
         };
         assistActionAiPromptId: number;
-        saveMetaInfoInSource: boolean;
-        skipUntranslatedFiles: boolean;
+        editorSuggestionAiPromptId: number;
         inContext: boolean;
         inContextProcessHiddenStrings: string;
         inContextPseudoLanguageId: string;
         inContextPseudoLanguage: LanguagesModel.Language;
+        saveMetaInfoInSource: boolean;
+        skipUntranslatedFiles: boolean;
         tmContextType: TmContextType;
         //enterprise
         clientOrganizationId: number;
+        taskReviewerIds: number[];
         exportWithMinApprovalsCount: number;
         exportStringsThatPassedWorkflow: boolean;
         qaApprovalsCount: number;
         customQaCheckIds: number[];
+        externalQaCheckIds: number[];
         delayedWorkflowStart: boolean;
+        alignmentActionAiPromptId: number;
     }
 
     export enum Type {
@@ -734,7 +752,11 @@ export namespace ProjectsGroupsModel {
     export interface WorkflowTemplateStepConfigTranslateProofread {
         id: number;
         languages?: string[];
+        /**
+         * @deprecated
+         */
         assignees?: number[];
+        config?: { assignees: { [key: string]: number[] } };
     }
 
     export interface WorkflowTemplateStepConfigVendor {
@@ -773,14 +795,19 @@ export namespace ProjectsGroupsModel {
 
     export interface AndroidStringsExporterSettings {
         convertPlaceholders?: boolean;
+        convertLineBreaks?: boolean;
+        useCdataForStringsWithTags?: boolean;
     }
 
     export interface MacOSXStringsExporterSettings {
         convertPlaceholders?: boolean;
+        convertLineBreaks?: boolean;
     }
 
     export interface XliffStringsExporterSettings {
-        convertPlaceholders?: boolean;
+        languagePairMapping?: { [key: string]: { sourceLanguageId: string } };
+        copySourceToEmptyTarget?: boolean;
+        exportTranslatorsComment?: boolean;
     }
 
     export interface AddProjectStringsExporterSettingsRequest {
