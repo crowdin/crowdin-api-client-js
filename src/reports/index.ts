@@ -198,6 +198,63 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.getMany
+     */
+    listOrganizationReportSettingsTemplates(
+        options?: ReportsModel.ListOrganizationReportSettingsParams,
+    ): Promise<ResponseList<ReportsModel.OrganizationReportSettings>> {
+        let url = `${this.url}/reports/settings-templates`;
+        url = this.addQueryParam(url, 'projectId', options?.projectId);
+        url = this.addQueryParam(url, 'groupId', options?.groupId);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.post
+     */
+    addOrganizationReportSettingsTemplate(
+        request: ReportsModel.AddOrganizationReportSettingsRequest,
+    ): Promise<ResponseObject<ReportsModel.OrganizationReportSettings>> {
+        const url = `${this.url}/reports/settings-templates`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.get
+     */
+    getOrganizationReportSettingsTemplate(
+        reportSettingsTemplateId: number,
+    ): Promise<ResponseObject<ReportsModel.OrganizationReportSettings>> {
+        const url = `${this.url}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.patch
+     */
+    editOrganizationReportSettingsTemplate(
+        reportSettingsTemplateId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<ReportsModel.OrganizationReportSettings>> {
+        const url = `${this.url}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.delete
+     */
+    deleteOrganizationReportSettingsTemplate(reportSettingsTemplateId: number): Promise<void> {
+        const url = `${this.url}/reports/settings-templates/${reportSettingsTemplateId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.reports.post
      */
@@ -687,6 +744,11 @@ export namespace ReportsModel {
         dateTo?: string;
     }
 
+    export interface ListOrganizationReportSettingsParams extends PaginationOptions {
+        projectId?: number;
+        groupId?: number;
+    }
+
     export interface ReportSettings {
         id: number;
         name: string;
@@ -710,6 +772,15 @@ export namespace ReportsModel {
 
     export type UserReportSettings = Omit<ReportSettings, 'isPublic' | 'isGlobal'>;
     export type AddUserReportSettingsRequest = Omit<AddReportSettingsRequest, 'isPublic' | 'isGlobal'>;
+
+    export type OrganizationReportSettings = Omit<ReportSettings, 'isGlobal'> & {
+        projectId: number;
+        groupId: number;
+    };
+    export type AddOrganizationReportSettingsRequest = Omit<AddReportSettingsRequest, 'isGlobal'> & {
+        projectId?: number;
+        groupId?: number;
+    };
 
     export interface ReportSettinsConfig {
         baseRates: BaseRate;

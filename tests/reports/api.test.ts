@@ -210,6 +210,79 @@ describe('Reports API', () => {
                     url: downloadLink,
                 },
             })
+            .get('/reports/settings-templates', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: reportSettingsTemplateId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: 1,
+                },
+            })
+            .post(
+                '/reports/settings-templates',
+                {
+                    name: reportName,
+                    currency,
+                    unit,
+                    config,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .get(`/reports/settings-templates/${reportSettingsTemplateId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .patch(
+                `/reports/settings-templates/${reportSettingsTemplateId}`,
+                [
+                    {
+                        value: reportName,
+                        op: 'replace',
+                        path: '/name',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: reportSettingsTemplateId,
+                },
+            })
+            .delete(`/reports/settings-templates/${reportSettingsTemplateId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
             .post(
                 '/reports',
                 {
@@ -515,6 +588,43 @@ describe('Reports API', () => {
     it('Download Group Report', async () => {
         const downloadUrl = await api.downloadGroupReport(groupId, reportId);
         expect(downloadUrl.data.url).toBe(downloadLink);
+    });
+
+    it('List Organization Report Settings Templates', async () => {
+        const templates = await api.listOrganizationReportSettingsTemplates();
+        expect(templates.data.length).toBe(1);
+        expect(templates.data[0].data.id).toBe(reportSettingsTemplateId);
+        expect(templates.pagination.limit).toBe(1);
+    });
+
+    it('Add Organization Report Settings Template', async () => {
+        const template = await api.addOrganizationReportSettingsTemplate({
+            config,
+            currency,
+            name: reportName,
+            unit,
+        });
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Get Organization Report Settings Template', async () => {
+        const template = await api.getOrganizationReportSettingsTemplate(reportSettingsTemplateId);
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Edit Organization Report Settings Template', async () => {
+        const template = await api.editOrganizationReportSettingsTemplate(reportSettingsTemplateId, [
+            {
+                op: 'replace',
+                path: '/name',
+                value: reportName,
+            },
+        ]);
+        expect(template.data.id).toBe(reportSettingsTemplateId);
+    });
+
+    it('Delete Organization Report Settings Template', async () => {
+        await api.deleteOrganizationReportSettingsTemplate(reportSettingsTemplateId);
     });
 
     it('Generate Organization Report', async () => {
