@@ -22,7 +22,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install npm CLI
-        run: npm install -g npm@latest
+        run: npm install -g npm@10 #todo upgrade to the latest
 
       - name: Install dependencies and build
         run: |
