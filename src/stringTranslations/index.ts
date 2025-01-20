@@ -544,7 +544,7 @@ export namespace StringTranslationsModel {
         languageId: string;
         text: string;
         pluralCategoryName?: PluralCategoryName;
-        addToTm?: boolean
+        addToTm?: boolean;
     }
 
     export interface ListTranslationVotesOptions extends PaginationOptions {
