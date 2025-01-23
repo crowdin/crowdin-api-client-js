@@ -2,7 +2,6 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 
 /**
  * Machine Translation Engines (MTE) are the sources for pre-translations.
- * You can currently connect Google Translate, Microsoft Translator, Yandex. Translate, DeepL Pro, Amazon Translate, and Watson (IBM) Translate engines.
  *
  * Use API to add, update, and delete specific MTE.
  */
