@@ -795,7 +795,8 @@ export namespace SourceFilesModel {
         | 'svg'
         | 'js'
         | 'coffee'
-        | 'nestjs_i18n';
+        | 'nestjs_i18n'
+        | 'webxml';
 
     export interface SpreadsheetImportOptions {
         firstLineContainsHeader?: boolean;
