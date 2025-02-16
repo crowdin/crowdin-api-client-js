@@ -191,8 +191,8 @@ export function handleHttpClientError(error: HttpClientError): never {
             error instanceof AxiosError && error.response?.status
                 ? error.response?.status
                 : error instanceof FetchClientJsonPayloadError
-                ? error.statusCode
-                : 500;
+                  ? error.statusCode
+                  : 500;
         throw new CrowdinError(error.message, code);
     }
     throw new CrowdinError(`unknown http error: ${String(error)}`, 500);

@@ -2,14 +2,11 @@ import axios from 'axios';
 import * as nock from 'nock';
 import Crowdin, { Credentials } from '../../src';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-//@ts-ignore
+//@ts-expect-error acceptable override for unit tests
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 global.fetch = async (url: string, config: { method: string; headers: any; body: any }) => {
     const res = await axios(url, {
         headers: config.headers,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        //@ts-ignore
         method: config.method,
         data: config.body ? JSON.parse(config.body) : undefined,
     });
