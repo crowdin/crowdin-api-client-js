@@ -42,7 +42,7 @@ export class SourceFiles extends CrowdinApi {
         projectId: number,
         branchId: number,
         request: SourceFilesModel.CloneBranchRequest,
-    ): Promise<ResponseObject<Status<{}>>> {
+    ): Promise<ResponseObject<Status<object>>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/clones`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -53,7 +53,11 @@ export class SourceFiles extends CrowdinApi {
      * @param cloneId clone branch identifier
      * @see https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.get
      */
-    checkBranchClonedStatus(projectId: number, branchId: number, cloneId: string): Promise<ResponseObject<Status<{}>>> {
+    checkBranchClonedStatus(
+        projectId: number,
+        branchId: number,
+        cloneId: string,
+    ): Promise<ResponseObject<Status<object>>> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}/clones/${cloneId}`;
         return this.get(url, this.defaultConfig());
     }

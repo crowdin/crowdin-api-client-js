@@ -65,7 +65,7 @@ export class FetchClient implements HttpClient {
         if (this.timeout) {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-            request = fetch(url, { method, headers, body, signal: controller.signal }).then(res => {
+            request = fetch(url, { method, headers, body, signal: controller.signal }).then((res) => {
                 clearTimeout(timeoutId);
                 return res;
             });
@@ -74,7 +74,7 @@ export class FetchClient implements HttpClient {
         }
 
         return request
-            .then(async res => {
+            .then(async (res) => {
                 if (res.status === 204) {
                     return {};
                 }
@@ -100,7 +100,7 @@ export class FetchClient implements HttpClient {
     }
 
     private waitInQueue(): Promise<void> {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve) => {
             const interval = setInterval(() => {
                 if (this.pendingRequests < this.maxConcurrentRequests) {
                     this.pendingRequests++;

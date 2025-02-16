@@ -218,7 +218,6 @@ const mimetypes: { [key: string]: string } = {
     fbs: 'image/vnd.fastbidsheet',
     fcs: 'application/vnd.isac.fcs',
     fdf: 'application/vnd.fdf',
-    /*eslint-disable-next-line @typescript-eslint/camelcase*/
     fe_launch: 'application/vnd.denovo.fcselayout-link',
     fg5: 'application/vnd.fujitsu.oasysgp',
     fgd: 'application/x-director',
