@@ -348,9 +348,9 @@ export namespace UsersModel {
     export type LanguageRole = 'proofreader' | 'translator' | 'denied';
 
     export interface AddProjectMemberRequest {
-        userIds: number[];
-        usernames: string[];
-        emails: string[];
+        userIds?: number[];
+        usernames?: string[];
+        emails?: string[];
         managerAccess?: boolean;
         roles?: ProjectRole[];
         developerAccess?: boolean;
