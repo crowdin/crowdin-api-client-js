@@ -478,6 +478,12 @@ client
   .then(res => console.log(JSON.stringify(res, null, 2)));
 ```
 
+Or provide custom url for testing
+
+```js
+client.graphql({ query }, { url: 'http://localhost:3000/api/graphql' });
+```
+
 ## Seeking Assistance
 
 If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
