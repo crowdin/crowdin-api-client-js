@@ -123,10 +123,12 @@ export type PlainObject = Record<string, any>;
  * @internal
  */
 export class CrowdinError extends Error {
+    public apiError: any;
     public code: number;
-    constructor(message: string, code: number) {
+    constructor(message: string, code: number, apiError: any) {
         super(message);
         this.code = code;
+        this.apiError = apiError;
     }
 }
 
@@ -135,8 +137,8 @@ export class CrowdinError extends Error {
  */
 export class CrowdinValidationError extends CrowdinError {
     public validationCodes: { key: string; codes: string[] }[];
-    constructor(message: string, validationCodes: { key: string; codes: string[] }[]) {
-        super(message, 400);
+    constructor(message: string, validationCodes: { key: string; codes: string[] }[], apiError: any) {
+        super(message, 400, apiError);
         this.validationCodes = validationCodes;
     }
 }
@@ -167,7 +169,11 @@ export function handleHttpClientError(error: HttpClientError): never {
         const validationMessages: string[] = [];
         crowdinResponseErrors.forEach((e: any) => {
             if (typeof e.index === 'number' || typeof e.error?.key === 'number') {
-                throw new CrowdinValidationError(JSON.stringify(crowdinResponseErrors, null, 2), []);
+                throw new CrowdinValidationError(
+                    JSON.stringify(crowdinResponseErrors, null, 2),
+                    [],
+                    crowdinResponseErrors,
+                );
             }
             if (e.error?.key && Array.isArray(e.error?.errors)) {
                 const codes: string[] = [];
@@ -181,9 +187,9 @@ export function handleHttpClientError(error: HttpClientError): never {
             }
         });
         const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
-        throw new CrowdinValidationError(message, validationCodes);
+        throw new CrowdinValidationError(message, validationCodes, crowdinResponseErrors);
     } else if (crowdinResponseErrors?.message && crowdinResponseErrors?.code) {
-        throw new CrowdinError(crowdinResponseErrors.message, crowdinResponseErrors.code);
+        throw new CrowdinError(crowdinResponseErrors.message, crowdinResponseErrors.code, crowdinResponseErrors);
     }
 
     if (error instanceof Error) {
@@ -193,9 +199,9 @@ export function handleHttpClientError(error: HttpClientError): never {
                 : error instanceof FetchClientJsonPayloadError
                   ? error.statusCode
                   : 500;
-        throw new CrowdinError(error.message, code);
+        throw new CrowdinError(error.message, code, crowdinResponseErrors);
     }
-    throw new CrowdinError(`unknown http error: ${String(error)}`, 500);
+    throw new CrowdinError(`unknown http error: ${String(error)}`, 500, crowdinResponseErrors);
 }
 
 export abstract class CrowdinApi {
