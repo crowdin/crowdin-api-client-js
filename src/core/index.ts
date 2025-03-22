@@ -261,13 +261,20 @@ export abstract class CrowdinApi {
         this.config = config;
     }
 
-    graphql<T>(req: { query: string; operationName?: string; variables?: any }): Promise<ResponseObject<T>> {
+    graphql<T>(
+        req: { query: string; operationName?: string; variables?: any },
+        config: { url?: string } = {},
+    ): Promise<ResponseObject<T>> {
         let url;
 
-        if (this.organization) {
-            url = `https://${this.organization}.api.crowdin.com/api/graphql`;
+        if (config?.url) {
+            url = config.url;
         } else {
-            url = 'https://api.crowdin.com/api/graphql';
+            if (this.organization) {
+                url = `https://${this.organization}.api.crowdin.com/api/graphql`;
+            } else {
+                url = 'https://api.crowdin.com/api/graphql';
+            }
         }
 
         return this.post<ResponseObject<T>>(url, req, this.defaultConfig());
