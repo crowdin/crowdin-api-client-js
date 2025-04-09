@@ -1198,6 +1198,12 @@ export namespace AiModel {
         serviceAccountKey: string;
     }
 
+    export interface AiProviderCredentialsWatsonx {
+        apiKey: string;
+        projectId: string;
+        region: string;
+    }
+
     export interface AiProviderCredentialsCustom {
         identifier: string;
         key: string;
@@ -1219,6 +1225,7 @@ export namespace AiModel {
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
             | AiProviderCredentialsGoogleGemini
+            | AiProviderCredentialsWatsonx
             | AiProviderCredentialsCustom;
         config?: AiModel.AiProviderConfig;
         isEnabled?: boolean;
@@ -1279,5 +1286,14 @@ export namespace AiModel {
     /* ai Settings Section END*/
 
     export type Action = 'pre_translate' | 'assist';
-    export type ProviderType = 'open_ai' | 'azure_open_ai' | 'google_gemini' | 'mistral_ai' | 'anthropic' | 'custom_ai';
+    export type ProviderType =
+        | 'open_ai'
+        | 'azure_open_ai'
+        | 'google_gemini'
+        | 'mistral_ai'
+        | 'anthropic'
+        | 'custom_ai'
+        | 'x_ai'
+        | 'deepseek'
+        | 'watsonx';
 }
