@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, StringComments } from '../../src/index';
+import { Credentials, StringComments } from '../../src';
 
 describe('String Comments API', () => {
     let scope: nock.Scope;
@@ -14,7 +14,7 @@ describe('String Comments API', () => {
     const text = 'test';
     const languageId = 'uk';
     const type = 'comment';
-
+    const issueType = 'translation_mistake';
     const limit = 25;
 
     beforeAll(() => {
@@ -95,6 +95,42 @@ describe('String Comments API', () => {
                     id: stringCommentId,
                     type,
                 },
+            })
+            .patch(
+                `/projects/${projectId}/comments`,
+                [
+                    {
+                        op: 'add',
+                        path: '/-',
+                        value: {
+                            text: text,
+                            stringId: stringId,
+                            type: type,
+                            targetLanguageId: languageId,
+                            issueType: issueType,
+                        },
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringCommentId,
+                            string: {
+                                id: stringId,
+                            },
+                            text: text,
+                            type: type,
+                            issueType: issueType,
+                        },
+                    },
+                ],
             });
     });
 
@@ -138,5 +174,27 @@ describe('String Comments API', () => {
         ]);
         expect(comment.data.id).toBe(stringCommentId);
         expect(comment.data.type).toBe(type);
+    });
+
+    it('String Comment Batch Operations', async () => {
+        const translations = await api.stringCommentBatchOperations(projectId, [
+            {
+                op: 'add',
+                path: '/-',
+                value: {
+                    text: text,
+                    stringId: stringId,
+                    type: type,
+                    targetLanguageId: languageId,
+                    issueType: issueType,
+                },
+            },
+        ]);
+
+        expect(translations.data.length).toBe(1);
+        expect(translations.data[0].data.string.id).toBe(stringId);
+        expect(translations.data[0].data.text).toBe(text);
+        expect(translations.data[0].data.type).toBe(type);
+        expect(translations.data[0].data.issueType).toBe(issueType);
     });
 });
