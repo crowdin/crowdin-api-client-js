@@ -109,6 +109,19 @@ export class StringComments extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.batchPatch
+     */
+    stringCommentBatchOperations(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<StringCommentsModel.StringComment>> {
+        const url = `${this.url}/projects/${projectId}/comments`;
+        return this.patch(url, request, this.defaultConfig());
+    }
 }
 
 export namespace StringCommentsModel {
