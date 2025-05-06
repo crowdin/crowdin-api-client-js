@@ -4,6 +4,7 @@ import {
     isOptionalNumber,
     isOptionalString,
     PaginationOptions,
+    PatchRequest,
     ResponseList,
     ResponseObject,
 } from '../core';
@@ -111,6 +112,19 @@ export class StringTranslations extends CrowdinApi {
     approvalInfo(projectId: number, approvalId: number): Promise<ResponseObject<StringTranslationsModel.Approval>> {
         const url = `${this.url}/projects/${projectId}/approvals/${approvalId}`;
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.patch
+     */
+    approvalBatchOperations(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<StringTranslationsModel.Approval>> {
+        const url = `${this.url}/projects/${projectId}/approvals`;
+        return this.patch(url, request, this.defaultConfig());
     }
 
     /**
@@ -321,7 +335,7 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param translation translation identifier
+     * @param translationId translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.put
      */
     restoreTranslation(
@@ -334,7 +348,20 @@ export class StringTranslations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param translation translation identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.patch
+     */
+    translationBatchOperations(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<StringTranslationsModel.StringTranslation>> {
+        const url = `${this.url}/projects/${projectId}/translations`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param translationId translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.delete
      */
     deleteTranslation(projectId: number, translationId: number): Promise<void> {

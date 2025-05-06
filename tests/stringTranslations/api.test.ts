@@ -55,6 +55,32 @@ describe('String Translations API', () => {
                     id: approvalId,
                 },
             })
+            .patch(
+                `/projects/${projectId}/approvals`,
+                [
+                    {
+                        op: 'add',
+                        path: '/-',
+                        value: {
+                            translationId: translationId,
+                        },
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: translationId,
+                        },
+                    },
+                ],
+            })
             .delete(`/projects/${projectId}/approvals`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -191,6 +217,37 @@ describe('String Translations API', () => {
                     id: translationId,
                 },
             })
+            .patch(
+                `/projects/${projectId}/translations`,
+                [
+                    {
+                        op: 'add',
+                        path: '/-',
+                        value: {
+                            stringId: stringId,
+                            languageId: languageId,
+                            text: text,
+                            pluralCategoryName: 'one',
+                            addToTm: false,
+                        },
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringId,
+                            text: text,
+                        },
+                    },
+                ],
+            })
             .get(`/projects/${projectId}/votes`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -262,6 +319,20 @@ describe('String Translations API', () => {
         expect(approval.data.id).toBe(approvalId);
     });
 
+    it('Approval Batch Operations', async () => {
+        const approvals = await api.approvalBatchOperations(projectId, [
+            {
+                op: 'add',
+                path: '/-',
+                value: {
+                    translationId: translationId,
+                },
+            },
+        ]);
+        expect(approvals.data.length).toBe(1);
+        expect(approvals.data[0].data.id).toBe(translationId);
+    });
+
     it('Remove String Approvals', async () => {
         await api.removeStringApprovals(projectId, stringId);
     });
@@ -324,6 +395,26 @@ describe('String Translations API', () => {
     it('Restore Translation', async () => {
         const translation = await api.restoreTranslation(projectId, translationId);
         expect(translation.data.id).toBe(translationId);
+    });
+
+    it('Translation Batch Operations', async () => {
+        const translations = await api.translationBatchOperations(projectId, [
+            {
+                op: 'add',
+                path: '/-',
+                value: {
+                    stringId: stringId,
+                    languageId: languageId,
+                    text: text,
+                    pluralCategoryName: 'one',
+                    addToTm: false,
+                },
+            },
+        ]);
+
+        expect(translations.data.length).toBe(1);
+        expect(translations.data[0].data.id).toBe(stringId);
+        expect(translations.data[0].data.text).toBe(text);
     });
 
     it('List Translation Votes', async () => {
