@@ -88,6 +88,8 @@ export interface PatchRequest {
 
 export type PatchOperation = 'add' | 'remove' | 'replace' | 'move' | 'copy' | 'test';
 
+export type ProjectRoles = 'manager' | 'developer' | 'translator' | 'proofreader' | 'language_coordinator' | 'member';
+
 export interface DownloadLink {
     url: string;
     expireIn: string;
