@@ -5,6 +5,7 @@ import {
     PaginationOptions,
     PatchRequest,
     ProjectRole,
+    ProjectRoles,
     ResponseList,
     ResponseObject,
 } from '../core';
@@ -163,6 +164,14 @@ export class Users extends CrowdinApi {
         url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'twoFactor', options.twoFactor);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'organizationRoles', options?.organizationRoles?.toString());
+        url = this.addQueryParam(url, 'teamId', options?.teamId);
+        url = this.addQueryParam(url, 'projectIds', options?.projectIds);
+        url = this.addQueryParam(url, 'projectRoles', options?.projectRoles?.toString());
+        url = this.addQueryParam(url, 'languageIds', options?.languageIds);
+        url = this.addQueryParam(url, 'groupIds', options?.groupIds);
+        url = this.addQueryParam(url, 'lastSeenFrom', options?.lastSeenFrom);
+        url = this.addQueryParam(url, 'lastSeenTo', options?.lastSeenTo);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -274,6 +283,14 @@ export namespace UsersModel {
         search?: string;
         twoFactor?: TwoFactor;
         orderBy?: string;
+        organizationRoles?: OrganizationRoles[];
+        teamId?: number;
+        projectIds?: string;
+        projectRoles?: ProjectRoles[];
+        languageIds?: string;
+        groupIds?: string;
+        lastSeenFrom?: string;
+        lastSeenTo?: string;
     }
 
     export interface InviteUserRequest {
@@ -302,6 +319,8 @@ export namespace UsersModel {
     export type Status = 'active' | 'pending' | 'blocked';
 
     export type TwoFactor = 'enabled' | 'disabled';
+
+    export type OrganizationRoles = 'admin' | 'manager' | 'vendor' | 'client';
 
     export interface ProjectMember {
         id: number;
