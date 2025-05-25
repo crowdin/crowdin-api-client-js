@@ -5,6 +5,7 @@ import {
     PaginationOptions,
     PatchRequest,
     ProjectRole,
+    ProjectRoles,
     ResponseList,
     ResponseObject,
 } from '../core';
@@ -54,7 +55,7 @@ export class Teams extends CrowdinApi {
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
-    listTeams(options?: PaginationOptions): Promise<ResponseList<TeamsModel.Team>>;
+    listTeams(options?: TeamsModel.ListTeamsOptions): Promise<ResponseList<TeamsModel.Team>>;
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -63,7 +64,7 @@ export class Teams extends CrowdinApi {
      */
     listTeams(limit?: number, offset?: number): Promise<ResponseList<TeamsModel.Team>>;
     listTeams(
-        options?: number | ({ orderBy?: string } & PaginationOptions),
+        options?: number | ({ orderBy?: string } & TeamsModel.ListTeamsOptions),
         deprecatedOffset?: number,
     ): Promise<ResponseList<TeamsModel.Team>> {
         if (isOptionalNumber(options, '0' in arguments)) {
@@ -71,6 +72,11 @@ export class Teams extends CrowdinApi {
         }
         let url = `${this.url}/teams`;
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'search', options?.search);
+        url = this.addQueryParam(url, 'projectIds', options?.projectIds);
+        url = this.addQueryParam(url, 'projectRoles', options?.projectRoles?.toString());
+        url = this.addQueryParam(url, 'languageIds', options?.languageIds);
+        url = this.addQueryParam(url, 'groupIds', options?.groupIds);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -190,6 +196,15 @@ export namespace TeamsModel {
          * @deprecated
          */
         permissions?: Permissions;
+    }
+
+    export interface ListTeamsOptions extends PaginationOptions {
+        search?: string;
+        projectIds?: string;
+        projectRoles?: ProjectRoles[];
+        languageIds?: string;
+        groupIds?: string;
+        orderBy?: string;
     }
 
     export interface ProjectTeamResources {
