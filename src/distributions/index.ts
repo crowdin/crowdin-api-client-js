@@ -119,6 +119,7 @@ export class Distributions extends CrowdinApi {
 export namespace DistributionsModel {
     export interface Distribution {
         hash: string;
+        manifestUrl: string;
         name: string;
         bundleIds: number[];
         createdAt: string;
