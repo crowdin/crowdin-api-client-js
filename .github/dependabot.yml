@@ -10,6 +10,10 @@ updates:
     target-branch: "master"
     schedule:
       interval: "weekly"
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
     ignore:
       - dependency-name: "*" #All the dependency it gonna ignore for major update
         update-types: [ "version-update:semver-major" ]
+      - dependency-name: "typedoc"
