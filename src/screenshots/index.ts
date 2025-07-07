@@ -37,6 +37,7 @@ export class Screenshots extends CrowdinApi {
             options = { limit: options, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/screenshots`;
+        url = this.addQueryParam(url, 'stringIds', options.stringIds?.join(','));
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
