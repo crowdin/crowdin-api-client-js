@@ -72,6 +72,19 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param preTranslationId pre translation identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.report.getReport
+     */
+    getPreTranslationReport(
+        projectId: number,
+        preTranslationId: string,
+    ): Promise<ResponseObject<TranslationsModel.PreTranslationReport>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}/report`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.directories.post
@@ -418,5 +431,35 @@ export namespace TranslationsModel {
 
     export interface ListProjectBuildsOptions extends PaginationOptions {
         branchId?: number;
+    }
+
+    export interface PreTranslationReport {
+        languages: TargetLanguage[];
+        preTranslateType: string;
+    }
+
+    export interface TargetLanguage {
+        id: string;
+        files: TargetLanguageFile[];
+        skipped: SkippedInfo;
+        skippedQaCheckCategories: SkippedQaCheckCategories;
+    }
+
+    export interface TargetLanguageFile {
+        id: string;
+        statistics: TargetLanguageFileStatistics;
+    }
+
+    export interface TargetLanguageFileStatistics {
+        phrases: number;
+        words: number;
+    }
+
+    export interface SkippedInfo {
+        [key: string]: any;
+    }
+
+    export interface SkippedQaCheckCategories {
+        [key: string]: any;
     }
 }
