@@ -8,6 +8,7 @@ import {
     ResponseObject,
     Status,
 } from '../core';
+import { ProjectsGroupsModel } from '../projectsGroups';
 
 /**
  * Translators can work with entirely untranslated project or you can pre-translate the files to ease the translations process.
@@ -435,14 +436,14 @@ export namespace TranslationsModel {
 
     export interface PreTranslationReport {
         languages: TargetLanguage[];
-        preTranslateType: string;
+        preTranslateType: Method;
     }
 
     export interface TargetLanguage {
         id: string;
         files: TargetLanguageFile[];
         skipped: SkippedInfo;
-        skippedQaCheckCategories: SkippedQaCheckCategories;
+        skippedQaCheckCategories: ProjectsGroupsModel.CheckCategories;
     }
 
     export interface TargetLanguageFile {
@@ -456,10 +457,6 @@ export namespace TranslationsModel {
     }
 
     export interface SkippedInfo {
-        [key: string]: any;
-    }
-
-    export interface SkippedQaCheckCategories {
         [key: string]: any;
     }
 }
