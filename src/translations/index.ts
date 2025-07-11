@@ -8,6 +8,7 @@ import {
     ResponseObject,
     Status,
 } from '../core';
+import { ProjectsGroupsModel } from '../projectsGroups';
 
 /**
  * Translators can work with entirely untranslated project or you can pre-translate the files to ease the translations process.
@@ -68,6 +69,19 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}`;
         return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param preTranslationId pre translation identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.report.getReport
+     */
+    getPreTranslationReport(
+        projectId: number,
+        preTranslationId: string,
+    ): Promise<ResponseObject<TranslationsModel.PreTranslationReport>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations/${preTranslationId}/report`;
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -418,5 +432,31 @@ export namespace TranslationsModel {
 
     export interface ListProjectBuildsOptions extends PaginationOptions {
         branchId?: number;
+    }
+
+    export interface PreTranslationReport {
+        languages: TargetLanguage[];
+        preTranslateType: Method;
+    }
+
+    export interface TargetLanguage {
+        id: string;
+        files: TargetLanguageFile[];
+        skipped: SkippedInfo;
+        skippedQaCheckCategories: ProjectsGroupsModel.CheckCategories;
+    }
+
+    export interface TargetLanguageFile {
+        id: string;
+        statistics: TargetLanguageFileStatistics;
+    }
+
+    export interface TargetLanguageFileStatistics {
+        phrases: number;
+        words: number;
+    }
+
+    export interface SkippedInfo {
+        [key: string]: any;
     }
 }

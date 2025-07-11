@@ -92,6 +92,32 @@ describe('Translations API', () => {
                     identifier: preTranslationId,
                 },
             })
+            .get(`/projects/${projectId}/pre-translations/${preTranslationId}/report`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    languages: [
+                        {
+                            id: languageId,
+                            files: [
+                                {
+                                    id: fileId.toString(),
+                                    statistics: {
+                                        phrases: 10,
+                                        words: 25,
+                                    },
+                                },
+                            ],
+                            skipped: {},
+                            skippedQaCheckCategories: {},
+                        },
+                    ],
+                    preTranslateType: 'ai',
+                },
+            })
             .post(
                 `/projects/${projectId}/translations/builds/directories/${directoryId}`,
                 {
@@ -303,6 +329,17 @@ describe('Translations API', () => {
             },
         ]);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Get Pre-translation Report', async () => {
+        const report = await api.getPreTranslationReport(projectId, preTranslationId);
+        expect(report.data.languages.length).toBe(1);
+        expect(report.data.languages[0].id).toBe(languageId);
+        expect(report.data.languages[0].files.length).toBe(1);
+        expect(report.data.languages[0].files[0].id).toBe(fileId.toString());
+        expect(report.data.languages[0].files[0].statistics.phrases).toBe(10);
+        expect(report.data.languages[0].files[0].statistics.words).toBe(25);
+        expect(report.data.preTranslateType).toBe('ai');
     });
 
     it('Build Project Direcotry Translation', async () => {
