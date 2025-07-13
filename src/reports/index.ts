@@ -473,9 +473,19 @@ export namespace ReportsModel {
         schema: any;
     }
 
-    export type GroupReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
+    export type GroupReportSchema =
+        | GroupTranslationCostsPostEditingSchema
+        | GroupTopMembersSchema
+        | GroupTaskUsageSchema
+        | GroupQaCheckIssuesSchema
+        | GroupTranslationActivitySchema;
 
-    export type OrganizationReportSchema = GroupTranslationCostsPostEditingSchema | GroupTopMembersSchema;
+    export type OrganizationReportSchema =
+        | GroupTranslationCostsPostEditingSchema
+        | GroupTopMembersSchema
+        | GroupTaskUsageSchema
+        | GroupQaCheckIssuesSchema
+        | GroupTranslationActivitySchema;
 
     export interface GenerateGroupReportRequest {
         name: string;
@@ -567,7 +577,13 @@ export namespace ReportsModel {
         | CostEstimationPostEnding
         | TranslationCostsPostEnding
         | TopMembers
-        | ContributionRawData;
+        | ContributionRawData
+        | SourceContentUpdates
+        | ProjectMembers
+        | EditorIssues
+        | QaCheckIssues
+        | SavingActivity
+        | TranslationActivity;
 
     export type ReportSchema = Pick<GenerateReportRequest, 'schema'>;
 
@@ -599,6 +615,36 @@ export namespace ReportsModel {
     export interface ContributionRawData {
         name: 'contribution-raw-data';
         schema: ContributionRawDataSchema | ContributionRawDataSchemaByTask;
+    }
+
+    export interface SourceContentUpdates {
+        name: 'source-content-updates';
+        schema: SourceContentUpdatesSchema;
+    }
+
+    export interface ProjectMembers {
+        name: 'project-members';
+        schema: MembersSchema;
+    }
+
+    export interface EditorIssues {
+        name: 'editor-issues';
+        schema: EditorIssuesSchema;
+    }
+
+    export interface QaCheckIssues {
+        name: 'qa-check-issues';
+        schema: ProjectQaCheckIssuesSchema;
+    }
+
+    export interface SavingActivity {
+        name: 'saving-activity';
+        schema: SavingActivitySchema;
+    }
+
+    export interface TranslationActivity {
+        name: 'translation-activity';
+        schema: ProjectConsumptionSchema;
     }
 
     export interface ReportStatusAttributes<S> {
@@ -880,4 +926,107 @@ export namespace ReportsModel {
         | 'createdAt'
         | 'updatedAt'
         | 'mark';
+
+    export interface SourceContentUpdatesSchema {
+        unit?: Unit;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        languageId?: string;
+        userIds?: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface MembersSchema {
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface EditorIssuesSchema {
+        dateFrom?: string;
+        dateTo?: string;
+        format?: Format;
+        languageId?: string;
+        userId?: number;
+    }
+
+    export interface ProjectQaCheckIssuesSchema {
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        languageId?: string;
+    }
+
+    export interface SavingActivitySchema {
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        userIds?: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface ProjectConsumptionSchema {
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        userIds?: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface GroupTaskUsageSchema {
+        format: Format;
+        type: 'workload' | 'create-vs-resolve' | 'performance' | 'time' | 'cost';
+        projectIds?: number[];
+        assigneeId?: number;
+        creatorId?: number;
+        dateFrom?: string;
+        dateTo?: string;
+        wordsCountFrom?: number;
+        wordsCountTo?: number;
+        excludeApprovalsForEditedTranslations?: boolean;
+        currency?: Currency;
+        baseRates?: BaseRate;
+        individualRates?: IndividualRate[];
+        netRateSchemes?: NetRateSchemas;
+    }
+
+    export interface GroupQaCheckIssuesSchema {
+        projectIds?: number[];
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        languageId?: string;
+    }
+
+    export interface GroupTranslationActivitySchema {
+        projectIds?: number[];
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        userIds?: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+    }
 }
