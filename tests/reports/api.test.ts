@@ -22,6 +22,81 @@ describe('Reports API', () => {
         format: 'json',
         projectIds: [projectId],
     };
+    const sourceContentUpdatesSchema: ReportsModel.SourceContentUpdatesSchema = {
+        unit: 'words',
+        format: 'xlsx',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        languageId: 'en',
+        userIds: [1, 2],
+        fileIds: [10, 20],
+        labelIds: [5],
+        labelIncludeType: 'strings_with_label',
+    };
+    const projectMembersSchema: ReportsModel.MembersSchema = {
+        format: 'csv',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+    };
+    const editorIssuesSchema: ReportsModel.EditorIssuesSchema = {
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        format: 'json',
+        languageId: 'en',
+        userId: 123,
+    };
+    const qaCheckIssuesSchema: ReportsModel.ProjectQaCheckIssuesSchema = {
+        format: 'xlsx',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        languageId: 'en',
+    };
+    const savingActivitySchema: ReportsModel.SavingActivitySchema = {
+        unit: 'words',
+        languageId: 'en',
+        format: 'xlsx',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        userIds: [1, 2],
+        fileIds: [10],
+        labelIds: [5],
+        labelIncludeType: 'strings_with_label',
+    };
+    const translationActivitySchema: ReportsModel.ProjectConsumptionSchema = {
+        unit: 'chars',
+        languageId: 'en',
+        format: 'csv',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        userIds: [1],
+        fileIds: [10, 20],
+        directoryIds: [30],
+        branchIds: [40],
+    };
+    const groupTaskUsageSchema: ReportsModel.GroupTaskUsageSchema = {
+        format: 'xlsx',
+        type: 'workload',
+        projectIds: [projectId],
+        assigneeId: 123,
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+    };
+    const groupQaCheckIssuesSchema: ReportsModel.GroupQaCheckIssuesSchema = {
+        projectIds: [projectId],
+        format: 'csv',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        languageId: 'en',
+    };
+    const groupTranslationActivitySchema: ReportsModel.GroupTranslationActivitySchema = {
+        projectIds: [projectId],
+        unit: 'words',
+        languageId: 'en',
+        format: 'json',
+        dateFrom: '2025-01-01T00:00:00+00:00',
+        dateTo: '2025-01-31T23:59:59+00:00',
+        userIds: [1, 2],
+    };
     const reportSettingsTemplateId = 234;
     const currency: ReportsModel.Currency = 'USD';
     const unit: ReportsModel.Unit = 'words';
@@ -503,7 +578,162 @@ describe('Reports API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(200);
+            .reply(200)
+            // Project-level new report schema mocks
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'source-content-updates',
+                    schema: sourceContentUpdatesSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'project-members',
+                    schema: projectMembersSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'editor-issues',
+                    schema: editorIssuesSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'qa-check-issues',
+                    schema: qaCheckIssuesSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'saving-activity',
+                    schema: savingActivitySchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
+                    name: 'translation-activity',
+                    schema: translationActivitySchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            // Group-level new report schema mocks
+            .post(
+                `/groups/${groupId}/reports`,
+                {
+                    name: 'group-task-usage',
+                    schema: groupTaskUsageSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/groups/${groupId}/reports`,
+                {
+                    name: 'group-qa-check-issues',
+                    schema: groupQaCheckIssuesSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .post(
+                `/groups/${groupId}/reports`,
+                {
+                    name: 'group-translation-activity',
+                    schema: groupTranslationActivitySchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            });
     });
 
     afterAll(() => {
@@ -661,6 +891,78 @@ describe('Reports API', () => {
     it('Download Report', async () => {
         const downloadUrl = await api.downloadReport(projectId, reportId);
         expect(downloadUrl.data.url).toBe(downloadLink);
+    });
+
+    it('Generate Source Content Updates Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'source-content-updates',
+            schema: sourceContentUpdatesSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Project Members Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'project-members',
+            schema: projectMembersSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Editor Issues Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'editor-issues',
+            schema: editorIssuesSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate QA Check Issues Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'qa-check-issues',
+            schema: qaCheckIssuesSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Saving Activity Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'saving-activity',
+            schema: savingActivitySchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Translation Activity Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'translation-activity',
+            schema: translationActivitySchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Group Task Usage Report', async () => {
+        const report = await api.generateGroupReport(groupId, {
+            name: 'group-task-usage',
+            schema: groupTaskUsageSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Group QA Check Issues Report', async () => {
+        const report = await api.generateGroupReport(groupId, {
+            name: 'group-qa-check-issues',
+            schema: groupQaCheckIssuesSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('Generate Group Translation Activity Report', async () => {
+        const report = await api.generateGroupReport(groupId, {
+            name: 'group-translation-activity',
+            schema: groupTranslationActivitySchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
     });
 
     it('List Report Settings Templates', async () => {
