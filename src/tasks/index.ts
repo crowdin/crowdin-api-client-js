@@ -262,6 +262,7 @@ export namespace TasksModel {
         fileIds: number[];
         branchIds: number[];
         vendor: string;
+        fields: Record<string, any>;
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
@@ -322,6 +323,7 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
+        fields?: Record<string, any>;
     }
 
     export interface CreateTaskEnterpriseByStringIds {
@@ -341,6 +343,7 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
+        fields?: Record<string, any>;
     }
 
     export type CreateTaskEnterpriseVendorByStringIds = Omit<
