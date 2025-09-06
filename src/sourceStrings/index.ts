@@ -264,6 +264,7 @@ export namespace SourceStringsModel {
         fileId: number;
         directoryId: number;
         revision: number;
+        fields: Record<string, any>;
     }
 
     export interface CreateStringRequest {
@@ -274,6 +275,7 @@ export namespace SourceStringsModel {
         isHidden?: boolean;
         maxLength?: number;
         labelIds?: number[];
+        fields?: Record<string, any>;
     }
 
     export interface CreateStringStringsBasedRequest {
@@ -284,6 +286,7 @@ export namespace SourceStringsModel {
         isHidden?: boolean;
         maxLength?: number;
         labelIds?: number[];
+        fields?: Record<string, any>;
     }
 
     export interface PluralText {

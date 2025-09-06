@@ -379,6 +379,7 @@ export namespace ProjectsGroupsModel {
         targetLanguages: LanguagesModel.Language[];
         webUrl: string;
         savingsReportSettingsTemplateId: number;
+        fields: Record<string, any>;
         //community
         cname: string;
         //enterprise
@@ -479,6 +480,7 @@ export namespace ProjectsGroupsModel {
         glossaryAccessOption?: GlossaryAccessOption;
         notificationSettings?: NotificationSettings;
         savingsReportSettingsTemplateId?: number;
+        fields?: Record<string, any>;
         assistActionAiPromptId?: number;
         editorSuggestionAiPromptId?: number;
         alignmentActionAiPromptId?: number;

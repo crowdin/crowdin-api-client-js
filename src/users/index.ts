@@ -309,11 +309,13 @@ export namespace UsersModel {
         lastName: string;
         status: Status;
         avatarUrl: string;
+        fields: Record<string, any>;
         createdAt: string;
         lastSeen: string;
-        twoFactor: string;
+        twoFactor: TwoFactor;
         isAdmin: boolean;
         timezone: string;
+        emailVerified: string;
     }
 
     export type Status = 'active' | 'pending' | 'blocked';
