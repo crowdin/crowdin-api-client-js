@@ -54,9 +54,6 @@ jobs:
       - name: Tests
         run: npm run test
 
-      - name: Publish Dry Run
-        run: npm publish --dry-run
-
   code-coverage:
     runs-on: ubuntu-latest
     needs: tests

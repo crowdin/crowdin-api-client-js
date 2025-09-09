@@ -13,29 +13,27 @@ jobs:
     permissions:
       contents: read
       id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           registry-url: https://registry.npmjs.org/
 
       - name: Install npm CLI
-        run: npm install -g npm@10 #todo upgrade to the latest
+        run: |
+          npm install -g npm@latest
+          npm -v
 
       - name: Install dependencies and build
         run: |
-          npm -v
           npm ci
           npm run build
 
       - name: Publish Dry Run
-        run: |
-          npm publish --dry-run
+        run: npm publish --dry-run
 
       - name: Publish the package
-        run: |
-          npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance
