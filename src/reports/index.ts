@@ -572,6 +572,7 @@ export namespace ReportsModel {
     }
 
     export type GenerateReportRequest =
+        | PreTranslateEfficeincy
         | PreTranslateAccuracy
         | TranslateAccuracy
         | CostEstimationPostEnding
@@ -587,8 +588,16 @@ export namespace ReportsModel {
 
     export type ReportSchema = Pick<GenerateReportRequest, 'schema'>;
 
+    /**
+     * @deprecated use PreTranslateAccuracy instead
+     */
+    export interface PreTranslateEfficeincy {
+        name: 'pre-translate-efficiency';
+        schema: PreTranslateAccuracySchema | PreTranslateAccuracySchemaByTask;
+    }
+
     export interface PreTranslateAccuracy {
-        name: 'pre-translate-efficiency' | 'pre-translate-accuracy';
+        name: 'pre-translate-accuracy';
         schema: PreTranslateAccuracySchema | PreTranslateAccuracySchemaByTask;
     }
 
