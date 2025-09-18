@@ -356,6 +356,17 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.enterprise.getMany
+     */
+    listAiOrganizationAllProviderModels(
+        options?: PaginationOptions,
+    ): Promise<ResponseList<AiModel.AiProviderModelResponse>> {
+        const url = `${this.url}/ai/providers/models`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post
@@ -822,6 +833,20 @@ export class Ai extends CrowdinApi {
         url = this.addQueryParam(url, 'offset', options?.offset);
 
         return this.getList(url);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.models.crowdin.getMany
+     *
+     */
+    listAiUserAllProviderModels(
+        userId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<AiModel.AiProviderModelResponse>> {
+        const url = `${this.url}/users/${userId}/ai/providers/models`;
+        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
