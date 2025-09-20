@@ -193,7 +193,7 @@ describe('Tasks API', () => {
             )
             .reply(200, {
                 data: {
-                    id: taskId,
+                    id: commentId,
                     text: commentText,
                 },
             })
@@ -393,7 +393,7 @@ describe('Tasks API', () => {
                 value: commentText,
             },
         ]);
-        expect(taskComment.data.id).toBe(taskId);
+        expect(taskComment.data.id).toBe(commentId);
         expect(taskComment.data.text).toBe(commentText);
     });
 
