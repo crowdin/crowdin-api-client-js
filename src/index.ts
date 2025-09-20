@@ -146,3 +146,5 @@ export default class Client extends CrowdinApi {
         this.stringCorrectionsApi = new StringCorrections(credentials, config);
     }
 }
+
+export { Client };
