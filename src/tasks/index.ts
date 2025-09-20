@@ -106,6 +106,79 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.getMany
+     */
+    listTasksComments(
+        projectId: number,
+        taskId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<TasksModel.TaskComment>> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/comments`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.post
+     */
+    addTaskComment(
+        projectId: number,
+        taskId: number,
+        request: TasksModel.CreateTaskCommentRequest,
+    ): Promise<ResponseObject<TasksModel.TaskComment>> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/comments`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId comment identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.get
+     */
+    getTaskComment(
+        projectId: number,
+        taskId: number,
+        commentId: number,
+    ): Promise<ResponseObject<TasksModel.TaskComment>> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/comments/${commentId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId comment identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.delete
+     */
+    deleteTaskComment(projectId: number, taskId: number, commentId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/comments/${commentId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId comment identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.patch
+     */
+    editTaskComment(
+        projectId: number,
+        taskId: number,
+        commentId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<TasksModel.TaskComment>> {
+        const url = `${this.url}/projects/${projectId}/tasks/${taskId}/comments/${commentId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
@@ -693,5 +766,20 @@ export namespace TasksModel {
 
     export interface TaskSettingsTemplateConfig {
         languages: { languageId?: string; userIds?: number[]; teamIds?: number[] }[];
+    }
+
+    export interface TaskComment {
+        id: number;
+        userId: number;
+        taskId: number;
+        text: string;
+        timeSpent: number;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface CreateTaskCommentRequest {
+        text?: string;
+        timeSpent?: number;
     }
 }
