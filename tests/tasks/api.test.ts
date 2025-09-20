@@ -15,6 +15,8 @@ describe('Tasks API', () => {
     const workflowStepId = 40;
     const link = 'test.com';
     const assigneeId = 1212;
+    const commentId = 55;
+    const commentText = 'This is a comment';
 
     const taskSettingsId = 222;
     const taskSettingsName = 'Test';
@@ -122,6 +124,77 @@ describe('Tasks API', () => {
                 data: {
                     id: taskId,
                     title: taskTitle,
+                },
+            })
+            .get(`/projects/${projectId}/tasks/${taskId}/comments`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: commentId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/tasks/${taskId}/comments`,
+                {
+                    text: commentText,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: commentId,
+                },
+            })
+            .get(`/projects/${projectId}/tasks/${taskId}/comments/${commentId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: commentId,
+                },
+            })
+            .delete(`/projects/${projectId}/tasks/${taskId}/comments/${commentId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .patch(
+                `/projects/${projectId}/tasks/${taskId}/comments/${commentId}`,
+                [
+                    {
+                        value: commentText,
+                        op: 'replace',
+                        path: '/text',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskId,
+                    text: commentText,
                 },
             })
             .get('/user/tasks', undefined, {
@@ -287,6 +360,41 @@ describe('Tasks API', () => {
         ]);
         expect(task.data.id).toBe(taskId);
         expect(task.data.title).toBe(taskTitle);
+    });
+
+    it('List tasks coments', async () => {
+        const tasksComments = await api.listTasksComments(projectId, taskId);
+        expect(tasksComments.data.length).toBe(1);
+        expect(tasksComments.data[0].data.id).toBe(commentId);
+        expect(tasksComments.pagination.limit).toBe(limit);
+    });
+
+    it('Add task comment', async () => {
+        const taskComment = await api.addTaskComment(projectId, taskId, {
+            text: commentText,
+        });
+        expect(taskComment.data.id).toBe(commentId);
+    });
+
+    it('Get task comment', async () => {
+        const taskComment = await api.getTaskComment(projectId, taskId, commentId);
+        expect(taskComment.data.id).toBe(commentId);
+    });
+
+    it('Delete task comment', async () => {
+        await api.deleteTaskComment(projectId, taskId, commentId);
+    });
+
+    it('Edit task comment', async () => {
+        const taskComment = await api.editTaskComment(projectId, taskId, commentId, [
+            {
+                op: 'replace',
+                path: '/text',
+                value: commentText,
+            },
+        ]);
+        expect(taskComment.data.id).toBe(taskId);
+        expect(taskComment.data.text).toBe(commentText);
     });
 
     it('List User Tasks', async () => {
