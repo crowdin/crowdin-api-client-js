@@ -55,7 +55,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 <summary>Typescript</summary>
 
 ```typescript
-import crowdin, { Credentials, SourceFilesModel } from '@crowdin/crowdin-api-client';
+import { Client, Credentials, SourceFilesModel } from '@crowdin/crowdin-api-client';
 
 // credentials
 const credentials: Credentials = {
@@ -69,7 +69,7 @@ const {
   uploadStorageApi,
   sourceFilesApi,
   translationsApi
-} = new crowdin(credentials);
+} = new Client(credentials);
 
 // get project list
 projectsGroupsApi.listProjects()
@@ -147,7 +147,7 @@ projectsGroupsApi.listProjects()
 <summary>Javascript ES6 modules</summary>
 
 ```javascript
-import crowdin from '@crowdin/crowdin-api-client';
+import { Client } from '@crowdin/crowdin-api-client';
 
 // initialization of crowdin client
 const {
@@ -155,7 +155,7 @@ const {
   uploadStorageApi,
   sourceFilesApi,
   translationsApi
-} = new crowdin.default({
+} = new Client({
   token: 'personalAccessToken',
   organization: 'organizationName' // optional
 });
@@ -241,7 +241,7 @@ const {
   uploadStorageApi,
   sourceFilesApi,
   translationsApi
-} = new crowdin.default({
+} = new crowdin.Client({
   token: 'personalAccessToken',
   organization: 'organizationName' // optional
 });
@@ -394,7 +394,7 @@ const crowdin = require('@crowdin/crowdin-api-client');
 
 const token = '';
 
-const { translationsApi } = new crowdin.default({ token });
+const { translationsApi } = new crowdin.Client({ token });
 
 async function test() {
   const project = 123;
@@ -427,7 +427,7 @@ const credentials = { token: 'token' };
 
 const httpRequestTimeout = 60 * 1000; // 60 seconds
 
-const client = new crowdin.default(credentials, { httpRequestTimeout });
+const client = new crowdin.Client(credentials, { httpRequestTimeout });
 ```
 
 ## Over-The-Air Content Delivery
@@ -443,7 +443,7 @@ This library also provides possibility to use [GraphQL API](https://developer.cr
 ```javascript
 const crowdin = require('@crowdin/crowdin-api-client');
 
-const client = new crowdin.default({
+const client = new crowdin.Client({
   token: '{token}',
   organization: '{organization}'
 });
