@@ -11,6 +11,7 @@ describe('Workflows API', () => {
     const id = 2;
     const projectId = 4;
     const stringId = 123;
+    const languageId = 'uk';
 
     const limit = 25;
 
@@ -89,6 +90,46 @@ describe('Workflows API', () => {
                 data: {
                     id: id,
                 },
+            })
+            .get(`/projects/${projectId}/workflow-steps/${id}/languages/${languageId}/status`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            stringId: stringId,
+                            languageId: languageId,
+                            stepId: id,
+                            status: 'DONE',
+                            output: 'translated',
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(`/projects/${projectId}/workflow-steps/${id}/languages/${languageId}/status`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            stringId: stringId,
+                            languageId: languageId,
+                            stepId: id,
+                            status: 'DONE',
+                            output: 'approved',
+                        },
+                    },
+                ],
             });
     });
 
@@ -125,5 +166,33 @@ describe('Workflows API', () => {
     it('Get Workflow Template Info', async () => {
         const workflow = await api.getWorkflowTemplateInfo(id);
         expect(workflow.data.id).toBe(id);
+    });
+
+    it('Get Workflow Step String Status', async () => {
+        const stringStatuses = await api.getWorkflowStepStringStatus(projectId, id, languageId);
+        expect(stringStatuses.data.length).toBe(1);
+        expect(stringStatuses.data[0].data.stringId).toBe(stringId);
+        expect(stringStatuses.data[0].data.languageId).toBe(languageId);
+        expect(stringStatuses.data[0].data.stepId).toBe(id);
+        expect(stringStatuses.data[0].data.status).toBe('DONE');
+        expect(stringStatuses.data[0].data.output).toBe('translated');
+        expect(stringStatuses.pagination.limit).toBe(limit);
+    });
+
+    it('Update Workflow Step String Status', async () => {
+        const request = [
+            {
+                op: 'replace' as const,
+                path: `/${stringId}/output`,
+                value: 'approved',
+            },
+        ];
+        const result = await api.updateWorkflowStepStringStatus(projectId, id, languageId, request);
+        expect(result.data.length).toBe(1);
+        expect(result.data[0].data.stringId).toBe(stringId);
+        expect(result.data[0].data.languageId).toBe(languageId);
+        expect(result.data[0].data.stepId).toBe(id);
+        expect(result.data[0].data.status).toBe('DONE');
+        expect(result.data[0].data.output).toBe('approved');
     });
 });
