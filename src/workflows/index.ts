@@ -1,4 +1,4 @@
-import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList, ResponseObject } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 import { SourceStringsModel } from '../sourceStrings';
 
 /**
@@ -109,6 +109,42 @@ export class Workflows extends CrowdinApi {
         const url = `${this.url}/workflow-templates/${templateId}`;
         return this.get(url, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param stepId workflow step identifier
+     * @param languageId language identifier
+     * @param request request body
+     * @internal
+     * @see https://support.crowdin.com/developer/crowdin-apps-module-workflow-step-type/#api-methods
+     */
+    updateWorkflowStepStringStatus(
+        projectId: number,
+        stepId: number,
+        languageId: string,
+        request: PatchRequest[],
+    ): Promise<ResponseList<WorkflowModel.WorkflowStepStringStatus>> {
+        const url = `${this.url}/projects/${projectId}/workflow-steps/${stepId}/languages/${languageId}/status`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stepId workflow step identifier
+     * @param languageId language identifier
+     * @param options request options
+     * @internal
+     * @see https://support.crowdin.com/developer/crowdin-apps-module-workflow-step-type/#api-methods
+     */
+    getWorkflowStepStringStatus(
+        projectId: number,
+        stepId: number,
+        languageId: string,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<WorkflowModel.WorkflowStepStringStatus>> {
+        const url = `${this.url}/projects/${projectId}/workflow-steps/${stepId}/languages/${languageId}/status`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
 }
 
 export namespace WorkflowModel {
@@ -150,5 +186,13 @@ export namespace WorkflowModel {
             };
             mtId: number;
         }[];
+    }
+
+    export interface WorkflowStepStringStatus {
+        stringId: number;
+        languageId: string;
+        stepId: number;
+        status: string;
+        output: string;
     }
 }
