@@ -592,6 +592,7 @@ export namespace SourceFilesModel {
     export interface MergeBranchRequest {
         deleteAfterMerge?: boolean;
         sourceBranchId: number;
+        acceptSourceChanges?: boolean;
         dryRun?: boolean;
     }
 
