@@ -20,6 +20,41 @@ import { TeamsModel } from '../teams';
  */
 export class Users extends CrowdinApi {
     /**
+     * @param groupId group identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.getMany
+     */
+    listGroupManagers(
+        groupId: number,
+        options?: UsersModel.ListGroupManagersOptions,
+    ): Promise<ResponseList<UsersModel.GroupManager>> {
+        let url = `${this.url}/groups/${groupId}/managers`;
+        url = this.addQueryParam(url, 'teamIds', options?.teamIds?.toString());
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.patch
+     */
+    updateGroupManagers(groupId: number, request: PatchRequest[]): Promise<ResponseList<UsersModel.GroupManager>> {
+        const url = `${this.url}/groups/${groupId}/managers`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param userId user identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.get
+     */
+    getGroupManager(groupId: number, userId: number): Promise<ResponseObject<UsersModel.GroupManager>> {
+        const url = `${this.url}/groups/${groupId}/managers/${userId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
@@ -270,6 +305,11 @@ export class Users extends CrowdinApi {
 }
 
 export namespace UsersModel {
+    export interface ListGroupManagersOptions {
+        teamIds?: number[];
+        orderBy?: string;
+    }
+
     export interface ListProjectMembersOptions extends PaginationOptions {
         search?: string;
         role?: Role;
@@ -323,6 +363,12 @@ export namespace UsersModel {
     export type TwoFactor = 'enabled' | 'disabled';
 
     export type OrganizationRoles = 'admin' | 'manager' | 'vendor' | 'client';
+
+    export interface GroupManager {
+        id: number;
+        user: User;
+        teams: TeamsModel.Team[];
+    }
 
     export interface ProjectMember {
         id: number;

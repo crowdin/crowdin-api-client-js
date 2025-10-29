@@ -13,6 +13,40 @@ import { ProjectsGroupsModel } from '../projectsGroups';
 
 export class Teams extends CrowdinApi {
     /**
+     * @param groupId group identifier
+     * @param options request options
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.getMany
+     */
+    listGroupTeams(
+        groupId: number,
+        options?: TeamsModel.ListGroupTeamsOptions,
+    ): Promise<ResponseList<TeamsModel.TeamGroup>> {
+        let url = `${this.url}/groups/${groupId}/teams`;
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.patch
+     */
+    updateGroupTeams(groupId: number, request: PatchRequest[]): Promise<ResponseList<TeamsModel.TeamGroup>> {
+        const url = `${this.url}/groups/${groupId}/teams`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param teamId team identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.get
+     */
+    getGroupTeam(groupId: number, teamId: number): Promise<ResponseObject<TeamsModel.TeamGroup>> {
+        const url = `${this.url}/groups/${groupId}/teams/${teamId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param teamId team identifier
      * @param options request options
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.getMany
@@ -177,6 +211,10 @@ export class Teams extends CrowdinApi {
 }
 
 export namespace TeamsModel {
+    export interface ListGroupTeamsOptions {
+        orderBy?: string;
+    }
+
     export interface ProjectPermissions {
         id: number;
         roles: ProjectRole[];
@@ -238,6 +276,11 @@ export namespace TeamsModel {
         webUrl: string;
         createdAt: string;
         updatedAt: string;
+    }
+
+    export interface TeamGroup {
+        id: number;
+        team: Team;
     }
 
     export interface AddTeamRequest {

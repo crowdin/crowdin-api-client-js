@@ -14,11 +14,69 @@ describe('Users API', () => {
     const email = 'test@test.com';
     const permissionId = 123;
     const contributionId = 456;
+    const groupId = 5;
+    const userId = 12;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/groups/${groupId}/managers`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: id,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/groups/${groupId}/managers`,
+                [
+                    {
+                        op: 'remove',
+                        path: `/${userId}`,
+                        value: {},
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: id,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/groups/${groupId}/managers/${userId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: id,
+                },
+            })
             .get(`/projects/${projectId}/members`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -256,6 +314,30 @@ describe('Users API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('List group managers', async () => {
+        const managers = await api.listGroupManagers(groupId);
+        expect(managers.data.length).toBe(1);
+        expect(managers.data[0].data.id).toBe(id);
+        expect(managers.pagination.limit).toBe(limit);
+    });
+
+    it('Update group managers', async () => {
+        const managers = await api.updateGroupManagers(groupId, [
+            {
+                op: 'remove',
+                path: `/${userId}`,
+                value: {},
+            },
+        ]);
+        expect(managers.data.length).toBe(1);
+        expect(managers.data[0].data.id).toBe(id);
+    });
+
+    it('Get group manager', async () => {
+        const manager = await api.getGroupManager(groupId, userId);
+        expect(manager.data.id).toBe(id);
     });
 
     it('List Project Members', async () => {
