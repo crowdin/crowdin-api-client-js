@@ -167,6 +167,7 @@ describe('Source Files API', () => {
                 `/projects/${projectId}/branches/${branchId}/merges`,
                 {
                     sourceBranchId,
+                    acceptSourceChanges: true,
                 },
                 {
                     reqheaders: {
@@ -548,6 +549,7 @@ describe('Source Files API', () => {
     it('Merge branch', async () => {
         const mergeStatus = await api.mergeBranch(projectId, branchId, {
             sourceBranchId,
+            acceptSourceChanges: true,
         });
         expect(mergeStatus.data.identifier).toBe(mergeBranchId);
     });
