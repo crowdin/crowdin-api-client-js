@@ -599,6 +599,7 @@ export namespace SourceFilesModel {
     export interface MergeBranchAttributes {
         sourceBranchId: number;
         deleteAfterMerge: boolean;
+        acceptSourceChanges?: boolean;
     }
 
     export interface MergeBranchSummary {
