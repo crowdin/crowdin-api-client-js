@@ -412,6 +412,7 @@ export namespace ProjectsGroupsModel {
         hiddenStringsProofreadersAccess?: boolean;
         useGlobalTm?: boolean;
         showTmSuggestionsDialects?: boolean;
+        tmApprovedSuggestionsOnly?: boolean;
         skipUntranslatedStrings?: boolean;
         exportApprovedOnly?: boolean;
         qaCheckIsActive?: boolean;
@@ -459,6 +460,7 @@ export namespace ProjectsGroupsModel {
         taskReviewerIds?: number[];
         autoSubstitution?: boolean;
         showTmSuggestionsDialects?: boolean;
+        tmApprovedSuggestionsOnly?: boolean;
         autoTranslateDialects?: boolean;
         publicDownloads?: boolean;
         hiddenStringsProofreadersAccess?: boolean;
@@ -512,6 +514,7 @@ export namespace ProjectsGroupsModel {
         autoTranslateDialects: boolean;
         useGlobalTm: boolean;
         showTmSuggestionsDialects: boolean;
+        tmApprovedSuggestionsOnly: boolean;
         isSuspended: boolean;
         qaCheckIsActive: boolean;
         qaCheckCategories: CheckCategories;
