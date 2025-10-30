@@ -31,7 +31,7 @@ export class Users extends CrowdinApi {
         let url = `${this.url}/groups/${groupId}/managers`;
         url = this.addQueryParam(url, 'teamIds', options?.teamIds?.toString());
         url = this.addQueryParam(url, 'orderBy', options?.orderBy);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
