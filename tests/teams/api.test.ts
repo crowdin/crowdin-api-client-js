@@ -13,11 +13,67 @@ describe('Tasks API', () => {
     const userId = 4;
     const name = 'Test team';
     const permissionId = 1213;
+    const groupId = 5;
 
     const limit = 25;
 
     beforeAll(() => {
         scope = nock(api.url)
+            .get(`/groups/${groupId}/teams`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: teamId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/groups/${groupId}/teams`,
+                [
+                    {
+                        op: 'remove',
+                        path: `/${teamId}`,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: teamId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/groups/${groupId}/teams/${teamId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: teamId,
+                },
+            })
             .get(`/teams/${teamId}/projects/permissions`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -203,6 +259,30 @@ describe('Tasks API', () => {
 
     afterAll(() => {
         scope.done();
+    });
+
+    it('List group teams', async () => {
+        const teams = await api.listGroupTeams(groupId);
+        expect(teams.data.length).toBe(1);
+        expect(teams.data[0].data.id).toBe(teamId);
+        expect(teams.pagination.limit).toBe(limit);
+    });
+
+    it('Update group teams', async () => {
+        const teams = await api.updateGroupTeams(groupId, [
+            {
+                op: 'remove',
+                path: `/${teamId}`,
+            },
+        ]);
+        expect(teams.data.length).toBe(1);
+        expect(teams.data[0].data.id).toBe(teamId);
+        expect(teams.pagination.limit).toBe(limit);
+    });
+
+    it('Get group team', async () => {
+        const team = await api.getGroupTeam(groupId, teamId);
+        expect(team.data.id).toBe(teamId);
     });
 
     it('List Team Projects Permissions', async () => {
