@@ -305,7 +305,7 @@ export class Users extends CrowdinApi {
 }
 
 export namespace UsersModel {
-    export interface ListGroupManagersOptions {
+    export interface ListGroupManagersOptions extends PaginationOptions {
         teamIds?: number[];
         orderBy?: string;
     }
