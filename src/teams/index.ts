@@ -211,7 +211,7 @@ export class Teams extends CrowdinApi {
 }
 
 export namespace TeamsModel {
-    export interface ListGroupTeamsOptions {
+    export interface ListGroupTeamsOptions extends PaginationOptions {
         orderBy?: string;
     }
 
