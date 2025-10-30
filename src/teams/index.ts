@@ -23,7 +23,7 @@ export class Teams extends CrowdinApi {
     ): Promise<ResponseList<TeamsModel.TeamGroup>> {
         let url = `${this.url}/groups/${groupId}/teams`;
         url = this.addQueryParam(url, 'orderBy', options?.orderBy);
-        return this.get(url, this.defaultConfig());
+        return this.getList(url, options?.limit, options?.offset);
     }
 
     /**
