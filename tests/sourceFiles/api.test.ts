@@ -34,6 +34,8 @@ describe('Source Files API', () => {
 
     const fileId = 321;
     const limit = 25;
+    const referenceId = 543;
+    const assetName = 'asset.png';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -388,6 +390,60 @@ describe('Source Files API', () => {
                     url: filleRawUrl,
                 },
             })
+            .get(`/projects/${projectId}/files/${fileId}/references`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: referenceId,
+                            name: assetName,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/files/${fileId}/references/${referenceId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: referenceId,
+                    name: assetName,
+                },
+            })
+            .post(
+                `/projects/${projectId}/files/${fileId}/references`,
+                {
+                    storageId: storageId,
+                    name: assetName,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: referenceId,
+                    name: assetName,
+                },
+            })
+            .delete(`/projects/${projectId}/files/${fileId}/references/${referenceId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
             .get(`/projects/${projectId}/files/${fileId}/revisions`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -657,6 +713,29 @@ describe('Source Files API', () => {
     it('Download file', async () => {
         const file = await api.downloadFile(projectId, fileId);
         expect(file.data.url).toBe(filleRawUrl);
+    });
+
+    it('List asset references', async () => {
+        const references = await api.listAssetReferences(projectId, fileId);
+        expect(references.data).toHaveLength(1);
+        expect(references.data[0].data.id).toBe(referenceId);
+        expect(references.data[0].data.name).toBe(assetName);
+    });
+
+    it('Get asset reference', async () => {
+        const reference = await api.getAssetReference(projectId, fileId, referenceId);
+        expect(reference.data.id).toBe(referenceId);
+        expect(reference.data.name).toBe(assetName);
+    });
+
+    it('Add asset reference', async () => {
+        const reference = await api.addAssetReference(projectId, fileId, { storageId, name: assetName });
+        expect(reference.data.id).toBe(referenceId);
+        expect(reference.data.name).toBe(assetName);
+    });
+
+    it('Delete asset reference', async () => {
+        await api.deleteAssetReference(projectId, fileId, referenceId);
     });
 
     it('List file revisions', async () => {

@@ -442,6 +442,62 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional pagination parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.getMany
+     */
+    listAssetReferences(
+        projectId: number,
+        fileId: number,
+        options?: PaginationOptions,
+    ): Promise<ResponseList<SourceFilesModel.AssetReference>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/references`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param referenceId reference identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.get
+     */
+    getAssetReference(
+        projectId: number,
+        fileId: number,
+        referenceId: number,
+    ): Promise<ResponseObject<SourceFilesModel.AssetReference>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/references/${referenceId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.post
+     */
+    addAssetReference(
+        projectId: number,
+        fileId: number,
+        request: SourceFilesModel.AssetReferenceRequest,
+    ): Promise<ResponseObject<SourceFilesModel.AssetReference>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/references`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param referenceId reference identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.delete
+     */
+    deleteAssetReference(projectId: number, fileId: number, referenceId: number): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/references/${referenceId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.revisions.getMany
      */
     listFileRevisions(
@@ -955,5 +1011,25 @@ export namespace SourceFilesModel {
 
     export interface ListReviewedSourceFilesBuildOptions extends PaginationOptions {
         branchId?: number;
+    }
+
+    export interface User {
+        id: number;
+        username: string;
+        fullName: string;
+        avatarUrl: string;
+    }
+
+    export interface AssetReference {
+        id: number;
+        name: string;
+        user: User;
+        createdAt: string;
+        mimeType: string;
+    }
+
+    export interface AssetReferenceRequest {
+        storageId: number;
+        name: string;
     }
 }
