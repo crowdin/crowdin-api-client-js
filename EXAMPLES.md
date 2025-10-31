@@ -209,51 +209,71 @@ const { reportsApi } = new crowdin({
     organization: 'org'
 });
 
+function wait(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function costsEstimationPostEditingReport(projectId: number): Promise<string> {
-    const result = await reportsApi.generateReport(projectId, {
-        name: 'costs-estimation-pe',
-        schema: {
-            languageId: 'uk',
-            currency: 'USD',
-            unit: 'words',
-            format: 'json',
-            calculateInternalMatches: true,
-            includePreTranslatedStrings: false,
-            baseRates: {
-                fullTranslation: 0.6,
-                proofread: 0.05,
+    try {
+        const result = await reportsApi.generateReport(projectId, {
+            name: 'costs-estimation-pe',
+            schema: {
+                languageId: 'uk',
+                currency: 'USD',
+                unit: 'words',
+                format: 'json',
+                calculateInternalMatches: true,
+                includePreTranslatedStrings: false,
+                baseRates: {
+                    fullTranslation: 0.6,
+                    proofread: 0.1,
+                },
+                individualRates: [{
+                    languageIds: [
+                        "ee"
+                    ],
+                    fullTranslation: 0.12,
+                    proofread: 0.1
+                }],
+                netRateSchemes: {
+                    tmMatch: [{
+                        matchType: "perfect",
+                        price: 0.1
+                    }, {
+                        matchType: "100",
+                        price: 0.1
+                    }, {
+                        matchType: "99-94",
+                        price: 0.33
+                    }]
+                },
             },
-            individualRates: [{
-                languageIds: [
-                    "ee"
-                ],
-                fullTranslation: 0.1,
-                proofread: 0.12
-            }],
-            netRateSchemes: {
-                tmMatch: [{
-                    matchType: "perfect",
-                    price: 0.01
-                }, {
-                    matchType: "100",
-                    price: 0.5
-                }, {
-                    matchType: "99-82",
-                    price: 0.7
-                }]
-            },
-        },
-    });
+        });
 
-    let status = result.data.status;
-    while (status !== 'finished') {
-        const progress = await reportsApi.checkReportStatus(projectId, result.data.identifier);
-        status = progress.data.status;
+        const identifier = result.data.identifier;
+        let status = 'created';
+
+        while (status === 'created' || status === 'in_progress') {
+            const statusData = await reportsApi.checkReportStatus(projectId, identifier);
+            status = statusData.data.status;
+
+            if (status === 'canceled' || status === 'failed') {
+                throw new Error(`Report generation failed with status: ${status}`);
+            }
+
+            await wait(2000);
+        }
+
+        if (status === 'finished') {
+            const report = await reportsApi.downloadReport(projectId, identifier);
+            return report.data.url;
+        }
+
+        throw new Error(`Unexpected report status: ${status}`);
+    } catch (error) {
+        console.error('Error generating report:', error);
+        throw error;
     }
-
-    const report = await reportsApi.downloadReport(projectId, result.data.identifier);
-
-    return report.data.url;
 }
 
 costsEstimationPostEditingReport(123);
