@@ -715,8 +715,8 @@ describe('Source Files API', () => {
         expect(file.data.url).toBe(filleRawUrl);
     });
 
-    it('List access references', async () => {
-        const references = await api.listAccessReferences(projectId, fileId);
+    it('List asset references', async () => {
+        const references = await api.listAssetReferences(projectId, fileId);
         expect(references.data).toHaveLength(1);
         expect(references.data[0].data.id).toBe(referenceId);
         expect(references.data[0].data.name).toBe(assetName);

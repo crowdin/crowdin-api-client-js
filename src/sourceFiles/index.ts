@@ -444,7 +444,7 @@ export class SourceFiles extends CrowdinApi {
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.getMany
      */
-    listAccessReferences(
+    listAssetReferences(
         projectId: number,
         fileId: number,
         options?: PaginationOptions,
@@ -487,7 +487,7 @@ export class SourceFiles extends CrowdinApi {
      * @param projectId project identifier
      * @param fileId file identifier
      * @param referenceId reference identifier
-     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.directories.delete
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.files.references.delete
      */
     deleteAssetReference(projectId: number, fileId: number, referenceId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}/references/${referenceId}`;
