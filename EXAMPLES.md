@@ -59,7 +59,6 @@ const file = 'test.json';
 const fileContent = fs.readFileSync(file);
 
 updateFile(123, 456, file, fileContent);
-
 ```
 
 ## Create TM
@@ -96,7 +95,6 @@ const schema = {
 };
 
 createTm('uk', 'test', file, fileContent, schema);
-
 ```
 
 ## Create Glossary
@@ -133,7 +131,6 @@ const schema = {
 };
 
 createGlossary('uk', 'test', file, fileContent, schema);
-
 ```
 
 ## Pre-Translate project
@@ -168,7 +165,6 @@ async function preTranslateProject(projectId: number, languageIds: string[], fil
 }
 
 preTranslateProject(123, ['uk'], [456]);
-
 ```
 
 ## Download translations
@@ -196,7 +192,6 @@ async function downloadTranslations(projectId: number): Promise<string> {
 }
 
 downloadTranslations(123);
-
 ```
 
 ## Generate report
