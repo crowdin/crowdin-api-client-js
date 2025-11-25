@@ -29,8 +29,11 @@ export interface Credentials {
     /** Yor Crowdin Enterprise organization name */
     organization?: string;
 
-    /** API base URL */
+    /** @deprecated API base URL. Use `apiDomain` instead` */
     baseUrl?: string;
+
+    /** API domain (e.g., 'api.crowdin.com') */
+    apiDomain?: string;
 }
 
 /**
@@ -207,7 +210,7 @@ export function handleHttpClientError(error: HttpClientError): never {
 }
 
 export abstract class CrowdinApi {
-    private static readonly CROWDIN_URL_SUFFIX: string = 'api.crowdin.com/api/v2';
+    private static readonly CROWDIN_API_DOMAIN: string = 'api.crowdin.com';
     private static readonly AXIOS_INSTANCE = new AxiosProvider().axios;
     private static readonly FETCH_INSTANCE = new FetchClient();
 
@@ -217,6 +220,8 @@ export abstract class CrowdinApi {
     readonly organization?: string;
     /** @internal */
     readonly url: string;
+    /** @internal */
+    readonly apiDomain: string;
     /** @internal */
     readonly config: ClientConfig | undefined;
     /** @internal */
@@ -232,14 +237,15 @@ export abstract class CrowdinApi {
     constructor(credentials: Credentials, config?: ClientConfig) {
         this.token = credentials.token;
         this.organization = credentials.organization;
+        this.apiDomain = credentials.apiDomain || CrowdinApi.CROWDIN_API_DOMAIN;
 
         if (credentials.baseUrl) {
             this.url = credentials.baseUrl;
         } else {
             if (this.organization) {
-                this.url = `https://${this.organization}.${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+                this.url = `https://${this.organization}.${this.apiDomain}/api/v2`;
             } else {
-                this.url = `https://${CrowdinApi.CROWDIN_URL_SUFFIX}`;
+                this.url = `https://${this.apiDomain}/api/v2`;
             }
         }
 
@@ -272,10 +278,11 @@ export abstract class CrowdinApi {
         if (config?.url) {
             url = config.url;
         } else {
+            const baseDomain = this.apiDomain || CrowdinApi.CROWDIN_API_DOMAIN;
             if (this.organization) {
-                url = `https://${this.organization}.api.crowdin.com/api/graphql`;
+                url = `https://${this.organization}.${baseDomain}/api/graphql`;
             } else {
-                url = 'https://api.crowdin.com/api/graphql';
+                url = `https://${baseDomain}/api/graphql`;
             }
         }
 
