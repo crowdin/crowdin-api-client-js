@@ -278,11 +278,10 @@ export abstract class CrowdinApi {
         if (config?.url) {
             url = config.url;
         } else {
-            const baseDomain = this.apiDomain || CrowdinApi.CROWDIN_API_DOMAIN;
             if (this.organization) {
-                url = `https://${this.organization}.${baseDomain}/api/graphql`;
+                url = `https://${this.organization}.${this.apiDomain}/api/graphql`;
             } else {
-                url = `https://${baseDomain}/api/graphql`;
+                url = `https://${this.apiDomain}/api/graphql`;
             }
         }
 
