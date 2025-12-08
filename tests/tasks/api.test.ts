@@ -15,6 +15,7 @@ describe('Tasks API', () => {
     const workflowStepId = 40;
     const link = 'test.com';
     const assigneeId = 1212;
+    const userId = 2;
     const commentId = 55;
     const commentText = 'This is a comment';
 
@@ -215,6 +216,88 @@ describe('Tasks API', () => {
                     limit: limit,
                 },
             })
+            .get(`/users/${userId}/tasks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/users/${userId}/tasks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query((queryObject) => {
+                return (
+                    queryObject.status === 'done' && queryObject.orderBy === 'createdAt' && queryObject.limit === '10'
+                );
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/tasks', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/tasks', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query((queryObject) => {
+                return (
+                    queryObject.status === 'done' && queryObject.orderBy === 'createdAt' && queryObject.limit === '10'
+                );
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .patch(
                 `/user/tasks/${taskId}?projectId=${projectId}`,
                 [
@@ -399,6 +482,44 @@ describe('Tasks API', () => {
 
     it('List User Tasks', async () => {
         const tasks = await api.listUserTasks();
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+        expect(tasks.pagination.limit).toBe(limit);
+    });
+
+    it('List Tasks Owned By User', async () => {
+        const tasks = await api.listTasksOwnedByUser(userId);
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+        expect(tasks.pagination.limit).toBe(limit);
+    });
+
+    it('List Tasks Owned By User with filters', async () => {
+        const tasks = await api.listTasksOwnedByUser(userId, {
+            status: 'done',
+            orderBy: 'createdAt',
+            limit: 10,
+            offset: 0,
+        });
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+        expect(tasks.pagination.limit).toBe(limit);
+    });
+
+    it('List Organization Tasks', async () => {
+        const tasks = await api.listOrganizationTasks();
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+        expect(tasks.pagination.limit).toBe(limit);
+    });
+
+    it('List Organization Tasks with filters', async () => {
+        const tasks = await api.listOrganizationTasks({
+            status: 'done',
+            orderBy: 'createdAt',
+            limit: 10,
+            offset: 0,
+        });
         expect(tasks.data.length).toBe(1);
         expect(tasks.data[0].data.id).toBe(taskId);
         expect(tasks.pagination.limit).toBe(limit);
