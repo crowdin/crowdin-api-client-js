@@ -219,6 +219,56 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * List tasks owned by a specific user
+     * Returns tasks from all projects where the user with the specified ID is the owner/creator
+     * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.users.tasks.getMany
+     */
+    listTasksOwnedByUser(
+        userId: number,
+        options?: TasksModel.ListOrganizationTasksOptions,
+    ): Promise<ResponseList<TasksModel.Task>> {
+        let url = `${this.url}/users/${userId}/tasks`;
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        url = this.addQueryParam(url, 'status', options?.status);
+        url = this.addQueryParam(url, 'type', options?.type);
+        url = this.addQueryParam(url, 'projectIds', options?.projectIds);
+        url = this.addQueryParam(url, 'groupIds', options?.groupIds);
+        url = this.addQueryParam(url, 'assigneeIds', options?.assigneeIds);
+        url = this.addQueryParam(url, 'creatorIds', options?.creatorIds);
+        url = this.addQueryParam(url, 'targetLanguageIds', options?.targetLanguageIds);
+        url = this.addQueryParam(url, 'sourceLanguageIds', options?.sourceLanguageIds);
+        url = this.addQueryParam(url, 'createdAtFrom', options?.createdAtFrom);
+        url = this.addQueryParam(url, 'createdAtTo', options?.createdAtTo);
+        url = this.addQueryParam(url, 'deadlineFrom', options?.deadlineFrom);
+        url = this.addQueryParam(url, 'deadlineTo', options?.deadlineTo);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.tasks.getMany
+     */
+    listOrganizationTasks(options?: TasksModel.ListOrganizationTasksOptions): Promise<ResponseList<TasksModel.Task>> {
+        let url = `${this.url}/tasks`;
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        url = this.addQueryParam(url, 'status', options?.status);
+        url = this.addQueryParam(url, 'type', options?.type);
+        url = this.addQueryParam(url, 'projectIds', options?.projectIds);
+        url = this.addQueryParam(url, 'groupIds', options?.groupIds);
+        url = this.addQueryParam(url, 'assigneeIds', options?.assigneeIds);
+        url = this.addQueryParam(url, 'creatorIds', options?.creatorIds);
+        url = this.addQueryParam(url, 'targetLanguageIds', options?.targetLanguageIds);
+        url = this.addQueryParam(url, 'sourceLanguageIds', options?.sourceLanguageIds);
+        url = this.addQueryParam(url, 'createdAtFrom', options?.createdAtFrom);
+        url = this.addQueryParam(url, 'createdAtTo', options?.createdAtTo);
+        url = this.addQueryParam(url, 'deadlineFrom', options?.deadlineFrom);
+        url = this.addQueryParam(url, 'deadlineTo', options?.deadlineTo);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
@@ -342,6 +392,22 @@ export namespace TasksModel {
         status?: Status;
         isArchived?: BooleanInt;
         orderBy?: string;
+    }
+
+    export interface ListOrganizationTasksOptions extends PaginationOptions {
+        orderBy?: string;
+        status?: string;
+        type?: string;
+        projectIds?: string;
+        groupIds?: string;
+        assigneeIds?: string;
+        creatorIds?: string;
+        targetLanguageIds?: string;
+        sourceLanguageIds?: string;
+        createdAtFrom?: string;
+        createdAtTo?: string;
+        deadlineFrom?: string;
+        deadlineTo?: string;
     }
 
     export interface UserTask extends Task {
