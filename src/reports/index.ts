@@ -839,7 +839,7 @@ export namespace ReportsModel {
 
     export interface ReportSettinsConfig {
         baseRates: BaseRate;
-        netRateSchemes: NetRateSchemas[];
+        netRateSchemes: NetRateSchemas;
         individualRates: IndividualRate[];
     }
 
