@@ -103,7 +103,11 @@ describe('Reports API', () => {
     const config: ReportsModel.ReportSettinsConfig = {
         individualRates: [],
         baseRates: { fullTranslation: 0, proofread: 0 },
-        netRateSchemes: [],
+        netRateSchemes: {
+            tmMatch: [],
+            mtMatch: [],
+            suggestionMatch: [],
+        },
     };
     const isPublic = false;
     const userId = 123;
