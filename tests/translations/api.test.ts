@@ -1,5 +1,5 @@
 import * as nock from 'nock';
-import { Credentials, Translations } from '../../src';
+import { Credentials, Translations, TranslationsModel } from '../../src';
 
 describe('Translations API', () => {
     let scope: nock.Scope;
@@ -22,6 +22,7 @@ describe('Translations API', () => {
     const sampleLabelIds = [101, 102];
     const sampleExcludeLabelIds = [103, 104];
     const sampleStatus = 'canceled';
+    const importId = '123';
 
     const limit = 25;
 
@@ -104,7 +105,7 @@ describe('Translations API', () => {
                             id: languageId,
                             files: [
                                 {
-                                    id: fileId.toString(),
+                                    id: fileId,
                                     statistics: {
                                         phrases: 10,
                                         words: 25,
@@ -265,6 +266,58 @@ describe('Translations API', () => {
                 },
             })
             .post(
+                `/projects/${projectId}/translations/imports`,
+                {
+                    storageId: storageId,
+                    languageIds: [languageId],
+                    fileId: fileId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: importId,
+                },
+            })
+            .get(`/projects/${projectId}/translations/imports/${importId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: importId,
+                },
+            })
+            .get(`/projects/${projectId}/translations/imports/${importId}/report`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    languages: [
+                        {
+                            id: languageId,
+                            files: [
+                                {
+                                    id: fileId,
+                                    statistics: {
+                                        phrases: 10,
+                                        words: 25,
+                                    },
+                                },
+                            ],
+                            skipped: {},
+                        },
+                    ],
+                },
+            })
+            .post(
                 `/projects/${projectId}/pre-translations`,
                 {
                     languageIds: [],
@@ -336,7 +389,7 @@ describe('Translations API', () => {
         expect(report.data.languages.length).toBe(1);
         expect(report.data.languages[0].id).toBe(languageId);
         expect(report.data.languages[0].files.length).toBe(1);
-        expect(report.data.languages[0].files[0].id).toBe(fileId.toString());
+        expect(report.data.languages[0].files[0].id).toBe(fileId);
         expect(report.data.languages[0].files[0].statistics.phrases).toBe(10);
         expect(report.data.languages[0].files[0].statistics.words).toBe(25);
         expect(report.data.preTranslateType).toBe('ai');
@@ -409,5 +462,30 @@ describe('Translations API', () => {
             targetLanguageId: languageId,
         });
         expect(res.data.url).toBe(url);
+    });
+
+    it('Import Translations', async () => {
+        const res = await api.importTranslations(projectId, {
+            storageId: storageId,
+            languageIds: [languageId],
+            fileId: fileId,
+        });
+        expect(res.data.identifier).toBe(importId);
+    });
+
+    it('Check Import Translations Status', async () => {
+        const status = await api.importTranslationsStatus(projectId, importId);
+        expect(status.data.identifier).toBe(importId);
+    });
+
+    it('Get Import Translations Report', async () => {
+        const report = await api.importTranslationsReport(projectId, importId);
+        const data = report.data as TranslationsModel.ImportTranslationsReport;
+        expect(data.languages.length).toBe(1);
+        expect(data.languages[0].id).toBe(languageId);
+        expect(data.languages[0].files.length).toBe(1);
+        expect(data.languages[0].files[0].id).toBe(fileId);
+        expect(data.languages[0].files[0].statistics.phrases).toBe(10);
+        expect(data.languages[0].files[0].statistics.words).toBe(25);
     });
 });
