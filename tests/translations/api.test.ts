@@ -105,7 +105,7 @@ describe('Translations API', () => {
                             id: languageId,
                             files: [
                                 {
-                                    id: fileId.toString(),
+                                    id: fileId,
                                     statistics: {
                                         phrases: 10,
                                         words: 25,
@@ -305,7 +305,7 @@ describe('Translations API', () => {
                             id: languageId,
                             files: [
                                 {
-                                    id: fileId.toString(),
+                                    id: fileId,
                                     statistics: {
                                         phrases: 10,
                                         words: 25,
@@ -389,7 +389,7 @@ describe('Translations API', () => {
         expect(report.data.languages.length).toBe(1);
         expect(report.data.languages[0].id).toBe(languageId);
         expect(report.data.languages[0].files.length).toBe(1);
-        expect(report.data.languages[0].files[0].id).toBe(fileId.toString());
+        expect(report.data.languages[0].files[0].id).toBe(fileId);
         expect(report.data.languages[0].files[0].statistics.phrases).toBe(10);
         expect(report.data.languages[0].files[0].statistics.words).toBe(25);
         expect(report.data.preTranslateType).toBe('ai');
@@ -484,7 +484,7 @@ describe('Translations API', () => {
         expect(data.languages.length).toBe(1);
         expect(data.languages[0].id).toBe(languageId);
         expect(data.languages[0].files.length).toBe(1);
-        expect(data.languages[0].files[0].id).toBe(fileId.toString());
+        expect(data.languages[0].files[0].id).toBe(fileId);
         expect(data.languages[0].files[0].statistics.phrases).toBe(10);
         expect(data.languages[0].files[0].statistics.words).toBe(25);
     });

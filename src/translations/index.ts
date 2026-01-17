@@ -507,7 +507,7 @@ export namespace TranslationsModel {
     }
 
     export interface TargetLanguageFile {
-        id: string;
+        id: number;
         statistics: TargetLanguageFileStatistics;
     }
 
