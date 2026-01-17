@@ -172,6 +172,8 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @deprecated
+     *
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
@@ -186,6 +188,9 @@ export class Translations extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    /**
+     * @deprecated
+     */
     uploadTranslationStrings(
         projectId: number,
         languageId: string,
@@ -236,6 +241,61 @@ export class Translations extends CrowdinApi {
     ): Promise<ResponseObject<DownloadLink>> {
         const url = `${this.url}/projects/${projectId}/translations/exports`;
         return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports
+     */
+    importTranslations(
+        projectId: number,
+        request: TranslationsModel.ImportTranslationsRequest | TranslationsModel.ImportTranslationsStringsRequest,
+    ): Promise<
+        ResponseObject<
+            Status<
+                | TranslationsModel.ImportTranslationsStatusAttributes
+                | TranslationsModel.ImportTranslationsStringsStatusAttributes
+            >
+        >
+    > {
+        const url = `${this.url}/projects/${projectId}/translations/imports`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.get
+     */
+    importTranslationsStatus(
+        projectId: number,
+        importId: string,
+    ): Promise<
+        ResponseObject<
+            Status<
+                | TranslationsModel.ImportTranslationsStatusAttributes
+                | TranslationsModel.ImportTranslationsStringsStatusAttributes
+            >
+        >
+    > {
+        const url = `${this.url}/projects/${projectId}/translations/imports/${importId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.report.get
+     */
+    importTranslationsReport(
+        projectId: number,
+        importId: string,
+    ): Promise<
+        ResponseObject<TranslationsModel.ImportTranslationsReport | TranslationsModel.ImportTranslationsStringsReport>
+    > {
+        const url = `${this.url}/projects/${projectId}/translations/imports/${importId}/report`;
+        return this.get(url, this.defaultConfig());
     }
 }
 
@@ -459,4 +519,101 @@ export namespace TranslationsModel {
     export interface SkippedInfo {
         [key: string]: any;
     }
+
+    /* Import Translations START */
+
+    export interface ImportTranslationsRequest {
+        storageId: number;
+        languageIds?: string[];
+        fileId?: number;
+        importEqSuggestions?: boolean;
+        autoApproveImported?: boolean;
+        translateHidden?: boolean;
+        addToTm?: boolean;
+    }
+
+    export interface ImportTranslationsStringsRequest {
+        storageId: number;
+        languageIds?: string[];
+        branchId: number;
+        importEqSuggestions?: boolean;
+        autoApproveImported?: boolean;
+        translateHidden?: boolean;
+        addToTm?: boolean;
+        importOptions?: {
+            scheme?: {
+                none?: number;
+                identifier?: number;
+                sourceOrTranslation?: number;
+                translation?: number;
+                [languageCode: string]: number | undefined;
+            };
+        };
+    }
+
+    export interface ImportTranslationsStatusAttributes {
+        storageId: number;
+        fileId: number;
+        importEqSuggestions: boolean;
+        autoApproveImported: boolean;
+        translateHidden: boolean;
+        addToTm: boolean;
+        languageIds: string[];
+    }
+
+    export interface ImportTranslationsStringsStatusAttributes {
+        storageId: number;
+        branchId: number;
+        importEqSuggestions: boolean;
+        autoApproveImported: boolean;
+        translateHidden: boolean;
+        addToTm: boolean;
+        languageIds: string[];
+    }
+
+    export interface ImportTranslationsReport {
+        languages: {
+            id: string;
+            files: {
+                id: number;
+                statistics: {
+                    phrases: number;
+                    words: number;
+                };
+            }[];
+            skipped: {
+                translationEqSource: number;
+                hiddenStrings: number;
+                qaCheck: number;
+            };
+            skippedQaCheckCategories: {
+                size: number;
+                duplicate: number;
+            };
+        }[];
+    }
+
+    export interface ImportTranslationsStringsReport {
+        languages: {
+            id: string;
+            branches: {
+                id: number;
+                statistics: {
+                    phrases: number;
+                    words: number;
+                };
+            }[];
+            skipped: {
+                translationEqSource: number;
+                hiddenStrings: number;
+                qaCheck: number;
+            };
+            skippedQaCheckCategories: {
+                size: number;
+                duplicate: number;
+            };
+        }[];
+    }
+
+    /* Import Translations END */
 }
