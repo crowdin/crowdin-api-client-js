@@ -917,6 +917,20 @@ export class Ai extends CrowdinApi {
 
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.translate.strings.post
+     */
+    aiUserTranslateStrings(
+        userId: number,
+        request: AiModel.AiTranslateStringsRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiTranslateStringsAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/translate/strings`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
 }
 
 export namespace AiModel {
@@ -1309,6 +1323,20 @@ export namespace AiModel {
         }[];
     }
     /* ai Settings Section END*/
+
+    /* ai Translate Strings Section START*/
+    export interface AiTranslateStringsRequest {
+        projectId: number;
+        languageId: string;
+        stringIds?: number[];
+    }
+
+    export interface AiTranslateStringsAttribute {
+        projectId: number;
+        languageId: string;
+        stringIds: number[];
+    }
+    /* ai Translate Strings Section END*/
 
     export type Action = 'pre_translate' | 'assist';
     export type ProviderType =

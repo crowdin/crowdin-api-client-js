@@ -22,6 +22,7 @@ describe('AI API', () => {
     const completionId = 'test-id2';
     const link = 'crowdin.com/test.pdf';
     const projectId = 123;
+    const languageId = 'uk';
     const jobId = 'test-job';
     const eventId = '12312event';
 
@@ -1005,6 +1006,24 @@ describe('AI API', () => {
                 data: {
                     assistActionAiPromptId,
                 },
+            })
+            .post(
+                `/users/${userId}/ai/translate/strings`,
+                {
+                    projectId,
+                    languageId,
+                    stringIds: [1],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
             });
     });
 
@@ -1460,5 +1479,14 @@ describe('AI API', () => {
             },
         ]);
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('AI User Translate Strings', async () => {
+        const res = await api.aiUserTranslateStrings(userId, {
+            projectId,
+            languageId,
+            stringIds: [1],
+        });
+        expect(res.data.identifier).toBe(jobId);
     });
 });
