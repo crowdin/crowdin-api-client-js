@@ -29,3 +29,9 @@ Use these URLs:
 - https://support.crowdin.com/_llms-txt/api/enterprise/string-based.txt - Crowdin Enterprise API (string-based projects)
 
 Each index contains a list of links to the API method details (e.g. https://support.crowdin.com/_llms-txt/api/enterprise/file-based/api.projects.strings.get.txt).
+
+## Pull Requests And Commits
+
+- Target branch: `master`.
+- Use Conventional Commits for commit messages and PR titles.
+- Before opening a PR, run tests and formatting checks locally.
