@@ -129,8 +129,14 @@ export namespace DistributionsModel {
     }
 
     export interface CreateDistributionRequest {
+        /**
+         * @deprecated use bundleIds instead
+         */
         exportMode?: ExportMode;
         name: string;
+        /**
+         * @deprecated use bundleIds instead
+         */
         fileIds?: number[];
         bundleIds?: number[];
     }
