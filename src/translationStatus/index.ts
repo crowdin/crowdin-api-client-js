@@ -1,4 +1,4 @@
-import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList } from '../core';
+import { CrowdinApi, isOptionalNumber, PaginationOptions, ResponseList, ResponseObject, Status } from '../core';
 import { LanguagesModel } from '../languages';
 
 /**
@@ -254,6 +254,42 @@ export class TranslationStatus extends CrowdinApi {
         url = this.addQueryParam(url, 'languageIds', options.languageIds);
         return this.getList(url, options.limit, options.offset);
     }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.post
+     */
+    revalidateQaChecks(
+        projectId: number,
+        request?: TranslationStatusModel.RevalidateQaChecksRequest,
+    ): Promise<ResponseObject<Status<TranslationStatusModel.QaChecksRevalidationAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/qa-checks/revalidate`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param revalidationId QA checks revalidation identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.get
+     */
+    getQaChecksRevalidationStatus(
+        projectId: number,
+        revalidationId: string,
+    ): Promise<ResponseObject<Status<TranslationStatusModel.QaChecksRevalidationAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/qa-checks/revalidate/${revalidationId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param revalidationId QA checks revalidation identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.delete
+     */
+    cancelQaChecksRevalidation(projectId: number, revalidationId: string): Promise<void> {
+        const url = `${this.url}/projects/${projectId}/qa-checks/revalidate/${revalidationId}`;
+        return this.delete(url, this.defaultConfig());
+    }
 }
 
 export namespace TranslationStatusModel {
@@ -361,5 +397,17 @@ export namespace TranslationStatusModel {
 
     export interface GetProjectProgressOptions extends PaginationOptions {
         languageIds?: string;
+    }
+
+    export interface RevalidateQaChecksRequest {
+        qaCheckCategories?: string[];
+        languageIds?: string[];
+        failedOnly?: boolean;
+    }
+
+    export interface QaChecksRevalidationAttributes {
+        languageIds: string[];
+        qaCheckCategories: string[];
+        failedOnly: boolean;
     }
 }
