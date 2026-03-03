@@ -16,6 +16,7 @@ describe('Translation Status API', () => {
     const languageId = 'uk';
 
     const limit = 25;
+    const revalidationId = 'b5215a34-1305-4b21-8054-fc2eb252842f';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -137,7 +138,55 @@ describe('Translation Status API', () => {
                     offset: 0,
                     limit: limit,
                 },
-            });
+            })
+            .post(`/projects/${projectId}/qa-checks/revalidate`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(202, {
+                data: {
+                    identifier: revalidationId,
+                    status: 'created',
+                    progress: 0,
+                    attributes: {
+                        languageIds: [languageId],
+                        qaCheckCategories: ['ai'],
+                        failedOnly: false,
+                    },
+                    createdAt: '2025-09-23T11:51:08+00:00',
+                    updatedAt: '2025-09-23T11:51:08+00:00',
+                    startedAt: null,
+                    finishedAt: null,
+                },
+            })
+            .get(`/projects/${projectId}/qa-checks/revalidate/${revalidationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: revalidationId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: {
+                        languageIds: [languageId],
+                        qaCheckCategories: ['ai'],
+                        failedOnly: false,
+                    },
+                    createdAt: '2025-09-23T11:51:08+00:00',
+                    updatedAt: '2025-09-23T11:51:08+00:00',
+                    startedAt: '2025-09-23T11:51:10+00:00',
+                    finishedAt: '2025-09-23T11:51:20+00:00',
+                },
+            })
+            .delete(`/projects/${projectId}/qa-checks/revalidate/${revalidationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204);
     });
 
     afterAll(() => {
@@ -185,5 +234,23 @@ describe('Translation Status API', () => {
         expect(qaChecks.data.length).toBe(1);
         expect(qaChecks.data[0].data.languageId).toBe(languageId);
         expect(qaChecks.pagination.limit).toBe(limit);
+    });
+
+    it('Revalidate QA Checks', async () => {
+        const revalidation = await api.revalidateQaChecks(projectId);
+        expect(revalidation.data.identifier).toBe(revalidationId);
+        expect(revalidation.data.status).toBe('created');
+        expect(revalidation.data.progress).toBe(0);
+    });
+
+    it('Get QA Checks Revalidation Status', async () => {
+        const revalidation = await api.getQaChecksRevalidationStatus(projectId, revalidationId);
+        expect(revalidation.data.identifier).toBe(revalidationId);
+        expect(revalidation.data.status).toBe('finished');
+        expect(revalidation.data.progress).toBe(100);
+    });
+
+    it('Cancel QA Checks Revalidation', async () => {
+        await api.cancelQaChecksRevalidation(projectId, revalidationId);
     });
 });
