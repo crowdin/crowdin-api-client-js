@@ -93,6 +93,30 @@ describe('Translations API', () => {
                     identifier: preTranslationId,
                 },
             })
+            .patch(
+                `/projects/${projectId}/pre-translations`,
+                [
+                    {
+                        op: 'replace',
+                        path: `/${preTranslationId}/status`,
+                        value: sampleStatus,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            identifier: preTranslationId,
+                        },
+                    },
+                ],
+            })
             .get(`/projects/${projectId}/pre-translations/${preTranslationId}/report`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -382,6 +406,18 @@ describe('Translations API', () => {
             },
         ]);
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Edit Pre-translations (batch)', async () => {
+        const preTranslations = await api.editPreTranslations(projectId, [
+            {
+                op: 'replace',
+                path: `/${preTranslationId}/status`,
+                value: sampleStatus,
+            },
+        ]);
+        expect(preTranslations.data.length).toBe(1);
+        expect(preTranslations.data[0].data.identifier).toBe(preTranslationId);
     });
 
     it('Get Pre-translation Report', async () => {

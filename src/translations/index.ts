@@ -73,6 +73,19 @@ export class Translations extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#tag/Translations/operation/api.projects.pre-translations.patchBatch
+     */
+    editPreTranslations(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseList<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
+        const url = `${this.url}/projects/${projectId}/pre-translations`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param projectId project identifier
      * @param preTranslationId pre translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.report.getReport
      */
@@ -389,11 +402,14 @@ export namespace TranslationsModel {
         skipApprovedTranslations: boolean;
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
+        priority: Priority;
     }
 
     export type Method = 'tm' | 'mt' | 'ai';
 
     export type AutoApproveOption = 'all' | 'exceptAutoSubstituted' | 'perfectMatchOnly' | 'none';
+
+    export type Priority = 'low' | 'normal' | 'high';
 
     export type CharTransformation = 'asian' | 'european' | 'arabic' | 'cyrillic';
 
