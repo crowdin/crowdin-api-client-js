@@ -21,6 +21,7 @@ import { SourceFiles } from './sourceFiles';
 import { SourceStrings } from './sourceStrings';
 import { StringComments } from './stringComments';
 import { StringCorrections } from './stringCorrections';
+import { StyleGuides } from './styleGuides';
 import { StringTranslations } from './stringTranslations';
 import { Tasks } from './tasks';
 import { Teams } from './teams';
@@ -56,6 +57,7 @@ export * from './sourceFiles';
 export * from './sourceStrings';
 export * from './stringComments';
 export * from './stringCorrections';
+export * from './styleGuides';
 export * from './stringTranslations';
 export * from './tasks';
 export * from './teams';
@@ -108,6 +110,7 @@ export default class Client extends CrowdinApi {
     readonly securityLogsApi: SecurityLogs;
     readonly fieldsApi: Fields;
     readonly stringCorrectionsApi: StringCorrections;
+    readonly styleGuidesApi: StyleGuides;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -144,6 +147,7 @@ export default class Client extends CrowdinApi {
         this.securityLogsApi = new SecurityLogs(credentials, config);
         this.fieldsApi = new Fields(credentials, config);
         this.stringCorrectionsApi = new StringCorrections(credentials, config);
+        this.styleGuidesApi = new StyleGuides(credentials, config);
     }
 }
 
