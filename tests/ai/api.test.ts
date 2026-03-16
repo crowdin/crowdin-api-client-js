@@ -469,6 +469,24 @@ describe('AI API', () => {
                     limit: limit,
                 },
             })
+            .get('/ai/providers/supported-models', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: aiModelId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(`/ai/providers/${aiProviderId}/chat/completions`, field, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -939,6 +957,24 @@ describe('AI API', () => {
                     limit: limit,
                 },
             })
+            .get(`/users/${userId}/ai/providers/supported-models`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: aiModelId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(`/users/${userId}/ai/providers/${aiProviderId}/chat/completions`, field, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -1220,6 +1256,13 @@ describe('AI API', () => {
         expect(providers.pagination.limit).toBe(limit);
     });
 
+    it('List AI Organization Supported Provider Models', async () => {
+        const providers = await api.listAiOrganizationSupportedProviderModels();
+        expect(providers.data.length).toBe(1);
+        expect(providers.data[0].data.id).toBe(aiModelId);
+        expect(providers.pagination.limit).toBe(limit);
+    });
+
     it('Create AI Organization Proxy Chat Completion', async () => {
         const proxy = await api.createAiOrganizationProxyChatCompletion(aiProviderId, field);
         expect(proxy.data).toStrictEqual(field);
@@ -1440,6 +1483,13 @@ describe('AI API', () => {
 
     it('List AI User All Provider Models', async () => {
         const providers = await api.listAiUserAllProviderModels(userId);
+        expect(providers.data.length).toBe(1);
+        expect(providers.data[0].data.id).toBe(aiModelId);
+        expect(providers.pagination.limit).toBe(limit);
+    });
+
+    it('List AI User Supported Provider Models', async () => {
+        const providers = await api.listAiUserSupportedProviderModels(userId);
         expect(providers.data.length).toBe(1);
         expect(providers.data[0].data.id).toBe(aiModelId);
         expect(providers.pagination.limit).toBe(limit);

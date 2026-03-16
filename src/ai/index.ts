@@ -367,6 +367,20 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.supported-models.enterprise.getMany
+     */
+    listAiOrganizationSupportedProviderModels(
+        options?: AiModel.ListSupportedProviderModelsOptions,
+    ): Promise<ResponseList<AiModel.AiSupportedProviderModelResponse>> {
+        let url = `${this.url}/ai/providers/supported-models`;
+        url = this.addQueryParam(url, 'providerType', options?.providerType);
+        url = this.addQueryParam(url, 'enabled', options?.enabled?.toString());
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post
@@ -850,6 +864,22 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.supported-models.crowdin.getMany
+     */
+    listAiUserSupportedProviderModels(
+        userId: number,
+        options?: AiModel.ListSupportedProviderModelsOptions,
+    ): Promise<ResponseList<AiModel.AiSupportedProviderModelResponse>> {
+        let url = `${this.url}/users/${userId}/ai/providers/supported-models`;
+        url = this.addQueryParam(url, 'providerType', options?.providerType);
+        url = this.addQueryParam(url, 'enabled', options?.enabled?.toString());
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @param userId user Identifier
      * @param aiProviderId ai Provider identifier
      * @param request request body
@@ -1275,6 +1305,48 @@ export namespace AiModel {
     /* ai Provider Models Section START*/
     export interface AiProviderModelResponse {
         id: string;
+    }
+
+    export interface AiSupportedProviderModelResponse {
+        providerId: number | null;
+        providerType: string;
+        providerName: string;
+        id: string;
+        displayName: string;
+        supportReasoning: boolean;
+        intelligence: number;
+        speed: number;
+        price: {
+            input: number;
+            output: number;
+        };
+        modalities: {
+            input: {
+                text: boolean;
+                image: boolean;
+                audio: boolean;
+            };
+            output: {
+                text: boolean;
+                image: boolean;
+                audio: boolean;
+            };
+        };
+        contextWindow: number;
+        maxOutputTokens: number;
+        knowledgeCutoff: string | null;
+        releaseDate: string | null;
+        features: {
+            streaming: boolean;
+            structuredOutput: boolean;
+            functionCalling: boolean;
+        };
+    }
+
+    export interface ListSupportedProviderModelsOptions extends PaginationOptions {
+        providerType?: ProviderType;
+        enabled?: boolean;
+        orderBy?: string;
     }
     /* ai Provider Models Section END*/
 
