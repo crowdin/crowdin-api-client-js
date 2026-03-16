@@ -11,6 +11,7 @@ describe('String Comments API', () => {
     const projectId = 2;
     const stringId = 3;
     const stringCommentId = 4;
+    const attachmentId = 5;
     const text = 'test';
     const languageId = 'uk';
     const type = 'comment';
@@ -131,6 +132,17 @@ describe('String Comments API', () => {
                         },
                     },
                 ],
+            })
+            .delete(`/projects/${projectId}/comments/${stringCommentId}/attachments/${attachmentId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: stringCommentId,
+                    attachments: [],
+                },
             });
     });
 
@@ -196,5 +208,11 @@ describe('String Comments API', () => {
         expect(translations.data[0].data.text).toBe(text);
         expect(translations.data[0].data.type).toBe(type);
         expect(translations.data[0].data.issueType).toBe(issueType);
+    });
+
+    it('Delete string comment attachment', async () => {
+        const comment = await api.deleteStringCommentAttachment(projectId, stringCommentId, attachmentId);
+        expect(comment.data.id).toBe(stringCommentId);
+        expect(comment.data.attachments).toEqual([]);
     });
 });

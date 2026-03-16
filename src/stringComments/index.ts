@@ -122,6 +122,21 @@ export class StringComments extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/comments`;
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param stringCommentId string comment identifier
+     * @param attachmentId attachment identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.attachments.delete
+     */
+    deleteStringCommentAttachment(
+        projectId: number,
+        stringCommentId: number,
+        attachmentId: number,
+    ): Promise<ResponseObject<StringCommentsModel.StringComment>> {
+        const url = `${this.url}/projects/${projectId}/comments/${stringCommentId}/attachments/${attachmentId}`;
+        return this.delete(url, this.defaultConfig());
+    }
 }
 
 export namespace StringCommentsModel {
@@ -159,6 +174,18 @@ export namespace StringCommentsModel {
         resolver: User;
         resolvedAt: string;
         createdAt: string;
+        attachments?: Attachment[];
+    }
+
+    export interface Attachment {
+        id: number;
+        name: string;
+        mime: string;
+        size: number;
+        category: string;
+        thumbnailUrl: string | null;
+        url: string;
+        downloadUrl: string;
     }
 
     export interface User {
@@ -185,6 +212,11 @@ export namespace StringCommentsModel {
         type: Type;
         isShared?: boolean;
         issueType?: IssueType;
+        attachments?: AttachmentRequest[];
+    }
+
+    export interface AttachmentRequest {
+        id: number;
     }
 
     export type Type = 'comment' | 'issue';
