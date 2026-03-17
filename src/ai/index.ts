@@ -442,6 +442,18 @@ export class Ai extends CrowdinApi {
         return this.patch(url, request, this.defaultConfig());
     }
 
+    /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.translate.strings.post
+     */
+    translateAiOrganizationStrings(
+        request: AiModel.AiTranslateStringsRequest,
+    ): Promise<ResponseObject<AiModel.AiTranslateStringsResponse>> {
+        const url = `${this.url}/ai/translate`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
     // Community
 
     /**

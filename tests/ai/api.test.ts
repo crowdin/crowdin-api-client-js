@@ -554,6 +554,25 @@ describe('AI API', () => {
                     assistActionAiPromptId,
                 },
             })
+            .post(
+                '/ai/translate',
+                {
+                    strings: ['Some text to translate!'],
+                    targetLanguageId: 'uk',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    sourceLanguageId: 'en',
+                    targetLanguageId: 'uk',
+                    translations: ['Перекладений текст'],
+                },
+            })
             .get(`/users/${userId}/ai/settings/custom-placeholders`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -1297,6 +1316,16 @@ describe('AI API', () => {
             },
         ]);
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
+    });
+
+    it('Translate AI Organization Strings', async () => {
+        const res = await api.translateAiOrganizationStrings({
+            strings: ['Some text to translate!'],
+            targetLanguageId: 'uk',
+        });
+        expect(res.data.sourceLanguageId).toBe('en');
+        expect(res.data.targetLanguageId).toBe('uk');
+        expect(res.data.translations).toStrictEqual(['Перекладений текст']);
     });
 
     it('List AI User Custom Placeholders', async () => {
