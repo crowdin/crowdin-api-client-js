@@ -9,6 +9,7 @@ describe('Style Guides API', () => {
     };
     const api: StyleGuides = new StyleGuides(credentials);
     const styleGuideId = 2;
+    const groupId = 5;
     const storageId = 1;
     const name = "Be My Eyes iOS's Style Guide";
 
@@ -26,6 +27,7 @@ describe('Style Guides API', () => {
                     {
                         data: {
                             id: styleGuideId,
+                            groupId: groupId,
                         },
                     },
                 ],
@@ -46,9 +48,10 @@ describe('Style Guides API', () => {
                     },
                 },
             )
-            .reply(200, {
+            .reply(201, {
                 data: {
                     id: styleGuideId,
+                    groupId: groupId,
                 },
             })
             .get(`/style-guides/${styleGuideId}`, undefined, {
@@ -59,6 +62,7 @@ describe('Style Guides API', () => {
             .reply(200, {
                 data: {
                     id: styleGuideId,
+                    groupId: groupId,
                 },
             })
             .delete(`/style-guides/${styleGuideId}`, undefined, {
@@ -85,6 +89,7 @@ describe('Style Guides API', () => {
             .reply(200, {
                 data: {
                     id: styleGuideId,
+                    groupId: groupId,
                 },
             });
     });
@@ -103,11 +108,13 @@ describe('Style Guides API', () => {
     it('Create style guide', async () => {
         const styleGuide = await api.createStyleGuide({ name, storageId });
         expect(styleGuide.data.id).toBe(styleGuideId);
+        expect(styleGuide.data).toHaveProperty('groupId', groupId);
     });
 
     it('Get style guide', async () => {
         const styleGuide = await api.getStyleGuide(styleGuideId);
         expect(styleGuide.data.id).toBe(styleGuideId);
+        expect(styleGuide.data).toHaveProperty('groupId', groupId);
     });
 
     it('Delete style guide', async () => {
@@ -123,5 +130,6 @@ describe('Style Guides API', () => {
             },
         ]);
         expect(styleGuide.data.id).toBe(styleGuideId);
+        expect(styleGuide.data).toHaveProperty('groupId', groupId);
     });
 });
