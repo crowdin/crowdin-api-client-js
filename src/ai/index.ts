@@ -956,8 +956,8 @@ export class Ai extends CrowdinApi {
     translateAiUserStrings(
         userId: number,
         request: AiModel.AiTranslateStringsRequest,
-    ): Promise<ResponseObject<Status<AiModel.AiTranslateStringsAttribute>>> {
-        const url = `${this.url}/users/${userId}/ai/translate/strings`;
+    ): Promise<ResponseObject<AiModel.AiTranslateStringsResponse>> {
+        const url = `${this.url}/users/${userId}/ai/translate`;
 
         return this.post(url, request, this.defaultConfig());
     }
@@ -1398,15 +1398,22 @@ export namespace AiModel {
 
     /* ai Translate Strings Section START*/
     export interface AiTranslateStringsRequest {
-        projectId: number;
-        languageId: string;
-        stringIds?: number[];
+        strings: string[];
+        targetLanguageId: string;
+        sourceLanguageId?: string;
+        tmIds?: number[];
+        glossaryIds?: number[];
+        aiPromptId?: number;
+        aiProviderId?: number;
+        aiModelId?: string;
+        instructions?: string[];
+        attachmentIds?: number[];
     }
 
-    export interface AiTranslateStringsAttribute {
-        projectId: number;
-        languageId: string;
-        stringIds: number[];
+    export interface AiTranslateStringsResponse {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        translations: string[];
     }
     /* ai Translate Strings Section END*/
 

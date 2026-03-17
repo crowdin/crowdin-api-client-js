@@ -22,7 +22,6 @@ describe('AI API', () => {
     const completionId = 'test-id2';
     const link = 'crowdin.com/test.pdf';
     const projectId = 123;
-    const languageId = 'uk';
     const jobId = 'test-job';
     const eventId = '12312event';
 
@@ -1044,11 +1043,10 @@ describe('AI API', () => {
                 },
             })
             .post(
-                `/users/${userId}/ai/translate/strings`,
+                `/users/${userId}/ai/translate`,
                 {
-                    projectId,
-                    languageId,
-                    stringIds: [1],
+                    strings: ['Some text to translate!'],
+                    targetLanguageId: 'uk',
                 },
                 {
                     reqheaders: {
@@ -1058,7 +1056,9 @@ describe('AI API', () => {
             )
             .reply(200, {
                 data: {
-                    identifier: jobId,
+                    sourceLanguageId: 'en',
+                    targetLanguageId: 'uk',
+                    translations: ['Перекладений текст'],
                 },
             });
     });
@@ -1533,10 +1533,11 @@ describe('AI API', () => {
 
     it('Translate AI User Strings', async () => {
         const res = await api.translateAiUserStrings(userId, {
-            projectId,
-            languageId,
-            stringIds: [1],
+            strings: ['Some text to translate!'],
+            targetLanguageId: 'uk',
         });
-        expect(res.data.identifier).toBe(jobId);
+        expect(res.data.sourceLanguageId).toBe('en');
+        expect(res.data.targetLanguageId).toBe('uk');
+        expect(res.data.translations).toStrictEqual(['Перекладений текст']);
     });
 });
