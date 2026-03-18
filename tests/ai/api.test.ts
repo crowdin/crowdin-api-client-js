@@ -1545,7 +1545,7 @@ describe('AI API', () => {
     });
 
     it('Get AI User Settings', async () => {
-        const settings = await api.getAiUsertSettings(userId);
+        const settings = await api.getAiUserSettings(userId);
         expect(settings.data.assistActionAiPromptId).toBe(assistActionAiPromptId);
     });
 
