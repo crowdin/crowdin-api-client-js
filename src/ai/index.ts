@@ -11,6 +11,7 @@ import {
 
 export class Ai extends CrowdinApi {
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param options request options
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany
      */
@@ -22,6 +23,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post
      */
@@ -33,6 +35,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get
      */
@@ -44,6 +47,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete
      */
@@ -53,6 +57,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch
@@ -66,6 +71,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post
@@ -80,6 +86,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.get
@@ -94,6 +101,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
      * @param options request options
@@ -109,6 +117,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param options request options
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany
      */
@@ -122,6 +131,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post
@@ -136,6 +146,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
@@ -150,6 +161,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get
@@ -429,7 +441,7 @@ export class Ai extends CrowdinApi {
      */
     getAiOrganizationSettings(): Promise<ResponseObject<AiModel.AiSettings>> {
         const url = `${this.url}/ai/settings`;
-        return this.get(url);
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -457,6 +469,7 @@ export class Ai extends CrowdinApi {
     // Community
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param options request options
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompt.custom.placeholders.getMany
@@ -470,6 +483,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.post
@@ -483,6 +497,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.get
@@ -496,6 +511,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.delete
@@ -506,6 +522,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @param request request body
@@ -521,6 +538,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -537,6 +555,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -553,6 +572,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -570,6 +590,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param options request options
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany
@@ -585,6 +606,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -601,6 +623,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -617,6 +640,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -944,9 +968,9 @@ export class Ai extends CrowdinApi {
      * @param userId user Identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.get
      */
-    getAiUsertSettings(userId: number): Promise<ResponseObject<AiModel.AiSettings>> {
+    getAiUserSettings(userId: number): Promise<ResponseObject<AiModel.AiSettings>> {
         const url = `${this.url}/users/${userId}/ai/settings`;
-        return this.get(url);
+        return this.get(url, this.defaultConfig());
     }
 
     /**
