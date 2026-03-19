@@ -7,7 +7,7 @@ export class StyleGuides extends CrowdinApi {
      */
     listStyleGuides(
         options?: StyleGuidesModel.ListStyleGuidesOptions,
-    ): Promise<ResponseList<StyleGuidesModel.StyleGuide | StyleGuidesModel.StyleGuideEnterprise>> {
+    ): Promise<ResponseList<StyleGuidesModel.StyleGuide>> {
         let url = `${this.url}/style-guides`;
         url = this.addQueryParam(url, 'orderBy', options?.orderBy);
         url = this.addQueryParam(url, 'userId', options?.userId);
@@ -19,8 +19,8 @@ export class StyleGuides extends CrowdinApi {
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.post
      */
     createStyleGuide(
-        request: StyleGuidesModel.CreateStyleGuideRequest | StyleGuidesModel.CreateStyleGuideEnterpriseRequest,
-    ): Promise<ResponseObject<StyleGuidesModel.StyleGuide | StyleGuidesModel.StyleGuideEnterprise>> {
+        request: StyleGuidesModel.CreateStyleGuideRequest,
+    ): Promise<ResponseObject<StyleGuidesModel.StyleGuide>> {
         const url = `${this.url}/style-guides`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -29,9 +29,7 @@ export class StyleGuides extends CrowdinApi {
      * @param styleGuideId style guide identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.get
      */
-    getStyleGuide(
-        styleGuideId: number,
-    ): Promise<ResponseObject<StyleGuidesModel.StyleGuide | StyleGuidesModel.StyleGuideEnterprise>> {
+    getStyleGuide(styleGuideId: number): Promise<ResponseObject<StyleGuidesModel.StyleGuide>> {
         const url = `${this.url}/style-guides/${styleGuideId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -53,7 +51,7 @@ export class StyleGuides extends CrowdinApi {
     editStyleGuide(
         styleGuideId: number,
         request: PatchRequest[],
-    ): Promise<ResponseObject<StyleGuidesModel.StyleGuide | StyleGuidesModel.StyleGuideEnterprise>> {
+    ): Promise<ResponseObject<StyleGuidesModel.StyleGuide>> {
         const url = `${this.url}/style-guides/${styleGuideId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -72,10 +70,8 @@ export namespace StyleGuidesModel {
         downloadLink: string;
         createdAt: string;
         updatedAt: string;
-    }
-
-    export interface StyleGuideEnterprise extends StyleGuide {
-        groupId: number;
+        /** Enterprise only */
+        groupId?: number;
     }
 
     export interface CreateStyleGuideRequest {
@@ -85,9 +81,7 @@ export namespace StyleGuidesModel {
         languageIds?: string[];
         projectIds?: number[];
         isShared?: boolean;
-    }
-
-    export interface CreateStyleGuideEnterpriseRequest extends CreateStyleGuideRequest {
+        /** Enterprise only */
         groupId?: number | null;
     }
 
