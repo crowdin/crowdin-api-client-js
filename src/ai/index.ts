@@ -466,6 +466,60 @@ export class Ai extends CrowdinApi {
         return this.post(url, request, this.defaultConfig());
     }
 
+    /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.post
+     */
+    startAiOrganizationFileTranslation(
+        request: AiModel.AiFileTranslationRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiFileTranslationAttribute>>> {
+        const url = `${this.url}/ai/file-translations`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.get
+     */
+    getAiOrganizationFileTranslationStatus(
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.AiFileTranslationAttribute>>> {
+        const url = `${this.url}/ai/file-translations/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.delete
+     */
+    cancelAiOrganizationFileTranslation(jobIdentifier: string): Promise<void> {
+        const url = `${this.url}/ai/file-translations/${jobIdentifier}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download
+     */
+    downloadAiOrganizationFileTranslation(jobIdentifier: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/file-translations/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download-strings
+     */
+    downloadAiOrganizationFileTranslationStrings(jobIdentifier: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/file-translations/${jobIdentifier}/translations`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
     // Community
 
     /**
