@@ -573,6 +573,59 @@ describe('AI API', () => {
                     translations: ['Перекладений текст'],
                 },
             })
+            .post(
+                '/ai/file-translations',
+                {
+                    storageId: 1,
+                    targetLanguageId: 'uk',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/ai/file-translations/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .delete(`/ai/file-translations/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(`/ai/file-translations/${jobId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
+            .get(`/ai/file-translations/${jobId}/translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
             .get(`/users/${userId}/ai/settings/custom-placeholders`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -1079,6 +1132,59 @@ describe('AI API', () => {
                     targetLanguageId: 'uk',
                     translations: ['Перекладений текст'],
                 },
+            })
+            .post(
+                `/users/${userId}/ai/file-translations`,
+                {
+                    storageId: 1,
+                    targetLanguageId: 'uk',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .get(`/users/${userId}/ai/file-translations/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                },
+            })
+            .delete(`/users/${userId}/ai/file-translations/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200)
+            .get(`/users/${userId}/ai/file-translations/${jobId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
+            })
+            .get(`/users/${userId}/ai/file-translations/${jobId}/translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    url: link,
+                },
             });
     });
 
@@ -1328,6 +1434,33 @@ describe('AI API', () => {
         expect(res.data.translations).toStrictEqual(['Перекладений текст']);
     });
 
+    it('Start AI Organization File Translation', async () => {
+        const res = await api.startAiOrganizationFileTranslation({
+            storageId: 1,
+            targetLanguageId: 'uk',
+        });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI Organization File Translation Status', async () => {
+        const res = await api.getAiOrganizationFileTranslationStatus(jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Cancel AI Organization File Translation', async () => {
+        await api.cancelAiOrganizationFileTranslation(jobId);
+    });
+
+    it('Download AI Organization File Translation', async () => {
+        const res = await api.downloadAiOrganizationFileTranslation(jobId);
+        expect(res.data.url).toBe(link);
+    });
+
+    it('Download AI Organization File Translation Strings', async () => {
+        const res = await api.downloadAiOrganizationFileTranslationStrings(jobId);
+        expect(res.data.url).toBe(link);
+    });
+
     it('List AI User Custom Placeholders', async () => {
         const placeholders = await api.listAiUserCustomPlaceholders(userId);
         expect(placeholders.data.length).toBe(1);
@@ -1568,5 +1701,32 @@ describe('AI API', () => {
         expect(res.data.sourceLanguageId).toBe('en');
         expect(res.data.targetLanguageId).toBe('uk');
         expect(res.data.translations).toStrictEqual(['Перекладений текст']);
+    });
+
+    it('Start AI User File Translation', async () => {
+        const res = await api.startAiUserFileTranslation(userId, {
+            storageId: 1,
+            targetLanguageId: 'uk',
+        });
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Get AI User File Translation Status', async () => {
+        const res = await api.getAiUserFileTranslationStatus(userId, jobId);
+        expect(res.data.identifier).toBe(jobId);
+    });
+
+    it('Cancel AI User File Translation', async () => {
+        await api.cancelAiUserFileTranslation(userId, jobId);
+    });
+
+    it('Download AI User File Translation', async () => {
+        const res = await api.downloadAiUserFileTranslation(userId, jobId);
+        expect(res.data.url).toBe(link);
+    });
+
+    it('Download AI User File Translation Strings', async () => {
+        const res = await api.downloadAiUserFileTranslationStrings(userId, jobId);
+        expect(res.data.url).toBe(link);
     });
 });
