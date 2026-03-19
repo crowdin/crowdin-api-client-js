@@ -997,6 +997,67 @@ export class Ai extends CrowdinApi {
 
         return this.post(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.post
+     */
+    startAiUserFileTranslation(
+        userId: number,
+        request: AiModel.AiFileTranslationRequest,
+    ): Promise<ResponseObject<Status<AiModel.AiFileTranslationAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/file-translations`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.get
+     */
+    getAiUserFileTranslationStatus(
+        userId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<Status<AiModel.AiFileTranslationAttribute>>> {
+        const url = `${this.url}/users/${userId}/ai/file-translations/${jobIdentifier}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.delete
+     */
+    cancelAiUserFileTranslation(userId: number, jobIdentifier: string): Promise<void> {
+        const url = `${this.url}/users/${userId}/ai/file-translations/${jobIdentifier}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download
+     */
+    downloadAiUserFileTranslation(userId: number, jobIdentifier: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/file-translations/${jobIdentifier}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier job identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download-strings
+     */
+    downloadAiUserFileTranslationStrings(userId: number, jobIdentifier: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/file-translations/${jobIdentifier}/translations`;
+
+        return this.get(url, this.defaultConfig());
+    }
 }
 
 export namespace AiModel {
@@ -1431,6 +1492,37 @@ export namespace AiModel {
         }[];
     }
     /* ai Settings Section END*/
+
+    /* ai File Translation Section START*/
+    export interface AiFileTranslationRequest {
+        storageId: number;
+        targetLanguageId: string;
+        sourceLanguageId?: string;
+        type?: string;
+        parserVersion?: number;
+        tmIds?: number[];
+        glossaryIds?: number[];
+        aiPromptId?: number;
+        aiProviderId?: number;
+        aiModelId?: string;
+        instructions?: string[];
+        attachmentIds?: number[];
+    }
+
+    export interface AiFileTranslationAttribute {
+        stage: string;
+        error: {
+            stage: string;
+            message: string;
+        } | null;
+        downloadName: string | null;
+        sourceLanguageId: string | null;
+        targetLanguageId: string;
+        originalFileName: string;
+        detectedType: string | null;
+        parserVersion: number | null;
+    }
+    /* ai File Translation Section END*/
 
     /* ai Translate Strings Section START*/
     export interface AiTranslateStringsRequest {
