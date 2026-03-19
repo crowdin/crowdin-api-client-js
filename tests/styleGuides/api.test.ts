@@ -108,13 +108,13 @@ describe('Style Guides API', () => {
     it('Create style guide', async () => {
         const styleGuide = await api.createStyleGuide({ name, storageId });
         expect(styleGuide.data.id).toBe(styleGuideId);
-        expect(styleGuide.data).toHaveProperty('groupId', groupId);
+        expect(styleGuide.data.groupId).toBe(groupId);
     });
 
     it('Get style guide', async () => {
         const styleGuide = await api.getStyleGuide(styleGuideId);
         expect(styleGuide.data.id).toBe(styleGuideId);
-        expect(styleGuide.data).toHaveProperty('groupId', groupId);
+        expect(styleGuide.data.groupId).toBe(groupId);
     });
 
     it('Delete style guide', async () => {
@@ -130,6 +130,6 @@ describe('Style Guides API', () => {
             },
         ]);
         expect(styleGuide.data.id).toBe(styleGuideId);
-        expect(styleGuide.data).toHaveProperty('groupId', groupId);
+        expect(styleGuide.data.groupId).toBe(groupId);
     });
 });
