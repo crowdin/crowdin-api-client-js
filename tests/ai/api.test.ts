@@ -1541,28 +1541,28 @@ describe('AI API', () => {
         expect(res.data.url).toBe(link);
     });
 
-    it('Get AI Organization Provider Gateway', async () => {
-        const res = await api.getAiOrganizationProviderGateway(aiProviderId, 'chat/completions');
+    it('Organization AI Gateway GET', async () => {
+        const res = await api.organizationAiGatewayGet(aiProviderId, 'chat/completions');
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Create AI Organization Provider Gateway', async () => {
-        const res = await api.createAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+    it('Organization AI Gateway POST', async () => {
+        const res = await api.organizationAiGatewayPost(aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Update AI Organization Provider Gateway', async () => {
-        const res = await api.updateAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+    it('Organization AI Gateway PUT', async () => {
+        const res = await api.organizationAiGatewayPut(aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Edit AI Organization Provider Gateway', async () => {
-        const res = await api.editAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+    it('Organization AI Gateway PATCH', async () => {
+        const res = await api.organizationAiGatewayPatch(aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Delete AI Organization Provider Gateway', async () => {
-        const res = await api.deleteAiOrganizationProviderGateway(aiProviderId, 'chat/completions');
+    it('Organization AI Gateway DELETE', async () => {
+        const res = await api.organizationAiGatewayDelete(aiProviderId, 'chat/completions');
         expect(res.data).toStrictEqual(field);
     });
 
@@ -1835,28 +1835,28 @@ describe('AI API', () => {
         expect(res.data.url).toBe(link);
     });
 
-    it('Get AI User Provider Gateway', async () => {
-        const res = await api.getAiUserProviderGateway(userId, aiProviderId, 'chat/completions');
+    it('User AI Gateway GET', async () => {
+        const res = await api.userAiGatewayGet(userId, aiProviderId, 'chat/completions');
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Create AI User Provider Gateway', async () => {
-        const res = await api.createAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+    it('User AI Gateway POST', async () => {
+        const res = await api.userAiGatewayPost(userId, aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Update AI User Provider Gateway', async () => {
-        const res = await api.updateAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+    it('User AI Gateway PUT', async () => {
+        const res = await api.userAiGatewayPut(userId, aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Edit AI User Provider Gateway', async () => {
-        const res = await api.editAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+    it('User AI Gateway PATCH', async () => {
+        const res = await api.userAiGatewayPatch(userId, aiProviderId, 'chat/completions', field);
         expect(res.data).toStrictEqual(field);
     });
 
-    it('Delete AI User Provider Gateway', async () => {
-        const res = await api.deleteAiUserProviderGateway(userId, aiProviderId, 'chat/completions');
+    it('User AI Gateway DELETE', async () => {
+        const res = await api.userAiGatewayDelete(userId, aiProviderId, 'chat/completions');
         expect(res.data).toStrictEqual(field);
     });
 });
