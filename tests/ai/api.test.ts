@@ -626,6 +626,46 @@ describe('AI API', () => {
                     url: link,
                 },
             })
+            .get(`/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .post(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .put(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .patch(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .delete(`/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
             .get(`/users/${userId}/ai/settings/custom-placeholders`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -1185,6 +1225,46 @@ describe('AI API', () => {
                 data: {
                     url: link,
                 },
+            })
+            .get(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .post(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .put(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .patch(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .delete(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
             });
     });
 
@@ -1461,6 +1541,31 @@ describe('AI API', () => {
         expect(res.data.url).toBe(link);
     });
 
+    it('Organization AI Gateway GET', async () => {
+        const res = await api.organizationAiGatewayGet(aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Organization AI Gateway POST', async () => {
+        const res = await api.organizationAiGatewayPost(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Organization AI Gateway PUT', async () => {
+        const res = await api.organizationAiGatewayPut(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Organization AI Gateway PATCH', async () => {
+        const res = await api.organizationAiGatewayPatch(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Organization AI Gateway DELETE', async () => {
+        const res = await api.organizationAiGatewayDelete(aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
     it('List AI User Custom Placeholders', async () => {
         const placeholders = await api.listAiUserCustomPlaceholders(userId);
         expect(placeholders.data.length).toBe(1);
@@ -1728,5 +1833,30 @@ describe('AI API', () => {
     it('Download AI User File Translation Strings', async () => {
         const res = await api.downloadAiUserFileTranslationStrings(userId, jobId);
         expect(res.data.url).toBe(link);
+    });
+
+    it('User AI Gateway GET', async () => {
+        const res = await api.userAiGatewayGet(userId, aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('User AI Gateway POST', async () => {
+        const res = await api.userAiGatewayPost(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('User AI Gateway PUT', async () => {
+        const res = await api.userAiGatewayPut(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('User AI Gateway PATCH', async () => {
+        const res = await api.userAiGatewayPatch(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('User AI Gateway DELETE', async () => {
+        const res = await api.userAiGatewayDelete(userId, aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
     });
 });
