@@ -16,6 +16,7 @@ describe('Source Strings API', () => {
     const branchId = 1212;
     const storageId = 2332;
     const fileId = 111;
+    const updateOption = 'keep_translations';
 
     const limit = 25;
 
@@ -152,6 +153,56 @@ describe('Source Strings API', () => {
                     id: stringId,
                     text: stringText,
                 },
+            })
+            .patch(
+                `/projects/${projectId}/strings?updateOption=${updateOption}`,
+                [
+                    {
+                        value: stringText,
+                        op: 'replace',
+                        path: `/${stringId}/text`,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringId,
+                            text: stringText,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/projects/${projectId}/strings/${stringId}?updateOption=${updateOption}`,
+                [
+                    {
+                        value: stringText,
+                        op: 'replace',
+                        path: '/text',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: stringId,
+                    text: stringText,
+                },
             });
     });
 
@@ -204,6 +255,26 @@ describe('Source Strings API', () => {
         expect(string.data.text).toBe(stringText);
     });
 
+    it('String batch operations with update option', async () => {
+        const strings = await api.stringBatchOperations(
+            projectId,
+            [
+                {
+                    op: 'replace',
+                    path: `/${stringId}/text`,
+                    value: stringText,
+                },
+            ],
+            {
+                updateOption,
+            },
+        );
+        expect(strings.data.length).toBe(1);
+        const string = strings.data[0];
+        expect(string.data.id).toBe(stringId);
+        expect(string.data.text).toBe(stringText);
+    });
+
     it('Get string', async () => {
         const string = await api.getString(projectId, stringId);
         expect(string.data.id).toBe(stringId);
@@ -222,6 +293,25 @@ describe('Source Strings API', () => {
                 value: stringText,
             },
         ]);
+        expect(string.data.id).toBe(stringId);
+        expect(string.data.text).toBe(stringText);
+    });
+
+    it('Edit string with update option', async () => {
+        const string = await api.editString(
+            projectId,
+            stringId,
+            [
+                {
+                    op: 'replace',
+                    path: '/text',
+                    value: stringText,
+                },
+            ],
+            {
+                updateOption,
+            },
+        );
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);
     });

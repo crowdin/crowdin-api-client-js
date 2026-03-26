@@ -134,13 +134,16 @@ export class SourceStrings extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request body
+     * @param query query params
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch
      */
     stringBatchOperations(
         projectId: number,
         request: PatchRequest[],
+        query?: { updateOption?: SourceStringsModel.UpdateOption },
     ): Promise<ResponseList<SourceStringsModel.String>> {
-        const url = `${this.url}/projects/${projectId}/strings`;
+        let url = `${this.url}/projects/${projectId}/strings`;
+        url = this.addQueryParam(url, 'updateOption', query?.updateOption);
         return this.patch(url, request, this.defaultConfig());
     }
 
@@ -174,14 +177,17 @@ export class SourceStrings extends CrowdinApi {
      * @param projectId project identifier
      * @param stringId string identifier
      * @param request request body
+     * @param query query params
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.patch
      */
     editString(
         projectId: number,
         stringId: number,
         request: PatchRequest[],
+        query?: { updateOption?: SourceStringsModel.UpdateOption },
     ): Promise<ResponseObject<SourceStringsModel.String>> {
-        const url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+        let url = `${this.url}/projects/${projectId}/strings/${stringId}`;
+        url = this.addQueryParam(url, 'updateOption', query?.updateOption);
         return this.patch(url, request, this.defaultConfig());
     }
 }
