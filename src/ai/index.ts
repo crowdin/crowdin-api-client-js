@@ -520,6 +520,76 @@ export class Ai extends CrowdinApi {
         return this.get(url, this.defaultConfig());
     }
 
+    /**
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.get
+     */
+    getAiOrganizationProviderGateway(aiProviderId: number, path: string): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.post
+     */
+    createAiOrganizationProviderGateway(
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.put
+     */
+    updateAiOrganizationProviderGateway(
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.put(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.patch
+     */
+    editAiOrganizationProviderGateway(
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.delete
+     */
+    deleteAiOrganizationProviderGateway(aiProviderId: number, path: string): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.delete(url, this.defaultConfig());
+    }
+
     // Community
 
     /**
@@ -1111,6 +1181,88 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/users/${userId}/ai/file-translations/${jobIdentifier}/translations`;
 
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.get
+     */
+    getAiUserProviderGateway(userId: number, aiProviderId: number, path: string): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.post
+     */
+    createAiUserProviderGateway(
+        userId: number,
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.put
+     */
+    updateAiUserProviderGateway(
+        userId: number,
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.put(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.patch
+     */
+    editAiUserProviderGateway(
+        userId: number,
+        aiProviderId: number,
+        path: string,
+        request?: PlainObject,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId ai Provider identifier
+     * @param path raw provider API path after `/gateway/`
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.delete
+     */
+    deleteAiUserProviderGateway(
+        userId: number,
+        aiProviderId: number,
+        path: string,
+    ): Promise<ResponseObject<PlainObject>> {
+        const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
+
+        return this.delete(url, this.defaultConfig());
     }
 }
 

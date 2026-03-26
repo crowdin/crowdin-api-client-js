@@ -626,6 +626,46 @@ describe('AI API', () => {
                     url: link,
                 },
             })
+            .get(`/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .post(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .put(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .patch(`/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .delete(`/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
             .get(`/users/${userId}/ai/settings/custom-placeholders`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -1185,6 +1225,46 @@ describe('AI API', () => {
                 data: {
                     url: link,
                 },
+            })
+            .get(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .post(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .put(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .patch(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, field, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
+            })
+            .delete(`/users/${userId}/ai/providers/${aiProviderId}/gateway/chat/completions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: field,
             });
     });
 
@@ -1461,6 +1541,31 @@ describe('AI API', () => {
         expect(res.data.url).toBe(link);
     });
 
+    it('Get AI Organization Provider Gateway', async () => {
+        const res = await api.getAiOrganizationProviderGateway(aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Create AI Organization Provider Gateway', async () => {
+        const res = await api.createAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Update AI Organization Provider Gateway', async () => {
+        const res = await api.updateAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Edit AI Organization Provider Gateway', async () => {
+        const res = await api.editAiOrganizationProviderGateway(aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Delete AI Organization Provider Gateway', async () => {
+        const res = await api.deleteAiOrganizationProviderGateway(aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
     it('List AI User Custom Placeholders', async () => {
         const placeholders = await api.listAiUserCustomPlaceholders(userId);
         expect(placeholders.data.length).toBe(1);
@@ -1728,5 +1833,30 @@ describe('AI API', () => {
     it('Download AI User File Translation Strings', async () => {
         const res = await api.downloadAiUserFileTranslationStrings(userId, jobId);
         expect(res.data.url).toBe(link);
+    });
+
+    it('Get AI User Provider Gateway', async () => {
+        const res = await api.getAiUserProviderGateway(userId, aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Create AI User Provider Gateway', async () => {
+        const res = await api.createAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Update AI User Provider Gateway', async () => {
+        const res = await api.updateAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Edit AI User Provider Gateway', async () => {
+        const res = await api.editAiUserProviderGateway(userId, aiProviderId, 'chat/completions', field);
+        expect(res.data).toStrictEqual(field);
+    });
+
+    it('Delete AI User Provider Gateway', async () => {
+        const res = await api.deleteAiUserProviderGateway(userId, aiProviderId, 'chat/completions');
+        expect(res.data).toStrictEqual(field);
     });
 });
