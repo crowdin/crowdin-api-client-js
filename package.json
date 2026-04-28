@@ -52,7 +52,7 @@
         "husky": "^7.0.0",
         "jest": "^27.0.0",
         "jest-circus": "^27.0.0",
-        "jest-junit": "^15.0.0",
+        "jest-junit": "^17.0.0",
         "lint-staged": ">=8",
         "nock": "^10.0.6",
         "ts-jest": "^27.0.0",
