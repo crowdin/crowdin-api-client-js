@@ -36,4 +36,4 @@ jobs:
         run: npm publish --dry-run
 
       - name: Publish the package
-        run: npm publish --provenance
+        run: npm stage publish --provenance
