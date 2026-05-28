@@ -72,6 +72,7 @@ describe('Screenshots API', () => {
                 {
                     storageId: storageId,
                     name: screenshotName,
+                    usePreviousTags: true,
                 },
                 {
                     reqheaders: {
@@ -204,7 +205,7 @@ describe('Screenshots API', () => {
             )
             .reply(200, {
                 data: {
-                    id: screenshotId,
+                    id: tagId,
                 },
             });
     });
@@ -219,6 +220,36 @@ describe('Screenshots API', () => {
         expect(screenshots.data[0].data.id).toBe(screenshotId);
         expect(screenshots.data[0].data.name).toBe(screenshotName);
         expect(screenshots.pagination.limit).toBe(limit);
+    });
+
+    it('List screenshots with search filter', async () => {
+        const listWithSearchScope = nock(api.url, {
+            reqheaders: {
+                Authorization: `Bearer ${api.token}`,
+            },
+        })
+            .get(`/projects/${projectId}/screenshots`)
+            .query({
+                search: screenshotName,
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: screenshotId,
+                            name: screenshotName,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            });
+        const screenshots = await api.listScreenshots(projectId, { search: screenshotName });
+        expect(screenshots.data.length).toBe(1);
+        expect(screenshots.data[0].data.id).toBe(screenshotId);
+        listWithSearchScope.done();
     });
 
     it('Add screenshot', async () => {
@@ -240,6 +271,7 @@ describe('Screenshots API', () => {
         const screenshot = await api.updateScreenshot(projectId, screenshotId, {
             storageId: storageId,
             name: screenshotName,
+            usePreviousTags: true,
         });
         expect(screenshot.data.id).toBe(screenshotId);
         expect(screenshot.data.name).toBe(screenshotName);
@@ -309,6 +341,6 @@ describe('Screenshots API', () => {
                 value: stringId,
             },
         ]);
-        expect(tag.data.id).toBe(screenshotId);
+        expect(tag.data.id).toBe(tagId);
     });
 });
