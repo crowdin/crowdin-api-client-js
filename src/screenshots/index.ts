@@ -37,6 +37,7 @@ export class Screenshots extends CrowdinApi {
             options = { limit: options, offset: deprecatedOffset };
         }
         let url = `${this.url}/projects/${projectId}/screenshots`;
+        url = this.addQueryParam(url, 'search', options.search);
         url = this.addQueryParam(url, 'stringIds', options.stringIds?.join(','));
         url = this.addQueryParam(url, 'stringId', options.stringId);
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
@@ -220,7 +221,7 @@ export class Screenshots extends CrowdinApi {
         screenshotId: number,
         tagId: number,
         request: PatchRequest[],
-    ): Promise<ResponseObject<ScreenshotsModel.Screenshot>> {
+    ): Promise<ResponseObject<ScreenshotsModel.Tag>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags/${tagId}`;
         return this.patch(url, request, this.defaultConfig());
     }
@@ -228,6 +229,7 @@ export class Screenshots extends CrowdinApi {
 
 export namespace ScreenshotsModel {
     export interface ListScreenshotParams extends PaginationOptions {
+        search?: string;
         stringIds?: number[];
         /**
          * @deprecated use stringIds instead
@@ -266,6 +268,7 @@ export namespace ScreenshotsModel {
     export interface UpdateScreenshotRequest {
         storageId: number;
         name: string;
+        usePreviousTags?: boolean;
     }
 
     export interface Tag {
