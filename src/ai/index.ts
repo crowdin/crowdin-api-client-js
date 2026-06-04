@@ -1752,10 +1752,12 @@ export namespace AiModel {
         | 'open_ai'
         | 'azure_open_ai'
         | 'google_gemini'
+        | 'google_gemini_ai_studio'
         | 'mistral_ai'
         | 'anthropic'
         | 'custom_ai'
         | 'x_ai'
         | 'deepseek'
-        | 'watsonx';
+        | 'watsonx'
+        | 'crowdin_ai';
 }
