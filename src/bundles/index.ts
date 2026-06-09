@@ -82,11 +82,16 @@ export class Bundles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param bundleId bundle identifier
+     * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.post
      */
-    exportBundle(projectId: number, bundleId: number): Promise<ResponseObject<Status<BundlesModel.ExportAttributes>>> {
+    exportBundle(
+        projectId: number,
+        bundleId: number,
+        request?: BundlesModel.ExportBundleRequest,
+    ): Promise<ResponseObject<BundlesModel.BundleExportStatus>> {
         const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/exports`;
-        return this.post(url, undefined, this.defaultConfig());
+        return this.post(url, request, this.defaultConfig());
     }
 
     /**
@@ -99,7 +104,7 @@ export class Bundles extends CrowdinApi {
         projectId: number,
         bundleId: number,
         exportId: string,
-    ): Promise<ResponseObject<Status<BundlesModel.ExportAttributes>>> {
+    ): Promise<ResponseObject<BundlesModel.BundleExportStatus>> {
         const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/exports/${exportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -164,7 +169,31 @@ export namespace BundlesModel {
         excludeLabelIds?: number[];
     }
 
+    export interface ExportBundleRequest {
+        targetLanguageIds?: string[];
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
+        // community
+        exportApprovedOnly?: boolean;
+        // enterprise
+        exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
+    }
+
     export interface ExportAttributes {
         bundleId: number;
+        targetLanguageIds: string[];
+        skipUntranslatedStrings: boolean;
+        skipUntranslatedFiles: boolean;
+        // community
+        exportApprovedOnly: boolean;
+        // enterprise
+        exportWithMinApprovalsCount: number;
+        exportStringsThatPassedWorkflow: boolean;
     }
+
+    export type BundleExportStatus = Omit<Status<ExportAttributes>, 'startedAt' | 'finishedAt'> & {
+        startedAt: string | null;
+        finishedAt: string | null;
+    };
 }
