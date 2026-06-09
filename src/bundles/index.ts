@@ -182,14 +182,14 @@ export namespace BundlesModel {
 
     export interface ExportAttributes {
         bundleId: number;
-        targetLanguageIds: string[];
-        skipUntranslatedStrings: boolean;
-        skipUntranslatedFiles: boolean;
+        targetLanguageIds?: string[];
+        skipUntranslatedStrings?: boolean;
+        skipUntranslatedFiles?: boolean;
         // community
-        exportApprovedOnly: boolean;
+        exportApprovedOnly?: boolean;
         // enterprise
-        exportWithMinApprovalsCount: number;
-        exportStringsThatPassedWorkflow: boolean;
+        exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
     }
 
     export type BundleExportStatus = Omit<Status<ExportAttributes>, 'startedAt' | 'finishedAt'> & {
