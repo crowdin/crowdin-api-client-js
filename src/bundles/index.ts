@@ -89,7 +89,7 @@ export class Bundles extends CrowdinApi {
         projectId: number,
         bundleId: number,
         request?: BundlesModel.ExportBundleRequest,
-    ): Promise<ResponseObject<BundlesModel.BundleExportStatus>> {
+    ): Promise<ResponseObject<Status<BundlesModel.ExportAttributes>>> {
         const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/exports`;
         return this.post(url, request, this.defaultConfig());
     }
@@ -104,7 +104,7 @@ export class Bundles extends CrowdinApi {
         projectId: number,
         bundleId: number,
         exportId: string,
-    ): Promise<ResponseObject<BundlesModel.BundleExportStatus>> {
+    ): Promise<ResponseObject<Status<BundlesModel.ExportAttributes>>> {
         const url = `${this.url}/projects/${projectId}/bundles/${bundleId}/exports/${exportId}`;
         return this.get(url, this.defaultConfig());
     }
@@ -191,9 +191,4 @@ export namespace BundlesModel {
         exportWithMinApprovalsCount?: number;
         exportStringsThatPassedWorkflow?: boolean;
     }
-
-    export type BundleExportStatus = Omit<Status<ExportAttributes>, 'startedAt' | 'finishedAt'> & {
-        startedAt: string | null;
-        finishedAt: string | null;
-    };
 }
