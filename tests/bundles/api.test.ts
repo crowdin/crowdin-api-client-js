@@ -105,14 +105,35 @@ describe('Bundles API', () => {
                     url: exportUrl,
                 },
             })
-            .post(`/projects/${projectId}/bundles/${bundleId}/exports`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
+            .post(
+                `/projects/${projectId}/bundles/${bundleId}/exports`,
+                {
+                    targetLanguageIds: ['uk'],
+                    skipUntranslatedStrings: false,
+                    exportApprovedOnly: true,
                 },
-            })
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
             .reply(200, {
                 data: {
                     identifier: exportId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: {
+                        bundleId,
+                        targetLanguageIds: ['uk'],
+                        skipUntranslatedStrings: false,
+                        skipUntranslatedFiles: false,
+                        exportApprovedOnly: true,
+                    },
+                    createdAt: '2019-09-23T11:26:54+00:00',
+                    updatedAt: '2019-09-23T11:26:54+00:00',
+                    startedAt: null,
+                    finishedAt: '2019-09-23T11:26:54+00:00',
                 },
             })
             .get(`/projects/${projectId}/bundles/${bundleId}/exports/${exportId}`, undefined, {
@@ -123,6 +144,19 @@ describe('Bundles API', () => {
             .reply(200, {
                 data: {
                     identifier: exportId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: {
+                        bundleId,
+                        targetLanguageIds: ['uk'],
+                        skipUntranslatedStrings: false,
+                        skipUntranslatedFiles: false,
+                        exportApprovedOnly: true,
+                    },
+                    createdAt: '2019-09-23T11:26:54+00:00',
+                    updatedAt: '2019-09-23T11:26:54+00:00',
+                    startedAt: null,
+                    finishedAt: '2019-09-23T11:26:54+00:00',
                 },
             })
             .get(`/projects/${projectId}/bundles/${bundleId}/files`, undefined, {
@@ -210,13 +244,21 @@ describe('Bundles API', () => {
     });
 
     it('Export bundle', async () => {
-        const resp = await api.exportBundle(projectId, bundleId);
+        const resp = await api.exportBundle(projectId, bundleId, {
+            targetLanguageIds: ['uk'],
+            skipUntranslatedStrings: false,
+            exportApprovedOnly: true,
+        });
         expect(resp.data.identifier).toBe(exportId);
+        expect(resp.data.attributes.exportApprovedOnly).toBe(true);
+        expect(resp.data.startedAt).toBeNull();
     });
 
     it('Check bundle export status', async () => {
         const resp = await api.checkBundleExportStatus(projectId, bundleId, exportId);
         expect(resp.data.identifier).toBe(exportId);
+        expect(resp.data.attributes.targetLanguageIds).toEqual(['uk']);
+        expect(resp.data.finishedAt).toBe('2019-09-23T11:26:54+00:00');
     });
 
     it('Bundle list files', async () => {
