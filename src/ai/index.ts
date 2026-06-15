@@ -1704,6 +1704,7 @@ export namespace AiModel {
         parserVersion?: number;
         tmIds?: number[];
         glossaryIds?: number[];
+        styleGuideIds?: number[];
         aiPromptId?: number;
         aiProviderId?: number;
         aiModelId?: string;
@@ -1733,6 +1734,7 @@ export namespace AiModel {
         sourceLanguageId?: string;
         tmIds?: number[];
         glossaryIds?: number[];
+        styleGuideIds?: number[];
         aiPromptId?: number;
         aiProviderId?: number;
         aiModelId?: string;
