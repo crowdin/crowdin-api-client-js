@@ -14,6 +14,7 @@ describe('Glossaries API', () => {
     const glossaryFormat = 'csv';
     const glossaryLink = 'test.com';
     const exportId = '1111';
+    const exportIdWithFilters = '3333';
     const importId = '2222';
     const storageId = 1232131;
     const termId = 5555;
@@ -122,6 +123,29 @@ describe('Glossaries API', () => {
             .reply(200, {
                 data: {
                     identifier: exportId,
+                },
+            })
+            .post(
+                `/glossaries/${glossaryId}/exports`,
+                {
+                    format: glossaryFormat,
+                    exportType: 'terms',
+                    statuses: ['PREFERRED', 'ADMITTED'],
+                    partsOfSpeech: ['NOUN', 'VERB'],
+                    types: ['ACRONYM'],
+                    genders: ['MASCULINE'],
+                    authorIds: [1, 2],
+                    languageIds: ['uk', 'de'],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: exportIdWithFilters,
                 },
             })
             .get(`/glossaries/${glossaryId}/exports/${exportId}/download`, undefined, {
@@ -387,6 +411,20 @@ describe('Glossaries API', () => {
             format: glossaryFormat,
         });
         expect(exportStatus.data.identifier).toBe(exportId);
+    });
+
+    it('Export glossary with filters', async () => {
+        const exportStatus = await api.exportGlossary(glossaryId, {
+            format: glossaryFormat,
+            exportType: 'terms',
+            statuses: ['PREFERRED', 'ADMITTED'],
+            partsOfSpeech: ['NOUN', 'VERB'],
+            types: ['ACRONYM'],
+            genders: ['MASCULINE'],
+            authorIds: [1, 2],
+            languageIds: ['uk', 'de'],
+        });
+        expect(exportStatus.data.identifier).toBe(exportIdWithFilters);
     });
 
     it('Download glossary', async () => {

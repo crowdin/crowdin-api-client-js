@@ -394,6 +394,39 @@ export namespace GlossariesModel {
     export interface ExportGlossaryRequest {
         format?: GlossaryFormat;
         exportFields?: ExportField[];
+        exportType?: ExportType;
+        text?: string;
+        caseSensitive?: boolean;
+        searchStrict?: boolean;
+        searchFullMatch?: boolean;
+        statuses?: TermStatus[];
+        partsOfSpeech?: TermPartOfSpeech[];
+        types?: TermType[];
+        genders?: TermGender[];
+        authorIds?: number[];
+        languageIds?: string[];
+        dateFrom?: string;
+        dateTo?: string;
+        /**
+         * @deprecated use `statuses` instead
+         */
+        status?: TermStatus;
+        /**
+         * @deprecated use `partsOfSpeech` instead
+         */
+        partOfSpeech?: TermPartOfSpeech;
+        /**
+         * @deprecated use `types` instead
+         */
+        type?: TermType;
+        /**
+         * @deprecated use `genders` instead
+         */
+        gender?: TermGender;
+        /**
+         * @deprecated use `authorIds` instead
+         */
+        authorId?: number;
     }
 
     export interface GlossaryExportStatusAttribute {
@@ -485,6 +518,32 @@ export namespace GlossariesModel {
     export type Gender = 'masculine' | 'feminine' | 'neuter' | 'other';
 
     export type GlossaryFormat = 'tbx' | 'tbx_v3' | 'csv' | 'xlsx';
+
+    export type ExportType = 'concepts' | 'terms';
+
+    export type TermStatus = 'PREFERRED' | 'ADMITTED' | 'NOT_RECOMMENDED' | 'OBSOLETE' | 'DRAFT';
+
+    export type TermPartOfSpeech =
+        | 'NOUN'
+        | 'VERB'
+        | 'ADJ'
+        | 'PRON'
+        | 'PROPN'
+        | 'DET'
+        | 'ADV'
+        | 'ADP'
+        | 'CCONJ'
+        | 'SCONJ'
+        | 'NUM'
+        | 'INTJ'
+        | 'AUX'
+        | 'PRT'
+        | 'SYM'
+        | 'X';
+
+    export type TermType = 'FULL_FORM' | 'ACRONYM' | 'ABBREVIATION' | 'SHORT_FORM' | 'PHRASE' | 'VARIANT';
+
+    export type TermGender = 'MASCULINE' | 'FEMININE' | 'NEUTER' | 'COMMON' | 'OTHER';
 
     export interface GlossaryFileScheme {
         [key: string]: number;
