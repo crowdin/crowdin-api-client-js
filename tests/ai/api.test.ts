@@ -38,7 +38,6 @@ describe('AI API', () => {
             projectId,
             targetLanguageId: 'uk',
             stringIds: [1],
-            filteredStringsIds: [1],
             overridePromptValues: {
                 sourceLanguage: 'English',
                 targetLanguage: 'Ukrainian',
