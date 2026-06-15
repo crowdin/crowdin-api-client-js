@@ -1368,8 +1368,8 @@ export namespace AiModel {
         enabledProjectIds: number[];
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
-            | AiModel.AiPromptConfigBasicAssistAction
             | AiModel.AiPromptConfigBasicAligmentAction
+            | AiModel.AiPromptConfigBasicQaCheckAction
             | AiModel.AiPromptConfigAdvanced
             | AiModel.AiPromptConfigExternal;
         promptPreview: string;
@@ -1407,38 +1407,39 @@ export namespace AiModel {
         fileContent?: boolean;
         fileContext?: boolean;
         screenshots?: boolean;
+        projectContext?: boolean;
+        /**
+         * @deprecated Use `projectContext` instead.
+         */
         publicProjectDescription?: boolean;
         siblingsStrings?: boolean;
-    }
-
-    export interface AiPromptConfigBasicAssistAction {
-        mode: 'basic';
-        /**
-         * @deprecated
-         */
-        companyDescription?: string;
-        /**
-         * @deprecated
-         */
-        projectDescription?: string;
-        /**
-         * @deprecated
-         */
-        audienceDescription?: string;
-        otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
-        glossaryTerms?: boolean;
-        tmSuggestions?: boolean;
-        fileContext?: boolean;
-        screenshots?: boolean;
-        publicProjectDescription?: boolean;
-        siblingsStrings?: boolean;
-        filteredStrings?: boolean;
+        organizationContext?: boolean;
     }
 
     export interface AiPromptConfigBasicAligmentAction {
         mode: 'basic';
         customPlaceholders?: string[];
+        projectContext?: boolean;
+        /**
+         * @deprecated Use `projectContext` instead.
+         */
         publicProjectDescription?: boolean;
+        organizationContext?: boolean;
+    }
+
+    export interface AiPromptConfigBasicQaCheckAction {
+        mode: 'basic';
+        evaluationSteps: string[];
+        glossaryTerms?: boolean;
+        tmSuggestions?: boolean;
+        fileContext?: boolean;
+        screenshots?: boolean;
+        projectContext?: boolean;
+        /**
+         * @deprecated Use `projectContext` instead.
+         */
+        publicProjectDescription?: boolean;
+        organizationContext?: boolean;
     }
 
     export interface AiPromptConfigAdvanced {
@@ -1464,8 +1465,8 @@ export namespace AiModel {
         enabledProjectIds?: number[];
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
-            | AiModel.AiPromptConfigBasicAssistAction
             | AiModel.AiPromptConfigBasicAligmentAction
+            | AiModel.AiPromptConfigBasicQaCheckAction
             | AiModel.AiPromptConfigAdvanced
             | AiPromptConfigExternal;
     }
@@ -1473,8 +1474,8 @@ export namespace AiModel {
     export interface GenerateAiPromptCompletionRequest {
         resources:
             | AiModel.AiPromptResourceWithPreTranslate
-            | AiModel.AiPromptResourceWithAssist
             | AiModel.AiPromptResourceWithAlignment
+            | AiModel.AiPromptResourceWithQaCheck
             | AiModel.AiPromptResourceWithCustom;
         tools?: {
             tool: {
@@ -1509,12 +1510,11 @@ export namespace AiModel {
         overridePromptValues?: OverridePromptValues;
     }
 
-    export interface AiPromptResourceWithAssist {
+    export interface AiPromptResourceWithQaCheck {
         projectId: number;
         sourceLanguageId?: string;
         targetLanguageId?: string;
         stringIds?: number[];
-        filteredStringsIds?: number[];
         overridePromptValues?: OverridePromptValues;
     }
 
@@ -1582,7 +1582,7 @@ export namespace AiModel {
     }
 
     export interface AiProviderConfigActionRule {
-        action?: 'pre_translate' | 'assist';
+        action?: 'pre_translate' | 'alignment' | 'qa_check';
         availableAiModelIds?: string[];
     }
 
@@ -1749,7 +1749,7 @@ export namespace AiModel {
     }
     /* ai Translate Strings Section END*/
 
-    export type Action = 'pre_translate' | 'assist';
+    export type Action = 'pre_translate' | 'alignment' | 'qa_check';
     export type ProviderType =
         | 'open_ai'
         | 'azure_open_ai'
