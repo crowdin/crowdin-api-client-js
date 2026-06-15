@@ -317,36 +317,56 @@ export namespace TranslationsModel {
         languageIds: string[];
         fileIds: number[];
         method?: Method;
+        priority?: Priority;
         engineId?: number;
         aiPromptId?: number;
         autoApproveOption?: AutoApproveOption;
         duplicateTranslations?: boolean;
         skipApprovedTranslations?: boolean;
+        /**
+         * @deprecated Use {@link scope} instead
+         */
         translateUntranslatedOnly?: boolean;
+        scope?: Scope;
+        translationModifiedBefore?: string;
+        replaceTranslationsOption?: ReplaceTranslationsOption;
+        resetApprovalStatus?: boolean;
         translateWithPerfectMatchOnly?: boolean;
         fallbackLanguages?: {
             languageId?: string[];
         };
         labelIds?: number[];
         excludeLabelIds?: number[];
+        sourceLanguageId?: string;
+        customInstruction?: string;
     }
 
     export interface PreTranslateStringsRequest {
         languageIds: string[];
         branchIds?: number[];
         method?: Method;
+        priority?: Priority;
         engineId?: number;
         aiPromptId?: number;
         autoApproveOption?: AutoApproveOption;
         duplicateTranslations?: boolean;
         skipApprovedTranslations?: boolean;
+        /**
+         * @deprecated Use {@link scope} instead
+         */
         translateUntranslatedOnly?: boolean;
+        scope?: Scope;
+        translationModifiedBefore?: string;
+        replaceTranslationsOption?: ReplaceTranslationsOption;
+        resetApprovalStatus?: boolean;
         translateWithPerfectMatchOnly?: boolean;
         fallbackLanguages?: {
             languageId: string[];
         };
         labelIds?: number[];
         excludeLabelIds?: number[];
+        sourceLanguageId?: string;
+        customInstruction?: string;
     }
 
     export interface BuildProjectDirectoryTranslationRequest {
@@ -407,7 +427,16 @@ export namespace TranslationsModel {
 
     export type Method = 'tm' | 'mt' | 'ai';
 
-    export type AutoApproveOption = 'all' | 'exceptAutoSubstituted' | 'perfectMatchOnly' | 'none';
+    export type AutoApproveOption =
+        | 'all'
+        | 'exceptAutoSubstituted'
+        | 'perfectMatchOnly'
+        | 'perfectMatchApprovedOnly'
+        | 'none';
+
+    export type Scope = 'untranslated' | 'translated' | 'all';
+
+    export type ReplaceTranslationsOption = 'none' | 'autoTranslated' | 'all';
 
     export type Priority = 'low' | 'normal' | 'high';
 

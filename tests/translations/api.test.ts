@@ -360,6 +360,32 @@ describe('Translations API', () => {
                     identifier: preTranslationId,
                     attributes: {},
                 },
+            })
+            .post(
+                `/projects/${projectId}/pre-translations`,
+                {
+                    languageIds: [],
+                    fileIds: [],
+                    method: 'ai',
+                    priority: 'high',
+                    scope: 'untranslated',
+                    translationModifiedBefore: '2024-01-01T00:00:00+00:00',
+                    replaceTranslationsOption: 'autoTranslated',
+                    resetApprovalStatus: true,
+                    sourceLanguageId: 'en',
+                    customInstruction: 'Translate formally',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: preTranslationId,
+                    attributes: {},
+                },
             });
     });
 
@@ -388,6 +414,22 @@ describe('Translations API', () => {
             languageIds: [],
             labelIds: sampleLabelIds,
             excludeLabelIds: sampleExcludeLabelIds,
+        });
+        expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Apply Pre-Translation with new options', async () => {
+        const preTranslation = await api.applyPreTranslation(projectId, {
+            fileIds: [],
+            languageIds: [],
+            method: 'ai',
+            priority: 'high',
+            scope: 'untranslated',
+            translationModifiedBefore: '2024-01-01T00:00:00+00:00',
+            replaceTranslationsOption: 'autoTranslated',
+            resetApprovalStatus: true,
+            sourceLanguageId: 'en',
+            customInstruction: 'Translate formally',
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
     });
