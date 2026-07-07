@@ -451,6 +451,9 @@ export namespace TranslationsModel {
         createdAt: string;
         updatedAt: string;
         finishedAt: string;
+        error?: {
+            message: string;
+        };
     }
 
     export interface Attribute {
