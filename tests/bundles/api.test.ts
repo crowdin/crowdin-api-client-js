@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Bundles, Credentials } from '../../src';
 
 describe('Bundles API', () => {

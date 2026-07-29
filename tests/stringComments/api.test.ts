@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Credentials, StringComments } from '../../src';
 
 describe('String Comments API', () => {

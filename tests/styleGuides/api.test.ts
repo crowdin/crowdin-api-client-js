@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Credentials, StyleGuides } from '../../src';
 
 describe('Style Guides API', () => {

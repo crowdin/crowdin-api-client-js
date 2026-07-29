@@ -1,6 +1,11 @@
 module.exports = {
     testEnvironment: 'node',
     testRunner: 'jest-circus/runner',
+    globals: {
+        'ts-jest': {
+            tsconfig: 'tests/tsconfig.json',
+        },
+    },
     transform: {
         '^.+\\.(t|j)sx?$': 'ts-jest',
     },

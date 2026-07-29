@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as nock from 'nock';
+import nock from 'nock';
 import Crowdin, { Credentials } from '../../src';
 
 //@ts-expect-error acceptable override for unit tests
