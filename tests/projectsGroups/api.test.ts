@@ -10,6 +10,7 @@ describe('Projects and Groups API', () => {
     const api: ProjectsGroups = new ProjectsGroups(credentials);
     const projectId = 2;
     const groupId = 1;
+    const rootGroupId = 0;
     const projectName = 'testProject';
     const groupName = 'testGroup';
     const sourceLanguageId = 'uk';
@@ -335,6 +336,43 @@ describe('Projects and Groups API', () => {
                     id: stringExporterSettingsId,
                     format,
                 },
+            })
+            .get('/groups?parentId=0', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: groupId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/projects?groupId=0', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: projectId,
+                            name: projectName,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -493,5 +531,17 @@ describe('Projects and Groups API', () => {
         });
         expect(stringSettings.data.id).toBe(stringExporterSettingsId);
         expect(stringSettings.data.format).toBe(format);
+    });
+
+    it('List groups with parentId=0 (root group)', async () => {
+        const groups = await api.listGroups({ parentId: rootGroupId });
+        expect(groups.data.length).toBe(1);
+        expect(groups.data[0].data.id).toBe(groupId);
+    });
+
+    it('List projects with groupId=0 (root group)', async () => {
+        const projects = await api.listProjects({ groupId: rootGroupId });
+        expect(projects.data.length).toBe(1);
+        expect(projects.data[0].data.id).toBe(projectId);
     });
 });

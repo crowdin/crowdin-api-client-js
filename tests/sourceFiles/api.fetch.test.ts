@@ -57,6 +57,7 @@ describe('Source Files API Fetch', () => {
             .query({
                 name: branchName,
                 limit: 500,
+                offset: 0,
             })
             .reply(200, {
                 data: [
