@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Credentials, CrowdinApi, UploadStorage } from '../../src';
 
 class TestCrowdinApi extends CrowdinApi {

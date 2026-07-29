@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Credentials, MachineTranslation } from '../../src';
 
 describe('Machine Translation engines (MTs) API', () => {

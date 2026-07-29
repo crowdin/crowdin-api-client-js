@@ -289,7 +289,7 @@ export abstract class CrowdinApi {
     }
 
     protected addQueryParam(url: string, name: string, value?: string | number): string {
-        if (value) {
+        if (value !== undefined && value !== null) {
             url += new RegExp(/\?.+=.*/g).test(url) ? '&' : '?';
             url += `${name}=${this.encodeUrlParam(value)}`;
         }

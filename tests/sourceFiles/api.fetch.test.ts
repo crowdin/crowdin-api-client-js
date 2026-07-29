@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as nock from 'nock';
+import nock from 'nock';
 import Crowdin, { Credentials } from '../../src';
 
 //@ts-expect-error acceptable override for unit tests
@@ -57,6 +57,7 @@ describe('Source Files API Fetch', () => {
             .query({
                 name: branchName,
                 limit: 500,
+                offset: 0,
             })
             .reply(200, {
                 data: [

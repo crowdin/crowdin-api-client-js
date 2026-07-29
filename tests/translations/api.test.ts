@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import { Credentials, Translations, TranslationsModel } from '../../src';
 
 describe('Translations API', () => {
