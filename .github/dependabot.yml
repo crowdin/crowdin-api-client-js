@@ -9,7 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     target-branch: "master"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    cooldown:
+      default-days: 1
     groups:
       dev-dependencies:
         dependency-type: "development"
@@ -17,3 +19,8 @@ updates:
       - dependency-name: "*" #All the dependency it gonna ignore for major update
         update-types: [ "version-update:semver-major" ]
       - dependency-name: "typedoc"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "master"
+    schedule:
+      interval: "monthly"

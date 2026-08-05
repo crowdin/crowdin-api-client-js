@@ -8,14 +8,16 @@
 
 ## Setup
 
-- Install dependencies: `npm install`
-- Build: `npm run build`
+This project uses [pnpm](https://pnpm.io) v11 as its package manager (Node.js 22+ required for development).
+
+- Install dependencies: `pnpm install`
+- Build: `pnpm run build`
 
 ## Quality Checks
 
-- Lint (auto-fix): `npm run lint`
-- Lint (CI mode): `npm run lint-ci`
-- Tests: `npm test`
+- Lint (auto-fix): `pnpm run lint`
+- Lint (CI mode): `pnpm run lint-ci`
+- Tests: `pnpm test`
 
 ## Notes For API Details
 
