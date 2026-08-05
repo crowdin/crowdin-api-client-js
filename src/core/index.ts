@@ -1,21 +1,12 @@
 import { AxiosError } from 'axios';
+import { HttpClient } from './http-client';
 import { HttpClientError, toHttpClientError } from './http-client-error';
 import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
 import { FetchClientJsonPayloadError } from './internal/fetch/fetchClientError';
 import { RetryConfig, RetryService } from './internal/retry';
 
-/**
- * @internal
- */
-export interface HttpClient {
-    get<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
-    delete<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
-    head<T>(url: string, config?: { headers: Record<string, string> }): Promise<T>;
-    post<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
-    put<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
-    patch<T>(url: string, data?: unknown, config?: { headers: Record<string, string> }): Promise<T>;
-}
+export * from './http-client';
 
 export type HttpClientType = 'axios' | 'fetch';
 
@@ -211,7 +202,7 @@ export function handleHttpClientError(error: HttpClientError): never {
 
 export abstract class CrowdinApi {
     private static readonly CROWDIN_API_DOMAIN: string = 'api.crowdin.com';
-    private static readonly AXIOS_INSTANCE = new AxiosProvider().axios;
+    private static readonly AXIOS_INSTANCE = new AxiosProvider();
     private static readonly FETCH_INSTANCE = new FetchClient();
 
     /** @internal */
@@ -263,7 +254,7 @@ export abstract class CrowdinApi {
 
         if (config?.httpRequestTimeout) {
             CrowdinApi.FETCH_INSTANCE.withTimeout(config?.httpRequestTimeout);
-            CrowdinApi.AXIOS_INSTANCE.defaults.timeout = config?.httpRequestTimeout;
+            CrowdinApi.AXIOS_INSTANCE.withTimeout(config?.httpRequestTimeout);
         }
 
         this.config = config;
