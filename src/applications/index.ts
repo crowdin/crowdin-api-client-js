@@ -44,9 +44,9 @@ export class Applications extends CrowdinApi {
         applicationId: string,
         force?: boolean,
     ): Promise<ResponseObject<ApplicationsModel.Application>> {
-        const url = `${this.url}/applications/installations/${applicationId}`;
+        let url = `${this.url}/applications/installations/${applicationId}`;
         if (force) {
-            this.addQueryParam(url, 'force', String(force));
+            url = this.addQueryParam(url, 'force', String(force));
         }
         return this.delete(url, this.defaultConfig());
     }
