@@ -54,6 +54,13 @@ describe('Applications API', () => {
                 },
             })
             .reply(200)
+            .delete(installUrl + `/${applicationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ force: 'true' })
+            .reply(200)
             .post(
                 url,
                 {},
@@ -127,6 +134,10 @@ describe('Applications API', () => {
 
     it('Delete Application Installation', async () => {
         await api.deleteApplicationInstallation(applicationId);
+    });
+
+    it('Delete Application Installation with force', async () => {
+        await api.deleteApplicationInstallation(applicationId, true);
     });
 
     it('Add Application Data', async () => {
