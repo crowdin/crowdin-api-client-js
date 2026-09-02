@@ -126,11 +126,35 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param branchId branch identifier
+     * @param options optional delete options
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.delete
      */
-    deleteBranch(projectId: number, branchId: number): Promise<void> {
+    deleteBranch(
+        projectId: number,
+        branchId: number,
+        options?: SourceFilesModel.DeleteOptions,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus> | void> {
         const url = `${this.url}/projects/${projectId}/branches/${branchId}`;
-        return this.delete(url, this.defaultConfig());
+        const config = this.defaultConfig();
+        if (options?.respondAsync) {
+            config.headers['Prefer'] = 'respond-async';
+        }
+        return this.delete(url, config);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param jobIdentifier deletion job identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.jobs.get
+     */
+    checkDeleteBranchJobStatus(
+        projectId: number,
+        branchId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus>> {
+        const url = `${this.url}/projects/${projectId}/branches/${branchId}/jobs/${jobIdentifier}`;
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -276,11 +300,35 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param directoryId directory identifier
+     * @param options optional delete options
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.delete
      */
-    deleteDirectory(projectId: number, directoryId: number): Promise<void> {
+    deleteDirectory(
+        projectId: number,
+        directoryId: number,
+        options?: SourceFilesModel.DeleteOptions,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus> | void> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
-        return this.delete(url, this.defaultConfig());
+        const config = this.defaultConfig();
+        if (options?.respondAsync) {
+            config.headers['Prefer'] = 'respond-async';
+        }
+        return this.delete(url, config);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param jobIdentifier deletion job identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.jobs.get
+     */
+    checkDeleteDirectoryJobStatus(
+        projectId: number,
+        directoryId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus>> {
+        const url = `${this.url}/projects/${projectId}/directories/${directoryId}/jobs/${jobIdentifier}`;
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -396,11 +444,35 @@ export class SourceFiles extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId file identifier
+     * @param options optional delete options
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.delete
      */
-    deleteFile(projectId: number, fileId: number): Promise<void> {
+    deleteFile(
+        projectId: number,
+        fileId: number,
+        options?: SourceFilesModel.DeleteOptions,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus> | void> {
         const url = `${this.url}/projects/${projectId}/files/${fileId}`;
-        return this.delete(url, this.defaultConfig());
+        const config = this.defaultConfig();
+        if (options?.respondAsync) {
+            config.headers['Prefer'] = 'respond-async';
+        }
+        return this.delete(url, config);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param jobIdentifier deletion job identifier
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.jobs.get
+     */
+    checkDeleteFileJobStatus(
+        projectId: number,
+        fileId: number,
+        jobIdentifier: string,
+    ): Promise<ResponseObject<SourceFilesModel.DeletionJobStatus>> {
+        const url = `${this.url}/projects/${projectId}/files/${fileId}/jobs/${jobIdentifier}`;
+        return this.get(url, this.defaultConfig());
     }
 
     /**
@@ -1031,5 +1103,27 @@ export namespace SourceFilesModel {
     export interface AssetReferenceRequest {
         storageId: number;
         name: string;
+    }
+
+    export interface DeleteOptions {
+        respondAsync?: boolean;
+    }
+
+    export interface DeletionJobAttributes {
+        branchId?: number;
+        directoryId?: number;
+        fileId?: number;
+    }
+
+    export interface DeletionJobStatus {
+        identifier: string;
+        status: 'created' | 'in_progress' | 'finished' | 'failed';
+        progress: number;
+        attributes: DeletionJobAttributes;
+        createdAt: string;
+        updatedAt: string;
+        startedAt: string;
+        finishedAt: string;
+        error: { message: string } | null;
     }
 }
