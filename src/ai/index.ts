@@ -521,6 +521,31 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.getMany
+     */
+    listAiOrganizationRequestLogs(
+        options?: AiModel.ListAiRequestLogsOptions,
+    ): Promise<ResponseList<AiModel.AiRequestLog>> {
+        let url = `${this.url}/ai/request-logs`;
+        url = this.addQueryParam(url, 'requestId', options?.requestId);
+        url = this.addQueryParam(url, 'projectId', options?.projectId);
+        url = this.addQueryParam(url, 'userId', options?.userId);
+        url = this.addQueryParam(url, 'aiProviderId', options?.aiProviderId);
+        url = this.addQueryParam(url, 'model', options?.model);
+        url = this.addQueryParam(url, 'sourceAction', options?.sourceAction);
+        url = this.addQueryParam(url, 'promptAction', options?.promptAction);
+        url = this.addQueryParam(url, 'statuses', options?.statuses);
+        url = this.addQueryParam(url, 'systemCredentials', options?.systemCredentials?.toString());
+        url = this.addQueryParam(url, 'isAutoTriggered', options?.isAutoTriggered?.toString());
+        url = this.addQueryParam(url, 'tokenName', options?.tokenName);
+        url = this.addQueryParam(url, 'oauthClientId', options?.oauthClientId);
+        url = this.addQueryParam(url, 'createdAfter', options?.createdAfter);
+        url = this.addQueryParam(url, 'createdBefore', options?.createdBefore);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.get
@@ -1185,6 +1210,33 @@ export class Ai extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.getMany
+     */
+    listAiUserRequestLogs(
+        userId: number,
+        options?: AiModel.ListAiRequestLogsOptions,
+    ): Promise<ResponseList<AiModel.AiRequestLog>> {
+        let url = `${this.url}/users/${userId}/ai/request-logs`;
+        url = this.addQueryParam(url, 'requestId', options?.requestId);
+        url = this.addQueryParam(url, 'projectId', options?.projectId);
+        url = this.addQueryParam(url, 'userId', options?.userId);
+        url = this.addQueryParam(url, 'aiProviderId', options?.aiProviderId);
+        url = this.addQueryParam(url, 'model', options?.model);
+        url = this.addQueryParam(url, 'sourceAction', options?.sourceAction);
+        url = this.addQueryParam(url, 'promptAction', options?.promptAction);
+        url = this.addQueryParam(url, 'statuses', options?.statuses);
+        url = this.addQueryParam(url, 'systemCredentials', options?.systemCredentials?.toString());
+        url = this.addQueryParam(url, 'isAutoTriggered', options?.isAutoTriggered?.toString());
+        url = this.addQueryParam(url, 'tokenName', options?.tokenName);
+        url = this.addQueryParam(url, 'oauthClientId', options?.oauthClientId);
+        url = this.addQueryParam(url, 'createdAfter', options?.createdAfter);
+        url = this.addQueryParam(url, 'createdBefore', options?.createdBefore);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.get
@@ -1748,6 +1800,52 @@ export namespace AiModel {
         translations: string[];
     }
     /* ai Translate Strings Section END*/
+
+    /* ai Request Logs Section START */
+    export interface AiRequestLog {
+        id: number;
+        requestId: string;
+        createdAt: string;
+        status: 'pending' | 'success' | 'error' | 'timeout';
+        httpStatus: number | null;
+        model: string;
+        sourceAction: string;
+        promptAction: string | null;
+        systemCredentials: boolean;
+        isAutoTriggered: boolean;
+        durationMs: number | null;
+        inputTokens: number | null;
+        outputTokens: number | null;
+        totalCost: number | null;
+        userId: number | null;
+        projectId: number | null;
+        promptId: number | null;
+        aiProviderId: number;
+        tokenName: string | null;
+        oauthClientId: string | null;
+        oauthClientName: string | null;
+        ip: string | null;
+        userAgent: string | null;
+        error: string | null;
+    }
+
+    export interface ListAiRequestLogsOptions extends PaginationOptions {
+        requestId?: string;
+        projectId?: number;
+        userId?: number;
+        aiProviderId?: number;
+        model?: string;
+        sourceAction?: string;
+        promptAction?: string;
+        statuses?: string;
+        systemCredentials?: boolean;
+        isAutoTriggered?: boolean;
+        tokenName?: string;
+        oauthClientId?: string;
+        createdAfter?: string;
+        createdBefore?: string;
+    }
+    /* ai Request Logs Section END */
 
     export type Action = 'pre_translate' | 'alignment' | 'qa_check';
     export type ProviderType =
