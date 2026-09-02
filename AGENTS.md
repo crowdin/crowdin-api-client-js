@@ -28,7 +28,7 @@ Fetch the endpoint spec first (see Crowdin API reference below). Then:
 1. Implement the method in `src/<resource>/index.ts`:
    - Build the URL from `` `${this.url}/...` ``; add query params only via `this.addQueryParam(url, name, value)`.
    - Call the inherited `this.get/post/put/patch/delete(url, body, this.defaultConfig())`; list endpoints call `this.getList(url, options.limit, options.offset)` so `withFetchAll()` works.
-   - Take a single options object (for lists, an interface extending `PaginationOptions`). Older methods carry deprecated positional overloads — leave those in place and add none.
+   - New methods with optional parameters must take a single options object (`options?`): list endpoints use an interface extending `PaginationOptions`; non-list endpoints use a dedicated options interface in the resource namespace. This keeps the public API backward-compatible — new optional fields are added to the interface without touching the function signature. Never add bare positional optional parameters. Older methods carry deprecated positional overloads — leave those in place and add none.
    - Give every function an explicit return type (`Promise<ResponseObject<T>>`, `Promise<ResponseList<T>>`, or `Promise<void>` for 204s); the lint rule demands this everywhere, arrow callbacks in tests included.
    - JSDoc each method with `@param` lines and a `@see` link to the developer.crowdin.com operation (typedoc publishes these).
 2. For a new resource, create `src/<resource>/index.ts` and make four edits in `src/index.ts`: the import, `export * from './<resource>'`, a `readonly <resource>Api` field on `Client`, and its construction in the constructor. Nothing is auto-discovered.
