@@ -12,8 +12,6 @@ describe('Applications API', () => {
     const path = 'test';
     const url = `/applications/${applicationId}/api/${path}`;
     const installUrl = '/applications/installations';
-    const consentsUrl = '/applications/consents';
-    const consentId = 1;
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -104,34 +102,6 @@ describe('Applications API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(200)
-            .get(consentsUrl, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200)
-            .post(
-                consentsUrl,
-                { identifier: 'test-app', installedBy: 2, status: 'granted' },
-                {
-                    reqheaders: {
-                        Authorization: `Bearer ${api.token}`,
-                    },
-                },
-            )
-            .reply(201)
-            .patch(`${consentsUrl}/${consentId}`, [{ op: 'replace', path: '/status', value: 'denied' }], {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
-            .reply(200)
-            .delete(`${consentsUrl}/${consentId}`, undefined, {
-                reqheaders: {
-                    Authorization: `Bearer ${api.token}`,
-                },
-            })
             .reply(200);
     });
 
@@ -188,25 +158,5 @@ describe('Applications API', () => {
 
     it('Delete Application Data', async () => {
         await api.deleteApplicationData(applicationId, path);
-    });
-
-    it('List Application Consent Decisions', async () => {
-        await api.listApplicationConsentDecisions();
-    });
-
-    it('Create Application Consent Decision', async () => {
-        await api.createApplicationConsentDecision({
-            identifier: 'test-app',
-            installedBy: 2,
-            status: 'granted',
-        });
-    });
-
-    it('Edit Application Consent Decision', async () => {
-        await api.editApplicationConsentDecision(consentId, [{ op: 'replace', path: '/status', value: 'denied' }]);
-    });
-
-    it('Delete Application Consent Decision', async () => {
-        await api.deleteApplicationConsentDecision(consentId);
     });
 });

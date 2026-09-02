@@ -1,4 +1,4 @@
-import { CrowdinApi, PaginationOptions, ResponseObject, PatchRequest, Pagination, ResponseList } from '../core';
+import { CrowdinApi, ResponseObject, PatchRequest, Pagination, ResponseList } from '../core';
 
 /**
  * Crowdin Apps are web applications that can be integrated with Crowdin to extend its functionality.
@@ -116,52 +116,6 @@ export class Applications extends CrowdinApi {
         const url = `${this.url}/applications/${applicationId}/api/${path}`;
         return this.patch(url, request, this.defaultConfig());
     }
-
-    /**
-     * @param options optional pagination and filter parameters for the request
-     * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.getMany
-     */
-    listApplicationConsentDecisions(
-        options?: ApplicationsModel.ListConsentDecisionsOptions,
-    ): Promise<ResponseList<ApplicationsModel.ConsentDecision>> {
-        let url = `${this.url}/applications/consents`;
-        url = this.addQueryParam(url, 'identifier', options?.identifier);
-        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
-        return this.getList(url, options?.limit, options?.offset);
-    }
-
-    /**
-     * @param request request body
-     * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.post
-     */
-    createApplicationConsentDecision(
-        request: ApplicationsModel.CreateConsentDecisionRequest,
-    ): Promise<ResponseObject<ApplicationsModel.ConsentDecision>> {
-        const url = `${this.url}/applications/consents`;
-        return this.post(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param consentId consent decision identifier
-     * @param request request body
-     * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.patch
-     */
-    editApplicationConsentDecision(
-        consentId: number,
-        request: PatchRequest[],
-    ): Promise<ResponseObject<ApplicationsModel.ConsentDecision>> {
-        const url = `${this.url}/applications/consents/${consentId}`;
-        return this.patch(url, request, this.defaultConfig());
-    }
-
-    /**
-     * @param consentId consent decision identifier
-     * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.delete
-     */
-    deleteApplicationConsentDecision(consentId: number): Promise<void> {
-        const url = `${this.url}/applications/consents/${consentId}`;
-        return this.delete(url, this.defaultConfig());
-    }
 }
 
 export namespace ApplicationsModel {
@@ -203,37 +157,5 @@ export namespace ApplicationsModel {
         data?: any;
         authenticationType?: string;
         permissions: Omit<ApplicationPermissions, 'project'>;
-    }
-
-    export type ConsentStatus = 'granted' | 'denied';
-
-    export interface ConsentUser {
-        id: number;
-        username: string;
-        fullName: string;
-        avatarUrl: string;
-    }
-
-    export interface ConsentDecision {
-        id: number;
-        installedBy: ConsentUser | null;
-        identifier: string;
-        name: string | null;
-        status: ConsentStatus;
-        scopes: string[];
-        createdAt: string;
-        updatedAt: string;
-    }
-
-    export interface ListConsentDecisionsOptions extends PaginationOptions {
-        identifier?: string;
-        orderBy?: string;
-    }
-
-    export interface CreateConsentDecisionRequest {
-        identifier: string;
-        installedBy: number;
-        status: ConsentStatus;
-        scopes?: string[];
     }
 }
