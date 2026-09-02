@@ -51,6 +51,7 @@ export class Tasks extends CrowdinApi {
         url = this.addQueryParam(url, 'status', options.status);
         url = this.addQueryParam(url, 'assigneeId', options.assigneeId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'batchId', options.batchId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -441,7 +442,10 @@ export namespace TasksModel {
         | CreateTaskVendorManualByBranchIds
         | CreateTaskPendingTask
         | CreateTaskPendingTaskLanguageService
-        | CreateTaskPendingTaskVendorManual;
+        | CreateTaskPendingTaskVendorManual
+        | CreateTaskVendorByFileIds
+        | CreateTaskVendorByStringIds
+        | CreateTaskVendorByBranchIds;
 
     export interface CreateTaskEnterpriseByBranchIds {
         type: Type;
@@ -531,6 +535,7 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
+        batchId?: number;
     }
 
     export type CreateTaskByStringIds = Omit<CreateTaskByFileIds, 'fileIds' | 'labelIds' | 'excludeLabelIds'> & {
@@ -549,10 +554,13 @@ export namespace TasksModel {
         excludeLabelIds?: number[];
         status?: RequestStatus;
         description?: string;
+        skipAssignedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
         assignees?: CreateTaskAssignee[];
+        deadline?: string;
         dateFrom?: string;
         dateTo?: string;
+        batchId?: number;
     }
 
     export type CreateTaskByStringIdsLanguageService = Omit<
@@ -578,9 +586,12 @@ export namespace TasksModel {
         description?: string;
         expertise?: Expertise;
         editService?: boolean;
+        skipAssignedStrings?: boolean;
         includePreTranslatedStringsOnly?: boolean;
+        deadline?: string;
         dateFrom?: string;
         dateTo?: string;
+        batchId?: number;
     }
 
     export type CreateTaskVendorOhtByStringIds = Omit<
@@ -610,8 +621,11 @@ export namespace TasksModel {
         customerMessage?: string;
         usePreferred?: boolean;
         editService?: boolean;
+        skipAssignedStrings?: boolean;
+        deadline?: string;
         dateFrom?: string;
         dateTo?: string;
+        batchId?: number;
     }
 
     export type CreateTaskVendorGengoByStringIds = Omit<
@@ -655,6 +669,7 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
+        batchId?: number;
     }
 
     export type CreateTaskVendorManualByStringIds = Omit<
@@ -694,6 +709,37 @@ export namespace TasksModel {
         description?: string;
         deadline?: string;
     }
+
+    export interface CreateTaskVendorByFileIds {
+        title: string;
+        languageId: string;
+        type: TypeVendor;
+        vendor: string;
+        fileIds: number[];
+        labelIds?: number[];
+        excludeLabelIds?: number[];
+        status?: RequestStatus;
+        description?: string;
+        skipAssignedStrings?: boolean;
+        includePreTranslatedStringsOnly?: boolean;
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+        startedAt?: string;
+        dateFrom?: string;
+        dateTo?: string;
+        batchId?: number;
+    }
+
+    export type CreateTaskVendorByStringIds = Omit<
+        CreateTaskVendorByFileIds,
+        'fileIds' | 'labelIds' | 'excludeLabelIds'
+    > & {
+        stringIds: number[];
+    };
+
+    export type CreateTaskVendorByBranchIds = Omit<CreateTaskVendorByFileIds, 'fileIds'> & {
+        branchIds: number[];
+    };
 
     //END
 
@@ -815,6 +861,7 @@ export namespace TasksModel {
         status?: TasksModel.Status;
         assigneeId?: number;
         orderBy?: string;
+        batchId?: number;
     }
 
     export interface TaskSettingsTemplate {
