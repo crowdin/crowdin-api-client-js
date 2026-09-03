@@ -36,6 +36,7 @@ describe('Source Files API', () => {
     const limit = 25;
     const referenceId = 543;
     const assetName = 'asset.png';
+    const jobId = 'test-job-id';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -536,6 +537,117 @@ describe('Source Files API', () => {
                 data: {
                     url: filleRawUrl,
                 },
+            })
+            .delete(`/projects/${projectId}/branches/${branchId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                    Prefer: 'respond-async',
+                },
+            })
+            .reply(202, {
+                data: {
+                    identifier: jobId,
+                    status: 'created',
+                    progress: 0,
+                    attributes: { branchId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
+            })
+            .get(`/projects/${projectId}/branches/${branchId}/jobs/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: { branchId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
+            })
+            .delete(`/projects/${projectId}/directories/${directoryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                    Prefer: 'respond-async',
+                },
+            })
+            .reply(202, {
+                data: {
+                    identifier: jobId,
+                    status: 'created',
+                    progress: 0,
+                    attributes: { directoryId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
+            })
+            .get(`/projects/${projectId}/directories/${directoryId}/jobs/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: { directoryId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
+            })
+            .delete(`/projects/${projectId}/files/${fileId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                    Prefer: 'respond-async',
+                },
+            })
+            .reply(202, {
+                data: {
+                    identifier: jobId,
+                    status: 'created',
+                    progress: 0,
+                    attributes: { fileId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
+            })
+            .get(`/projects/${projectId}/files/${fileId}/jobs/${jobId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    identifier: jobId,
+                    status: 'finished',
+                    progress: 100,
+                    attributes: { fileId },
+                    createdAt: '2023-01-01T00:00:00+00:00',
+                    updatedAt: '2023-01-01T00:00:00+00:00',
+                    startedAt: '2023-01-01T00:00:00+00:00',
+                    finishedAt: '2023-01-01T00:00:00+00:00',
+                    error: null,
+                },
             });
     });
 
@@ -777,5 +889,35 @@ describe('Source Files API', () => {
     it('Download reviewed source files', async () => {
         const file = await api.downloadReviewedSourceFiles(projectId, buildId);
         expect(file.data.url).toBe(filleRawUrl);
+    });
+
+    it('Delete branch async', async () => {
+        await api.deleteBranch(projectId, branchId, { respondAsync: true });
+    });
+
+    it('Check delete branch job status', async () => {
+        const job = await api.checkDeleteBranchJobStatus(projectId, branchId, jobId);
+        expect(job.data.identifier).toBe(jobId);
+        expect(job.data.status).toBe('finished');
+    });
+
+    it('Delete directory async', async () => {
+        await api.deleteDirectory(projectId, directoryId, { respondAsync: true });
+    });
+
+    it('Check delete directory job status', async () => {
+        const job = await api.checkDeleteDirectoryJobStatus(projectId, directoryId, jobId);
+        expect(job.data.identifier).toBe(jobId);
+        expect(job.data.status).toBe('finished');
+    });
+
+    it('Delete file async', async () => {
+        await api.deleteFile(projectId, fileId, { respondAsync: true });
+    });
+
+    it('Check delete file job status', async () => {
+        const job = await api.checkDeleteFileJobStatus(projectId, fileId, jobId);
+        expect(job.data.identifier).toBe(jobId);
+        expect(job.data.status).toBe('finished');
     });
 });
