@@ -310,6 +310,22 @@ export class Translations extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/translations/imports/${importId}/report`;
         return this.get(url, this.defaultConfig());
     }
+
+    /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.translations.getMany
+     */
+    listTranslations(
+        options: TranslationsModel.ListTranslationsOptions,
+    ): Promise<ResponseList<TranslationsModel.TranslationSearchResult>> {
+        let url = `${this.url}/translations`;
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'projectIds', options.projectIds?.join(','));
+        url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'languageIds', options.languageIds?.join(','));
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        return this.getList(url, options.limit, options.offset);
+    }
 }
 
 export namespace TranslationsModel {
@@ -664,4 +680,25 @@ export namespace TranslationsModel {
     }
 
     /* Import Translations END */
+
+    export interface ListTranslationsOptions extends PaginationOptions {
+        filter: string;
+        projectIds?: number[];
+        userId?: number;
+        languageIds?: string[];
+        denormalizePlaceholders?: 0 | 1;
+    }
+
+    export interface TranslationSearchResult {
+        id: number;
+        text: string;
+        projectId: number;
+        stringId: number;
+        languageId: string;
+        provider: string;
+        isPreTranslated: boolean;
+        matchRate: number;
+        matchType: string;
+        createdAt: string;
+    }
 }
