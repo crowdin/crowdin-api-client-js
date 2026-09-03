@@ -1264,6 +1264,24 @@ describe('AI API', () => {
             })
             .reply(200, {
                 data: field,
+            })
+            .get('/ai/request-logs', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { id: 1 } }],
+                pagination: { offset: 0, limit },
+            })
+            .get(`/users/${userId}/ai/request-logs`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { id: 1 } }],
+                pagination: { offset: 0, limit },
             });
     });
 
@@ -1857,5 +1875,17 @@ describe('AI API', () => {
     it('User AI Gateway DELETE', async () => {
         const res = await api.userAiGatewayDelete(userId, aiProviderId, 'chat/completions');
         expect(res.data).toStrictEqual(field);
+    });
+
+    it('List AI Organization Request Logs', async () => {
+        const res = await api.listAiOrganizationRequestLogs();
+        expect(res.data.length).toBe(1);
+        expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('List AI User Request Logs', async () => {
+        const res = await api.listAiUserRequestLogs(userId);
+        expect(res.data.length).toBe(1);
+        expect(res.pagination.limit).toBe(limit);
     });
 });
