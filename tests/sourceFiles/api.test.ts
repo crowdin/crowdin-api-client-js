@@ -37,6 +37,7 @@ describe('Source Files API', () => {
     const referenceId = 543;
     const assetName = 'asset.png';
     const jobId = 'test-job-id';
+    const filter = 'hello';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -648,6 +649,63 @@ describe('Source Files API', () => {
                     finishedAt: '2023-01-01T00:00:00+00:00',
                     error: null,
                 },
+            })
+            .get('/branches', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ filter })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: branchId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/directories', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ filter })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: directoryId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/files', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ filter })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: fileId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -919,5 +977,26 @@ describe('Source Files API', () => {
         const job = await api.checkDeleteFileJobStatus(projectId, fileId, jobId);
         expect(job.data.identifier).toBe(jobId);
         expect(job.data.status).toBe('finished');
+    });
+
+    it('List branches', async () => {
+        const branches = await api.listBranches({ filter });
+        expect(branches.data.length).toBe(1);
+        expect(branches.data[0].data.id).toBe(branchId);
+        expect(branches.pagination.limit).toBe(limit);
+    });
+
+    it('List directories', async () => {
+        const directories = await api.listDirectories({ filter });
+        expect(directories.data.length).toBe(1);
+        expect(directories.data[0].data.id).toBe(directoryId);
+        expect(directories.pagination.limit).toBe(limit);
+    });
+
+    it('List files', async () => {
+        const files = await api.listFiles({ filter });
+        expect(files.data.length).toBe(1);
+        expect(files.data[0].data.id).toBe(fileId);
+        expect(files.pagination.limit).toBe(limit);
     });
 });

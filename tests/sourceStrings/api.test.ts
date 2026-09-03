@@ -19,6 +19,7 @@ describe('Source Strings API', () => {
     const updateOption = 'keep_translations';
 
     const limit = 25;
+    const filter = 'hello';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -203,6 +204,25 @@ describe('Source Strings API', () => {
                     id: stringId,
                     text: stringText,
                 },
+            })
+            .get('/strings', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ filter })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -314,5 +334,12 @@ describe('Source Strings API', () => {
         );
         expect(string.data.id).toBe(stringId);
         expect(string.data.text).toBe(stringText);
+    });
+
+    it('List strings (org-level)', async () => {
+        const strings = await api.listStrings({ filter });
+        expect(strings.data.length).toBe(1);
+        expect(strings.data[0].data.id).toBe(stringId);
+        expect(strings.pagination.limit).toBe(limit);
     });
 });

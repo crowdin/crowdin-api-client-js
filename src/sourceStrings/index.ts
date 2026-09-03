@@ -190,6 +190,20 @@ export class SourceStrings extends CrowdinApi {
         url = this.addQueryParam(url, 'updateOption', query?.updateOption);
         return this.patch(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.strings.getMany
+     */
+    listStrings(options: SourceStringsModel.ListStringsOptions): Promise<ResponseList<SourceStringsModel.String>> {
+        let url = `${this.url}/strings`;
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'projectIds', options.projectIds?.join(','));
+        url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'scope', options.scope);
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
+        return this.getList(url, options.limit, options.offset);
+    }
 }
 
 export namespace SourceStringsModel {
@@ -315,4 +329,12 @@ export namespace SourceStringsModel {
         | 'clear_translations_and_approvals'
         | 'keep_translations'
         | 'keep_translations_and_approvals';
+
+    export interface ListStringsOptions extends PaginationOptions {
+        filter: string;
+        projectIds?: number[];
+        userId?: number;
+        scope?: 'all' | 'text' | 'context' | 'key';
+        denormalizePlaceholders?: BooleanInt;
+    }
 }

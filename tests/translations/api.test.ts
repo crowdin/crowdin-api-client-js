@@ -25,6 +25,8 @@ describe('Translations API', () => {
     const importId = '123';
 
     const limit = 25;
+    const filter = 'hello';
+    const translationId = 999;
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -386,6 +388,25 @@ describe('Translations API', () => {
                     identifier: preTranslationId,
                     attributes: {},
                 },
+            })
+            .get('/translations', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ filter })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: translationId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -565,5 +586,12 @@ describe('Translations API', () => {
         expect(data.languages[0].files[0].id).toBe(fileId);
         expect(data.languages[0].files[0].statistics.phrases).toBe(10);
         expect(data.languages[0].files[0].statistics.words).toBe(25);
+    });
+
+    it('List translations (org-level)', async () => {
+        const translations = await api.listTranslations({ filter });
+        expect(translations.data.length).toBe(1);
+        expect(translations.data[0].data.id).toBe(translationId);
+        expect(translations.pagination.limit).toBe(limit);
     });
 });

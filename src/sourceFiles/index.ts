@@ -63,6 +63,18 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.branches.getMany
+     */
+    listBranches(options: SourceFilesModel.ListBranchesOptions): Promise<ResponseList<SourceFilesModel.Branch>> {
+        let url = `${this.url}/branches`;
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'projectIds', options.projectIds?.join(','));
+        url = this.addQueryParam(url, 'userId', options.userId);
+        return this.getList(url, options.limit, options.offset);
+    }
+
+    /**
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.getMany
@@ -218,6 +230,20 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.directories.getMany
+     */
+    listDirectories(
+        options: SourceFilesModel.ListDirectoriesOptions,
+    ): Promise<ResponseList<SourceFilesModel.Directory>> {
+        let url = `${this.url}/directories`;
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'projectIds', options.projectIds?.join(','));
+        url = this.addQueryParam(url, 'userId', options.userId);
+        return this.getList(url, options.limit, options.offset);
+    }
+
+    /**
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.getMany
@@ -344,6 +370,18 @@ export class SourceFiles extends CrowdinApi {
     ): Promise<ResponseObject<SourceFilesModel.Directory>> {
         const url = `${this.url}/projects/${projectId}/directories/${directoryId}`;
         return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param options optional parameters for the request
+     * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.files.getMany
+     */
+    listFiles(options: SourceFilesModel.ListFilesOptions): Promise<ResponseList<SourceFilesModel.File>> {
+        let url = `${this.url}/files`;
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'projectIds', options.projectIds?.join(','));
+        url = this.addQueryParam(url, 'userId', options.userId);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
@@ -1125,5 +1163,23 @@ export namespace SourceFilesModel {
         startedAt: string;
         finishedAt: string;
         error: { message: string } | null;
+    }
+
+    export interface ListBranchesOptions extends PaginationOptions {
+        filter: string;
+        projectIds?: number[];
+        userId?: number;
+    }
+
+    export interface ListDirectoriesOptions extends PaginationOptions {
+        filter: string;
+        projectIds?: number[];
+        userId?: number;
+    }
+
+    export interface ListFilesOptions extends PaginationOptions {
+        filter: string;
+        projectIds?: number[];
+        userId?: number;
     }
 }
