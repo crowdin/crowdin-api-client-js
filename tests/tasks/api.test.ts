@@ -31,6 +31,8 @@ describe('Tasks API', () => {
     };
 
     const limit = 25;
+    const batchId = 5;
+    const vendor = 'acme_translation';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -390,6 +392,46 @@ describe('Tasks API', () => {
                     id: taskSettingsId,
                     name: taskSettingsName,
                 },
+            })
+            .get(`/projects/${projectId}/tasks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ batchId: String(batchId) })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: taskId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/tasks`,
+                {
+                    title: taskTitle,
+                    languageId: languageId,
+                    type: 2,
+                    vendor: vendor,
+                    fileIds: [],
+                    batchId: batchId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: taskId,
+                },
             });
     });
 
@@ -571,5 +613,23 @@ describe('Tasks API', () => {
         ]);
         expect(template.data.id).toBe(taskSettingsId);
         expect(template.data.name).toBe(taskSettingsName);
+    });
+
+    it('List tasks filtered by batchId', async () => {
+        const tasks = await api.listTasks(projectId, { batchId });
+        expect(tasks.data.length).toBe(1);
+        expect(tasks.data[0].data.id).toBe(taskId);
+    });
+
+    it('Add vendor task with batchId', async () => {
+        const task = await api.addTask(projectId, {
+            title: taskTitle,
+            languageId: languageId,
+            type: 2,
+            vendor: vendor,
+            fileIds: [],
+            batchId: batchId,
+        });
+        expect(task.data.id).toBe(taskId);
     });
 });
