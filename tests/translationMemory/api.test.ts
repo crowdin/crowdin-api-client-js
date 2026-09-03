@@ -318,6 +318,64 @@ describe('Translation Memory API', () => {
                 data: {
                     id: segmentId,
                 },
+            })
+            .post(
+                '/tms/concordance',
+                {
+                    sourceLanguageId: languageId,
+                    targetLanguageId: languageId,
+                    autoSubstitution: true,
+                    minRelevant: 60,
+                    expressions: ['Welcome!'],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            tm: {
+                                id: tmId,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/tms/${tmId}/segments`,
+                [
+                    {
+                        op: 'add',
+                        path: '/-',
+                        value: { records: [{ languageId, text: segmentRecordText }] },
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: segmentId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -468,5 +526,29 @@ describe('Translation Memory API', () => {
             ],
         });
         expect(segment.data.id).toBe(segmentId);
+    });
+
+    it('Organization concordance search in TMs', async () => {
+        const res = await api.organizationConcordanceSearch({
+            sourceLanguageId: languageId,
+            targetLanguageId: languageId,
+            autoSubstitution: true,
+            minRelevant: 60,
+            expressions: ['Welcome!'],
+        });
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.tm.id).toBe(tmId);
+    });
+
+    it('Batch operations on TM segments', async () => {
+        const res = await api.batchOperationsOnTmSegments(tmId, [
+            {
+                op: 'add',
+                path: '/-',
+                value: { records: [{ languageId, text: segmentRecordText }] },
+            },
+        ]);
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.id).toBe(segmentId);
     });
 });
