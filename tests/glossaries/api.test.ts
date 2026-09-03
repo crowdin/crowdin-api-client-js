@@ -358,6 +358,34 @@ describe('Glossaries API', () => {
                     offset: 0,
                     limit: limit,
                 },
+            })
+            .post(
+                '/glossaries/concordance',
+                {
+                    sourceLanguageId: termLanguageId,
+                    targetLanguageId: termLanguageId,
+                    expressions: ['Welcome!'],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            glossary: {
+                                id: glossaryId,
+                            },
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -518,6 +546,16 @@ describe('Glossaries API', () => {
 
     it('Concordance search', async () => {
         const res = await api.concordanceSearch(projectId, {
+            sourceLanguageId: termLanguageId,
+            targetLanguageId: termLanguageId,
+            expressions: ['Welcome!'],
+        });
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.glossary.id).toBe(glossaryId);
+    });
+
+    it('Organization concordance search', async () => {
+        const res = await api.organizationConcordanceSearch({
             sourceLanguageId: termLanguageId,
             targetLanguageId: termLanguageId,
             expressions: ['Welcome!'],

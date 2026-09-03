@@ -353,6 +353,17 @@ export class Glossaries extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/glossaries/concordance`;
         return this.post(url, request, this.defaultConfig());
     }
+
+    /**
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concordance.post
+     */
+    organizationConcordanceSearch(
+        request: GlossariesModel.OrganizationConcordanceSearchRequest,
+    ): Promise<ResponseList<GlossariesModel.ConcordanceSearchResponse>> {
+        const url = `${this.url}/glossaries/concordance`;
+        return this.post(url, request, this.defaultConfig());
+    }
 }
 
 export namespace GlossariesModel {
@@ -502,6 +513,13 @@ export namespace GlossariesModel {
          * @deprecated
          */
         expression?: string;
+    }
+
+    export interface OrganizationConcordanceSearchRequest {
+        sourceLanguageId: string;
+        targetLanguageId: string;
+        expressions: string[];
+        userId?: number | null;
     }
 
     export interface ConcordanceSearchResponse {
