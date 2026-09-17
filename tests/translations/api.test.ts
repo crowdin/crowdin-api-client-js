@@ -389,6 +389,28 @@ describe('Translations API', () => {
                     attributes: {},
                 },
             })
+            .post(
+                `/projects/${projectId}/pre-translations`,
+                {
+                    languageIds: [],
+                    directoryIds: [directoryId],
+                    branchIds: [branchId],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: preTranslationId,
+                    attributes: {
+                        directoryIds: [directoryId],
+                        branchIds: [branchId],
+                    },
+                },
+            })
             .get('/translations', undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -453,6 +475,21 @@ describe('Translations API', () => {
             customInstruction: 'Translate formally',
         });
         expect(preTranslation.data.identifier).toBe(preTranslationId);
+    });
+
+    it('Apply Pre-Translation with directoryIds and branchIds', async () => {
+        const preTranslation = await api.applyPreTranslation(projectId, {
+            languageIds: [],
+            directoryIds: [directoryId],
+            branchIds: [branchId],
+        });
+        expect(preTranslation.data.identifier).toBe(preTranslationId);
+        expect(
+            (preTranslation.data.attributes as TranslationsModel.PreTranslationStatusAttributes).directoryIds,
+        ).toEqual([directoryId]);
+        expect((preTranslation.data.attributes as TranslationsModel.PreTranslationStatusAttributes).branchIds).toEqual([
+            branchId,
+        ]);
     });
 
     it('Pre-translation status', async () => {
