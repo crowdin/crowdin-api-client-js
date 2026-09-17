@@ -152,6 +152,7 @@ export namespace DistributionsModel {
         currentLanguageId: string;
         currentFileId: number;
         date: string;
+        error?: { message: string };
     }
 
     export interface DistributionStringsBasedRelease {
@@ -160,6 +161,7 @@ export namespace DistributionsModel {
         currentLanguageId: string;
         currentBranchId: number;
         date: string;
+        error?: { message: string };
     }
 
     export type ExportMode = 'default' | 'bundle';

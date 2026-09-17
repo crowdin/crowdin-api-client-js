@@ -106,6 +106,20 @@ describe('Distributions API', () => {
                 data: {
                     progress: 0,
                 },
+            })
+            .get(`/projects/${projectId}/distributions/${hash}/release`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    status: 'failed',
+                    progress: 0,
+                    error: {
+                        message: 'This distribution release has no bundles, or the bundles have been removed.',
+                    },
+                },
             });
     });
 
@@ -157,5 +171,13 @@ describe('Distributions API', () => {
     it('Create distribution release', async () => {
         const distributionRelease = await api.createDistributionRelease(projectId, hash);
         expect(distributionRelease.data.progress).toBe(0);
+    });
+
+    it('Get distribution release with error on failure', async () => {
+        const distributionRelease = await api.getDistributionRelease(projectId, hash);
+        expect(distributionRelease.data.status).toBe('failed');
+        expect(distributionRelease.data.error?.message).toBe(
+            'This distribution release has no bundles, or the bundles have been removed.',
+        );
     });
 });
