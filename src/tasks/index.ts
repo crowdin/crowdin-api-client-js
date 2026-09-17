@@ -368,6 +368,7 @@ export namespace TasksModel {
         translationUrl: string;
         webUrl: string;
         wordsCount: number;
+        originalWordsCount: number;
         commentsCount: number;
         deadline: string;
         startedAt: string;
@@ -387,6 +388,7 @@ export namespace TasksModel {
         branchIds: number[];
         vendor: string;
         fields: Record<string, any>;
+        syncScope?: SyncScope | null;
     }
 
     export interface ListUserTasksOptions extends PaginationOptions {
@@ -780,6 +782,12 @@ export namespace TasksModel {
         total: number;
         done: number;
         percent: number;
+    }
+
+    export interface SyncScope {
+        syncedWords: number;
+        pendingWords: number;
+        skippedWords: number;
     }
 
     export type Expertise =
