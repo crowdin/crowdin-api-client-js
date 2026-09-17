@@ -331,7 +331,9 @@ export class Translations extends CrowdinApi {
 export namespace TranslationsModel {
     export interface PreTranslateRequest {
         languageIds: string[];
-        fileIds: number[];
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
         method?: Method;
         priority?: Priority;
         engineId?: number;
@@ -431,6 +433,7 @@ export namespace TranslationsModel {
     export interface PreTranslationStatusAttributes {
         languageIds: string[];
         fileIds: number[];
+        directoryIds: number[];
         branchIds: number[];
         method: Method;
         autoApproveOption: AutoApproveOption;
