@@ -546,6 +546,29 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
+     */
+    listAiOrganizationUsageMembers(
+        options?: AiModel.ListAiUsageMembersOptions,
+    ): Promise<ResponseList<AiModel.AiUsageMember>> {
+        let url = `${this.url}/ai/usage/members`;
+        url = this.addQueryParam(url, 'userIds', options?.userIds?.join(','));
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param memberId user identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.usage.members.get
+     */
+    getAiOrganizationUsageMember(memberId: number): Promise<ResponseObject<AiModel.AiUsageMember>> {
+        const url = `${this.url}/ai/usage/members/${memberId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.get
@@ -1237,6 +1260,32 @@ export class Ai extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
+     */
+    listAiUserUsageMembers(
+        userId: number,
+        options?: AiModel.ListAiUsageMembersOptions,
+    ): Promise<ResponseList<AiModel.AiUsageMember>> {
+        let url = `${this.url}/users/${userId}/ai/usage/members`;
+        url = this.addQueryParam(url, 'userIds', options?.userIds?.join(','));
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param memberId user identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.usage.members.get
+     */
+    getAiUserUsageMember(userId: number, memberId: number): Promise<ResponseObject<AiModel.AiUsageMember>> {
+        const url = `${this.url}/users/${userId}/ai/usage/members/${memberId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.get
@@ -1846,6 +1895,30 @@ export namespace AiModel {
         createdBefore?: string;
     }
     /* ai Request Logs Section END */
+
+    /* ai Usage Members Section START */
+    export interface AiUsageMember {
+        user: {
+            id: number;
+            username: string;
+            fullName: string;
+            avatarUrl: string;
+        };
+        /** in USD; `null` means no limit, `0` means AI usage is blocked for the user */
+        dailyCostLimit: number | null;
+        dailyCostSpent: number;
+        dailyResetAt: string;
+        /** in USD; `null` means no limit, `0` means AI usage is blocked for the user */
+        monthlyCostLimit: number | null;
+        monthlyCostSpent: number;
+        monthlyResetAt: string;
+    }
+
+    export interface ListAiUsageMembersOptions extends PaginationOptions {
+        userIds?: number[];
+        orderBy?: string;
+    }
+    /* ai Usage Members Section END */
 
     export type Action = 'pre_translate' | 'alignment' | 'qa_check';
     export type ProviderType =
