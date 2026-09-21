@@ -24,6 +24,7 @@ describe('AI API', () => {
     const projectId = 123;
     const jobId = 'test-job';
     const eventId = '12312event';
+    const memberId = 5;
 
     const name = 'name';
     const action = 'pre_translate';
@@ -1282,6 +1283,40 @@ describe('AI API', () => {
             .reply(200, {
                 data: [{ data: { id: 1 } }],
                 pagination: { offset: 0, limit },
+            })
+            .get('/ai/usage/members', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { user: { id: memberId } } }],
+                pagination: { offset: 0, limit },
+            })
+            .get(`/ai/usage/members/${memberId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { user: { id: memberId } },
+            })
+            .get(`/users/${userId}/ai/usage/members`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { user: { id: memberId } } }],
+                pagination: { offset: 0, limit },
+            })
+            .get(`/users/${userId}/ai/usage/members/${memberId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { user: { id: memberId } },
             });
     });
 
@@ -1887,5 +1922,29 @@ describe('AI API', () => {
         const res = await api.listAiUserRequestLogs(userId);
         expect(res.data.length).toBe(1);
         expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('List AI Organization Usage Members', async () => {
+        const res = await api.listAiOrganizationUsageMembers();
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.user.id).toBe(memberId);
+        expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('Get AI Organization Usage Member', async () => {
+        const res = await api.getAiOrganizationUsageMember(memberId);
+        expect(res.data.user.id).toBe(memberId);
+    });
+
+    it('List AI User Usage Members', async () => {
+        const res = await api.listAiUserUsageMembers(userId);
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.user.id).toBe(memberId);
+        expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('Get AI User Usage Member', async () => {
+        const res = await api.getAiUserUsageMember(userId, memberId);
+        expect(res.data.user.id).toBe(memberId);
     });
 });
