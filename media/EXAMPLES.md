@@ -72,6 +72,10 @@ const { uploadStorageApi, translationMemoryApi } = new crowdin({
   organization: 'org'
 });
 
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function createTm(languageId: string, name: string, fileName: string, fileContent: any, scheme: TranslationMemoryModel.Scheme): Promise<void> {
   const tm = await translationMemoryApi.addTm({ languageId, name });
   const storage = await uploadStorageApi.addStorage(fileName, fileContent);
@@ -82,6 +86,10 @@ async function createTm(languageId: string, name: string, fileName: string, file
 
   let status = importTm.data.status;
   while (status !== 'finished') {
+    if (status === 'failed' || status === 'canceled') {
+      throw new Error(`TM import ${status}`);
+    }
+    await wait(2000);
     const progress = await translationMemoryApi.checkImportStatus(tm.data.id, importTm.data.identifier);
     status = progress.data.status;
   }
@@ -108,6 +116,10 @@ const { uploadStorageApi, glossariesApi } = new crowdin({
   organization: 'org'
 });
 
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function createGlossary(languageId: string, name: string, fileName: string, fileContent: any, scheme: GlossariesModel.GlossaryFileScheme): Promise<void> {
   const glossary = await glossariesApi.addGlossary({ languageId, name });
   const storage = await uploadStorageApi.addStorage(fileName, fileContent);
@@ -118,6 +130,10 @@ async function createGlossary(languageId: string, name: string, fileName: string
 
   let status = importGlossary.data.status;
   while (status !== 'finished') {
+    if (status === 'failed' || status === 'canceled') {
+      throw new Error(`Glossary import ${status}`);
+    }
+    await wait(2000);
     const progress = await glossariesApi.checkGlossaryImportStatus(glossary.data.id, importGlossary.data.identifier);
     status = progress.data.status;
   }
@@ -143,6 +159,10 @@ const { translationsApi } = new crowdin({
   organization: 'org'
 });
 
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function preTranslateProject(projectId: number, languageIds: string[], fileIds: number[]): Promise<string> {
   const result = await translationsApi.applyPreTranslation(projectId, {
     languageIds,
@@ -151,6 +171,10 @@ async function preTranslateProject(projectId: number, languageIds: string[], fil
 
   let status = result.data.status;
   while (status !== 'finished') {
+    if (status === 'failed' || status === 'canceled') {
+      throw new Error(`Pre-translation ${status}`);
+    }
+    await wait(2000);
     const progress = await translationsApi.preTranslationStatus(projectId, result.data.identifier);
     status = progress.data.status;
   }
@@ -177,11 +201,19 @@ const { translationsApi } = new crowdin({
   organization: 'org'
 });
 
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function downloadTranslations(projectId: number): Promise<string> {
   const result = await translationsApi.buildProject(projectId);
 
   let status = result.data.status;
   while (status !== 'finished') {
+    if (status === 'failed' || status === 'canceled') {
+      throw new Error(`Build ${status}`);
+    }
+    await wait(2000);
     const progress = await translationsApi.checkBuildStatus(projectId, result.data.id);
     status = progress.data.status;
   }
@@ -238,7 +270,7 @@ async function costsEstimationPostEditingReport(projectId: number): Promise<stri
             matchType: "100",
             price: 0.1
           }, {
-            matchType: "99-94",
+            matchType: "99-95",
             price: 0.33
           }]
         },
