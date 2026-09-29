@@ -52,7 +52,7 @@ export class Fields extends CrowdinApi {
 }
 
 export namespace FieldsModel {
-    export type Entity = 'project' | 'user' | 'task' | 'file' | 'translation' | 'string';
+    export type Entity = 'project' | 'user' | 'task' | 'file' | 'translation' | 'string' | 'term' | 'concept';
 
     export type Type =
         | 'checkbox'
@@ -83,7 +83,11 @@ export namespace FieldsModel {
         | 'userPopover'
         | 'stringEditModal'
         | 'stringDetails'
-        | 'translationUnderContent';
+        | 'translationUnderContent'
+        | 'termDetails'
+        | 'termEditModal'
+        | 'conceptDetails'
+        | 'conceptEditModal';
 
     export interface Location {
         place: Place;

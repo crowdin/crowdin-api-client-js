@@ -77,6 +77,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'labelIds', options.labelIds);
         url = this.addQueryParam(url, 'excludeLabelIds', options.excludeLabelIds);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'correctionId', options.correctionId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -87,7 +88,7 @@ export class StringTranslations extends CrowdinApi {
      */
     addApproval(
         projectId: number,
-        request: StringTranslationsModel.AddApprovalRequest,
+        request: StringTranslationsModel.AddApprovalRequest | StringTranslationsModel.AddCorrectionApprovalRequest,
     ): Promise<ResponseObject<StringTranslationsModel.Approval>> {
         const url = `${this.url}/projects/${projectId}/approvals`;
         return this.post(url, request, this.defaultConfig());
@@ -98,9 +99,26 @@ export class StringTranslations extends CrowdinApi {
      * @param stringId string identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.deleteMany
      */
-    removeStringApprovals(projectId: number, stringId: number): Promise<void> {
+    removeStringApprovals(projectId: number, stringId: number): Promise<void>;
+    /**
+     * @param projectId project identifier
+     * @param options parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.deleteMany
+     */
+    removeStringApprovals(
+        projectId: number,
+        options: StringTranslationsModel.RemoveStringApprovalsOptions,
+    ): Promise<void>;
+    removeStringApprovals(
+        projectId: number,
+        options: number | StringTranslationsModel.RemoveStringApprovalsOptions,
+    ): Promise<void> {
+        if (typeof options === 'number') {
+            options = { stringId: options };
+        }
         let url = `${this.url}/projects/${projectId}/approvals`;
-        url = this.addQueryParam(url, 'stringId', stringId);
+        url = this.addQueryParam(url, 'stringId', options?.stringId);
+        url = this.addQueryParam(url, 'fileId', options?.fileId);
         return this.delete(url, this.defaultConfig());
     }
 
@@ -291,6 +309,7 @@ export class StringTranslations extends CrowdinApi {
         url = this.addQueryParam(url, 'languageId', languageId);
         url = this.addQueryParam(url, 'denormalizePlaceholders', options.denormalizePlaceholders);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -313,23 +332,44 @@ export class StringTranslations extends CrowdinApi {
      * @param languageId language identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
      */
-    deleteAllTranslations(projectId: number, stringId: number, languageId?: string): Promise<void> {
+    deleteAllTranslations(projectId: number, stringId: number, languageId?: string): Promise<void>;
+    /**
+     * @param projectId project identifier
+     * @param options parameters for the request
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
+     */
+    deleteAllTranslations(
+        projectId: number,
+        options: StringTranslationsModel.DeleteAllTranslationsOptions,
+    ): Promise<void>;
+    deleteAllTranslations(
+        projectId: number,
+        options: number | StringTranslationsModel.DeleteAllTranslationsOptions,
+        languageId?: string,
+    ): Promise<void> {
+        if (typeof options === 'number') {
+            options = { stringId: options, languageId };
+        }
         let url = `${this.url}/projects/${projectId}/translations`;
-        url = this.addQueryParam(url, 'stringId', stringId);
-        url = this.addQueryParam(url, 'languageId', languageId);
+        url = this.addQueryParam(url, 'stringId', options?.stringId);
+        url = this.addQueryParam(url, 'fileId', options?.fileId);
+        url = this.addQueryParam(url, 'languageId', options?.languageId);
         return this.delete(url, this.defaultConfig());
     }
 
     /**
      * @param projectId project identifier
      * @param translationId translation identifier
+     * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.get
      */
     translationInfo(
         projectId: number,
         translationId: number,
+        options?: StringTranslationsModel.TranslationInfoOptions,
     ): Promise<ResponseObject<StringTranslationsModel.StringTranslation>> {
-        const url = `${this.url}/projects/${projectId}/translations/${translationId}`;
+        let url = `${this.url}/projects/${projectId}/translations/${translationId}`;
+        url = this.addQueryParam(url, 'denormalizePlaceholders', options?.denormalizePlaceholders);
         return this.get(url, this.defaultConfig());
     }
 
@@ -474,6 +514,18 @@ export namespace StringTranslationsModel {
         labelIds?: string;
         excludeLabelIds?: string;
         orderBy?: string;
+        /**
+         * Enterprise only
+         */
+        correctionId?: number;
+    }
+
+    export interface RemoveStringApprovalsOptions {
+        stringId?: number;
+        /**
+         * for file-based projects
+         */
+        fileId?: number;
     }
 
     export interface Approval {
@@ -483,10 +535,29 @@ export namespace StringTranslationsModel {
         stringId: number;
         languageId: string;
         createdAt: string;
+        /**
+         * for asset approvals
+         */
+        fileId?: number;
+        /**
+         * Enterprise only
+         */
+        workflowStepId?: number;
+        /**
+         * Enterprise only. For correction approvals
+         */
+        correctionId?: number;
     }
 
     export interface AddApprovalRequest {
         translationId: number;
+    }
+
+    /**
+     * Enterprise only
+     */
+    export interface AddCorrectionApprovalRequest {
+        correctionId: number;
     }
 
     export interface StringTranslation {
@@ -495,9 +566,47 @@ export namespace StringTranslationsModel {
         pluralCategoryName: PluralCategoryName;
         user: User;
         rating: number;
-        provider: string;
+        provider: string | null;
+        providerId?: number | null;
         isPreTranslated: boolean;
+        matchRate?: number | null;
+        matchType?: MatchType | null;
         createdAt: string;
+        /**
+         * Enterprise only
+         */
+        workflowStepId?: number;
+    }
+
+    export type Provider =
+        | 'tm'
+        | 'google'
+        | 'microsoft'
+        | 'crowdin'
+        | 'deepl'
+        | 'amazon'
+        | 'watson'
+        | 'global_tm'
+        | 'google_automl'
+        | 'modernmt'
+        | 'custom_mt'
+        | 'ai';
+
+    export type MatchType = 'perfect' | 'exact' | 'fuzzy';
+
+    export type QaIssuesStatus = 'inProgress' | 'failed' | 'passed';
+
+    export interface DeleteAllTranslationsOptions {
+        stringId?: number;
+        /**
+         * for file-based projects
+         */
+        fileId?: number;
+        languageId?: string;
+    }
+
+    export interface TranslationInfoOptions {
+        denormalizePlaceholders?: BooleanInt;
     }
 
     export interface ListLanguageTranslationsOptions extends PaginationOptions {
@@ -521,12 +630,19 @@ export namespace StringTranslationsModel {
         text: string;
         user: User;
         createdAt: string;
+        provider?: Provider | null;
+        providerId?: number | null;
+        isPreTranslated?: boolean;
+        matchRate?: number | null;
+        matchType?: MatchType | null;
+        qaIssuesStatus?: QaIssuesStatus;
     }
 
     export interface PluralLanguageTranslation {
         stringId: number;
         contentType: string;
         plurals: Plural[];
+        qaIssuesStatus?: QaIssuesStatus;
     }
 
     export interface IcuLanguageTranslation {
@@ -536,6 +652,7 @@ export namespace StringTranslationsModel {
         text: string;
         user: User;
         createdAt: string;
+        qaIssuesStatus?: QaIssuesStatus;
     }
 
     export interface Plural {
@@ -572,6 +689,9 @@ export namespace StringTranslationsModel {
         text: string;
         pluralCategoryName?: PluralCategoryName;
         addToTm?: boolean;
+        provider?: Exclude<Provider, 'watson'> | null;
+        providerId?: number;
+        isPreTranslated?: boolean;
     }
 
     export interface ListTranslationVotesOptions extends PaginationOptions {
@@ -608,6 +728,10 @@ export namespace StringTranslationsModel {
     export interface ListStringTranslationsOptions extends PaginationOptions {
         denormalizePlaceholders?: BooleanInt;
         orderBy?: string;
+        /**
+         * for file-based projects
+         */
+        fileId?: number;
     }
 
     export type PluralCategoryName = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other';

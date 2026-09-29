@@ -56,6 +56,7 @@ export class ProjectsGroups extends CrowdinApi {
         url = this.addQueryParam(url, 'parentId', options.parentId);
         url = this.addQueryParam(url, 'userId', options.userId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'filter', options.filter);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -136,6 +137,8 @@ export class ProjectsGroups extends CrowdinApi {
         url = this.addQueryParam(url, 'hasManagerAccess', options.hasManagerAccess);
         url = this.addQueryParam(url, 'type', options.type);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'filter', options.filter);
+        url = this.addQueryParam(url, 'userId', options.userId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -331,7 +334,7 @@ export class ProjectsGroups extends CrowdinApi {
     editProjectStringsExporterSettings(
         projectId: number,
         systemStringsExporterSettingsId: number,
-        request: ProjectsGroupsModel.AddProjectStringsExporterSettingsRequest,
+        request: PatchRequest[] | ProjectsGroupsModel.AddProjectStringsExporterSettingsRequest,
     ): Promise<ResponseObject<ProjectsGroupsModel.ProjectStringsExporterSettings>> {
         const url = `${this.url}/projects/${projectId}/strings-exporter-settings/${systemStringsExporterSettingsId}`;
         return this.patch(url, request, this.defaultConfig());
@@ -346,9 +349,10 @@ export namespace ProjectsGroupsModel {
         parentId: number;
         organizationId: number;
         userId: number;
-        subgroupsCount: number;
-        projectsCount: number;
+        subgroupsCount: number | null;
+        projectsCount: number | null;
         webUrl: string;
+        savingsReportSettingsTemplateId?: number;
         createdAt: string;
         updatedAt: string;
     }
@@ -357,6 +361,7 @@ export namespace ProjectsGroupsModel {
         name: string;
         parentId?: number;
         description?: string;
+        savingsReportSettingsTemplateId?: number;
     }
 
     export interface Project {
@@ -371,27 +376,30 @@ export namespace ProjectsGroupsModel {
         description: string;
         visibility: string;
         logo: string;
-        publicDownloads: boolean;
-        createdAt: string;
-        updatedAt: string;
-        lastActivity: string;
+        publicDownloads: boolean | null;
+        createdAt: string | null;
+        updatedAt: string | null;
+        lastActivity: string | null;
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
         webUrl: string;
         savingsReportSettingsTemplateId: number;
-        fields: Record<string, any>;
+        fields: Record<string, any> | null;
         //community
-        cname: string;
+        cname: string | null;
         //enterprise
         groupId: number;
-        background: string;
+        /**
+         * @deprecated
+         */
+        background: string | null;
         isExternal: boolean;
-        externalType: string;
-        externalProjectId: number;
-        externalOrganizationId: number;
+        externalType: string | null;
+        externalProjectId: number | null;
+        externalOrganizationId: number | null;
         workflowId: number;
         hasCrowdsourcing: boolean;
-        publicUrl: string;
+        publicUrl: string | null;
     }
 
     export interface CreateProjectRequest {
@@ -403,7 +411,11 @@ export namespace ProjectsGroupsModel {
         languageAccessPolicy?: LanguageAccessPolicy;
         cname?: string;
         description?: string;
+        /**
+         * @deprecated use `tagsDetection` instead
+         */
         tagDetection?: TagDetection;
+        tagsDetection?: TagDetection;
         isMtAllowed?: boolean;
         taskBasedAccessControl?: boolean;
         autoSubstitution?: boolean;
@@ -431,9 +443,12 @@ export namespace ProjectsGroupsModel {
         aiPreTranslate?: ProjectSettings['aiPreTranslate'];
         assistActionAiPromptId?: number;
         editorSuggestionAiPromptId?: number;
+        qaCheckActionAiPromptId?: number;
+        contextReviewAiPromptId?: number;
         savingsReportSettingsTemplateId?: number;
         defaultTmId?: number;
         defaultGlossaryId?: number;
+        assignedStyleGuides?: number[];
         inContext?: boolean;
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
@@ -467,13 +482,14 @@ export namespace ProjectsGroupsModel {
         delayedWorkflowStart?: boolean;
         skipUntranslatedStrings?: boolean;
         exportWithMinApprovalsCount?: number;
-        exportStringsThatPassedWorkflow?: number;
+        exportStringsThatPassedWorkflow?: number | boolean;
         normalizePlaceholder?: boolean;
         qaCheckIsActive?: boolean;
         qaApprovalsCount?: number;
         qaCheckCategories?: CheckCategories;
         qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
+        externalQaCheckIds?: number[];
         languageMapping?: LanguageMapping;
         /**
          * @deprecated
@@ -486,8 +502,11 @@ export namespace ProjectsGroupsModel {
         assistActionAiPromptId?: number;
         editorSuggestionAiPromptId?: number;
         alignmentActionAiPromptId?: number;
+        qaCheckActionAiPromptId?: number;
+        contextReviewAiPromptId?: number;
         defaultTmId?: number;
         defaultGlossaryId?: number;
+        assignedStyleGuides?: number[];
         inContext?: boolean;
         inContextProcessHiddenStrings?: boolean;
         inContextPseudoLanguageId?: string;
@@ -502,6 +521,9 @@ export namespace ProjectsGroupsModel {
     export interface ProjectSettings extends Project {
         translateDuplicates: TranslateDuplicates;
         tagsDetection: TagDetection;
+        /**
+         * @deprecated use `glossaryAccessOption` instead
+         */
         glossaryAccess: boolean;
         glossaryAccessOption: GlossaryAccessOption;
         isMtAllowed: boolean;
@@ -525,6 +547,7 @@ export namespace ProjectsGroupsModel {
         defaultGlossaryId: number;
         assignedTms: { [id: string]: { priority: number } };
         assignedGlossaries: number[];
+        assignedStyleGuides: number[];
         tmPenalties: {
             autoSubstitution: number;
             tmPriority: {
@@ -567,11 +590,13 @@ export namespace ProjectsGroupsModel {
             }[];
         };
         assistActionAiPromptId: number;
-        editorSuggestionAiPromptId: number;
+        editorSuggestionAiPromptId: number | null;
+        qaCheckActionAiPromptId: number | null;
+        contextReviewAiPromptId: number | null;
         inContext: boolean;
-        inContextProcessHiddenStrings: string;
-        inContextPseudoLanguageId: string;
-        inContextPseudoLanguage: LanguagesModel.Language;
+        inContextProcessHiddenStrings: boolean;
+        inContextPseudoLanguageId: string | null;
+        inContextPseudoLanguage: LanguagesModel.Language | null;
         saveMetaInfoInSource: boolean;
         skipUntranslatedFiles: boolean;
         tmContextType: TmContextType;
@@ -584,7 +609,7 @@ export namespace ProjectsGroupsModel {
         customQaCheckIds: number[];
         externalQaCheckIds: number[];
         delayedWorkflowStart: boolean;
-        alignmentActionAiPromptId: number;
+        alignmentActionAiPromptId: number | null;
     }
 
     export enum Type {
@@ -618,6 +643,11 @@ export namespace ProjectsGroupsModel {
         duplicate: boolean;
         ftl: boolean;
         android: boolean;
+        numbers?: boolean;
+        ai?: boolean;
+        outdated?: boolean;
+        mdx?: boolean;
+        unifiedPlaceholders?: boolean;
     }
 
     export interface LanguageMapping {
@@ -654,6 +684,7 @@ export namespace ProjectsGroupsModel {
         parentId?: number;
         userId?: number;
         orderBy?: string;
+        filter?: string;
     }
 
     export interface ListProjectsOptions extends PaginationOptions {
@@ -661,6 +692,8 @@ export namespace ProjectsGroupsModel {
         hasManagerAccess?: BooleanInt;
         orderBy?: string;
         type?: BooleanInt;
+        filter?: string;
+        userId?: number;
     }
 
     export type Settings =
@@ -673,7 +706,14 @@ export namespace ProjectsGroupsModel {
         | JsonFormatSettings
         | MdxV1FormatSettings
         | JavaScriptFileFormatSettings
-        | DocxFileFormatSettings;
+        | DocxFileFormatSettings
+        | WebXmlFileFormatSettings
+        | AdocFileFormatSettings
+        | MdFileFormatSettings
+        | VsdxFileFormatSettings
+        | IdmlFileFormatSettings
+        | StringCatalogFileFormatSettings
+        | VdfFileFormatSettings;
 
     export interface ProjectFileFormatSettings {
         id: number;
@@ -682,7 +722,7 @@ export namespace ProjectsGroupsModel {
         extensions: string[];
         settings: Settings;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface AddProjectFileFormatSettingsRequest {
@@ -693,11 +733,11 @@ export namespace ProjectsGroupsModel {
     export interface PropertyFileFormatSettings {
         escapeQuotes?: 0 | 1 | 2 | 3;
         escapeSpecialCharacters?: 0 | 1;
-        exportPattern?: string;
+        exportPattern?: string | null;
     }
 
     export interface JavaScriptFileFormatSettings {
-        exportPattern?: 'string';
+        exportPattern?: string;
         exportQuotes?: 'single' | 'double';
     }
 
@@ -705,36 +745,96 @@ export namespace ProjectsGroupsModel {
         contentSegmentation?: boolean;
         srxStorageId?: number;
         exportPattern?: string;
+        /**
+         * Returned in responses only
+         */
+        customSegmentation?: boolean;
     }
 
     export interface XmlFileFormatSettings extends CommonFileFormatSettings {
         translateContent?: boolean;
         translateAttributes?: boolean;
         translatableElements?: string[];
+        inlineTags?: string[];
+    }
+
+    export interface WebXmlFileFormatSettings extends CommonFileFormatSettings {
+        inlineTags?: string[];
+        /**
+         * Returned in responses only
+         */
+        hideAttributeValues?: boolean;
+    }
+
+    export interface AdocFileFormatSettings extends CommonFileFormatSettings {
+        excludeIncludeDirectives?: boolean;
+    }
+
+    export interface MarkdownFormattingSettings {
+        strongMarker?: 'asterisk' | 'underscore';
+        emphasisMarker?: 'asterisk' | 'underscore';
+        unorderedListBullet?: 'asterisks' | 'plus' | 'dash';
+        tableColumnWidth?: 'consolidate' | 'evenly_distribute_cells';
+    }
+
+    export interface MdFileFormatSettings extends CommonFileFormatSettings, MarkdownFormattingSettings {
+        inlineTags?: string[];
+        frontMatterQuotes?: 'auto' | 'single' | 'double';
+    }
+
+    export interface VsdxFileFormatSettings extends CommonFileFormatSettings {
+        cleanTagsAggressively?: boolean;
+        translateHyperlinkUrls?: boolean;
+    }
+
+    export interface IdmlFileFormatSettings extends CommonFileFormatSettings {
+        inlineHyperlinkText?: boolean;
+    }
+
+    export interface StringCatalogFileFormatSettings {
+        importKeyAsSource?: boolean;
+        importTranslations?: boolean;
+        exportPattern?: string;
+    }
+
+    export interface VdfFileFormatSettings {
+        convertIcu?: boolean;
+        addGenderArgument?: boolean;
+        exportPattern?: string;
     }
 
     export interface JsonFormatSettings extends CommonFileFormatSettings {
         type?: 'i18next_json' | 'nestjs_i18n';
     }
 
-    export interface MdxV2FormatSettings extends CommonFileFormatSettings {
+    export interface MdxV2FormatSettings extends CommonFileFormatSettings, MarkdownFormattingSettings {
         excludeCodeBlocks?: boolean;
         excludedFrontMatterElements?: string[];
     }
 
-    export interface MdxV1FormatSettings extends CommonFileFormatSettings {
+    export interface MdxV1FormatSettings extends CommonFileFormatSettings, MarkdownFormattingSettings {
         excludeCodeBlocks?: boolean;
         excludedFrontMatterElements?: string[];
         type?: 'mdx_v1' | 'mdx_v2';
     }
 
     export interface FmHtmlFormatSettings extends CommonFileFormatSettings {
-        excludedElements?: boolean;
+        excludedElements?: string[];
         excludedFrontMatterElements?: string[];
+        inlineTags?: string[];
+        /**
+         * Returned in responses only
+         */
+        hideAttributeValues?: boolean;
     }
 
     export interface HtmlFormatSettings extends CommonFileFormatSettings {
-        excludedElements?: boolean;
+        excludedElements?: string[];
+        inlineTags?: string[];
+        /**
+         * Returned in responses only
+         */
+        hideAttributeValues?: boolean;
     }
 
     export interface DocxFileFormatSettings extends CommonFileFormatSettings {
@@ -744,6 +844,34 @@ export namespace ProjectsGroupsModel {
         translateHiddenRowsAndColumns?: boolean;
         importNotes?: boolean;
         importHiddenSlides?: boolean;
+        translateDocProperties?: boolean;
+        translateComments?: boolean;
+        ignoreWhitespaceStyles?: boolean;
+        addTabAsCharacter?: boolean;
+        addLineSeparatorAsCharacter?: boolean;
+        lineSeparatorReplacement?: string;
+        replaceNoBreakHyphenTag?: boolean;
+        ignoreSoftHyphenTag?: boolean;
+        complexFieldDefinitionsToExtract?: string[];
+        translateWordHeadersFooters?: boolean;
+        translateWordGraphicName?: boolean;
+        translateWordGraphicDescription?: boolean;
+        ignoreWordFontColors?: boolean;
+        wordFontColorsMinIgnoranceThreshold?: string;
+        wordFontColorsMaxIgnoranceThreshold?: string;
+        excludeWordStyles?: string[];
+        translateWordInExcludeStyleMode?: boolean;
+        wordHighlightColors?: string[];
+        translateWordInExcludeHighlightMode?: boolean;
+        translateWordExcludeColors?: boolean;
+        wordExcludedColors?: string[];
+        translateExcelCellsCopied?: boolean;
+        translateExcelSheetNames?: boolean;
+        excelExcludedColors?: string[];
+        translateExcelDiagramData?: boolean;
+        translateExcelDrawings?: boolean;
+        allowWordStyleOptimization?: boolean;
+        translateExcelExcludeColors?: boolean;
     }
 
     export type TmContextType = 'segmentContext' | 'auto' | 'prevAndNextSegment';
@@ -752,7 +880,8 @@ export namespace ProjectsGroupsModel {
         | WorkflowTemplateStepConfigTranslateProofread
         | WorkflowTemplateStepConfigVendor
         | WorkflowTemplateStepConfigTMPreTranslate
-        | WorkflowTemplateStepConfigMTPreTranslate;
+        | WorkflowTemplateStepConfigMTPreTranslate
+        | WorkflowTemplateStepConfigAIPreTranslate;
 
     export interface WorkflowTemplateStepConfigTranslateProofread {
         id: number;
@@ -761,7 +890,10 @@ export namespace ProjectsGroupsModel {
          * @deprecated
          */
         assignees?: number[];
-        config?: { assignees: { [key: string]: number[] } };
+        config?: {
+            assignees?: { [key: string]: number[] };
+            assignedTeams?: { [key: string]: number[] };
+        };
     }
 
     export interface WorkflowTemplateStepConfigVendor {
@@ -776,6 +908,7 @@ export namespace ProjectsGroupsModel {
         config?: {
             minRelevant?: number;
             autoSubstitution?: boolean;
+            autoApproveOption?: ProjectSettings['tmPreTranslate']['autoApproveOption'];
         };
     }
 
@@ -783,6 +916,12 @@ export namespace ProjectsGroupsModel {
         id: number;
         languages?: string[];
         mtId?: number;
+    }
+
+    export interface WorkflowTemplateStepConfigAIPreTranslate {
+        id: number;
+        languages?: string[];
+        promptId?: number;
     }
 
     export type StringsExporterSettings =
@@ -807,6 +946,7 @@ export namespace ProjectsGroupsModel {
     export interface MacOSXStringsExporterSettings {
         convertPlaceholders?: boolean;
         convertLineBreaks?: boolean;
+        exportContext?: boolean;
     }
 
     export interface XliffStringsExporterSettings {

@@ -99,11 +99,11 @@ export namespace MachineTranslationModel {
         id: number;
         groupId: number;
         name: string;
-        type: number;
+        type: string;
         credentials: Credentials;
         projectIds: number[];
         supportedLanguageIds: string[];
-        supportedLanguagePairs: Record<string, string[]>;
+        supportedLanguagePairs: Record<string, string[]> | null;
         enabledLanguageIds: string[];
         enabledProjectIds: number[];
         isEnabled: boolean;

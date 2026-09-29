@@ -32,6 +32,7 @@ describe('Translation Memory API', () => {
             })
             .query({
                 groupId: groupId,
+                filter: name,
             })
             .reply(200, {
                 data: [
@@ -384,7 +385,7 @@ describe('Translation Memory API', () => {
     });
 
     it('List TM', async () => {
-        const tms = await api.listTm({ groupId });
+        const tms = await api.listTm({ groupId, filter: name });
         expect(tms.data.length).toBe(1);
         expect(tms.data[0].data.id).toBe(tmId);
         expect(tms.pagination.limit).toBe(limit);

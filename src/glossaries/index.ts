@@ -41,6 +41,7 @@ export class Glossaries extends CrowdinApi {
         url = this.addQueryParam(url, 'groupId', options.groupId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
         url = this.addQueryParam(url, 'userId', options.userId);
+        url = this.addQueryParam(url, 'filter', options.filter);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -369,7 +370,7 @@ export class Glossaries extends CrowdinApi {
 export namespace GlossariesModel {
     export interface Glossary {
         id: number;
-        name: string;
+        name: string | null;
         groupId: number;
         userId: number;
         terms: number;
@@ -377,6 +378,7 @@ export namespace GlossariesModel {
         languageIds: string[];
         defaultProjectIds: number[];
         projectIds: number[];
+        isShared: boolean;
         webUrl: string;
         createdAt: string;
     }
@@ -384,7 +386,9 @@ export namespace GlossariesModel {
     export interface CreateGlossaryRequest {
         name: string;
         languageId: string;
+        /** Enterprise only */
         groupId?: number;
+        isShared?: boolean;
     }
 
     export type ExportField =
@@ -443,6 +447,12 @@ export namespace GlossariesModel {
     export interface GlossaryExportStatusAttribute {
         format: string;
         exportFields: ExportField[];
+        text?: string;
+        caseSensitive?: boolean | null;
+        searchFullMatch?: boolean | null;
+        searchStrict?: boolean | null;
+        dateFrom?: string | null;
+        dateTo?: string | null;
     }
 
     export interface GlossaryImportStatusAttribute {
@@ -486,6 +496,8 @@ export namespace GlossariesModel {
         lemma: string;
         createdAt: string;
         updatedAt: string;
+        /** Enterprise only */
+        fields?: Record<string, any> | null;
     }
 
     export interface CreateTermRequest {
@@ -503,6 +515,8 @@ export namespace GlossariesModel {
          * @deprecated
          */
         translationOfTermId?: number;
+        /** Enterprise only */
+        fields?: Record<string, any> | null;
     }
 
     export interface ConcordanceSearchRequest extends PaginationOptions {
@@ -529,7 +543,7 @@ export namespace GlossariesModel {
         targetTerms: Term[];
     }
 
-    export type Status = 'preferred' | 'admitted' | 'not recommended' | 'obsolete';
+    export type Status = 'preferred' | 'admitted' | 'not recommended' | 'obsolete' | 'draft';
 
     export type Type = 'full form' | 'acronym' | 'abbreviation' | 'short form' | 'phrase' | 'variant';
 
@@ -588,10 +602,12 @@ export namespace GlossariesModel {
         groupId?: number;
         userId?: number;
         orderBy?: string;
+        /** Filter glossaries by `name` */
+        filter?: string;
     }
 
     export interface ClearGlossaryOptions {
-        languageId?: number;
+        languageId?: string | number;
         /**
          * @deprecated
          */
@@ -612,15 +628,17 @@ export namespace GlossariesModel {
         languagesDetails: LanguageDetails[];
         createdAt: string;
         updatedAt: string;
+        /** Enterprise only */
+        fields?: Record<string, any> | null;
     }
 
     export interface LanguageDetails {
-        languageId: string;
-        userId: number;
-        definition: string;
-        note: string;
+        languageId: string | null;
+        userId: number | null;
+        definition: string | null;
+        note: string | null;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface UpdateConceptRequest {
@@ -631,5 +649,7 @@ export namespace GlossariesModel {
         url?: string;
         figure?: string;
         languagesDetails?: { languageId: string; definition: string; note?: string }[];
+        /** Enterprise only */
+        fields?: Record<string, any> | null;
     }
 }

@@ -1,4 +1,12 @@
-import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
+import {
+    BooleanInt,
+    CrowdinApi,
+    isOptionalNumber,
+    PaginationOptions,
+    PatchRequest,
+    ResponseList,
+    ResponseObject,
+} from '../core';
 import { ScreenshotsModel } from '../screenshots';
 import { SourceStringsModel } from '../sourceStrings';
 
@@ -27,6 +35,7 @@ export class Labels extends CrowdinApi {
         }
         let url = `${this.url}/projects/${projectId}/labels`;
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'isSystem', options.isSystem);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -137,6 +146,10 @@ export class Labels extends CrowdinApi {
 export namespace LabelsModel {
     export interface ListLabelsParams extends PaginationOptions {
         orderBy?: string;
+        /**
+         * String-based projects only
+         */
+        isSystem?: BooleanInt;
     }
 
     export interface Label {

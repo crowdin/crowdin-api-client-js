@@ -248,6 +248,7 @@ export namespace TeamsModel {
     export interface ProjectTeamResources {
         skipped: ProjectTeamResource;
         added: ProjectTeamResource;
+        updated?: ProjectTeamResource;
     }
 
     export interface ProjectTeamResource {
@@ -275,7 +276,7 @@ export namespace TeamsModel {
         totalMembers: number;
         webUrl: string;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface TeamGroup {
@@ -290,10 +291,10 @@ export namespace TeamsModel {
     export interface TeamMember {
         id: number;
         username: string;
-        firstName: string;
-        lastName: string;
-        avatarUrl: string;
-        addedAt: string;
+        firstName: string | null;
+        lastName: string | null;
+        avatarUrl: string | null;
+        addedAt: string | null;
     }
 
     export interface AddTeamMembersRequest {

@@ -33,6 +33,15 @@ describe('Reports API', () => {
         labelIds: [5],
         labelIncludeType: 'strings_with_label',
     };
+    const timeSpentSchema: ReportsModel.TimeSpentSchema = {
+        format: 'xlsx',
+        groupBy: 'task',
+        baseRates: { hourly: 10 },
+        individualRates: [{ languageIds: ['uk'], userIds: [1], hourly: 12 }],
+        typeTasks: 0,
+        taskIds: [7],
+        skipArchiving: true,
+    };
     const projectMembersSchema: ReportsModel.MembersSchema = {
         format: 'csv',
         dateFrom: '2025-01-01T00:00:00+00:00',
@@ -587,6 +596,47 @@ describe('Reports API', () => {
             .post(
                 `/projects/${projectId}/reports`,
                 {
+                    name: 'time-spent',
+                    schema: timeSpentSchema,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: reportId,
+                },
+            })
+            .get(`/users/${userId}/reports/archives`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                scopeType: 'project',
+                taskId: 7,
+                name: 'translation-costs-pe',
+                dateFrom: '2025-01-01T00:00:00+00:00',
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: archiveId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: 1,
+                },
+            })
+            .post(
+                `/projects/${projectId}/reports`,
+                {
                     name: 'source-content-updates',
                     schema: sourceContentUpdatesSchema,
                 },
@@ -895,6 +945,25 @@ describe('Reports API', () => {
     it('Download Report', async () => {
         const downloadUrl = await api.downloadReport(projectId, reportId);
         expect(downloadUrl.data.url).toBe(downloadLink);
+    });
+
+    it('Generate Time Spent Report', async () => {
+        const report = await api.generateReport(projectId, {
+            name: 'time-spent',
+            schema: timeSpentSchema,
+        });
+        expect(report.data.identifier).toBe(reportId);
+    });
+
+    it('List User Report Archives with filters', async () => {
+        const archives = await api.listUserReportArchives(userId, {
+            scopeType: 'project',
+            taskId: 7,
+            name: 'translation-costs-pe',
+            dateFrom: '2025-01-01T00:00:00+00:00',
+        });
+        expect(archives.data.length).toBe(1);
+        expect(archives.data[0].data.id).toBe(archiveId);
     });
 
     it('Generate Source Content Updates Report', async () => {

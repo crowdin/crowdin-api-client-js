@@ -11,6 +11,7 @@ describe('String Comments API', () => {
     const projectId = 2;
     const stringId = 3;
     const stringCommentId = 4;
+    const fileId = 6;
     const attachmentId = 5;
     const text = 'test';
     const languageId = 'uk';
@@ -133,6 +134,47 @@ describe('String Comments API', () => {
                     },
                 ],
             })
+            .get(`/projects/${projectId}/comments`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                fileId,
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: stringCommentId,
+                            fileId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/comments`,
+                {
+                    text,
+                    type,
+                    fileId,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: stringCommentId,
+                    fileId,
+                },
+            })
             .delete(`/projects/${projectId}/comments/${stringCommentId}/attachments/${attachmentId}`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -208,6 +250,22 @@ describe('String Comments API', () => {
         expect(translations.data[0].data.text).toBe(text);
         expect(translations.data[0].data.type).toBe(type);
         expect(translations.data[0].data.issueType).toBe(issueType);
+    });
+
+    it('List asset comments', async () => {
+        const comments = await api.listStringComments(projectId, { fileId });
+        expect(comments.data.length).toBe(1);
+        expect(comments.data[0].data.fileId).toBe(fileId);
+    });
+
+    it('Add asset comment', async () => {
+        const comment = await api.addStringComment(projectId, {
+            text,
+            type,
+            fileId,
+        });
+        expect(comment.data.id).toBe(stringCommentId);
+        expect(comment.data.fileId).toBe(fileId);
     });
 
     it('Delete string comment attachment', async () => {

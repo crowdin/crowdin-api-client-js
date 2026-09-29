@@ -358,6 +358,7 @@ export namespace TasksModel {
         type: Type | TypeVendor;
         status: Status;
         title: string;
+        batchId?: number;
         assignees: Assignee[];
         assignedTeams: AssignedTeam[];
         progress: Progress;
@@ -374,6 +375,7 @@ export namespace TasksModel {
         startedAt: string;
         resolvedAt: string;
         timeRange: string;
+        translationsUpdatedTimeRange?: string;
         workflowStepId: number;
         buyUrl: string;
         createdAt: string;
@@ -381,8 +383,15 @@ export namespace TasksModel {
         sourceLanguage: LanguagesModel.Language;
         targetLanguages: LanguagesModel.Language[];
         labelIds: number[];
+        labelMatchRule?: LabelMatchRule | null;
         excludeLabelIds: number[];
+        excludeLabelMatchRule?: LabelMatchRule | null;
         precedingTaskId: number;
+        estimatedCost?: TaskCost | null;
+        actualCost?: TaskCost | null;
+        generateCostEstimate?: boolean | null;
+        generateTranslationCost?: boolean | null;
+        reportSettingsTemplateId?: number | null;
         filesCount: number;
         fileIds: number[];
         branchIds: number[];
@@ -427,6 +436,8 @@ export namespace TasksModel {
         | CreateTaskEnterpriseVendorByFileIds
         | CreateTaskEnterpriseVendorByStringIds
         | CreateTaskEnterprisePendingTask
+        | CreateTaskEnterpriseByDirectoryIds
+        | CreateTaskEnterpriseVendorByDirectoryIds
         | CreateTaskByFileIds
         | CreateTaskByStringIds
         | CreateTaskByBranchIds
@@ -447,7 +458,10 @@ export namespace TasksModel {
         | CreateTaskPendingTaskVendorManual
         | CreateTaskVendorByFileIds
         | CreateTaskVendorByStringIds
-        | CreateTaskVendorByBranchIds;
+        | CreateTaskVendorByBranchIds
+        | CreateTaskByDirectoryIds
+        | CreateTaskVendorByDirectoryIds
+        | CreateTaskPendingTaskVendor;
 
     export interface CreateTaskEnterpriseByBranchIds {
         type: Type;
@@ -456,11 +470,14 @@ export namespace TasksModel {
         languageId: string;
         branchIds: number[];
         labelIds?: number[];
+        labelMatchRule?: LabelMatchRule | null;
         excludeLabelIds?: number[];
+        excludeLabelMatchRule?: LabelMatchRule | null;
         status?: RequestStatus;
         description?: string;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
+        skipAssignedStringsScope?: SkipAssignedStringsScope | null;
         assignees?: CreateTaskAssignee[];
         assignedTeams?: AssignedTeam[];
         includePreTranslatedStringsOnly?: boolean;
@@ -468,7 +485,13 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
-        fields?: Record<string, any>;
+        translationsUpdatedDateFrom?: string;
+        translationsUpdatedDateTo?: string;
+        generateCostEstimate?: boolean;
+        generateTranslationCost?: boolean;
+        reportSettingsTemplateId?: number | null;
+        fields?: Record<string, any> | null;
+        batchId?: number | null;
     }
 
     export interface CreateTaskEnterpriseByStringIds {
@@ -481,6 +504,7 @@ export namespace TasksModel {
         description?: string;
         splitContent?: boolean;
         skipAssignedStrings?: boolean;
+        skipAssignedStringsScope?: SkipAssignedStringsScope | null;
         assignees?: CreateTaskAssignee[];
         assignedTeams?: AssignedTeam[];
         includePreTranslatedStringsOnly?: boolean;
@@ -488,18 +512,28 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
-        fields?: Record<string, any>;
+        translationsUpdatedDateFrom?: string;
+        translationsUpdatedDateTo?: string;
+        generateCostEstimate?: boolean;
+        generateTranslationCost?: boolean;
+        reportSettingsTemplateId?: number | null;
+        fields?: Record<string, any> | null;
+        batchId?: number | null;
     }
 
     export type CreateTaskEnterpriseVendorByStringIds = Omit<
         CreateTaskEnterpriseByStringIds,
-        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
-    >;
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams' | 'batchId'
+    > & {
+        type?: TypeVendor;
+    };
 
     export type CreateTaskEnterpriseVendorByBranchIds = Omit<
         CreateTaskEnterpriseByBranchIds,
-        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
-    >;
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams' | 'batchId'
+    > & {
+        type?: TypeVendor;
+    };
 
     export type CreateTaskEnterpriseByFileIds = Omit<CreateTaskEnterpriseByBranchIds, 'branchIds'> & {
         fileIds: number[];
@@ -507,14 +541,29 @@ export namespace TasksModel {
 
     export type CreateTaskEnterpriseVendorByFileIds = Omit<
         CreateTaskEnterpriseByFileIds,
-        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams'
-    >;
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams' | 'batchId'
+    > & {
+        type?: TypeVendor;
+    };
+
+    export type CreateTaskEnterpriseByDirectoryIds = Omit<CreateTaskEnterpriseByBranchIds, 'branchIds'> & {
+        directoryIds: number[];
+    };
+
+    export type CreateTaskEnterpriseVendorByDirectoryIds = Omit<
+        CreateTaskEnterpriseByDirectoryIds,
+        'type' | 'status' | 'splitContent' | 'assignees' | 'assignedTeams' | 'batchId'
+    > & {
+        type?: TypeVendor;
+    };
 
     export interface CreateTaskEnterprisePendingTask {
         precedingTaskId: number;
         type: Type.PROOFREAD;
+        workflowStepId?: number;
         title: string;
         description?: string;
+        vendor?: string | null;
         assignees?: CreateTaskAssignee[];
         assignedTeams?: AssignedTeam[];
         deadline?: string;
@@ -526,7 +575,9 @@ export namespace TasksModel {
         type: Type;
         fileIds: number[];
         labelIds?: number[];
+        labelMatchRule?: LabelMatchRule | null;
         excludeLabelIds?: number[];
+        excludeLabelMatchRule?: LabelMatchRule | null;
         status?: RequestStatus;
         description?: string;
         splitContent?: boolean;
@@ -537,14 +588,24 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
-        batchId?: number;
+        translationsUpdatedDateFrom?: string;
+        translationsUpdatedDateTo?: string;
+        generateCostEstimate?: boolean;
+        generateTranslationCost?: boolean;
+        reportSettingsTemplateId?: number | null;
+        batchId?: number | null;
     }
 
-    export type CreateTaskByStringIds = Omit<CreateTaskByFileIds, 'fileIds' | 'labelIds' | 'excludeLabelIds'> & {
-        stringIds: number;
+    export type CreateTaskByStringIds = Omit<
+        CreateTaskByFileIds,
+        'fileIds' | 'labelIds' | 'labelMatchRule' | 'excludeLabelIds' | 'excludeLabelMatchRule'
+    > & {
+        stringIds: number[];
     };
 
-    export type CreateTaskByBranchIds = Omit<CreateTaskByFileIds, 'fileIds'> & { branchIds: number };
+    export type CreateTaskByBranchIds = Omit<CreateTaskByFileIds, 'fileIds'> & { branchIds: number[] };
+
+    export type CreateTaskByDirectoryIds = Omit<CreateTaskByFileIds, 'fileIds'> & { directoryIds: number[] };
 
     export interface CreateTaskByFileIdsLanguageService {
         title: string;
@@ -719,7 +780,9 @@ export namespace TasksModel {
         vendor: string;
         fileIds: number[];
         labelIds?: number[];
+        labelMatchRule?: LabelMatchRule | null;
         excludeLabelIds?: number[];
+        excludeLabelMatchRule?: LabelMatchRule | null;
         status?: RequestStatus;
         description?: string;
         skipAssignedStrings?: boolean;
@@ -729,12 +792,17 @@ export namespace TasksModel {
         startedAt?: string;
         dateFrom?: string;
         dateTo?: string;
+        translationsUpdatedDateFrom?: string;
+        translationsUpdatedDateTo?: string;
+        generateCostEstimate?: boolean;
+        generateTranslationCost?: boolean;
+        reportSettingsTemplateId?: number | null;
         batchId?: number;
     }
 
     export type CreateTaskVendorByStringIds = Omit<
         CreateTaskVendorByFileIds,
-        'fileIds' | 'labelIds' | 'excludeLabelIds'
+        'fileIds' | 'excludeLabelIds' | 'excludeLabelMatchRule'
     > & {
         stringIds: number[];
     };
@@ -742,6 +810,20 @@ export namespace TasksModel {
     export type CreateTaskVendorByBranchIds = Omit<CreateTaskVendorByFileIds, 'fileIds'> & {
         branchIds: number[];
     };
+
+    export type CreateTaskVendorByDirectoryIds = Omit<CreateTaskVendorByFileIds, 'fileIds'> & {
+        directoryIds: number[];
+    };
+
+    export interface CreateTaskPendingTaskVendor {
+        precedingTaskId: number;
+        type: TypeVendor.PROOFREAD_BY_VENDOR;
+        vendor: string;
+        title: string;
+        description?: string;
+        assignees?: CreateTaskAssignee[];
+        deadline?: string;
+    }
 
     //END
 
@@ -753,6 +835,10 @@ export namespace TasksModel {
     export type Status = 'todo' | 'in_progress' | 'done' | 'closed';
 
     export type RequestStatus = Extract<Status, 'todo' | 'in_progress'>;
+
+    export type LabelMatchRule = 'all' | 'any';
+
+    export type SkipAssignedStringsScope = 'all' | 'sameWorkflowStep';
 
     export enum Type {
         TRANSLATE = 0,
@@ -771,17 +857,25 @@ export namespace TasksModel {
         avatarUrl: string;
         wordsCount: number;
         wordsLeft: number;
+        timeSpent?: number;
     }
 
     export interface AssignedTeam {
         id: number;
         wordsCount: number;
+        timeSpent?: number;
     }
 
     export interface Progress {
         total: number;
         done: number;
         percent: number;
+    }
+
+    export interface TaskCost {
+        cost: number;
+        date: string;
+        currency: string;
     }
 
     export interface SyncScope {
@@ -877,7 +971,7 @@ export namespace TasksModel {
         name: string;
         config: TaskSettingsTemplateConfig;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface AddTaskSettingsTemplate {
@@ -894,7 +988,7 @@ export namespace TasksModel {
         userId: number;
         taskId: number;
         text: string;
-        timeSpent: number;
+        timeSpent: number | null;
         createdAt: string;
         updatedAt: string;
     }

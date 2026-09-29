@@ -71,6 +71,55 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.getMany
+     */
+    listAiOrganizationSnippets(options?: PaginationOptions): Promise<ResponseList<AiModel.AiSnippet>> {
+        const url = `${this.url}/ai/settings/snippets`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.post
+     */
+    addAiOrganizationSnippet(request: AiModel.AddAiSnippetRequest): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/ai/settings/snippets`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param aiSnippetId ai snippet identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.get
+     */
+    getAiOrganizationSnippet(aiSnippetId: number): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/ai/settings/snippets/${aiSnippetId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiSnippetId ai snippet identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.delete
+     */
+    deleteAiOrganizationSnippet(aiSnippetId: number): Promise<void> {
+        const url = `${this.url}/ai/settings/snippets/${aiSnippetId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param aiSnippetId ai snippet identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.patch
+     */
+    editAiOrganizationSnippet(
+        aiSnippetId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/ai/settings/snippets/${aiSnippetId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -546,6 +595,40 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @param request request body
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.post
+     */
+    exportAiOrganizationRequestLogs(
+        request: AiModel.ExportAiRequestLogsRequest = {},
+    ): Promise<ResponseObject<Status<AiModel.AiRequestLogsExportAttributes>>> {
+        const url = `${this.url}/ai/request-logs/exports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.get
+     */
+    checkAiOrganizationRequestLogsExportStatus(
+        exportId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiRequestLogsExportAttributes>>> {
+        const url = `${this.url}/ai/request-logs/exports/${exportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.download
+     */
+    downloadAiOrganizationRequestLogsExport(exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/ai/request-logs/exports/${exportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
      */
@@ -706,6 +789,61 @@ export class Ai extends CrowdinApi {
         request: PatchRequest[],
     ): Promise<ResponseObject<AiModel.CustomPlaceholder>> {
         const url = `${this.url}/users/${userId}/ai/settings/custom-placeholders/${aiCustomPlaceholderId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.getMany
+     */
+    listAiUserSnippets(userId: number, options?: PaginationOptions): Promise<ResponseList<AiModel.AiSnippet>> {
+        const url = `${this.url}/users/${userId}/ai/settings/snippets`;
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.post
+     */
+    addAiUserSnippet(userId: number, request: AiModel.AddAiSnippetRequest): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/users/${userId}/ai/settings/snippets`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiSnippetId ai snippet identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.get
+     */
+    getAiUserSnippet(userId: number, aiSnippetId: number): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/users/${userId}/ai/settings/snippets/${aiSnippetId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiSnippetId ai snippet identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.delete
+     */
+    deleteAiUserSnippet(userId: number, aiSnippetId: number): Promise<void> {
+        const url = `${this.url}/users/${userId}/ai/settings/snippets/${aiSnippetId}`;
+        return this.delete(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiSnippetId ai snippet identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.patch
+     */
+    editAiUserSnippet(
+        userId: number,
+        aiSnippetId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<AiModel.AiSnippet>> {
+        const url = `${this.url}/users/${userId}/ai/settings/snippets/${aiSnippetId}`;
         return this.patch(url, request, this.defaultConfig());
     }
 
@@ -1260,6 +1398,45 @@ export class Ai extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.post
+     */
+    exportAiUserRequestLogs(
+        userId: number,
+        request: AiModel.ExportAiRequestLogsRequest = {},
+    ): Promise<ResponseObject<Status<AiModel.AiRequestLogsExportAttributes>>> {
+        const url = `${this.url}/users/${userId}/ai/request-logs/exports`;
+
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.get
+     */
+    checkAiUserRequestLogsExportStatus(
+        userId: number,
+        exportId: string,
+    ): Promise<ResponseObject<Status<AiModel.AiRequestLogsExportAttributes>>> {
+        const url = `${this.url}/users/${userId}/ai/request-logs/exports/${exportId}`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param exportId export identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.download
+     */
+    downloadAiUserRequestLogsExport(userId: number, exportId: string): Promise<ResponseObject<DownloadLink>> {
+        const url = `${this.url}/users/${userId}/ai/request-logs/exports/${exportId}/download`;
+
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
      */
@@ -1361,6 +1538,18 @@ export class Ai extends CrowdinApi {
 
         return this.delete(url, this.defaultConfig());
     }
+
+    // Project
+
+    /**
+     * @param projectId project identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.projects.ai.settings.get
+     */
+    getProjectAiSettings(projectId: number): Promise<ResponseObject<AiModel.ProjectAiSettings>> {
+        const url = `${this.url}/projects/${projectId}/ai/settings`;
+
+        return this.get(url, this.defaultConfig());
+    }
 }
 
 export namespace AiModel {
@@ -1381,16 +1570,33 @@ export namespace AiModel {
     }
     /* ai Custom Placeholder Section END*/
 
+    /* ai Snippet Section START*/
+    export interface AiSnippet {
+        id: number;
+        description: string;
+        placeholder: string;
+        value: string;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface AddAiSnippetRequest {
+        description: string;
+        placeholder: string;
+        value: string;
+    }
+    /* ai Snippet Section END*/
+
     /* ai Fine-Tuning Section START*/
     export interface FineTuningDataset {
-        projectIds: number[];
-        tmIds: number[];
+        projectIds: number[] | null;
+        tmIds: number[] | null;
         purpose: 'training' | 'validation';
-        dateFrom: string;
-        dateTo: string;
-        maxFileSize: number;
-        minExamplesCount: number;
-        maxExamplesCount: number;
+        dateFrom: string | null;
+        dateTo: string | null;
+        maxFileSize: number | null;
+        minExamplesCount: number | null;
+        maxExamplesCount: number | null;
     }
 
     export interface GenerateFineTuningDataset {
@@ -1441,9 +1647,9 @@ export namespace AiModel {
             step: number;
             totalSteps: number;
             trainingLoss: number;
-            validationLoss: number;
-            fullValidationLoss: number;
-        };
+            validationLoss: number | null;
+            fullValidationLoss: number | null;
+        } | null;
         createdAt: string;
     }
 
@@ -1463,8 +1669,8 @@ export namespace AiModel {
         id: number;
         name: string;
         action: Action;
-        aiProviderId: number;
-        aiModelId: string;
+        aiProviderId: number | null;
+        aiModelId: string | null;
         isEnabled: boolean;
         enabledProjectIds: number[];
         config:
@@ -1473,8 +1679,13 @@ export namespace AiModel {
             | AiModel.AiPromptConfigBasicQaCheckAction
             | AiModel.AiPromptConfigAdvanced
             | AiModel.AiPromptConfigExternal;
-        promptPreview: string;
+        promptPreview: string | null;
         isFineTuningAvailable: boolean;
+        createdBy: number | null;
+        updatedBy: number | null;
+        lastUsedBy: number | null;
+        lastUsedAt: string | null;
+        usageCount: number;
         createdAt: string;
         updatedAt: string;
     }
@@ -1498,7 +1709,11 @@ export namespace AiModel {
          * @deprecated
          */
         audienceDescription?: string;
+        /**
+         * @deprecated Use `snippets` instead.
+         */
         customPlaceholders?: string[];
+        snippets?: string[];
         otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
@@ -1507,6 +1722,7 @@ export namespace AiModel {
          */
         fileContent?: boolean;
         fileContext?: boolean;
+        generateFileSummary?: boolean;
         screenshots?: boolean;
         projectContext?: boolean;
         /**
@@ -1514,12 +1730,17 @@ export namespace AiModel {
          */
         publicProjectDescription?: boolean;
         siblingsStrings?: boolean;
+        retryOnQaIssues?: boolean;
         organizationContext?: boolean;
     }
 
     export interface AiPromptConfigBasicAligmentAction {
         mode: 'basic';
+        /**
+         * @deprecated Use `snippets` instead.
+         */
         customPlaceholders?: string[];
+        snippets?: string[];
         projectContext?: boolean;
         /**
          * @deprecated Use `projectContext` instead.
@@ -1531,6 +1752,7 @@ export namespace AiModel {
     export interface AiPromptConfigBasicQaCheckAction {
         mode: 'basic';
         evaluationSteps: string[];
+        snippets?: string[];
         glossaryTerms?: boolean;
         tmSuggestions?: boolean;
         fileContext?: boolean;
@@ -1545,9 +1767,13 @@ export namespace AiModel {
 
     export interface AiPromptConfigAdvanced {
         mode: 'advanced';
+        generateFileSummary?: boolean;
+        glossaryTerms?: boolean;
+        tmSuggestions?: boolean;
         screenshots?: boolean;
         prompt: string;
         otherLanguageTranslations?: AiModel.AiPromptConfigBasicOtherLanguageTranslations;
+        retryOnQaIssues?: boolean;
     }
 
     export interface AiPromptConfigExternal {
@@ -1555,6 +1781,7 @@ export namespace AiModel {
         identifier: string;
         key: string;
         options?: any;
+        retryOnQaIssues?: boolean;
     }
 
     export interface AddAiPromptRequest {
@@ -1562,6 +1789,9 @@ export namespace AiModel {
         action: Action;
         aiProviderId?: number;
         aiModelId?: string;
+        /**
+         * @deprecated
+         */
         isEnabled?: boolean;
         enabledProjectIds?: number[];
         config:
@@ -1642,7 +1872,10 @@ export namespace AiModel {
             | AiModel.AiProviderCredentialsBasic
             | AiModel.AiProviderCredentialsAzureOpenAi
             | AiProviderCredentialsGoogleGemini
-            | AiProviderCredentialsCustom;
+            | AiProviderCredentialsWatsonx
+            | AiProviderCredentialsMicrosoftFoundry
+            | AiProviderCredentialsCustom
+            | null;
         config: AiModel.AiProviderConfig;
         isEnabled: boolean;
         useSystemCredentials: boolean;
@@ -1651,7 +1884,25 @@ export namespace AiModel {
         promptsCount: string;
     }
 
-    export interface AiProviderCredentialsBasic {
+    export interface AiProviderCredentialsCustomHeaders {
+        /**
+         * Custom HTTP headers sent with every request to the provider
+         */
+        headers?: Record<string, string>;
+        /**
+         * If `true`, only the headers from `headers` are sent
+         */
+        sendCustomHeadersOnly?: boolean;
+    }
+
+    export interface AiProviderCredentialsBaseUrl extends AiProviderCredentialsCustomHeaders {
+        /**
+         * Override the provider API base URL
+         */
+        baseUrl?: string;
+    }
+
+    export interface AiProviderCredentialsBasic extends AiProviderCredentialsBaseUrl {
         apiKey: string;
     }
 
@@ -1661,16 +1912,32 @@ export namespace AiModel {
         apiVersion: string;
     }
 
-    export interface AiProviderCredentialsGoogleGemini {
+    export interface AiProviderCredentialsGoogleGemini extends AiProviderCredentialsBaseUrl {
         project: string;
         region: string;
-        serviceAccountKey: string;
+        /**
+         * Required if `workloadIdentityFederationAudience` is not provided
+         */
+        serviceAccountKey?: string;
+        /**
+         * Required if `serviceAccountKey` is not provided
+         */
+        workloadIdentityFederationAudience?: string;
+        serviceAccountEmail?: string;
     }
 
-    export interface AiProviderCredentialsWatsonx {
+    export interface AiProviderCredentialsWatsonx extends AiProviderCredentialsBaseUrl {
         apiKey: string;
         projectId: string;
         region: string;
+    }
+
+    export interface AiProviderCredentialsMicrosoftFoundry extends AiProviderCredentialsCustomHeaders {
+        deployments: {
+            deploymentName: string;
+            targetUri: string;
+            apiKey: string;
+        }[];
     }
 
     export interface AiProviderCredentialsCustom {
@@ -1695,6 +1962,7 @@ export namespace AiModel {
             | AiModel.AiProviderCredentialsAzureOpenAi
             | AiProviderCredentialsGoogleGemini
             | AiProviderCredentialsWatsonx
+            | AiProviderCredentialsMicrosoftFoundry
             | AiProviderCredentialsCustom;
         config?: AiModel.AiProviderConfig;
         isEnabled?: boolean;
@@ -1705,6 +1973,17 @@ export namespace AiModel {
     /* ai Provider Models Section START*/
     export interface AiProviderModelResponse {
         id: string;
+        provider: string | null;
+        providerName: string | null;
+        providerId: number | null;
+        contextWindow: number | null;
+        maxOutputTokens: number | null;
+        supportsStreaming: boolean | null;
+        supportsFunctionCalling: boolean | null;
+        supportsJsonMode: boolean | null;
+        supportsJsonSchema: boolean | null;
+        supportsVision: boolean | null;
+        isCompatibleWithAiLimit: boolean;
     }
 
     export interface AiSupportedProviderModelResponse {
@@ -1766,10 +2045,15 @@ export namespace AiModel {
     /* ai Proxy Chat Section END*/
 
     /* ai Report Section START*/
-    export type AiReport = AiReportTokenUsage;
+    export type AiReport = AiReportTokenUsage | AiReportCostsByUsers;
 
     export interface AiReportTokenUsage {
         type: 'tokens-usage-raw-data';
+        schema: AiReportGeneralSchema;
+    }
+
+    export interface AiReportCostsByUsers {
+        type: 'costs-by-users';
         schema: AiReportGeneralSchema;
     }
 
@@ -1793,6 +2077,43 @@ export namespace AiModel {
             prompt: string;
             enabled: boolean;
         }[];
+        preTranslationAiPromptId: number;
+        editorSuggestionAiPromptId: number;
+        /**
+         * Enterprise only
+         */
+        alignmentActionAiPromptId?: number | null;
+        qaCheckActionAiPromptId: number | null;
+        contextReviewAiPromptId: number | null;
+        /** in USD; `null` means no limit */
+        dailyCostLimit: number | null;
+        /** in USD; `null` means no limit */
+        monthlyCostLimit: number | null;
+        /** in USD; `null` means no limit */
+        userDailyCostLimit: number | null;
+        /** in USD; `null` means no limit */
+        userMonthlyCostLimit: number | null;
+        isLimitingActive: boolean;
+        perUserOverrides: AiUserCostLimit[];
+    }
+
+    export interface AiUserCostLimit {
+        userId: number;
+        costLimitMode: 'custom' | 'blocked' | 'unlimited';
+        dailyCostLimit: number | null;
+        monthlyCostLimit: number | null;
+        createdAt: string;
+        updatedAt: string;
+    }
+
+    export interface ProjectAiSettings {
+        editorSuggestionAiPromptId: number;
+        /**
+         * Enterprise only
+         */
+        alignmentActionAiPromptId?: number | null;
+        qaCheckActionAiPromptId: number | null;
+        contextReviewAiPromptId: number | null;
     }
     /* ai Settings Section END*/
 
@@ -1894,6 +2215,29 @@ export namespace AiModel {
         createdAfter?: string;
         createdBefore?: string;
     }
+
+    export interface ExportAiRequestLogsRequest {
+        format?: 'csv';
+        requestId?: string;
+        projectId?: number;
+        userId?: number;
+        aiProviderId?: number;
+        model?: string;
+        sourceAction?: string;
+        promptAction?: string;
+        statuses?: AiRequestLog['status'][];
+        tokenName?: string;
+        oauthClientId?: string;
+        systemCredentials?: boolean;
+        isAutoTriggered?: boolean;
+        createdAfter?: string;
+        createdBefore?: string;
+    }
+
+    export interface AiRequestLogsExportAttributes {
+        format: 'csv';
+        filters: PlainObject;
+    }
     /* ai Request Logs Section END */
 
     /* ai Usage Members Section START */
@@ -1932,5 +2276,6 @@ export namespace AiModel {
         | 'x_ai'
         | 'deepseek'
         | 'watsonx'
+        | 'microsoft_foundry'
         | 'crowdin_ai';
 }

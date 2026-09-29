@@ -36,6 +36,7 @@ describe('Glossaries API', () => {
             })
             .query({
                 groupId: groupId,
+                filter: glossaryName,
             })
             .reply(200, {
                 data: [
@@ -394,7 +395,7 @@ describe('Glossaries API', () => {
     });
 
     it('List glossaries', async () => {
-        const glossaries = await api.listGlossaries({ groupId });
+        const glossaries = await api.listGlossaries({ groupId, filter: glossaryName });
         expect(glossaries.data.length).toBe(1);
         expect(glossaries.data[0].data.id).toBe(glossaryId);
         expect(glossaries.data[0].data.name).toBe(glossaryName);

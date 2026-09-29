@@ -298,7 +298,7 @@ export class Users extends CrowdinApi {
     listUserProjectContributions(
         userId: number,
         options?: PaginationOptions,
-    ): Promise<ResponseList<UsersModel.ProjectPermissions>> {
+    ): Promise<ResponseList<UsersModel.Contributions>> {
         const url = `${this.url}/users/${userId}/projects/contributions`;
         return this.getList(url, options?.limit, options?.offset);
     }
@@ -312,7 +312,7 @@ export namespace UsersModel {
 
     export interface ListProjectMembersOptions extends PaginationOptions {
         search?: string;
-        role?: Role;
+        role?: Role | RoleFilter;
         languageId?: string;
         workflowStepId?: number;
         orderBy?: string;
@@ -345,17 +345,37 @@ export namespace UsersModel {
         id: number;
         username: string;
         email: string;
-        firstName: string;
-        lastName: string;
+        firstName: string | null;
+        lastName: string | null;
+        /**
+         * Crowdin only
+         */
+        fullName?: string | null;
         status: Status;
         avatarUrl: string;
-        fields: Record<string, any>;
+        fields: Record<string, any> | null;
         createdAt: string;
-        lastSeen: string;
+        lastSeen: string | null;
         twoFactor: TwoFactor;
         isAdmin: boolean;
-        timezone: string;
-        emailVerified: string;
+        timezone: string | null;
+        emailVerified: boolean;
+        joinDetails?: JoinDetails | null;
+        deviceVerification?: 'enabled' | 'disabled';
+        trustedDevicesCount?: number;
+        apiTokensCount?: number;
+        loginMethods?: string[];
+        mfaMethods?: string[];
+    }
+
+    export interface JoinDetails {
+        type: string;
+        invitedBy: {
+            id: number;
+            username: string;
+            fullName: string;
+            avatarUrl: string;
+        } | null;
     }
 
     export type Status = 'active' | 'pending' | 'blocked';
@@ -373,7 +393,7 @@ export namespace UsersModel {
     export interface ProjectMember {
         id: number;
         username: string;
-        fullName: string;
+        fullName: string | null;
         role: Role;
         /**
          * @deprecated
@@ -381,18 +401,23 @@ export namespace UsersModel {
         permissions: Permissions;
         avatarUrl: string;
         joinedAt: string;
-        timezone: string;
+        timezone: string | null;
         roles: ProjectRole[];
     }
 
     export interface EnterpriseProjectMember {
         id: number;
         username: string;
-        firstName: string;
-        lastName: string;
+        firstName: string | null;
+        lastName: string | null;
         isManager: boolean;
+        /**
+         * @deprecated use isDeveloper instead
+         */
         isDeveloperr: boolean;
-        managerOfGroup: Group;
+        isDeveloper: boolean;
+        isAdmin: boolean;
+        managerOfGroup: Group | null;
         /**
          * @deprecated
          */
@@ -401,7 +426,7 @@ export namespace UsersModel {
          * @deprecated
          */
         permissions: Permissions;
-        givenAccessAt: string;
+        givenAccessAt: string | null;
         roles: ProjectRole[];
     }
 
@@ -412,6 +437,8 @@ export namespace UsersModel {
 
     export type Role = 'all' | 'owner' | 'manager' | 'proofreader' | 'translator' | 'blocked';
 
+    export type RoleFilter = 'developer' | 'language_coordinator' | 'pending';
+
     export type LanguageRole = 'proofreader' | 'translator' | 'denied';
 
     export interface AddProjectMemberRequest {
@@ -421,6 +448,10 @@ export namespace UsersModel {
         managerAccess?: boolean;
         roles?: ProjectRole[];
         developerAccess?: boolean;
+        /**
+         * Crowdin only. Custom message added to the invitation email
+         */
+        message?: string;
         /**
          * @deprecated
          */
@@ -434,6 +465,7 @@ export namespace UsersModel {
     export interface AddProjectMemberResponse {
         skipped: ResponseObject<ProjectMember | EnterpriseProjectMember>[];
         added: ResponseObject<ProjectMember | EnterpriseProjectMember>[];
+        updated?: ResponseObject<ProjectMember | EnterpriseProjectMember>[];
         pagination: Pagination;
     }
 

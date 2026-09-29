@@ -16,6 +16,8 @@ describe('String Translations API', () => {
     const text = 'test';
     const voteId = 1234;
     const mark = 'down';
+    const fileId = 78;
+    const correctionId = 91;
 
     const limit = 25;
 
@@ -298,7 +300,68 @@ describe('String Translations API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(200);
+            .reply(200)
+            .get(`/projects/${projectId}/approvals`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ correctionId })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: approvalId,
+                            correctionId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/approvals`,
+                { correctionId },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: approvalId,
+                    correctionId,
+                },
+            })
+            .delete(`/projects/${projectId}/approvals`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ fileId })
+            .reply(200)
+            .delete(`/projects/${projectId}/translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ fileId, languageId })
+            .reply(200)
+            .get(`/projects/${projectId}/translations/${translationId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ denormalizePlaceholders: 1 })
+            .reply(200, {
+                data: {
+                    id: translationId,
+                    matchType: 'perfect',
+                },
+            });
     });
 
     afterAll(() => {
@@ -439,5 +502,30 @@ describe('String Translations API', () => {
 
     it('Cancel Vote', async () => {
         await api.cancelVote(projectId, voteId);
+    });
+
+    it('List Translation Approvals by correction', async () => {
+        const approvals = await api.listTranslationApprovals(projectId, { correctionId });
+        expect(approvals.data.length).toBe(1);
+        expect(approvals.data[0].data.correctionId).toBe(correctionId);
+    });
+
+    it('Add Correction Approval', async () => {
+        const approval = await api.addApproval(projectId, { correctionId });
+        expect(approval.data.correctionId).toBe(correctionId);
+    });
+
+    it('Remove Asset Approvals', async () => {
+        await api.removeStringApprovals(projectId, { fileId });
+    });
+
+    it('Delete All Translations by file', async () => {
+        await api.deleteAllTranslations(projectId, { fileId, languageId });
+    });
+
+    it('Translation Info with denormalized placeholders', async () => {
+        const translation = await api.translationInfo(projectId, translationId, { denormalizePlaceholders: 1 });
+        expect(translation.data.id).toBe(translationId);
+        expect(translation.data.matchType).toBe('perfect');
     });
 });

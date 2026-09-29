@@ -17,7 +17,10 @@ export class Notifications extends CrowdinApi {
      */
     sendNotificationToProjectMembers(
         projectId: number,
-        request: NotificationsModel.NotificationByUsers | NotificationsModel.NotificationByRole,
+        request:
+            | NotificationsModel.NotificationByUsers
+            | NotificationsModel.ProjectNotificationByRole
+            | NotificationsModel.NotificationByRole,
     ): Promise<void> {
         const url = `${this.url}/projects/${projectId}/notify`;
         return this.post(url, request, this.defaultConfig());
@@ -49,5 +52,9 @@ export namespace NotificationsModel {
 
     export interface NotificationByRole extends Notification {
         role: 'owner' | 'admin';
+    }
+
+    export interface ProjectNotificationByRole extends Notification {
+        role: 'owner' | 'manager';
     }
 }

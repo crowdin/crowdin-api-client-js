@@ -216,7 +216,17 @@ export namespace SourceStringsModel {
         | 'json'
         | 'xliff'
         | 'xliff_two'
-        | 'xlsx';
+        | 'xlsx'
+        | 'resx'
+        | 'gettext'
+        | 'i18next_json'
+        | 'properties'
+        | 'properties_xml'
+        | 'properties_play'
+        | 'yaml'
+        | 'string_catalog'
+        | 'nestjs_i18n'
+        | 'stringsdict';
 
     export interface UploadStringsStatus {
         branchId: number;
@@ -242,12 +252,24 @@ export namespace SourceStringsModel {
         labelIds?: number[];
         updateStrings?: boolean;
         cleanupMode?: boolean;
-        importOptions?: {
-            firstLineContainsHeader: boolean;
-            importTranslations: boolean;
-            scheme: SourceFilesModel.Scheme;
-        };
+        importOptions?: SpreadsheetImportOptions | StringCatalogImportOptions | OtherFilesImportOptions;
         updateOption?: UpdateOption;
+    }
+
+    export interface SpreadsheetImportOptions {
+        firstLineContainsHeader?: boolean;
+        importTranslations?: boolean;
+        scheme?: SourceFilesModel.Scheme;
+    }
+
+    export interface StringCatalogImportOptions {
+        importKeyAsSource?: boolean;
+        importTranslations?: boolean;
+    }
+
+    export interface OtherFilesImportOptions {
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface ListProjectStringsOptions extends PaginationOptions {
@@ -266,7 +288,7 @@ export namespace SourceStringsModel {
     export interface String {
         id: number;
         projectId: number;
-        branchId: number;
+        branchId: number | null;
         identifier: string;
         text: string | PluralText;
         type: Type;
@@ -274,17 +296,23 @@ export namespace SourceStringsModel {
         maxLength: number;
         isHidden: boolean;
         isDuplicate: boolean;
-        masterStringId: boolean;
+        masterStringId: number | null;
+        /**
+         * @deprecated
+         */
         hasPlurals: boolean;
+        /**
+         * @deprecated
+         */
         isIcu: boolean;
         labelIds: number[];
         webUrl: string;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
         fileId: number;
-        directoryId: number;
+        directoryId: number | null;
         revision: number;
-        fields: Record<string, any>;
+        fields: Record<string, any> | null;
     }
 
     export interface CreateStringRequest {

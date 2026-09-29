@@ -26,6 +26,11 @@ export class Reports extends CrowdinApi {
         let url = `${this.url}/reports/archives`;
         url = this.addQueryParam(url, 'scopeId', options?.scopeId);
         url = this.addQueryParam(url, 'scopeType', options?.scopeType);
+        url = this.addQueryParam(url, 'userId', options?.userId);
+        url = this.addQueryParam(url, 'taskId', options?.taskId);
+        url = this.addQueryParam(url, 'name', options?.name);
+        url = this.addQueryParam(url, 'dateFrom', options?.dateFrom);
+        url = this.addQueryParam(url, 'dateTo', options?.dateTo);
         return this.getList(url, options?.limit, options?.offset);
     }
 
@@ -94,6 +99,11 @@ export class Reports extends CrowdinApi {
         let url = `${this.url}/users/${userId}/reports/archives`;
         url = this.addQueryParam(url, 'scopeId', options?.scopeId);
         url = this.addQueryParam(url, 'scopeType', options?.scopeType);
+        url = this.addQueryParam(url, 'userId', options?.userId);
+        url = this.addQueryParam(url, 'taskId', options?.taskId);
+        url = this.addQueryParam(url, 'name', options?.name);
+        url = this.addQueryParam(url, 'dateFrom', options?.dateFrom);
+        url = this.addQueryParam(url, 'dateTo', options?.dateTo);
         return this.getList(url, options?.limit, options?.offset);
     }
 
@@ -459,13 +469,27 @@ export namespace ReportsModel {
         name: string;
         webUrl: string;
         scheme: any;
+        status: string;
+        progress: number;
         createdAt: string;
     }
 
     export interface ListReportArchiveParams extends PaginationOptions {
-        scopeType: string;
-        scopeId: number;
+        scopeType?: string;
+        scopeId?: number;
+        userId?: number;
+        taskId?: number;
+        name?: ReportArchiveName;
+        dateFrom?: string;
+        dateTo?: string;
     }
+
+    export type ReportArchiveName =
+        | 'costs-estimation-pe'
+        | 'translation-costs-pe'
+        | 'group-translation-costs-pe'
+        | 'pre-translate-accuracy'
+        | 'translator-accuracy';
 
     export interface ReportArchiveStatusAttribute {
         format: Format;
@@ -475,17 +499,31 @@ export namespace ReportsModel {
 
     export type GroupReportSchema =
         | GroupTranslationCostsPostEditingSchema
+        | GroupTranslationCostsPerEditingByTaskSchema
         | GroupTopMembersSchema
         | GroupTaskUsageSchema
         | GroupQaCheckIssuesSchema
-        | GroupTranslationActivitySchema;
+        | GroupTranslationActivitySchema
+        | GroupSourceContentUpdatesSchema
+        | GroupTimeSpentSchema
+        | GroupPreTranslateAccuracySchema
+        | GroupPreTranslateAccuracySchemaByTask
+        | GroupTranslatorAccuracySchema
+        | GroupSavingActivitySchema;
 
     export type OrganizationReportSchema =
         | GroupTranslationCostsPostEditingSchema
+        | GroupTranslationCostsPerEditingByTaskSchema
         | GroupTopMembersSchema
         | GroupTaskUsageSchema
         | GroupQaCheckIssuesSchema
-        | GroupTranslationActivitySchema;
+        | GroupTranslationActivitySchema
+        | GroupSourceContentUpdatesSchema
+        | GroupTimeSpentSchema
+        | GroupPreTranslateAccuracySchema
+        | GroupPreTranslateAccuracySchemaByTask
+        | GroupTranslatorAccuracySchema
+        | GroupSavingActivitySchema;
 
     export interface GenerateGroupReportRequest {
         name: string;
@@ -502,25 +540,49 @@ export namespace ReportsModel {
         unit?: Unit;
         currency?: Currency;
         format?: Format;
-        baseRates: BaseRate;
-        individualRates: IndividualRate[];
+        baseRates: PostEditingBaseRate;
+        individualRates: PostEditingIndividualRate[];
         netRateSchemes: NetRateSchemas;
+        useCategoryBasedProofreadRates?: boolean;
+        useTmEditDistance?: boolean;
+        /**
+         * @deprecated
+         */
         excludeApprovalsForEditedTranslations?: boolean;
+        /**
+         * @deprecated
+         */
         preTranslatedStringsCategorizationAdjustment?: boolean;
-        groupBy?: GroupBy;
+        groupBy?: GroupBy | 'project';
         dateFrom?: string;
         dateTo?: string;
         userIds?: number[];
+        skipArchiving?: boolean;
     }
 
     export interface GroupTranslationCostsPerEditingByTaskSchema {
         unit?: Unit;
         currency?: Currency;
         format?: Format;
-        baseRates: BaseRate;
-        individualRates: IndividualRate[];
+        baseRates: PostEditingBaseRate;
+        individualRates: PostEditingIndividualRate[];
         netRateSchemes: NetRateSchemas;
+        /**
+         * @deprecated use taskIds instead
+         */
         taskId?: number;
+        taskIds?: number[];
+        useCategoryBasedProofreadRates?: boolean;
+        useTmEditDistance?: boolean;
+        /**
+         * @deprecated
+         */
+        excludeApprovalsForEditedTranslations?: boolean;
+        /**
+         * @deprecated
+         */
+        preTranslatedStringsCategorizationAdjustment?: boolean;
+        skipArchiving?: boolean;
     }
 
     export interface CostsEstimationSchema {
@@ -560,6 +622,7 @@ export namespace ReportsModel {
         format?: Format;
         dateFrom?: string;
         dateTo?: string;
+        userIds?: number[];
     }
 
     export interface RawDataSchema {
@@ -584,7 +647,9 @@ export namespace ReportsModel {
         | EditorIssues
         | QaCheckIssues
         | SavingActivity
-        | TranslationActivity;
+        | TranslationActivity
+        | TimeSpent
+        | TaskUsage;
 
     export type ReportSchema = Pick<GenerateReportRequest, 'schema'>;
 
@@ -656,6 +721,19 @@ export namespace ReportsModel {
         schema: ProjectConsumptionSchema;
     }
 
+    export interface TimeSpent {
+        name: 'time-spent';
+        schema: TimeSpentSchema;
+    }
+
+    /**
+     * Available only in Crowdin Enterprise
+     */
+    export interface TaskUsage {
+        name: 'task-usage';
+        schema: TaskUsageSchema;
+    }
+
     export interface ReportStatusAttributes<S> {
         format: Format;
         reportName: string;
@@ -665,27 +743,52 @@ export namespace ReportsModel {
     export interface PreTranslateAccuracySchema {
         unit?: Unit;
         format?: Format;
+        /**
+         * @deprecated use matchScoreCategories instead
+         */
         postEditingCategories?: string[];
+        matchScoreCategories?: string[];
         languageId?: string;
         dateFrom?: string;
         dateTo?: string;
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+        skipArchiving?: boolean;
     }
 
     export interface PreTranslateAccuracySchemaByTask {
         unit?: Unit;
         format?: Format;
+        /**
+         * @deprecated use matchScoreCategories instead
+         */
         postEditingCategories?: string[];
+        matchScoreCategories?: string[];
         taskId?: number;
+        skipArchiving?: boolean;
     }
 
     export interface TranslateAccuracySchema {
         unit?: Unit;
         format?: Format;
+        /**
+         * @deprecated use matchScoreCategories instead
+         */
         postEditingCategories?: string[];
+        matchScoreCategories?: string[];
         languageId?: string;
         userIds?: number[];
         dateFrom?: string;
         dateTo?: string;
+        fileIds?: number[];
+        directoryIds?: number[];
+        branchIds?: number[];
+        labelIds?: number[];
+        labelIncludeType?: LabelIncludeType;
+        skipArchiving?: boolean;
     }
 
     export interface CostEstimationPostEndingSchema {
@@ -705,7 +808,11 @@ export namespace ReportsModel {
         dateTo?: string;
         labelIds?: number[];
         labelIncludeType?: LabelIncludeType;
+        /**
+         * Available only in Crowdin Enterprise
+         */
         workflowStepId?: number;
+        skipArchiving?: boolean;
     }
 
     export interface CostEstimationPostEndingSchemaByTask {
@@ -717,29 +824,55 @@ export namespace ReportsModel {
         netRateSchemes?: Omit<NetRateSchemas, 'mtMatch' | 'suggestionMatch'>;
         calculateInternalMatches?: boolean;
         includePreTranslatedStrings?: boolean;
+        /**
+         * @deprecated use taskIds instead
+         */
         taskId?: number;
+        taskIds?: number[];
+        skipArchiving?: boolean;
     }
 
     export interface TranslationCostsPostEndingSchemaByTask {
         unit?: Unit;
         currency?: Currency;
         format?: Format;
-        baseRates: BaseRate;
-        individualRates: IndividualRate[];
+        baseRates: PostEditingBaseRate;
+        individualRates: PostEditingIndividualRate[];
         netRateSchemes: NetRateSchemas;
+        /**
+         * @deprecated use taskIds instead
+         */
         taskId?: number;
+        taskIds?: number[];
+        useCategoryBasedProofreadRates?: boolean;
+        useTmEditDistance?: boolean;
+        /**
+         * @deprecated
+         */
         excludeApprovalsForEditedTranslations?: boolean;
+        /**
+         * @deprecated
+         */
         preTranslatedStringsCategorizationAdjustment?: boolean;
+        skipArchiving?: boolean;
     }
 
     export interface TranslationCostsPostEndingSchema {
         unit?: Unit;
         currency?: Currency;
         format?: Format;
-        baseRates: BaseRate;
-        individualRates: IndividualRate[];
+        baseRates: PostEditingBaseRate;
+        individualRates: PostEditingIndividualRate[];
         netRateSchemes: NetRateSchemas;
+        useCategoryBasedProofreadRates?: boolean;
+        useTmEditDistance?: boolean;
+        /**
+         * @deprecated
+         */
         excludeApprovalsForEditedTranslations?: boolean;
+        /**
+         * @deprecated
+         */
         preTranslatedStringsCategorizationAdjustment?: boolean;
         groupBy?: GroupBy;
         dateFrom?: string;
@@ -749,9 +882,13 @@ export namespace ReportsModel {
         fileIds?: number[];
         directoryIds?: number[];
         branchIds?: number[];
-        labelIds?: number;
+        labelIds?: number[] | number;
         labelIncludeType?: LabelIncludeType;
+        /**
+         * Available only in Crowdin Enterprise
+         */
         workflowStepId?: number;
+        skipArchiving?: boolean;
     }
 
     export interface TopMembersSchema {
@@ -760,13 +897,14 @@ export namespace ReportsModel {
         format?: Format;
         dateFrom?: string;
         dateTo?: string;
+        userIds?: number[];
     }
 
     export interface ContributionRawDataSchema {
         mode: ContributionMode;
         unit?: Unit;
         languageId?: string;
-        userId?: string;
+        userId?: number | string;
         columns?: Column[];
         fileIds?: number[];
         directoryIds?: number[];
@@ -813,14 +951,14 @@ export namespace ReportsModel {
         isPublic: boolean;
         isGlobal: boolean;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface AddReportSettingsRequest {
         name: string;
         currency: Currency;
-        unit: Unit;
-        config: ReportSettinsConfig;
+        unit: Unit | 'hours';
+        config: ReportSettinsConfig | HourlyReportSettingsConfig;
         isPublic?: boolean;
         isGlobal?: boolean;
     }
@@ -841,6 +979,15 @@ export namespace ReportsModel {
         baseRates: BaseRate;
         netRateSchemes: NetRateSchemas;
         individualRates: IndividualRate[];
+        calculateInternalMatches?: boolean;
+        includePreTranslatedStrings?: boolean;
+        useCategoryBasedProofreadRates?: boolean;
+        useTmEditDistance?: boolean;
+    }
+
+    export interface HourlyReportSettingsConfig {
+        baseRates: HourlyBaseRate;
+        individualRates: HourlyIndividualRate[];
     }
 
     export type Unit = 'strings' | 'words' | 'chars' | 'chars_with_spaces';
@@ -867,7 +1014,9 @@ export namespace ReportsModel {
         | 'BRL'
         | 'ZAR'
         | 'GEL'
-        | 'UAH';
+        | 'UAH'
+        | 'DDK'
+        | 'PLN';
 
     export type Format = 'xlsx' | 'csv' | 'json';
 
@@ -881,6 +1030,28 @@ export namespace ReportsModel {
         userIds: number[];
         fullTranslation: number;
         proofread: number;
+    }
+
+    export interface PostEditingBaseRate {
+        fullTranslation: number;
+        /**
+         * Required when `useCategoryBasedProofreadRates` is `false`
+         */
+        proofread?: number;
+    }
+
+    export interface PostEditingIndividualRate extends PostEditingBaseRate {
+        languageIds: string[];
+        userIds: number[];
+    }
+
+    export interface HourlyBaseRate {
+        hourly: number;
+    }
+
+    export interface HourlyIndividualRate extends HourlyBaseRate {
+        languageIds: string[];
+        userIds: number[];
     }
 
     export interface NetRateSchemas {
@@ -910,6 +1081,17 @@ export namespace ReportsModel {
 
     export type LabelIncludeType = 'strings_with_label' | 'strings_without_label';
 
+    export type IssueType = 'general_question' | 'translation_mistake' | 'context_request' | 'source_mistake';
+
+    export type SavingActivityMode = 'currency' | 'relative';
+
+    /**
+     * Task type filter: 0 - translate, 1 - proofread, 2 - translate by vendor, 3 - proofread by vendor
+     */
+    export type TypeTasks = 0 | 1 | 2 | 3;
+
+    export type TaskStatus = 'todo' | 'in_progress' | 'done' | 'closed' | 'review';
+
     export type Column =
         | 'userId'
         | 'languageId'
@@ -926,6 +1108,8 @@ export namespace ReportsModel {
         | 'aiPromptName'
         | 'aiPromptId'
         | 'preTranslated'
+        | 'wasEdited'
+        | 'branchName'
         | 'tmMatch'
         | 'mtMatch'
         | 'aiMatch'
@@ -962,6 +1146,7 @@ export namespace ReportsModel {
         format?: Format;
         languageId?: string;
         userId?: number;
+        issueType?: IssueType | null;
     }
 
     export interface ProjectQaCheckIssuesSchema {
@@ -975,6 +1160,7 @@ export namespace ReportsModel {
         unit?: Unit;
         languageId?: string;
         format?: Format;
+        mode?: SavingActivityMode;
         dateFrom?: string;
         dateTo?: string;
         userIds?: number[];
@@ -999,14 +1185,51 @@ export namespace ReportsModel {
         labelIncludeType?: LabelIncludeType;
     }
 
+    export interface TimeSpentSchema {
+        format?: Format;
+        groupBy?: GroupBy | 'task';
+        baseRates?: HourlyBaseRate;
+        individualRates?: HourlyIndividualRate[];
+        languageId?: string;
+        userIds?: number[];
+        typeTasks?: TypeTasks;
+        dateFrom?: string;
+        dateTo?: string;
+        taskIds?: number[];
+        /**
+         * Available only in Crowdin Enterprise
+         */
+        workflowStepId?: number;
+        skipArchiving?: boolean;
+    }
+
+    export interface TaskUsageSchema {
+        format: Format;
+        type: 'workload' | 'created-vs-resolved' | 'performance' | 'time' | 'cost';
+        dateFrom?: string;
+        dateTo?: string;
+        groupBy?: 'user' | 'language' | 'type';
+        typeTasks?: TypeTasks;
+        languageId?: string;
+        creatorId?: number;
+        assigneeId?: number;
+        wordsCountFrom?: number;
+        wordsCountTo?: number;
+        statuses?: TaskStatus[];
+    }
+
     export interface GroupTaskUsageSchema {
         format: Format;
-        type: 'workload' | 'create-vs-resolve' | 'performance' | 'time' | 'cost';
+        type: 'workload' | 'create-vs-resolve' | 'created-vs-resolved' | 'performance' | 'time' | 'cost';
         projectIds?: number[];
         assigneeId?: number;
         creatorId?: number;
         dateFrom?: string;
         dateTo?: string;
+        groupBy?: 'user' | 'language' | 'type' | 'project';
+        typeTasks?: TypeTasks;
+        languageId?: string;
+        statuses?: TaskStatus[];
         wordsCountFrom?: number;
         wordsCountTo?: number;
         excludeApprovalsForEditedTranslations?: boolean;
@@ -1037,5 +1260,69 @@ export namespace ReportsModel {
         branchIds?: number[];
         labelIds?: number[];
         labelIncludeType?: LabelIncludeType;
+    }
+
+    export interface GroupSourceContentUpdatesSchema {
+        unit?: Unit;
+        format?: Format;
+        projectIds?: number[];
+        dateFrom?: string;
+        dateTo?: string;
+    }
+
+    export interface GroupTimeSpentSchema {
+        format?: Format;
+        groupBy?: GroupBy | 'task' | 'project';
+        baseRates?: HourlyBaseRate;
+        individualRates?: HourlyIndividualRate[];
+        languageId?: string;
+        userIds?: number[];
+        typeTasks?: TypeTasks;
+        dateFrom?: string;
+        dateTo?: string;
+        projectIds?: number[];
+        taskIds?: number[];
+        skipArchiving?: boolean;
+    }
+
+    export interface GroupPreTranslateAccuracySchema {
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        matchScoreCategories?: string[];
+        projectIds?: number[];
+        skipArchiving?: boolean;
+    }
+
+    export interface GroupPreTranslateAccuracySchemaByTask {
+        unit?: Unit;
+        format?: Format;
+        matchScoreCategories?: string[];
+        taskIds?: number[];
+        skipArchiving?: boolean;
+    }
+
+    export interface GroupTranslatorAccuracySchema {
+        unit?: Unit;
+        languageId?: string;
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        matchScoreCategories?: string[];
+        userIds?: number[];
+        projectIds?: number[];
+        skipArchiving?: boolean;
+    }
+
+    export interface GroupSavingActivitySchema {
+        unit?: Unit;
+        projectIds?: number[];
+        format?: Format;
+        dateFrom?: string;
+        dateTo?: string;
+        languageId?: string;
+        mode?: SavingActivityMode;
     }
 }

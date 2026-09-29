@@ -669,6 +669,26 @@ describe('Source Files API', () => {
                     limit: limit,
                 },
             })
+            .get(`/projects/${projectId}/directories`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ branchId, recursion: 'true' })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: directoryId,
+                            name: directoryName,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get('/directories', undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -984,6 +1004,13 @@ describe('Source Files API', () => {
         expect(branches.data.length).toBe(1);
         expect(branches.data[0].data.id).toBe(branchId);
         expect(branches.pagination.limit).toBe(limit);
+    });
+
+    it('List project directories recursively', async () => {
+        const directories = await api.listProjectDirectories(projectId, { branchId, recursion: true });
+        expect(directories.data.length).toBe(1);
+        expect(directories.data[0].data.id).toBe(directoryId);
+        expect(directories.pagination.limit).toBe(limit);
     });
 
     it('List directories', async () => {
