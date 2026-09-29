@@ -69,6 +69,7 @@ export namespace SecurityLogsModel {
         | 'session.revoke_all'
         | 'sso.connect'
         | 'sso.disconnect'
+        | 'user.registered'
         | 'user.remove'
         | 'application.connected'
         | 'application.disconnected'
@@ -77,7 +78,28 @@ export namespace SecurityLogsModel {
         | 'trusted_device.remove'
         | 'trusted_device.remove_all'
         | 'device_verification.enabled'
-        | 'device_verification.disabled';
+        | 'device_verification.disabled'
+        | 'user.force_removed'
+        | 'user.blocked'
+        | 'user.unblocked'
+        | 'team.member.added'
+        | 'team.member.removed'
+        | 'role.admin.granted'
+        | 'role.admin.revoked'
+        | 'role.group_manager.granted'
+        | 'role.group_manager.revoked'
+        | 'organization.settings.saml.changed'
+        | 'organization.settings.invite_restrict.changed'
+        | 'organization.settings.device_verification.changed'
+        | 'organization.settings.mfa.changed'
+        | 'organization.settings.remember_me.changed'
+        | 'organization.settings.sign_up.changed'
+        | 'organization.settings.token_creation.changed'
+        | 'organization.settings.token_expiration.changed'
+        | 'sso.custom_app.configured'
+        | 'sso.custom_app.disabled'
+        | 'organization.auth_method.disabled'
+        | 'organization.auth_method.enabled';
 
     export interface ListOrganizationSecurityLogsParams extends PaginationOptions {
         event?: Event;

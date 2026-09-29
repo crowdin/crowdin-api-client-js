@@ -14,6 +14,7 @@ describe('Translation Status API', () => {
     const fileId = 5;
     const phrasesCount = 10;
     const languageId = 'uk';
+    const taskId = 6;
 
     const limit = 25;
     const revalidationId = 'b5215a34-1305-4b21-8054-fc2eb252842f';
@@ -139,6 +140,25 @@ describe('Translation Status API', () => {
                     limit: limit,
                 },
             })
+            .get(`/projects/${projectId}/qa-checks`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ taskId, fileId })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            languageId: languageId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(`/projects/${projectId}/qa-checks/revalidate`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -234,6 +254,12 @@ describe('Translation Status API', () => {
         expect(qaChecks.data.length).toBe(1);
         expect(qaChecks.data[0].data.languageId).toBe(languageId);
         expect(qaChecks.pagination.limit).toBe(limit);
+    });
+
+    it('List QA Check Issues with task and file filters', async () => {
+        const qaChecks = await api.listQaCheckIssues(projectId, { taskId, fileId });
+        expect(qaChecks.data.length).toBe(1);
+        expect(qaChecks.data[0].data.languageId).toBe(languageId);
     });
 
     it('Revalidate QA Checks', async () => {

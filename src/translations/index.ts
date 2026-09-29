@@ -24,9 +24,10 @@ export class Translations extends CrowdinApi {
      */
     listPreTranslations(
         projectId: number,
-        options?: PaginationOptions,
+        options?: TranslationsModel.ListPreTranslationsOptions,
     ): Promise<ResponseList<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
-        const url = `${this.url}/projects/${projectId}/pre-translations`;
+        let url = `${this.url}/projects/${projectId}/pre-translations`;
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
         return this.getList(url, options?.limit, options?.offset);
     }
 
@@ -50,7 +51,10 @@ export class Translations extends CrowdinApi {
      */
     applyPreTranslation(
         projectId: number,
-        request: TranslationsModel.PreTranslateRequest | TranslationsModel.PreTranslateStringsRequest,
+        request:
+            | TranslationsModel.PreTranslateRequest
+            | TranslationsModel.PreTranslateStringsRequest
+            | TranslationsModel.PreTranslateByTaskRequest,
     ): Promise<ResponseObject<Status<TranslationsModel.PreTranslationStatusAttributes>>> {
         const url = `${this.url}/projects/${projectId}/pre-translations`;
         return this.post(url, request, this.defaultConfig());
@@ -185,7 +189,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated Use {@link Translations.importTranslations} instead
      *
      * @param projectId project identifier
      * @param languageId language identifier
@@ -202,7 +206,12 @@ export class Translations extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated Use {@link Translations.importTranslations} instead
+     *
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param request request body
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.postOnLanguage
      */
     uploadTranslationStrings(
         projectId: number,
@@ -312,6 +321,19 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.validate-qa-checks.post
+     */
+    validateQaChecks(
+        projectId: number,
+        request: TranslationsModel.ValidateQaChecksRequest[],
+    ): Promise<ResponseList<TranslationsModel.QaCheckValidationResult>> {
+        const url = `${this.url}/projects/${projectId}/translations/validate-qa-checks`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.translations.getMany
      */
@@ -346,10 +368,16 @@ export namespace TranslationsModel {
          */
         translateUntranslatedOnly?: boolean;
         scope?: Scope;
-        translationModifiedBefore?: string;
+        translationModifiedBefore?: string | null;
+        translationModifiedAfter?: string | null;
         replaceTranslationsOption?: ReplaceTranslationsOption;
         resetApprovalStatus?: boolean;
+        notifyOnCompletion?: boolean;
         translateWithPerfectMatchOnly?: boolean;
+        /**
+         * Enterprise only
+         */
+        minimumMatchRatio?: number;
         fallbackLanguages?: {
             languageId?: string[];
         };
@@ -374,10 +402,16 @@ export namespace TranslationsModel {
          */
         translateUntranslatedOnly?: boolean;
         scope?: Scope;
-        translationModifiedBefore?: string;
+        translationModifiedBefore?: string | null;
+        translationModifiedAfter?: string | null;
         replaceTranslationsOption?: ReplaceTranslationsOption;
         resetApprovalStatus?: boolean;
+        notifyOnCompletion?: boolean;
         translateWithPerfectMatchOnly?: boolean;
+        /**
+         * Enterprise only
+         */
+        minimumMatchRatio?: number;
         fallbackLanguages?: {
             languageId: string[];
         };
@@ -385,6 +419,37 @@ export namespace TranslationsModel {
         excludeLabelIds?: number[];
         sourceLanguageId?: string;
         customInstruction?: string;
+    }
+
+    export interface PreTranslateByTaskRequest {
+        taskId: number;
+        method?: Method;
+        priority?: Priority;
+        engineId?: number;
+        aiPromptId?: number;
+        autoApproveOption?: AutoApproveOption;
+        duplicateTranslations?: boolean;
+        skipApprovedTranslations?: boolean;
+        scope?: Scope;
+        translationModifiedBefore?: string | null;
+        translationModifiedAfter?: string | null;
+        replaceTranslationsOption?: ReplaceTranslationsOption;
+        resetApprovalStatus?: boolean;
+        notifyOnCompletion?: boolean;
+        translateWithPerfectMatchOnly?: boolean;
+        /**
+         * Enterprise only
+         */
+        minimumMatchRatio?: number;
+        fallbackLanguages?: {
+            languageId?: string[];
+        };
+        sourceLanguageId?: string;
+        customInstruction?: string;
+    }
+
+    export interface ListPreTranslationsOptions extends PaginationOptions {
+        orderBy?: string;
     }
 
     export interface BuildProjectDirectoryTranslationRequest {
@@ -404,9 +469,23 @@ export namespace TranslationsModel {
         projectId: number;
         status: BuildStatus;
         progress: number;
-        createdAt: string;
-        updatedAt: string;
-        finishedAt: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        finishedAt: string | null;
+        attributes?: BuildProjectDirectoryTranslationAttributes;
+    }
+
+    export interface BuildProjectDirectoryTranslationAttributes {
+        directoryId: number | null;
+        targetLanguageIds: string[];
+        skipUntranslatedStrings: boolean;
+        skipUntranslatedFiles: boolean;
+        preserveFolderHierarchy?: boolean;
+        // community
+        exportApprovedOnly?: boolean;
+        // enterprise
+        exportWithMinApprovalsCount?: number;
+        exportStringsThatPassedWorkflow?: boolean;
     }
 
     export type BuildStatus = 'created' | 'inProgress' | 'canceled' | 'failed' | 'finished';
@@ -439,9 +518,23 @@ export namespace TranslationsModel {
         autoApproveOption: AutoApproveOption;
         duplicateTranslations: boolean;
         skipApprovedTranslations: boolean;
+        /**
+         * @deprecated Use {@link scope} instead
+         */
         translateUntranslatedOnly: boolean;
         translateWithPerfectMatchOnly: boolean;
         priority: Priority;
+        taskId?: number;
+        scope?: Scope;
+        translationModifiedBefore?: string | null;
+        translationModifiedAfter?: string | null;
+        replaceTranslationsOption?: ReplaceTranslationsOption;
+        resetApprovalStatus?: boolean;
+        notifyOnCompletion?: boolean;
+        /**
+         * Enterprise only
+         */
+        minimumMatchRatio?: number;
     }
 
     export type Method = 'tm' | 'mt' | 'ai';
@@ -467,17 +560,17 @@ export namespace TranslationsModel {
         status: BuildStatus;
         progress: number;
         attributes: Attribute;
-        createdAt: string;
-        updatedAt: string;
-        finishedAt: string;
+        createdAt: string | null;
+        updatedAt: string | null;
+        finishedAt: string | null;
         error?: {
             message: string;
         };
     }
 
     export interface Attribute {
-        branchId: number;
-        directoryId: number;
+        branchId: number | null;
+        directoryId: number | null;
         targetLanguageIds: string[];
         skipUntranslatedStrings: boolean;
         skipUntranslatedFiles: boolean;
@@ -486,6 +579,12 @@ export namespace TranslationsModel {
         // enterprise
         exportWithMinApprovalsCount: number;
         exportStringsThatPassedWorkflow: boolean;
+        // pseudo build
+        pseudo?: boolean;
+        prefix?: string;
+        suffix?: string;
+        lengthTransformation?: number;
+        charTransformation?: CharTransformation;
     }
 
     export interface BuildRequest {
@@ -532,6 +631,23 @@ export namespace TranslationsModel {
         storageId: number;
         languageId: string;
         fileId: number;
+        info?: {
+            imported: {
+                strings: number;
+                words: number;
+            };
+            approved: {
+                strings: number;
+                words: number;
+            };
+            skipped: {
+                translation_eq_source: number;
+                qa_check: number;
+                hidden_strings: number;
+                ai_error: number;
+            };
+            skippedQaCheckCategories: Record<string, number>;
+        };
     }
 
     export interface UploadTranslationStringsResponse {
@@ -695,13 +811,46 @@ export namespace TranslationsModel {
     export interface TranslationSearchResult {
         id: number;
         text: string;
+        pluralCategoryName?: string;
         projectId: number;
         stringId: number;
         languageId: string;
-        provider: string;
+        user?: {
+            id: number;
+            username: string;
+            fullName: string;
+            avatarUrl: string;
+        };
+        rating?: number;
+        provider: string | null;
+        providerId?: number | null;
         isPreTranslated: boolean;
-        matchRate: number;
-        matchType: string;
+        matchRate: number | null;
+        matchType: string | null;
         createdAt: string;
+        /**
+         * Enterprise only
+         */
+        workflowStepId?: number;
+    }
+
+    export interface ValidateQaChecksRequest {
+        stringId: number;
+        languageId: string;
+        text: string;
+        pluralCategoryName?: string;
+    }
+
+    export interface QaCheckValidationResult {
+        stringId: number;
+        languageId: string;
+        category: string;
+        categoryDescription: string;
+        validation: string;
+        validationDescription: string;
+        pluralId: number;
+        pluralCategoryName: string;
+        text: string;
+        translation: string;
     }
 }

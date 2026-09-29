@@ -86,14 +86,14 @@ export namespace WebhooksModel {
         id: number;
         projectId: number;
         name: string;
-        url: string;
+        url: string | null;
         events: Event[];
         headers: Record<string, string>;
         payload: Record<string, any>;
         isActive: boolean;
         batchingEnabled: boolean;
         requestType: RequestType;
-        contentType: ContentType;
+        contentType: ContentType | null;
         createdAt: string;
         updatedAt: string;
     }
@@ -119,9 +119,12 @@ export namespace WebhooksModel {
         | 'file.deleted'
         | 'file.translated'
         | 'file.approved'
+        | 'file.qa.finished'
         | 'project.translated'
         | 'project.approved'
+        | 'project.qa.finished'
         | 'project.built'
+        | 'preTranslation.completed'
         | 'translation.updated'
         | 'string.added'
         | 'string.updated'
@@ -137,6 +140,7 @@ export namespace WebhooksModel {
         | 'suggestion.disapproved'
         | 'task.added'
         | 'task.statusChanged'
+        | 'task.updated'
         | 'task.deleted';
 
     export type RequestType = 'POST' | 'GET';

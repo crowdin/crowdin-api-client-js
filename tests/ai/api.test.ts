@@ -25,6 +25,17 @@ describe('AI API', () => {
     const jobId = 'test-job';
     const eventId = '12312event';
     const memberId = 5;
+    const aiSnippetId = 7;
+    const exportId = '50fb3506-4127-4ba8-8296-f97dc7e3e0c3';
+    const snippetRequest: AiModel.AddAiSnippetRequest = {
+        description: aiPlaceholderDescription,
+        placeholder: aiPlaceholderPlaceholder,
+        value: aiPlaceholderValue,
+    };
+    const exportRequest: AiModel.ExportAiRequestLogsRequest = {
+        format: 'csv',
+        statuses: ['success', 'error'],
+    };
 
     const name = 'name';
     const action = 'pre_translate';
@@ -1317,6 +1328,160 @@ describe('AI API', () => {
             })
             .reply(200, {
                 data: { user: { id: memberId } },
+            })
+            .get('/ai/settings/snippets', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { id: aiSnippetId } }],
+                pagination: { offset: 0, limit },
+            })
+            .post('/ai/settings/snippets', snippetRequest, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(201, {
+                data: { id: aiSnippetId },
+            })
+            .get(`/ai/settings/snippets/${aiSnippetId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { id: aiSnippetId },
+            })
+            .patch(
+                `/ai/settings/snippets/${aiSnippetId}`,
+                [
+                    {
+                        value: aiPlaceholderValue,
+                        op: 'replace',
+                        path: '/value',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: { id: aiSnippetId },
+            })
+            .delete(`/ai/settings/snippets/${aiSnippetId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204)
+            .get(`/users/${userId}/ai/settings/snippets`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [{ data: { id: aiSnippetId } }],
+                pagination: { offset: 0, limit },
+            })
+            .post(`/users/${userId}/ai/settings/snippets`, snippetRequest, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(201, {
+                data: { id: aiSnippetId },
+            })
+            .get(`/users/${userId}/ai/settings/snippets/${aiSnippetId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { id: aiSnippetId },
+            })
+            .patch(
+                `/users/${userId}/ai/settings/snippets/${aiSnippetId}`,
+                [
+                    {
+                        value: aiPlaceholderValue,
+                        op: 'replace',
+                        path: '/value',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: { id: aiSnippetId },
+            })
+            .delete(`/users/${userId}/ai/settings/snippets/${aiSnippetId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204)
+            .post('/ai/request-logs/exports', exportRequest, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(201, {
+                data: { identifier: exportId, status: 'created' },
+            })
+            .get(`/ai/request-logs/exports/${exportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { identifier: exportId, status: 'finished' },
+            })
+            .get(`/ai/request-logs/exports/${exportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { url: link },
+            })
+            .post(`/users/${userId}/ai/request-logs/exports`, exportRequest, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(201, {
+                data: { identifier: exportId, status: 'created' },
+            })
+            .get(`/users/${userId}/ai/request-logs/exports/${exportId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { identifier: exportId, status: 'finished' },
+            })
+            .get(`/users/${userId}/ai/request-logs/exports/${exportId}/download`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { url: link },
+            })
+            .get(`/projects/${projectId}/ai/settings`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: { editorSuggestionAiPromptId: aiPromptId },
             });
     });
 
@@ -1946,5 +2111,106 @@ describe('AI API', () => {
     it('Get AI User Usage Member', async () => {
         const res = await api.getAiUserUsageMember(userId, memberId);
         expect(res.data.user.id).toBe(memberId);
+    });
+
+    it('List AI Organization Snippets', async () => {
+        const res = await api.listAiOrganizationSnippets();
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.id).toBe(aiSnippetId);
+        expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('Add AI Organization Snippet', async () => {
+        const res = await api.addAiOrganizationSnippet(snippetRequest);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Get AI Organization Snippet', async () => {
+        const res = await api.getAiOrganizationSnippet(aiSnippetId);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Edit AI Organization Snippet', async () => {
+        const res = await api.editAiOrganizationSnippet(aiSnippetId, [
+            {
+                op: 'replace',
+                path: '/value',
+                value: aiPlaceholderValue,
+            },
+        ]);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Delete AI Organization Snippet', async () => {
+        await api.deleteAiOrganizationSnippet(aiSnippetId);
+    });
+
+    it('List AI User Snippets', async () => {
+        const res = await api.listAiUserSnippets(userId);
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.id).toBe(aiSnippetId);
+        expect(res.pagination.limit).toBe(limit);
+    });
+
+    it('Add AI User Snippet', async () => {
+        const res = await api.addAiUserSnippet(userId, snippetRequest);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Get AI User Snippet', async () => {
+        const res = await api.getAiUserSnippet(userId, aiSnippetId);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Edit AI User Snippet', async () => {
+        const res = await api.editAiUserSnippet(userId, aiSnippetId, [
+            {
+                op: 'replace',
+                path: '/value',
+                value: aiPlaceholderValue,
+            },
+        ]);
+        expect(res.data.id).toBe(aiSnippetId);
+    });
+
+    it('Delete AI User Snippet', async () => {
+        await api.deleteAiUserSnippet(userId, aiSnippetId);
+    });
+
+    it('Export AI Organization Request Logs', async () => {
+        const res = await api.exportAiOrganizationRequestLogs(exportRequest);
+        expect(res.data.identifier).toBe(exportId);
+    });
+
+    it('Check AI Organization Request Logs Export Status', async () => {
+        const res = await api.checkAiOrganizationRequestLogsExportStatus(exportId);
+        expect(res.data.identifier).toBe(exportId);
+        expect(res.data.status).toBe('finished');
+    });
+
+    it('Download AI Organization Request Logs Export', async () => {
+        const res = await api.downloadAiOrganizationRequestLogsExport(exportId);
+        expect(res.data.url).toBe(link);
+    });
+
+    it('Export AI User Request Logs', async () => {
+        const res = await api.exportAiUserRequestLogs(userId, exportRequest);
+        expect(res.data.identifier).toBe(exportId);
+    });
+
+    it('Check AI User Request Logs Export Status', async () => {
+        const res = await api.checkAiUserRequestLogsExportStatus(userId, exportId);
+        expect(res.data.identifier).toBe(exportId);
+        expect(res.data.status).toBe('finished');
+    });
+
+    it('Download AI User Request Logs Export', async () => {
+        const res = await api.downloadAiUserRequestLogsExport(userId, exportId);
+        expect(res.data.url).toBe(link);
+    });
+
+    it('Get Project AI Settings', async () => {
+        const res = await api.getProjectAiSettings(projectId);
+        expect(res.data.editorSuggestionAiPromptId).toBe(aiPromptId);
     });
 });

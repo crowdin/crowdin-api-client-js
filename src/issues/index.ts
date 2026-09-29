@@ -1,12 +1,12 @@
 import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, ResponseList, ResponseObject } from '../core';
 
 /**
- * @deprecated
+ * @deprecated Use String Comments API instead
  * @ignore
  */
 export class Issues extends CrowdinApi {
     /**
-     * @deprecated
+     * @deprecated Use String Comments API instead
      * @param projectId project identifier
      * @param options optional parameters for listing reported issues
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.issues.getMany
@@ -49,11 +49,11 @@ export class Issues extends CrowdinApi {
         let url = `${this.url}/projects/${projectId}/issues`;
         url = this.addQueryParam(url, 'type', options.type);
         url = this.addQueryParam(url, 'status', options.status);
-        return this.getList(url, options.limit, deprecatedOffset);
+        return this.getList(url, options.limit, options.offset);
     }
 
     /**
-     * @deprecated
+     * @deprecated Use String Comments API instead
      * @param projectId project identifier
      * @param issueId issue identifier
      * @param request request body
@@ -66,7 +66,7 @@ export class Issues extends CrowdinApi {
 }
 
 /**
- * @deprecated
+ * @deprecated Use String Comments API instead
  */
 export namespace IssuesModel {
     export type Type = 'all' | 'general_question' | 'translation_mistake' | 'context_request' | 'source_mistake';

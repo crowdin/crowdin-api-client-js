@@ -27,6 +27,9 @@ describe('Translations API', () => {
     const limit = 25;
     const filter = 'hello';
     const translationId = 999;
+    const taskId = 77;
+    const stringId = 35434;
+    const qaText = 'Перша локалзація.';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -429,6 +432,80 @@ describe('Translations API', () => {
                     offset: 0,
                     limit: limit,
                 },
+            })
+            .get(`/projects/${projectId}/pre-translations`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ orderBy: 'createdAt desc' })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            identifier: preTranslationId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/pre-translations`,
+                {
+                    taskId,
+                    method: 'ai',
+                    translationModifiedAfter: '2024-01-01T00:00:00+00:00',
+                    notifyOnCompletion: true,
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    identifier: preTranslationId,
+                    attributes: {
+                        taskId,
+                    },
+                },
+            })
+            .post(
+                `/projects/${projectId}/translations/validate-qa-checks`,
+                [
+                    {
+                        stringId,
+                        languageId,
+                        text: qaText,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            stringId,
+                            languageId,
+                            category: 'spellcheck',
+                            validation: 'spellcheck',
+                            text: 'Spellcheck failed',
+                            translation: qaText,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
             });
     });
 
@@ -630,5 +707,30 @@ describe('Translations API', () => {
         expect(translations.data.length).toBe(1);
         expect(translations.data[0].data.id).toBe(translationId);
         expect(translations.pagination.limit).toBe(limit);
+    });
+
+    it('List Pre-Translations with orderBy', async () => {
+        const preTranslations = await api.listPreTranslations(projectId, { orderBy: 'createdAt desc' });
+        expect(preTranslations.data.length).toBe(1);
+        expect(preTranslations.data[0].data.identifier).toBe(preTranslationId);
+    });
+
+    it('Apply Pre-Translation by task', async () => {
+        const preTranslation = await api.applyPreTranslation(projectId, {
+            taskId,
+            method: 'ai',
+            translationModifiedAfter: '2024-01-01T00:00:00+00:00',
+            notifyOnCompletion: true,
+        });
+        expect(preTranslation.data.identifier).toBe(preTranslationId);
+        expect(preTranslation.data.attributes.taskId).toBe(taskId);
+    });
+
+    it('Validate text by QA Checks', async () => {
+        const res = await api.validateQaChecks(projectId, [{ stringId, languageId, text: qaText }]);
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.stringId).toBe(stringId);
+        expect(res.data[0].data.category).toBe('spellcheck');
+        expect(res.data[0].data.translation).toBe(qaText);
     });
 });

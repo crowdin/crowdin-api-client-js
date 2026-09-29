@@ -51,6 +51,7 @@ export class StringComments extends CrowdinApi {
             };
         }
         url = this.addQueryParam(url, 'stringId', options.stringId);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
         url = this.addQueryParam(url, 'type', options.type);
         url = this.addQueryParam(url, 'targetLanguageId', options.targetLanguageId);
         url = this.addQueryParam(url, 'issueType', options.issueType);
@@ -66,7 +67,7 @@ export class StringComments extends CrowdinApi {
      */
     addStringComment(
         projectId: number,
-        request: StringCommentsModel.AddStringCommentRequest,
+        request: StringCommentsModel.AddStringCommentRequest | StringCommentsModel.AddAssetCommentRequest,
     ): Promise<ResponseObject<StringCommentsModel.StringComment>> {
         const url = `${this.url}/projects/${projectId}/comments`;
         return this.post(url, request, this.defaultConfig());
@@ -142,6 +143,10 @@ export class StringComments extends CrowdinApi {
 export namespace StringCommentsModel {
     export interface ListStringCommentsOptions extends PaginationOptions {
         stringId?: number;
+        /**
+         * File-based projects only. Filter asset comments by file identifier
+         */
+        fileId?: number;
         type?: Type;
         targetLanguageId?: string;
         issueType?: IssueType;
@@ -175,6 +180,21 @@ export namespace StringCommentsModel {
         resolvedAt: string;
         createdAt: string;
         attachments?: Attachment[];
+        /**
+         * Asset comments only (file-based projects)
+         */
+        fileId?: number | null;
+        /**
+         * Asset comments only (file-based projects)
+         */
+        file?: AssetFile;
+    }
+
+    export interface AssetFile {
+        id: number;
+        name: string;
+        type: string;
+        context: string;
     }
 
     export interface Attachment {
@@ -210,6 +230,19 @@ export namespace StringCommentsModel {
         text: string;
         targetLanguageId: string;
         type: Type;
+        isShared?: boolean;
+        issueType?: IssueType;
+        attachments?: AttachmentRequest[];
+    }
+
+    /**
+     * File-based projects only
+     */
+    export interface AddAssetCommentRequest {
+        fileId: number;
+        text: string;
+        type: Type;
+        targetLanguageId?: string;
         isShared?: boolean;
         issueType?: IssueType;
         attachments?: AttachmentRequest[];

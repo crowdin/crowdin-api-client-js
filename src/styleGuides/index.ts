@@ -77,7 +77,7 @@ export namespace StyleGuidesModel {
     export interface CreateStyleGuideRequest {
         name: string;
         storageId: number | null;
-        aiInstructions?: string;
+        aiInstructions?: string | null;
         languageIds?: string[];
         projectIds?: number[];
         isShared?: boolean;

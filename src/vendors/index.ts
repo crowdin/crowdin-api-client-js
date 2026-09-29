@@ -35,7 +35,7 @@ export namespace VendorsModel {
     export interface Vendor {
         id: number;
         name: string;
-        description: string;
+        description: string | null;
         status: 'pending' | 'confirmed' | 'rejected';
         webUrl: string;
     }

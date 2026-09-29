@@ -252,6 +252,9 @@ export class TranslationStatus extends CrowdinApi {
             Array.isArray(options.validation) ? options.validation.join(',') : options.validation,
         );
         url = this.addQueryParam(url, 'languageIds', options.languageIds);
+        url = this.addQueryParam(url, 'taskId', options.taskId);
+        url = this.addQueryParam(url, 'fileId', options.fileId);
+        url = this.addQueryParam(url, 'branchId', options.branchId);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -298,9 +301,17 @@ export namespace TranslationStatusModel {
         phrases: Words;
         translationProgress: number;
         approvalProgress: number;
+        qaChecksStatus?: QaChecksStatus;
         eTag: string;
         languageId: string;
         language: LanguagesModel.Language;
+    }
+
+    export interface QaChecksStatus {
+        total: number;
+        inProgress: number;
+        passed: number;
+        failed: number;
     }
 
     export interface FileProgress {
@@ -308,6 +319,7 @@ export namespace TranslationStatusModel {
         phrases: Words;
         translationProgress: number;
         approvalProgress: number;
+        qaChecksStatus?: QaChecksStatus;
         /**
          * for strings-based projects
          */
@@ -382,6 +394,15 @@ export namespace TranslationStatusModel {
         category?: Category | Category[];
         validation?: Validation | Validation[];
         languageIds?: string;
+        taskId?: number;
+        /**
+         * for file-based projects
+         */
+        fileId?: number;
+        /**
+         * for strings-based projects
+         */
+        branchId?: number;
     }
 
     export interface QaCheck {
@@ -403,11 +424,19 @@ export namespace TranslationStatusModel {
         qaCheckCategories?: string[];
         languageIds?: string[];
         failedOnly?: boolean;
+        /**
+         * Enterprise only
+         */
+        externalQaCheckIds?: number[];
     }
 
     export interface QaChecksRevalidationAttributes {
         languageIds: string[];
         qaCheckCategories: string[];
         failedOnly: boolean;
+        /**
+         * Enterprise only
+         */
+        externalQaCheckIds?: number[];
     }
 }

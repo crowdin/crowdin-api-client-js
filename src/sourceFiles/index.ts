@@ -295,7 +295,7 @@ export class SourceFiles extends CrowdinApi {
         url = this.addQueryParam(url, 'branchId', options.branchId);
         url = this.addQueryParam(url, 'directoryId', options.directoryId);
         url = this.addQueryParam(url, 'filter', options.filter);
-        url = this.addQueryParam(url, 'recursion', options.recursion);
+        url = this.addQueryParam(url, 'recursion', options.recursion?.toString());
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
         return this.getList(url, options.limit, options.offset);
     }
@@ -739,8 +739,9 @@ export namespace SourceFilesModel {
         title: string;
         exportPattern: string;
         priority: Priority;
+        isProtected?: boolean;
         createdAt: string;
-        updatedAt: string;
+        updatedAt: string | null;
     }
 
     export interface CreateBranchRequest {
@@ -748,11 +749,13 @@ export namespace SourceFilesModel {
         title?: string;
         exportPattern?: string;
         priority?: Priority;
+        isProtected?: boolean;
     }
 
     export interface CloneBranchRequest {
         name: string;
         title?: string;
+        isProtected?: boolean;
     }
 
     export interface MergeBranchRequest {
@@ -766,6 +769,7 @@ export namespace SourceFilesModel {
         sourceBranchId: number;
         deleteAfterMerge: boolean;
         acceptSourceChanges?: boolean;
+        dryRun?: boolean;
     }
 
     export interface MergeBranchSummary {
@@ -773,6 +777,7 @@ export namespace SourceFilesModel {
         sourceBranchId: number;
         targetBranchId: number;
         dryRun: boolean;
+        acceptSourceChanges?: boolean;
         details: {
             added: number;
             deleted: number;
@@ -787,22 +792,22 @@ export namespace SourceFilesModel {
         branchId?: number;
         directoryId?: number;
         filter?: string;
-        recursion?: string;
+        recursion?: string | boolean;
         orderBy?: string;
     }
 
     export interface Directory {
         id: number;
         projectId: number;
-        branchId: number;
-        directoryId: number;
+        branchId: number | null;
+        directoryId: number | null;
         name: string;
         title: string;
         exportPattern: string;
         path: string;
         priority: Priority;
-        createdAt: string;
-        updatedAt: string;
+        createdAt: string | null;
+        updatedAt: string | null;
     }
 
     export interface CreateDirectoryRequest {
@@ -825,22 +830,22 @@ export namespace SourceFilesModel {
     export interface File {
         id: number;
         projectId: number;
-        branchId: number;
-        directoryId: number;
+        branchId: number | null;
+        directoryId: number | null;
         name: string;
-        title: string;
-        context: string;
+        title: string | null;
+        context: string | null;
         type: string;
         path: string;
         status: string;
         revisionId: number;
         priority: Priority;
-        importOptions: ImportOptions;
-        exportOptions: GeneralExportOptions | PropertyExportOptions;
-        excludedTargetLanguages: string[];
-        parserVersion: number;
-        createdAt: string;
-        updatedAt: string;
+        importOptions: ImportOptions | null;
+        exportOptions: ExportOptions | null;
+        excludedTargetLanguages: string[] | null;
+        parserVersion: number | null;
+        createdAt: string | null;
+        updatedAt: string | null;
         fields: Record<string, any>;
     }
 
@@ -855,9 +860,9 @@ export namespace SourceFilesModel {
         parserVersion?: number;
         importOptions?: ImportOptions;
         exportOptions?: ExportOptions;
-        excludedTargetLanguages?: string[];
+        excludedTargetLanguages?: string[] | null;
         attachLabelIds?: number[];
-        fields?: Record<string, any>;
+        fields?: Record<string, any> | null;
     }
 
     export interface ReplaceFileFromStorageRequest {
@@ -875,19 +880,23 @@ export namespace SourceFilesModel {
         | GeneralExportOptions
         | PropertyExportOptions
         | JavaScriptExportOptions
-        | MdExportOptions;
+        | MdExportOptions
+        | DocxFileExportOptions;
 
     export type ImportOptions =
         | SpreadsheetImportOptions
         | XmlImportOptions
         | WebXmlImportOptions
         | DocxFileImportOptions
+        | VsdxFileImportOptions
+        | IdmlFileImportOptions
         | HtmlFileImportOptions
         | HtmlFrontMatterFileImportOptions
         | MdxFileImportOptions
         | MdFileImportOptions
         | StringCatalogFileImportOptions
         | AdocFileImportOptions
+        | VdfFileImportOptions
         | OtherImportOptions;
 
     export interface RestoreFile {
@@ -898,7 +907,7 @@ export namespace SourceFilesModel {
         id: number;
         projectId: number;
         fileId: number;
-        restoreToRevision: number;
+        restoreToRevision: number | null;
         info: FileRevisionInfo;
         date: string;
     }
@@ -944,11 +953,14 @@ export namespace SourceFilesModel {
         | 'txt'
         | 'csv'
         | 'md'
+        | 'mdx_v1'
+        | 'mdx_v2'
         | 'flsnp'
         | 'fm_html'
         | 'fm_md'
         | 'mediawiki'
         | 'docx'
+        | 'vsdx'
         | 'xlsx'
         | 'sbv'
         | 'properties_play'
@@ -970,10 +982,23 @@ export namespace SourceFilesModel {
         | 'js'
         | 'coffee'
         | 'nestjs_i18n'
-        | 'webxml';
+        | 'webxml'
+        | 'ts'
+        | 'i18next_json'
+        | 'xaml'
+        | 'arb'
+        | 'adoc'
+        | 'fbt'
+        | 'loc';
 
     export interface SpreadsheetImportOptions {
         firstLineContainsHeader?: boolean;
+        importHiddenSheets?: boolean;
+        importHiddenRows?: boolean;
+        importEqSuggestions?: boolean;
+        autoApproveImported?: boolean;
+        translateHidden?: boolean;
+        addToTm?: boolean;
         contentSegmentation?: boolean;
         srxStorageId?: number;
         importTranslations?: boolean;
@@ -1003,6 +1028,7 @@ export namespace SourceFilesModel {
 
     export interface WebXmlImportOptions {
         inlineTags?: string[];
+        hideAttributeValues?: boolean;
         contentSegmentation?: boolean;
         srxStorageId?: number;
     }
@@ -1016,11 +1042,51 @@ export namespace SourceFilesModel {
         importHiddenSlides?: boolean;
         contentSegmentation?: boolean;
         srxStorageId?: number;
+        translateDocProperties?: boolean;
+        translateComments?: boolean;
+        ignoreWhitespaceStyles?: boolean;
+        addTabAsCharacter?: boolean;
+        addLineSeparatorAsCharacter?: boolean;
+        lineSeparatorReplacement?: string;
+        replaceNoBreakHyphenTag?: boolean;
+        ignoreSoftHyphenTag?: boolean;
+        complexFieldDefinitionsToExtract?: string[];
+        translateWordHeadersFooters?: boolean;
+        translateWordGraphicName?: boolean;
+        translateWordGraphicDescription?: boolean;
+        ignoreWordFontColors?: boolean;
+        wordFontColorsMinIgnoranceThreshold?: string;
+        wordFontColorsMaxIgnoranceThreshold?: string;
+        excludeWordStyles?: string[];
+        translateWordInExcludeStyleMode?: boolean;
+        wordHighlightColors?: string[];
+        translateWordInExcludeHighlightMode?: boolean;
+        translateWordExcludeColors?: boolean;
+        wordExcludedColors?: string[];
+        translateExcelCellsCopied?: boolean;
+        translateExcelSheetNames?: boolean;
+        excelExcludedColors?: string[];
+        translateExcelDiagramData?: boolean;
+        translateExcelDrawings?: boolean;
+    }
+
+    export interface VsdxFileImportOptions {
+        cleanTagsAggressively?: boolean;
+        translateHyperlinkUrls?: boolean;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
+    }
+
+    export interface IdmlFileImportOptions {
+        inlineHyperlinkText?: boolean;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface HtmlFileImportOptions {
         excludedElements?: string[];
         inlineTags?: string[];
+        hideAttributeValues?: boolean;
         contentSegmentation?: boolean;
         srxStorageId?: number;
     }
@@ -1046,15 +1112,21 @@ export namespace SourceFilesModel {
 
     export interface StringCatalogFileImportOptions {
         importKeyAsSource?: boolean;
+        importTranslations?: boolean;
     }
 
     export interface AdocFileImportOptions {
         excludeIncludeDirectives?: boolean;
     }
 
+    export interface VdfFileImportOptions {
+        convertIcu?: boolean;
+        addGenderArgument?: boolean;
+    }
+
     export interface OtherImportOptions {
-        contentSegmentation: boolean;
-        srxStorageId: number;
+        contentSegmentation?: boolean;
+        srxStorageId?: number;
     }
 
     export interface GeneralExportOptions {
@@ -1076,8 +1148,15 @@ export namespace SourceFilesModel {
         exportPattern?: string;
         strongMarker?: 'asterisk' | 'underscore';
         emphasisMarker?: 'asterisk' | 'underscore';
-        unorderedListBullet?: 'asterisks' | 'plus' | 'plus';
+        unorderedListBullet?: 'asterisks' | 'plus' | 'dash';
         tableColumnWidth?: 'consolidate' | 'evenly_distribute_cells';
+        frontMatterQuotes?: 'auto' | 'single' | 'double';
+    }
+
+    export interface DocxFileExportOptions {
+        exportPattern?: string;
+        allowWordStyleOptimization?: boolean;
+        translateExcelExcludeColors?: boolean;
     }
 
     export enum EscapeQuotes {
@@ -1106,7 +1185,7 @@ export namespace SourceFilesModel {
     }
 
     export interface ReviewedSourceFilesBuildAttributes {
-        branchId: number;
+        branchId: number | null;
         targetLanguageId: string;
     }
 
@@ -1133,6 +1212,7 @@ export namespace SourceFilesModel {
     export interface AssetReference {
         id: number;
         name: string;
+        url: string;
         user: User;
         createdAt: string;
         mimeType: string;

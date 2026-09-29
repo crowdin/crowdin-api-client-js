@@ -14,6 +14,10 @@ describe('Applications API', () => {
     const installUrl = '/applications/installations';
     const consentsUrl = '/applications/consents';
     const consentId = 1;
+    const kvUrl = `/applications/${applicationId}/storage/kv/records`;
+    const recordKey = 'user:1';
+    const storageId = 5;
+    const manifestHash = 'abc123';
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -132,7 +136,75 @@ describe('Applications API', () => {
                     Authorization: `Bearer ${api.token}`,
                 },
             })
-            .reply(200);
+            .reply(200)
+            .get(installUrl, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ installedBy: 2, orderBy: 'createdAt' })
+            .reply(200)
+            .get(`${installUrl}/${applicationId}/update`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, { data: { manifestHash, hasChanges: true } })
+            .post(
+                `${installUrl}/${applicationId}/update`,
+                { manifestHash },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, { data: { identifier: applicationId } })
+            .post(
+                `${installUrl}/${applicationId}/bundles`,
+                { storageId },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(201, { data: { identifier: applicationId } })
+            .get(kvUrl, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({ prefix: 'user', orderBy: 'key' })
+            .reply(200, { data: [{ data: { key: recordKey } }], pagination: { offset: 0, limit: 25 } })
+            .post(
+                kvUrl,
+                { key: recordKey, value: { a: 1 }, ttl: 60 },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(201, { data: { key: recordKey } })
+            .get(`${kvUrl}/${encodeURIComponent(recordKey)}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, { data: { key: recordKey } })
+            .patch(`${kvUrl}/${encodeURIComponent(recordKey)}`, [{ op: 'replace', path: '/value', value: 'b' }], {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, { data: { key: recordKey } })
+            .delete(`${kvUrl}/${encodeURIComponent(recordKey)}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204);
     });
 
     afterAll(() => {
@@ -208,5 +280,51 @@ describe('Applications API', () => {
 
     it('Delete Application Consent Decision', async () => {
         await api.deleteApplicationConsentDecision(consentId);
+    });
+
+    it('List Application Installations with filters', async () => {
+        await api.listApplicationInstallations({ installedBy: 2, orderBy: 'createdAt' });
+    });
+
+    it('Get Application Installation Update', async () => {
+        const res = await api.getApplicationInstallationUpdate(applicationId);
+        expect(res.data.manifestHash).toBe(manifestHash);
+    });
+
+    it('Apply Application Installation Update', async () => {
+        const res = await api.applyApplicationInstallationUpdate(applicationId, { manifestHash });
+        expect(res.data.identifier).toBe(applicationId);
+    });
+
+    it('Upload Application Bundle', async () => {
+        const res = await api.uploadApplicationBundle(applicationId, { storageId });
+        expect(res.data.identifier).toBe(applicationId);
+    });
+
+    it('List Application Storage Records', async () => {
+        const res = await api.listApplicationStorageRecords(applicationId, { prefix: 'user', orderBy: 'key' });
+        expect(res.data.length).toBe(1);
+        expect(res.data[0].data.key).toBe(recordKey);
+    });
+
+    it('Add Application Storage Record', async () => {
+        const res = await api.addApplicationStorageRecord(applicationId, { key: recordKey, value: { a: 1 }, ttl: 60 });
+        expect(res.data.key).toBe(recordKey);
+    });
+
+    it('Get Application Storage Record', async () => {
+        const res = await api.getApplicationStorageRecord(applicationId, recordKey);
+        expect(res.data.key).toBe(recordKey);
+    });
+
+    it('Edit Application Storage Record', async () => {
+        const res = await api.editApplicationStorageRecord(applicationId, recordKey, [
+            { op: 'replace', path: '/value', value: 'b' },
+        ]);
+        expect(res.data.key).toBe(recordKey);
+    });
+
+    it('Delete Application Storage Record', async () => {
+        await api.deleteApplicationStorageRecord(applicationId, recordKey);
     });
 });

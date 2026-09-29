@@ -22,6 +22,7 @@ describe('Projects and Groups API', () => {
     const limit = 25;
 
     const stringExporterSettingsId = 2;
+    const userId = 5;
 
     beforeAll(() => {
         scope = nock(api.url)
@@ -373,6 +374,64 @@ describe('Projects and Groups API', () => {
                     offset: 0,
                     limit: limit,
                 },
+            })
+            .get(`/groups?filter=${groupName}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: groupId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects?filter=${projectName}&userId=${userId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: projectId,
+                            name: projectName,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .patch(
+                `/projects/${projectId}/strings-exporter-settings/${stringExporterSettingsId}`,
+                [
+                    {
+                        value: format,
+                        op: 'replace',
+                        path: '/format',
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: stringExporterSettingsId,
+                    format,
+                },
             });
     });
 
@@ -543,5 +602,29 @@ describe('Projects and Groups API', () => {
         const projects = await api.listProjects({ groupId: rootGroupId });
         expect(projects.data.length).toBe(1);
         expect(projects.data[0].data.id).toBe(projectId);
+    });
+
+    it('List groups with filter', async () => {
+        const groups = await api.listGroups({ filter: groupName });
+        expect(groups.data.length).toBe(1);
+        expect(groups.data[0].data.id).toBe(groupId);
+    });
+
+    it('List projects with filter and userId', async () => {
+        const projects = await api.listProjects({ filter: projectName, userId });
+        expect(projects.data.length).toBe(1);
+        expect(projects.data[0].data.id).toBe(projectId);
+    });
+
+    it('Edit project string exporter settings with JSON Patch', async () => {
+        const stringSettings = await api.editProjectStringsExporterSettings(projectId, stringExporterSettingsId, [
+            {
+                value: format,
+                op: 'replace',
+                path: '/format',
+            },
+        ]);
+        expect(stringSettings.data.id).toBe(stringExporterSettingsId);
+        expect(stringSettings.data.format).toBe(format);
     });
 });

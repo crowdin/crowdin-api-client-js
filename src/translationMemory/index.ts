@@ -49,6 +49,7 @@ export class TranslationMemory extends CrowdinApi {
         url = this.addQueryParam(url, 'groupId', options.groupId);
         url = this.addQueryParam(url, 'userId', options.userId);
         url = this.addQueryParam(url, 'orderBy', options.orderBy);
+        url = this.addQueryParam(url, 'filter', options.filter);
         return this.getList(url, options.limit, options.offset);
     }
 
@@ -263,7 +264,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param recordId record identifier
@@ -275,7 +276,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param recordId record identifier
@@ -293,7 +294,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param request request body
@@ -312,22 +313,26 @@ export class TranslationMemory extends CrowdinApi {
 export namespace TranslationMemoryModel {
     export interface TranslationMemory {
         id: number;
-        groupId: number;
-        userId: number;
+        /** Enterprise only */
+        groupId: number | null;
+        userId: number | null;
         name: string;
-        languageId: string;
-        languageIds: string[];
+        languageId: string | null;
+        languageIds: string[] | null;
         segmentsCount: number;
         defaultProjectIds: number[];
-        projectIds: number[];
-        createdAt: string;
+        projectIds: number[] | null;
+        isShared: boolean;
+        createdAt: string | null;
         webUrl: string;
     }
 
     export interface AddTranslationMemoryRequest {
         name: string;
         languageId: string;
+        /** Enterprise only */
         groupId?: number;
+        isShared?: boolean;
     }
 
     export interface ConcordanceSearchRequest {
@@ -357,13 +362,13 @@ export namespace TranslationMemoryModel {
         source: string;
         target: string;
         relevant: number;
-        substituted: string;
-        updatedAt: string;
+        substituted: string | null;
+        updatedAt: string | null;
     }
 
     export interface ExportTranslationMemoryRequest {
-        sourceLanguageId?: number;
-        targetLanguageId?: number;
+        sourceLanguageId?: string;
+        targetLanguageId?: string;
         format?: Format;
     }
 
@@ -382,7 +387,7 @@ export namespace TranslationMemoryModel {
     export interface ImportTranslationMemoryAttribute {
         tmId: number;
         storageId: number;
-        firstLineContainsHeader: number;
+        firstLineContainsHeader: boolean | null;
         scheme: Scheme;
     }
 
@@ -396,6 +401,8 @@ export namespace TranslationMemoryModel {
         groupId?: number;
         userId?: number;
         orderBy?: string;
+        /** Filter TMs by `name` */
+        filter?: string;
     }
 
     export interface ListSegmentsOptions extends PaginationOptions {
@@ -415,8 +422,8 @@ export namespace TranslationMemoryModel {
         usageCount: number;
         createdBy: number;
         updatedBy: number;
-        createdAt: string;
-        updatedAt: string;
+        createdAt: string | null;
+        updatedAt: string | null;
     }
 
     export interface AddTMSegment {

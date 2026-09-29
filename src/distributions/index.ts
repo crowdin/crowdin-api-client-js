@@ -147,20 +147,20 @@ export namespace DistributionsModel {
     }
 
     export interface DistributionRelease {
-        status: string;
-        progress: number;
-        currentLanguageId: string;
-        currentFileId: number;
-        date: string;
+        status: string | null;
+        progress: number | null;
+        currentLanguageId: string | null;
+        currentFileId: number | null;
+        date: string | null;
         error?: { message: string };
     }
 
     export interface DistributionStringsBasedRelease {
-        status: string;
-        progress: number;
-        currentLanguageId: string;
-        currentBranchId: number;
-        date: string;
+        status: string | null;
+        progress: number | null;
+        currentLanguageId: string | null;
+        currentBranchId: number | null;
+        date: string | null;
         error?: { message: string };
     }
 

@@ -76,13 +76,14 @@ export namespace LanguagesModel {
         threeLettersCode: string;
         locale: string;
         androidCode: string;
+        bcp47Code: string;
         osxCode: string;
         osxLocale: string;
         pluralCategoryNames: string[];
         pluralRules: string;
         pluralExamples: string[];
         textDirection: TextDirection;
-        dialectOf: string;
+        dialectOf: string | null;
     }
 
     export interface AddLanguageRequest {

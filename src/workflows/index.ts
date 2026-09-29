@@ -155,6 +155,10 @@ export namespace WorkflowModel {
         languages: string[];
         config: {
             assignees: { [language: string]: number[] };
+            vendorId?: number;
+            minRelevant?: string;
+            autoSubstitution?: number;
+            mtId?: number;
         };
     }
 

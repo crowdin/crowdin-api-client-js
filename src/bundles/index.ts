@@ -128,6 +128,7 @@ export class Bundles extends CrowdinApi {
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/string-based/#tag/Translations/operation/api.projects.bundles.branches.getMany
      */
     listBundleBranches(
         projectId: number,
@@ -143,14 +144,19 @@ export namespace BundlesModel {
     export interface Bundle {
         id: number;
         name: string;
-        format: string;
+        format: string | null;
         sourcePatterns: string[];
         ignorePatterns: string[];
-        exportPattern: string;
+        exportPattern: string | null;
         isMultilingual: boolean;
         includeProjectSourceLanguage: boolean;
+        includeInContextPseudoLanguage: boolean;
+        sourceLanguageExportPattern: string;
+        labelMatchRule: LabelMatchRule | null;
+        excludeLabelMatchRule: LabelMatchRule | null;
         labelIds: number[];
         excludeLabelIds: number[];
+        languageIds: string[] | null;
         createdAt: string;
         webUrl: string;
         updatedAt: string;
@@ -158,16 +164,22 @@ export namespace BundlesModel {
 
     export interface CreateBundleRequest {
         name: string;
-        format: string;
+        format?: string;
         sourcePatterns: string[];
         ignorePatterns?: string[];
-        exportPattern: string;
+        exportPattern?: string | null;
         isMultilingual?: boolean;
         includeProjectSourceLanguage?: boolean;
+        sourceLanguageExportPattern?: string;
         includeInContextPseudoLanguage?: boolean;
         labelIds?: number[];
         excludeLabelIds?: number[];
+        labelMatchRule?: LabelMatchRule | null;
+        excludeLabelMatchRule?: LabelMatchRule | null;
+        languageIds?: string[] | null;
     }
+
+    export type LabelMatchRule = 'all' | 'any';
 
     export interface ExportBundleRequest {
         targetLanguageIds?: string[];
