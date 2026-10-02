@@ -24,3 +24,7 @@ updates:
     target-branch: "master"
     schedule:
       interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
