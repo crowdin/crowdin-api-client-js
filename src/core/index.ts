@@ -1,11 +1,11 @@
-import { AxiosError } from 'axios';
+import { handleHttpClientError } from './error-handling';
 import { HttpClient } from './http-client';
-import { HttpClientError, toHttpClientError } from './http-client-error';
+import { toHttpClientError } from './http-client-error';
 import { AxiosProvider } from './internal/axios/axiosProvider';
 import { FetchClient } from './internal/fetch/fetchClient';
-import { FetchClientJsonPayloadError } from './internal/fetch/fetchClientError';
 import { RetryConfig, RetryService } from './internal/retry';
 
+export * from './error-handling';
 export * from './http-client';
 
 export type HttpClientType = 'axios' | 'fetch';
@@ -114,91 +114,6 @@ export interface Attribute {
 }
 
 export type PlainObject = Record<string, any>;
-
-/**
- * @internal
- */
-export class CrowdinError extends Error {
-    public apiError: any;
-    public code: number;
-    constructor(message: string, code: number, apiError: any) {
-        super(message);
-        this.code = code;
-        this.apiError = apiError;
-    }
-}
-
-/**
- * @internal
- */
-export class CrowdinValidationError extends CrowdinError {
-    public validationCodes: { key: string; codes: string[] }[];
-    constructor(message: string, validationCodes: { key: string; codes: string[] }[], apiError: any) {
-        super(message, 400, apiError);
-        this.validationCodes = validationCodes;
-    }
-}
-
-function isAxiosError(error: any): error is AxiosError {
-    return error instanceof AxiosError || !!error.response?.data;
-}
-
-/**
- * @internal
- */
-export function handleHttpClientError(error: HttpClientError): never {
-    let crowdinResponseErrors: any = null;
-
-    if (isAxiosError(error)) {
-        crowdinResponseErrors = (error.response?.data as any)?.errors || (error.response?.data as any)?.error;
-    } else if (error instanceof FetchClientJsonPayloadError) {
-        crowdinResponseErrors =
-            error.jsonPayload &&
-            typeof error.jsonPayload === 'object' &&
-            ('errors' in error.jsonPayload || 'error' in error.jsonPayload)
-                ? error.jsonPayload.errors || error.jsonPayload.error
-                : null;
-    }
-
-    if (Array.isArray(crowdinResponseErrors)) {
-        const validationCodes: { key: string; codes: string[] }[] = [];
-        const validationMessages: string[] = [];
-        crowdinResponseErrors.forEach((e: any) => {
-            if (typeof e.index === 'number' || typeof e.error?.key === 'number') {
-                throw new CrowdinValidationError(
-                    JSON.stringify(crowdinResponseErrors, null, 2),
-                    [],
-                    crowdinResponseErrors,
-                );
-            }
-            if (e.error?.key && Array.isArray(e.error?.errors)) {
-                const codes: string[] = [];
-                e.error.errors.forEach((er: any) => {
-                    if (er.message && er.code) {
-                        codes.push(er.code);
-                        validationMessages.push(er.message);
-                    }
-                });
-                validationCodes.push({ key: e.error.key, codes });
-            }
-        });
-        const message = validationMessages.length === 0 ? 'Validation error' : validationMessages.join(', ');
-        throw new CrowdinValidationError(message, validationCodes, crowdinResponseErrors);
-    } else if (crowdinResponseErrors?.message && crowdinResponseErrors?.code) {
-        throw new CrowdinError(crowdinResponseErrors.message, crowdinResponseErrors.code, crowdinResponseErrors);
-    }
-
-    if (error instanceof Error) {
-        const code =
-            error instanceof AxiosError && error.response?.status
-                ? error.response?.status
-                : error instanceof FetchClientJsonPayloadError
-                  ? error.statusCode
-                  : 500;
-        throw new CrowdinError(error.message, code, crowdinResponseErrors);
-    }
-    throw new CrowdinError(`unknown http error: ${String(error)}`, 500, crowdinResponseErrors);
-}
 
 export abstract class CrowdinApi {
     private static readonly CROWDIN_API_DOMAIN: string = 'api.crowdin.com';

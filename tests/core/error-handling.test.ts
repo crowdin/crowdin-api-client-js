@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { CrowdinValidationError, handleHttpClientError } from '../../src/core/';
+import { CrowdinError, CrowdinValidationError, handleHttpClientError } from '../../src/core/';
 import { FetchClientJsonPayloadError } from '../../src/core/internal/fetch/fetchClientError';
 
 const genericCrowdinErrorPayload = {
@@ -84,14 +84,46 @@ const unrecognizedErrorPayload = {
     errors: [{ foo: 'bar' }],
 };
 
-const createAxiosError = (errorPayload: unknown): AxiosError => {
+/**
+ * Errors an application returns through the applications proxy
+ * (`/applications/{identifier}/api/{path}`) arrive with the application's own status code and
+ * body, wrapped by Crowdin in the same `data` envelope as a successful response.
+ */
+const proxiedApplicationErrorPayload = {
+    data: {
+        error: {
+            message: 'Missing required parameter: projectId',
+        },
+    },
+};
+
+const proxiedApplicationStringErrorPayload = {
+    data: {
+        error: 'Access denied',
+    },
+};
+
+const proxiedApplicationCodedErrorPayload = {
+    data: {
+        message: 'Supplied crowdinToken is invalid or does not belong to this organization',
+        code: 402,
+    },
+};
+
+const proxiedApplicationDataPayload = {
+    data: {
+        foo: 'bar',
+    },
+};
+
+const createAxiosError = (errorPayload: unknown, status = 200): AxiosError => {
     /**
      * Create an axios error matching Crowdin error responses.
      * @see https://github.com/axios/axios/blob/3772c8fe74112a56e3e9551f894d899bc3a9443a/test/specs/core/AxiosError.spec.js#L7
      */
     const request = { path: '/api/foo' };
     const response = {
-        status: 200,
+        status,
         data: errorPayload,
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,6 +188,70 @@ describe('core http error handling', () => {
                     key: 'ERROR_KEY',
                 },
             ]);
+        }
+    });
+
+    it('should surface an application error returned through the applications proxy with axios client', () => {
+        const error = createAxiosError(proxiedApplicationErrorPayload, 400);
+        try {
+            handleHttpClientError(error);
+            throw new Error('expected re-throw');
+        } catch (e) {
+            expect(e).toBeInstanceOf(CrowdinError);
+            expect(e).not.toBeInstanceOf(CrowdinValidationError);
+            const err = e as CrowdinError;
+            expect(err.message).toBe('Missing required parameter: projectId');
+            expect(err.code).toBe(400);
+            expect(err.apiError).toEqual(proxiedApplicationErrorPayload);
+        }
+    });
+
+    it('should surface an application error returned through the applications proxy with fetch client', () => {
+        const error = new FetchClientJsonPayloadError('foo', proxiedApplicationErrorPayload, 403);
+        try {
+            handleHttpClientError(error);
+            throw new Error('expected re-throw');
+        } catch (e) {
+            const err = e as CrowdinError;
+            expect(err.message).toBe('Missing required parameter: projectId');
+            expect(err.code).toBe(403);
+            expect(err.apiError).toEqual(proxiedApplicationErrorPayload);
+        }
+    });
+
+    it('should surface a plain string application error returned through the applications proxy', () => {
+        const error = createAxiosError(proxiedApplicationStringErrorPayload, 403);
+        try {
+            handleHttpClientError(error);
+            throw new Error('expected re-throw');
+        } catch (e) {
+            const err = e as CrowdinError;
+            expect(err.message).toBe('Access denied');
+            expect(err.code).toBe(403);
+        }
+    });
+
+    it('should prefer the numeric code an application error carries over the http status', () => {
+        const error = createAxiosError(proxiedApplicationCodedErrorPayload, 400);
+        try {
+            handleHttpClientError(error);
+            throw new Error('expected re-throw');
+        } catch (e) {
+            const err = e as CrowdinError;
+            expect(err.message).toBe('Supplied crowdinToken is invalid or does not belong to this organization');
+            expect(err.code).toBe(402);
+        }
+    });
+
+    it('should not mistake proxied application data without an error member for an error payload', () => {
+        const error = createAxiosError(proxiedApplicationDataPayload, 500);
+        try {
+            handleHttpClientError(error);
+            throw new Error('expected re-throw');
+        } catch (e) {
+            const err = e as CrowdinError;
+            expect(err.message).toBe('Boom!');
+            expect(err.code).toBe(500);
         }
     });
 
