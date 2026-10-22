@@ -7,6 +7,7 @@ import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../
  */
 export class ExternalQaChecks extends CrowdinApi {
     /**
+     * @requiredScope external-qa-check:read
      * @param options optional pagination and filter parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/External-QA-Checks/operation/api.external-qa-checks.getMany
      */
@@ -19,6 +20,7 @@ export class ExternalQaChecks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope external-qa-check:read
      * @param externalQaCheckId external QA check identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/External-QA-Checks/operation/api.external-qa-checks.get
      */

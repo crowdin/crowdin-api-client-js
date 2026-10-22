@@ -2,6 +2,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
 
 export class Distributions extends CrowdinApi {
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.getMany
@@ -11,6 +12,7 @@ export class Distributions extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<DistributionsModel.Distribution>>;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -35,6 +37,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.post
@@ -50,6 +53,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param hash hash
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.get
@@ -60,6 +64,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param hash hash
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.delete
@@ -70,6 +75,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param hash hash
      * @param request request body
@@ -85,6 +91,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param hash hash
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.distributions.release.get
@@ -100,6 +107,7 @@ export class Distributions extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param hash hash
      * @param request request body

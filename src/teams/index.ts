@@ -13,6 +13,7 @@ import { ProjectsGroupsModel } from '../projectsGroups';
 
 export class Teams extends CrowdinApi {
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param options request options
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.getMany
@@ -27,6 +28,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:write
      * @param groupId group identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.patch
@@ -37,6 +39,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param teamId team identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.groups.teams.get
@@ -47,6 +50,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:read
      * @param teamId team identifier
      * @param options request options
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.getMany
@@ -60,6 +64,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.patch
@@ -73,6 +78,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.teams.post
@@ -86,11 +92,13 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:read
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.getMany
      */
     listTeams(options?: TeamsModel.ListTeamsOptions): Promise<ResponseList<TeamsModel.Team>>;
     /**
+     * @requiredScope team:read
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
@@ -115,6 +123,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.post
      */
@@ -124,6 +133,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:read
      * @param teamId team identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.get
      */
@@ -133,6 +143,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.delete
      */
@@ -142,6 +153,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.patch
@@ -152,12 +164,14 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:read
      * @param teamId team identifier
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.getMany
      */
     teamMembersList(teamId: number, options?: PaginationOptions): Promise<ResponseList<TeamsModel.TeamMember>>;
     /**
+     * @requiredScope team:read
      * @param teamId team identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -178,6 +192,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.post
@@ -191,6 +206,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.deleteMany
      */
@@ -200,6 +216,7 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope team:write
      * @param teamId team identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.teams.members.delete

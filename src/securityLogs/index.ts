@@ -2,6 +2,7 @@ import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../
 
 export class SecurityLogs extends CrowdinApi {
     /**
+     * @requiredScope project:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
      */
@@ -18,6 +19,7 @@ export class SecurityLogs extends CrowdinApi {
     }
 
     /**
+     * @requiredScope security-log:read
      * @param securityLogId security log identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.security-logs.get
      */
@@ -27,6 +29,7 @@ export class SecurityLogs extends CrowdinApi {
     }
 
     /**
+     * @requiredScope security-log:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.security-logs.getMany
@@ -44,6 +47,7 @@ export class SecurityLogs extends CrowdinApi {
     }
 
     /**
+     * @requiredScope security-log:read
      * @param userId security log identifier
      * @param securityLogId security log identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.security-logs.get

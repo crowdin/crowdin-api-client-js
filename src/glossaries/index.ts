@@ -17,11 +17,13 @@ import {
  */
 export class Glossaries extends CrowdinApi {
     /**
+     * @requiredScope glossary:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.getMany
      */
     listGlossaries(options?: GlossariesModel.ListGlossariesOptions): Promise<ResponseList<GlossariesModel.Glossary>>;
     /**
+     * @requiredScope glossary:read
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -46,6 +48,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.post
      */
@@ -55,6 +58,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.get
      */
@@ -64,6 +68,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.delete
      */
@@ -73,6 +78,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.patch
@@ -83,6 +89,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.post
@@ -96,6 +103,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.get
@@ -109,6 +117,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.download.download
@@ -119,6 +128,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.imports.post
@@ -132,6 +142,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param importId import identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.imports.get
@@ -145,6 +156,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany
@@ -154,6 +166,7 @@ export class Glossaries extends CrowdinApi {
         options?: GlossariesModel.ListTermsOptions,
     ): Promise<ResponseList<GlossariesModel.Term>>;
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param userId list user glossaries
      * @param limit maximum number of items to retrieve (default 25)
@@ -203,6 +216,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.post
@@ -216,6 +230,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany
@@ -225,6 +240,7 @@ export class Glossaries extends CrowdinApi {
         options?: GlossariesModel.ClearGlossaryOptions,
     ): Promise<ResponseObject<GlossariesModel.Term>>;
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param languageId languageId identifier
      * @param translationOfTermId term translation identifier
@@ -259,6 +275,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param termId term identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.get
@@ -269,6 +286,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param termId term identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.delete
@@ -279,6 +297,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param termId term identifier
      * @param request request body
@@ -294,6 +313,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.getMany
@@ -308,6 +328,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.get
@@ -318,6 +339,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
      * @param request request body
@@ -333,6 +355,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.delete
@@ -343,6 +366,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.glossaries.concordance.post
@@ -356,6 +380,7 @@ export class Glossaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope glossary:read
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.glossaries.concordance.post
      */

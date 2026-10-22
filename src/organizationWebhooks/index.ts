@@ -8,6 +8,7 @@ import { WebhooksModel } from '../webhooks';
  */
 export class OrganizationWebhooks extends CrowdinApi {
     /**
+     * @requiredScope webhook:read
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.getMany
      */
@@ -17,6 +18,7 @@ export class OrganizationWebhooks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope webhook:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.post
      */
@@ -28,6 +30,7 @@ export class OrganizationWebhooks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope webhook:read
      * @param webhookId webhook identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.get
      */
@@ -37,6 +40,7 @@ export class OrganizationWebhooks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope webhook:write
      * @param webhookId webhook identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.delete
      */
@@ -46,6 +50,7 @@ export class OrganizationWebhooks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope webhook:write
      * @param webhookId webhook identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.webhooks.patch

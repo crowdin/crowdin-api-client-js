@@ -30,7 +30,7 @@ Fetch the endpoint spec first (see Crowdin API reference below). Then:
    - Call the inherited `this.get/post/put/patch/delete(url, body, this.defaultConfig())`; list endpoints call `this.getList(url, options.limit, options.offset)` so `withFetchAll()` works.
    - New methods with optional parameters must take a single options object (`options?`): list endpoints use an interface extending `PaginationOptions`; non-list endpoints use a dedicated options interface in the resource namespace. This keeps the public API backward-compatible — new optional fields are added to the interface without touching the function signature. Never add bare positional optional parameters. Older methods carry deprecated positional overloads — leave those in place and add none.
    - Give every function an explicit return type (`Promise<ResponseObject<T>>`, `Promise<ResponseList<T>>`, or `Promise<void>` for 204s); the lint rule demands this everywhere, arrow callbacks in tests included.
-   - JSDoc each method with `@param` lines and a `@see` link to the developer.crowdin.com operation (typedoc publishes these).
+   - JSDoc each method with `@param` lines, a `@requiredScope` tag and a `@see` link to the developer.crowdin.com operation (typedoc publishes these). The tag value comes from the spec's `**Required scopes:**` line: `Read only` → `<scope>:read`, `Read and Write` → `<scope>:write`, no such line → `none`.
 2. For a new resource, create `src/<resource>/index.ts` and make four edits in `src/index.ts`: the import, `export * from './<resource>'`, a `readonly <resource>Api` field on `Client`, and its construction in the constructor. Nothing is auto-discovered.
 3. Test in `tests/<resource>/api.test.ts` with nock: one chained `nock(api.url)` scope in `beforeAll` with `reqheaders: { Authorization: `Bearer ${api.token}` }`, one `it()` per endpoint, and `scope.done()` in `afterAll` — an interceptor no test consumes fails the suite.
 
@@ -62,4 +62,4 @@ A change is ready when:
 1. `pnpm run build` compiles,
 2. `pnpm run lint-ci` is clean,
 3. `pnpm test` passes, and
-4. every new or changed endpoint method has a nock-backed test and a `@see` doc link.
+4. every new or changed endpoint method has a nock-backed test, a `@requiredScope` tag and a `@see` doc link.

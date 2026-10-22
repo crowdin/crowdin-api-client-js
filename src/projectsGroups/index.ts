@@ -20,11 +20,13 @@ import { LanguagesModel } from '../languages';
  */
 export class ProjectsGroups extends CrowdinApi {
     /**
+     * @requiredScope group:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.getMany
      */
     listGroups(options?: ProjectsGroupsModel.ListGroupsOptions): Promise<ResponseList<ProjectsGroupsModel.Group>>;
     /**
+     * @requiredScope group:read
      * @param parentId parent group identifier
      * @param offset starting offset in the collection (default 0)
      * @param userId get user own projects
@@ -61,6 +63,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:write
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.post
      */
@@ -70,6 +73,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param group group identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.get
      */
@@ -79,6 +83,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:write
      * @param groupId group identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.delete
      */
@@ -88,6 +93,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:write
      * @param groupId group identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.patch
@@ -98,6 +104,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.getMany
      */
@@ -105,6 +112,7 @@ export class ProjectsGroups extends CrowdinApi {
         options?: ProjectsGroupsModel.ListProjectsOptions,
     ): Promise<ResponseList<ProjectsGroupsModel.Project | ProjectsGroupsModel.ProjectSettings>>;
     /**
+     * @requiredScope project.settings:read
      * @param groupId group identifier
      * @param hasManagerAccess projects with manager access (default 0)
      * @param limit maximum number of items to retrieve (default 25)
@@ -143,6 +151,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.post
      */
@@ -154,6 +163,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.get
      */
@@ -165,6 +175,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:write
      * @param projectId project identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.delete
      */
@@ -174,6 +185,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.patch
@@ -187,6 +199,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @param fileFormatSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.get
@@ -200,6 +213,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param fileFormatSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.delete
@@ -213,6 +227,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.getMany
@@ -226,6 +241,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.post
@@ -239,6 +255,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @param fileFormatSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.get
@@ -252,6 +269,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param fileFormatSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.delete
@@ -262,6 +280,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param fileFormatSettingsId file format settings identifier
      * @param request request body
@@ -277,6 +296,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany
@@ -290,6 +310,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post
@@ -303,6 +324,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:read
      * @param projectId project identifier
      * @param systemStringsExporterSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get
@@ -316,6 +338,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param systemStringsExporterSettingsId file format settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.delete
@@ -326,6 +349,7 @@ export class ProjectsGroups extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.settings:write
      * @param projectId project identifier
      * @param systemStringsExporterSettingsId file format settings identifier
      * @param request request body

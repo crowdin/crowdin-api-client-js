@@ -7,6 +7,7 @@ import { CrowdinApi, PaginationOptions, ResponseList, ResponseObject } from '../
  */
 export class CustomSpellcheckers extends CrowdinApi {
     /**
+     * @requiredScope custom-spellchecker:read
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Custom-Spellcheckers/operation/api.custom-spellcheckers.getMany
      */
@@ -18,6 +19,7 @@ export class CustomSpellcheckers extends CrowdinApi {
     }
 
     /**
+     * @requiredScope custom-spellchecker:read
      * @param customSpellcheckerId custom spellchecker identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Custom-Spellcheckers/operation/api.custom-spellcheckers.get
      */

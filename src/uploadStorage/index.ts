@@ -919,11 +919,13 @@ const mimetypes: { [key: string]: string } = {
  */
 export class UploadStorage extends CrowdinApi {
     /**
+     * @requiredScope none
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.storages.getMany
      */
     listStorages(options?: PaginationOptions): Promise<ResponseList<UploadStorageModel.Storage>>;
     /**
+     * @requiredScope none
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
@@ -942,6 +944,7 @@ export class UploadStorage extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param fileName file name
      * @param request binary file data
      * @param contentType content type header
@@ -972,6 +975,7 @@ export class UploadStorage extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param storageId storage identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.storages.get
      */
@@ -981,6 +985,7 @@ export class UploadStorage extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param storageId storage identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.storages.delete
      */

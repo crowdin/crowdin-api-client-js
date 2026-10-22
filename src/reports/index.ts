@@ -17,6 +17,7 @@ import {
  */
 export class Reports extends CrowdinApi {
     /**
+     * @requiredScope project.report:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.getMany
      */
@@ -35,6 +36,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.get
      */
@@ -44,6 +46,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.delete
      */
@@ -53,6 +56,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.post
      */
@@ -65,6 +69,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param archiveId archive identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.get
@@ -78,6 +83,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param archiveId archive identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.download.get
@@ -88,6 +94,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.reports.archives.getMany
@@ -108,6 +115,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param userId user identifier
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.get
@@ -118,6 +126,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param userId user identifier
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.delete
@@ -128,6 +137,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param userId user identifier
      * @param archiveId archive identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.reports.archives.exports.post
@@ -142,6 +152,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param userId user identifier
      * @param archiveId archive identifier
      * @param exportId export identifier
@@ -157,6 +168,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param userId user identifier
      * @param archiveId archive identifier
      * @param exportId export identifier
@@ -172,6 +184,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.reports.post
@@ -185,6 +198,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param reportId report identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.reports.get
@@ -198,6 +212,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param reportId report identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.groups.reports.download.download
@@ -208,6 +223,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.getMany
      */
@@ -221,6 +237,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.post
      */
@@ -232,6 +249,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param reportSettingsTemplateId report settings template identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.get
      */
@@ -243,6 +261,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param reportSettingsTemplateId report settings template identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.patch
@@ -256,6 +275,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param reportSettingsTemplateId report settings template identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.delete
      */
@@ -265,6 +285,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.reports.post
      */
@@ -276,6 +297,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param reportId report identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.reports.get
      */
@@ -287,6 +309,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param reportId report identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.reports.download.download
      */
@@ -296,6 +319,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.post
@@ -309,6 +333,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param projectId project identifier
      * @param reportId report identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.get
@@ -322,6 +347,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param projectId project identifier
      * @param reportId report identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.download.download
@@ -332,6 +358,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.getMany
@@ -345,6 +372,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.post
@@ -358,6 +386,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:read
      * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.get
@@ -371,6 +400,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @param request request body
@@ -386,9 +416,10 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.report:write
      * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
-     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.settings-templates.delete
+     * @see https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.delete
      */
     deleteReportSettingsTemplate(projectId: number, reportSettingsTemplateId: number): Promise<void> {
         const url = `${this.url}/projects/${projectId}/reports/settings-templates/${reportSettingsTemplateId}`;
@@ -396,6 +427,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/Reports/operation/api.users.reports.settings-templates.getMany
@@ -409,6 +441,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Reports/operation/api.users.reports.settings-templates.post
@@ -422,6 +455,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param userId user identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Reports/operation/api.users.reports.settings-templates.get
@@ -435,6 +469,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @param request request body
@@ -450,6 +485,7 @@ export class Reports extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Reports/operation/api.users.reports.settings-templates.delete

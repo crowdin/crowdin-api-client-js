@@ -18,6 +18,7 @@ import {
  */
 export class SourceFiles extends CrowdinApi {
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param cloneId clone branch identifier
@@ -33,6 +34,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param request request body
@@ -48,6 +50,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param cloneId clone branch identifier
@@ -63,6 +66,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.branches.getMany
      */
@@ -75,6 +79,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.getMany
@@ -84,6 +89,7 @@ export class SourceFiles extends CrowdinApi {
         options?: SourceFilesModel.ListProjectBranchesOptions,
     ): Promise<ResponseList<SourceFilesModel.Branch>>;
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param name filter branch by name
      * @param limit maximum number of items to retrieve (default 25)
@@ -113,6 +119,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.post
@@ -126,6 +133,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.branches.get
@@ -136,6 +144,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param options optional delete options
@@ -155,6 +164,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param jobIdentifier deletion job identifier
@@ -170,6 +180,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param request request body
@@ -185,6 +196,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param request request body
@@ -200,6 +212,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param mergeId merge branch identifier
@@ -215,6 +228,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param mergeId merge branch identifier
@@ -230,6 +244,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.directories.getMany
      */
@@ -244,6 +259,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.getMany
@@ -253,6 +269,7 @@ export class SourceFiles extends CrowdinApi {
         options?: SourceFilesModel.ListProjectDirectoriesOptions,
     ): Promise<ResponseList<SourceFilesModel.Directory>>;
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param branchId filter directories by branchId
      * @param directoryId filter directories by directoryId
@@ -301,6 +318,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.post
@@ -314,6 +332,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.directories.get
@@ -324,6 +343,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param options optional delete options
@@ -343,6 +363,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param jobIdentifier deletion job identifier
@@ -358,6 +379,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
@@ -373,6 +395,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.files.getMany
      */
@@ -385,6 +408,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.getMany
@@ -394,6 +418,7 @@ export class SourceFiles extends CrowdinApi {
         options?: SourceFilesModel.ListProjectFilesOptions,
     ): Promise<ResponseList<SourceFilesModel.File>>;
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param branchId list branch files (Note! You can either list files for the specified branch (branchId) in the same request)
      * @param directoryId list directory files (Note! You can either list files for the specified directory (directoryId) in the same request)
@@ -442,6 +467,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.post
@@ -455,6 +481,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.get
@@ -465,6 +492,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
@@ -480,6 +508,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional delete options
@@ -499,6 +528,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param jobIdentifier deletion job identifier
@@ -514,6 +544,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
@@ -529,6 +560,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.preview.get
@@ -539,6 +571,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.files.download.get
@@ -549,6 +582,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional pagination parameters for the request
@@ -564,6 +598,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param referenceId reference identifier
@@ -579,6 +614,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
@@ -594,6 +630,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param fileId file identifier
      * @param referenceId reference identifier
@@ -605,6 +642,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional pagination parameters for the request
@@ -616,6 +654,7 @@ export class SourceFiles extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<SourceFilesModel.FileRevision>>;
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -643,6 +682,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param revisionId revision identifier
@@ -658,6 +698,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.getMany
@@ -667,6 +708,7 @@ export class SourceFiles extends CrowdinApi {
         options?: SourceFilesModel.ListReviewedSourceFilesBuildOptions,
     ): Promise<ResponseList<SourceFilesModel.ReviewedSourceFilesBuild>>;
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param branchId filter builds by branchId
      * @param limit maximum number of items to retrieve (default 25)
@@ -695,6 +737,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.post
@@ -708,6 +751,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param buildId build identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.get
@@ -721,6 +765,7 @@ export class SourceFiles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param buildId build identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.strings.reviewed-builds.download.download

@@ -7,6 +7,7 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
  */
 export class Advisors extends CrowdinApi {
     /**
+     * @requiredScope project.advisor:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Advisor/operation/api.projects.advisors.checks.post
@@ -20,6 +21,7 @@ export class Advisors extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.advisor:read
      * @param projectId project identifier
      * @param checkId advisor check identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Advisor/operation/api.projects.advisors.checks.get
@@ -30,6 +32,7 @@ export class Advisors extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.advisor:read
      * @param projectId project identifier
      * @param options optional pagination and filter parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/Advisor/operation/api.projects.advisors.insights.getMany
@@ -50,6 +53,7 @@ export class Advisors extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.advisor:write
      * @param projectId project identifier
      * @param insightId insight identifier
      * @param request request body
@@ -65,6 +69,7 @@ export class Advisors extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.advisor:write
      * @param projectId project identifier
      * @param applicationIdentifier application identifier
      * @param moduleKey advisor-inspector module key

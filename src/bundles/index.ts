@@ -11,6 +11,7 @@ import { SourceFilesModel } from '../sourceFiles';
 
 export class Bundles extends CrowdinApi {
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.getMany
@@ -21,6 +22,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.post
@@ -34,6 +36,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.get
@@ -44,6 +47,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.delete
@@ -54,6 +58,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param request request body
@@ -69,6 +74,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param exportId export identifier
@@ -80,6 +86,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param request request body
@@ -95,6 +102,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param exportId export identifier
@@ -110,6 +118,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param options optional parameters for the request
@@ -125,6 +134,7 @@ export class Bundles extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @param options optional parameters for the request

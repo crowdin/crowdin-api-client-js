@@ -8,6 +8,7 @@ import { CrowdinApi, PaginationOptions, ResponseList } from '../core';
  */
 export class Clients extends CrowdinApi {
     /**
+     * @requiredScope client:read
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.clients.getMany
      */

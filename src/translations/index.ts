@@ -18,6 +18,7 @@ import { ProjectsGroupsModel } from '../projectsGroups';
  */
 export class Translations extends CrowdinApi {
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.getMany
@@ -45,6 +46,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.post
@@ -61,6 +63,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param preTranslationId pre translation identifier
      * @param request request body
@@ -76,6 +79,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#tag/Translations/operation/api.projects.pre-translations.patchBatch
@@ -89,6 +93,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param preTranslationId pre translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.report.getReport
@@ -102,6 +107,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
@@ -118,6 +124,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param request request body
@@ -139,6 +146,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany
@@ -148,6 +156,7 @@ export class Translations extends CrowdinApi {
         options?: TranslationsModel.ListProjectBuildsOptions,
     ): Promise<ResponseList<TranslationsModel.Build>>;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -176,6 +185,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.post
@@ -189,6 +199,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @deprecated Use {@link Translations.importTranslations} instead
      *
      * @param projectId project identifier
@@ -206,6 +217,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @deprecated Use {@link Translations.importTranslations} instead
      *
      * @param projectId project identifier
@@ -223,6 +235,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param buildId build identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.download.download
@@ -233,6 +246,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param buildId build identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.get
@@ -243,6 +257,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param buildId build identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.delete
@@ -253,6 +268,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.exports.post
@@ -266,6 +282,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports
@@ -286,6 +303,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param importId import identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.get
@@ -306,6 +324,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param importId import identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.report.get
@@ -321,6 +340,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.validate-qa-checks.post
@@ -334,6 +354,7 @@ export class Translations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.translations.getMany
      */

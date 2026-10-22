@@ -5,6 +5,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class StringComments extends CrowdinApi {
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param options optional parameters for the requesr
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.getMany
@@ -14,6 +15,7 @@ export class StringComments extends CrowdinApi {
         options?: StringCommentsModel.ListStringCommentsOptions,
     ): Promise<ResponseList<StringCommentsModel.StringComment>>;
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param type defines string comment type
@@ -61,6 +63,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.post
@@ -74,6 +77,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.get
@@ -87,6 +91,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.delete
@@ -97,6 +102,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
      * @param request request body
@@ -112,6 +118,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.comments.batchPatch
@@ -125,6 +132,7 @@ export class StringComments extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param stringCommentId string comment identifier
      * @param attachmentId attachment identifier

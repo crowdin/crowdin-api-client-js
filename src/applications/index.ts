@@ -7,6 +7,7 @@ import { CrowdinApi, PaginationOptions, ResponseObject, PatchRequest, ResponseLi
  */
 export class Applications extends CrowdinApi {
     /**
+     * @requiredScope application.installation:read
      * @param options optional pagination and filter parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.installations.getMany
      */
@@ -20,6 +21,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.installations.post
      */
@@ -31,6 +33,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:read
      * @param applicationId application identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.installations.get
      */
@@ -40,6 +43,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:write
      * @param applicationId application identifier
      * @param force force delete the application
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.installations.delete
@@ -56,6 +60,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:write
      * @param applicationId application identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.installations.patch
@@ -69,6 +74,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:read
      * @param applicationId application identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.installations.update.get
      */
@@ -80,6 +86,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:write
      * @param applicationId application identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.installations.update.post
@@ -93,6 +100,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.installation:write
      * @param applicationId application identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.installations.bundles.post
@@ -106,6 +114,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.storage:read
      * @param applicationId application identifier
      * @param options optional pagination and filter parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.storage.kv.records.getMany
@@ -121,6 +130,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.storage:write
      * @param applicationId application identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.storage.kv.records.post
@@ -134,6 +144,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.storage:read
      * @param applicationId application identifier
      * @param key key of the record
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.storage.kv.records.get
@@ -147,6 +158,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.storage:write
      * @param applicationId application identifier
      * @param key key of the record
      * @param request request body
@@ -162,6 +174,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.storage:write
      * @param applicationId application identifier
      * @param key key of the record
      * @see https://support.crowdin.com/developer/api/v2/#tag/Applications/operation/api.applications.storage.kv.records.delete
@@ -172,6 +185,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.proxy:read
      * @param applicationId application identifier
      * @param path path implemented by the application
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.api.get
@@ -182,6 +196,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.proxy:write
      * @param applicationId application identifier
      * @param path path implemented by the application
      * @param request request body
@@ -193,6 +208,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.proxy:write
      * @param applicationId application identifier
      * @param path path implemented by the application
      * @param request request body
@@ -204,6 +220,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.proxy:write
      * @param applicationId application identifier
      * @param path path implemented by the application
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.api.delete
@@ -214,6 +231,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.proxy:write
      * @param applicationId application identifier
      * @param path path implemented by the application
      * @param request request body
@@ -225,6 +243,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.consent:read
      * @param options optional pagination and filter parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.getMany
      */
@@ -238,6 +257,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.consent:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.post
      */
@@ -249,6 +269,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.consent:write
      * @param consentId consent decision identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.patch
@@ -262,6 +283,7 @@ export class Applications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope application.consent:write
      * @param consentId consent decision identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.applications.consents.delete
      */
