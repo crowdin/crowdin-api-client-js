@@ -42,23 +42,23 @@
         "axios": "1.20.0"
     },
     "devDependencies": {
-        "@eslint/js": "^9.20.0",
-        "@types/jest": "^27.0.0",
+        "@eslint/js": "^9.39.5",
+        "@types/jest": "^27.5.2",
         "@types/nock": "^10.0.3",
-        "@types/node": "^12.0.10",
-        "eslint": "^9.20.1",
-        "eslint-config-prettier": "^10.0.1",
-        "eslint-plugin-prettier": "^5.2.3",
-        "husky": "^7.0.0",
-        "jest": "^27.0.0",
-        "jest-circus": "^27.0.0",
+        "@types/node": "^12.20.55",
+        "eslint": "^9.39.5",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.7",
+        "husky": "^7.0.4",
+        "jest": "^27.5.1",
+        "jest-circus": "^27.5.1",
         "jest-junit": "^17.0.0",
-        "lint-staged": ">=8",
+        "lint-staged": "^17.6.0",
         "nock": "^10.0.6",
-        "ts-jest": "^27.0.0",
-        "typedoc": "^0.26.2",
-        "typescript": "^4.1.2",
-        "typescript-eslint": "^8.24.0"
+        "ts-jest": "^27.1.5",
+        "typedoc": "^0.26.11",
+        "typescript": "^4.9.5",
+        "typescript-eslint": "^8.72.0"
     },
     "engines": {
         "node": ">=12.9.0"
