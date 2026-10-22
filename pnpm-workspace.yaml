@@ -1,0 +1,4 @@
+overrides:
+  js-yaml@>=3.0.0 <3.15.2: 3.15.2
+  browserslist@<=4.28.6: ^4.28.7
+  '@tootallnate/once@<2.0.1': ^2.0.1
