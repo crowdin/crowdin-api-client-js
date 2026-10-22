@@ -7,6 +7,7 @@ import { CrowdinApi, ResponseObject } from '../core';
  */
 export class Organization extends CrowdinApi {
     /**
+     * @requiredScope organization:read
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Organization/operation/api.organization.get
      */
     getOrganization(): Promise<ResponseObject<OrganizationModel.Organization>> {
@@ -15,6 +16,7 @@ export class Organization extends CrowdinApi {
     }
 
     /**
+     * @requiredScope organization:read
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Organization/operation/api.organization.auth-settings.get
      */
     getOrganizationAuthSettings(): Promise<ResponseObject<OrganizationModel.AuthSettings>> {

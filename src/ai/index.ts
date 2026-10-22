@@ -11,6 +11,7 @@ import {
 
 export class Ai extends CrowdinApi {
     /**
+     * @requiredScope ai.prompt:read
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param options request options
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany
@@ -23,6 +24,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post
@@ -35,6 +37,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get
@@ -47,6 +50,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete
@@ -57,6 +61,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param aiCustomPlaceholderId ai custom placeholder identifier
      * @param request request body
@@ -71,6 +76,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.getMany
      */
@@ -80,6 +86,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.post
      */
@@ -89,6 +96,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiSnippetId ai snippet identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.get
      */
@@ -98,6 +106,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param aiSnippetId ai snippet identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.delete
      */
@@ -107,6 +116,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param aiSnippetId ai snippet identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.snippets.patch
@@ -120,6 +130,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -135,6 +146,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -150,6 +162,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -166,6 +179,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param options request options
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany
@@ -180,6 +194,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -195,6 +210,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -210,6 +226,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param aiPromptId ai prompt identifier
      * @param jobIdentifier job identifier
@@ -225,6 +242,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param aiPromptId ai prompt identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post
@@ -239,6 +257,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.getMany
      */
@@ -251,6 +270,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.post
      */
@@ -261,6 +281,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiPromptId ai Prompt identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post
@@ -275,6 +296,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get
@@ -289,6 +311,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete
@@ -300,6 +323,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download
@@ -314,6 +338,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param aiPromptId ai Prompt identifier.
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get
      */
@@ -324,6 +349,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param aiPromptId ai Prompt identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete
      */
@@ -334,6 +360,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param aiPromptId ai Prompt identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.patch
@@ -348,6 +375,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.getMany
      */
@@ -358,6 +386,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.post
      */
@@ -370,6 +399,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param aiProviderId ai Provider identifier.
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.get
      */
@@ -380,6 +410,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param aiProviderId ai Provider identifier.
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.delete
      */
@@ -390,6 +421,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.patch
@@ -404,6 +436,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param aiProviderId ai Provider identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.models.getMany
@@ -417,6 +450,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.enterprise.getMany
      */
@@ -428,6 +462,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.supported-models.enterprise.getMany
      */
@@ -442,6 +477,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:read
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post
@@ -456,6 +492,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.post
      */
@@ -466,6 +503,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param aiReportId report identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.get
      */
@@ -476,6 +514,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param aiReportId report identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.reports.download.download
      */
@@ -486,6 +525,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.get
      */
     getAiOrganizationSettings(): Promise<ResponseObject<AiModel.AiSettings>> {
@@ -494,6 +534,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:write
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.settings.patch
      */
@@ -504,6 +545,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.translate.strings.post
      */
@@ -516,6 +558,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.post
      */
@@ -528,6 +571,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.get
      */
@@ -540,6 +584,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.delete
      */
@@ -550,6 +595,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download
      */
@@ -560,6 +606,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download-strings
      */
@@ -570,6 +617,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.getMany
      */
@@ -595,6 +643,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.post
      */
@@ -607,6 +656,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param exportId export identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.get
      */
@@ -619,6 +669,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param exportId export identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.download
      */
@@ -629,6 +680,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
      */
@@ -642,6 +694,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @param memberId user identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.usage.members.get
      */
@@ -652,6 +705,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:read
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.get
@@ -663,6 +717,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @param request request body
@@ -679,6 +734,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @param request request body
@@ -695,6 +751,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @param request request body
@@ -711,6 +768,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.enterprise.delete
@@ -724,6 +782,7 @@ export class Ai extends CrowdinApi {
     // Community
 
     /**
+     * @requiredScope ai.prompt:read
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param options request options
@@ -738,6 +797,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param request request body
@@ -752,6 +812,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
@@ -766,6 +827,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
@@ -777,6 +839,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @deprecated AI Custom Placeholders APIs are deprecated.
      * @param userId user identifier
      * @param aiCustomPlaceholderId ai custom placeholder identifier
@@ -793,6 +856,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.getMany
@@ -803,6 +867,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.post
@@ -813,6 +878,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiSnippetId ai snippet identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.get
@@ -823,6 +889,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param aiSnippetId ai snippet identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.snippets.delete
@@ -833,6 +900,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param aiSnippetId ai snippet identifier
      * @param request request body
@@ -848,6 +916,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -865,6 +934,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -882,6 +952,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -900,6 +971,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param options request options
@@ -916,6 +988,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -933,6 +1006,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -950,6 +1024,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.fine-tuning:read
      * @deprecated Fine-tuning APIs are deprecated.
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
@@ -967,6 +1042,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param aiPromptId ai prompt identifier
      * @param request request body
@@ -983,6 +1059,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.post
@@ -1000,6 +1077,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.post
@@ -1014,6 +1092,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier
      * @param request request body
@@ -1030,6 +1109,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
@@ -1046,6 +1126,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
@@ -1058,6 +1139,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier
      * @param completionId completion identifier
@@ -1074,6 +1156,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:read
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier.
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.get
@@ -1085,6 +1168,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier.
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.delete
@@ -1096,6 +1180,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.prompt:write
      * @param userId user identifier
      * @param aiPromptId ai Prompt identifier
      * @param request request body
@@ -1112,6 +1197,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.ai.providers.getMany
@@ -1126,6 +1212,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param userId user identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.post
@@ -1140,6 +1227,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier.
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.get
@@ -1151,6 +1239,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier.
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.delete
@@ -1162,6 +1251,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param request request body
@@ -1178,6 +1268,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param options optional parameters for the request
@@ -1196,6 +1287,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.models.crowdin.getMany
@@ -1210,6 +1302,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.supported-models.crowdin.getMany
@@ -1226,6 +1319,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:read
      * @param userId user Identifier
      * @param aiProviderId ai Provider identifier
      * @param request request body
@@ -1242,6 +1336,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.post
@@ -1253,6 +1348,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param aiReportId report identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.get
@@ -1264,6 +1360,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.provider:read
      * @param userId user identifier
      * @param aiReportId report identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.reports.download.download
@@ -1275,6 +1372,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @param userId user Identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.get
      */
@@ -1284,6 +1382,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:write
      * @param userId user Identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.users.ai.settings.patch
@@ -1295,6 +1394,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.translate.strings.post
@@ -1309,6 +1409,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.post
@@ -1323,6 +1424,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.get
@@ -1337,6 +1439,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.delete
@@ -1348,6 +1451,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download
@@ -1359,6 +1463,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.translate:write
      * @param userId user identifier
      * @param jobIdentifier job identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download-strings
@@ -1370,6 +1475,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.getMany
@@ -1397,6 +1503,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.post
@@ -1411,6 +1518,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param userId user identifier
      * @param exportId export identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.get
@@ -1425,6 +1533,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.request-log:read
      * @param userId user identifier
      * @param exportId export identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.requestLogs.exports.download
@@ -1436,6 +1545,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.usage.members.getMany
@@ -1451,6 +1561,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai:read
      * @param userId user identifier
      * @param memberId user identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.usage.members.get
@@ -1462,6 +1573,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:read
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
@@ -1474,6 +1586,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
@@ -1492,6 +1605,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
@@ -1510,6 +1624,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
@@ -1528,6 +1643,7 @@ export class Ai extends CrowdinApi {
     }
 
     /**
+     * @requiredScope ai.proxy:write
      * @param userId user identifier
      * @param aiProviderId ai Provider identifier
      * @param path raw provider API path after `/gateway/`
@@ -1542,6 +1658,7 @@ export class Ai extends CrowdinApi {
     // Project
 
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.projects.ai.settings.get
      */

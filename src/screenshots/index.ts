@@ -8,6 +8,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class Screenshots extends CrowdinApi {
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param options search options
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany
@@ -17,6 +18,7 @@ export class Screenshots extends CrowdinApi {
         options?: ScreenshotsModel.ListScreenshotParams,
     ): Promise<ResponseList<ScreenshotsModel.Screenshot>>;
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -47,6 +49,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.post
@@ -60,6 +63,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.get
@@ -70,6 +74,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
@@ -85,6 +90,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.delete
@@ -95,6 +101,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
@@ -110,6 +117,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param options optional pagination parameters for the request
@@ -121,6 +129,7 @@ export class Screenshots extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<ScreenshotsModel.Tag>>;
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -148,6 +157,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
@@ -163,6 +173,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request body
@@ -178,6 +189,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.deleteMany
@@ -188,6 +200,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:read
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier
@@ -199,6 +212,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier
@@ -210,6 +224,7 @@ export class Screenshots extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.screenshot:write
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param tagId tag identifier

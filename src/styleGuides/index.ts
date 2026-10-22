@@ -2,6 +2,7 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 
 export class StyleGuides extends CrowdinApi {
     /**
+     * @requiredScope style-guide:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.getMany
      */
@@ -15,6 +16,7 @@ export class StyleGuides extends CrowdinApi {
     }
 
     /**
+     * @requiredScope style-guide:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.post
      */
@@ -26,6 +28,7 @@ export class StyleGuides extends CrowdinApi {
     }
 
     /**
+     * @requiredScope style-guide:read
      * @param styleGuideId style guide identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.get
      */
@@ -35,6 +38,7 @@ export class StyleGuides extends CrowdinApi {
     }
 
     /**
+     * @requiredScope style-guide:write
      * @param styleGuideId style guide identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.delete
      */
@@ -44,6 +48,7 @@ export class StyleGuides extends CrowdinApi {
     }
 
     /**
+     * @requiredScope style-guide:write
      * @param styleGuideId style guide identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.style-guides.patch

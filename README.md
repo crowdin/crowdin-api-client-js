@@ -430,6 +430,20 @@ const httpRequestTimeout = 60 * 1000; // 60 seconds
 const client = new crowdin.Client(credentials, { httpRequestTimeout });
 ```
 
+### Required scopes
+
+The JSDoc of every API method carries a `@requiredScope` tag with the scope a personal access token or an app manifest needs for that endpoint: `<scope>:read` (e.g. `project.member:read`), `<scope>:write` (e.g. `project.member:write`) or `none` when any token may call it. Tools such as the Crowdin serverless apps CLI read the tag from the published `.d.ts` files.
+
+```typescript
+/**
+ * @requiredScope project.member:read
+ * @param projectId project identifier
+ * @param options optional parameters for the request
+ * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
+ */
+listProjectMembers(projectId: number, options?: UsersModel.ListProjectMembersOptions): Promise<...>;
+```
+
 ## Over-The-Air Content Delivery
 
 :dizzy: Recommended for translations delivery to your website or mobile application.

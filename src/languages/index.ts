@@ -7,11 +7,13 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class Languages extends CrowdinApi {
     /**
+     * @requiredScope none
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.languages.getMany
      */
     listSupportedLanguages(options?: PaginationOptions): Promise<ResponseList<LanguagesModel.Language>>;
     /**
+     * @requiredScope none
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @deprecated optional parameters should be passed through an object
@@ -30,6 +32,7 @@ export class Languages extends CrowdinApi {
     }
 
     /**
+     * @requiredScope language:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.languages.post
      */
@@ -39,6 +42,7 @@ export class Languages extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param languageId language identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.languages.get
      */
@@ -48,6 +52,7 @@ export class Languages extends CrowdinApi {
     }
 
     /**
+     * @requiredScope language:write
      * @param languageId language identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.languages.delete
      */
@@ -57,6 +62,7 @@ export class Languages extends CrowdinApi {
     }
 
     /**
+     * @requiredScope language:write
      * @param languageId language identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.languages.patch

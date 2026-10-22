@@ -6,6 +6,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class Issues extends CrowdinApi {
     /**
+     * @requiredScope project.status.issue:read
      * @deprecated Use String Comments API instead
      * @param projectId project identifier
      * @param options optional parameters for listing reported issues
@@ -16,6 +17,7 @@ export class Issues extends CrowdinApi {
         options?: IssuesModel.ListReportedIssuesOptions,
     ): Promise<ResponseList<IssuesModel.Issue>>;
     /**
+     * @requiredScope project.status.issue:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -53,6 +55,7 @@ export class Issues extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.issue:write
      * @deprecated Use String Comments API instead
      * @param projectId project identifier
      * @param issueId issue identifier

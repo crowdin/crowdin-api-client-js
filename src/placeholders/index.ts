@@ -7,6 +7,7 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
  */
 export class Placeholders extends CrowdinApi {
     /**
+     * @requiredScope custom-placeholder:read
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.custom-placeholders.getMany
      */
@@ -16,6 +17,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope custom-placeholder:write
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.custom-placeholders.post
      */
@@ -27,6 +29,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope custom-placeholder:read
      * @param customPlaceholderId custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.custom-placeholders.get
      */
@@ -36,6 +39,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope custom-placeholder:write
      * @param customPlaceholderId custom placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.custom-placeholders.delete
      */
@@ -45,6 +49,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope custom-placeholder:write
      * @param customPlaceholderId custom placeholder identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.custom-placeholders.patch
@@ -58,6 +63,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.projects.placeholders.getMany
@@ -71,6 +77,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.projects.placeholders.post
@@ -84,6 +91,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:read
      * @param projectId project identifier
      * @param projectPlaceholderId project placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.projects.placeholders.get
@@ -97,6 +105,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:write
      * @param projectId project identifier
      * @param projectPlaceholderId project placeholder identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Placeholders/operation/api.projects.placeholders.delete
@@ -107,6 +116,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:write
      * @param projectId project identifier
      * @param projectPlaceholderId project placeholder identifier
      * @param request request body
@@ -122,6 +132,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/Placeholders/operation/api.projects.system-placeholders.getMany
@@ -135,6 +146,7 @@ export class Placeholders extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.placeholder:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/api/v2/#tag/Placeholders/operation/api.projects.system-placeholders.batchPatch

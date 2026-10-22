@@ -7,6 +7,7 @@ import { CrowdinApi, isOptionalString, PatchRequest, ResponseList, ResponseObjec
  */
 export class Dictionaries extends CrowdinApi {
     /**
+     * @requiredScope project.dictionary:read
      * @param projectId project identifier
      * @param options optional parameters for listing dictionaries
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany
@@ -16,6 +17,7 @@ export class Dictionaries extends CrowdinApi {
         options?: DictionariesModel.ListDictionariesOptions,
     ): Promise<ResponseList<DictionariesModel.Dictionary>>;
     /**
+     * @requiredScope project.dictionary:read
      * @param projectId project identifier
      * @param languageIds filter progress by Language Identifiers
      * @deprecated optional parameters should be passed through an object
@@ -35,6 +37,7 @@ export class Dictionaries extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.dictionary:write
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body

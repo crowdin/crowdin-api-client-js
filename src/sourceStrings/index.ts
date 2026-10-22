@@ -41,6 +41,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.getMany
@@ -50,6 +51,7 @@ export class SourceStrings extends CrowdinApi {
         options?: SourceStringsModel.ListProjectStringsOptions,
     ): Promise<ResponseList<SourceStringsModel.String>>;
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -119,6 +121,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post
@@ -132,6 +135,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param request request body
      * @param query query params
@@ -148,6 +152,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param query query params
@@ -164,6 +169,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param stringId string identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.strings.delete
@@ -174,6 +180,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:write
      * @param projectId project identifier
      * @param stringId string identifier
      * @param request request body
@@ -192,6 +199,7 @@ export class SourceStrings extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.string:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.strings.getMany
      */

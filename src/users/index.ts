@@ -20,6 +20,7 @@ import { TeamsModel } from '../teams';
  */
 export class Users extends CrowdinApi {
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.getMany
@@ -35,6 +36,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:write
      * @param groupId group identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.patch
@@ -45,6 +47,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param userId user identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Users/operation/api.groups.managers.get
@@ -55,6 +58,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany
@@ -64,6 +68,7 @@ export class Users extends CrowdinApi {
         options?: UsersModel.ListProjectMembersOptions,
     ): Promise<ResponseList<UsersModel.ProjectMember | UsersModel.EnterpriseProjectMember>>;
     /**
+     * @requiredScope project.member:read
      * @param projectId project identifier
      * @param search search users by firstName, lastName or username
      * @param role defines role type
@@ -108,6 +113,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.post
@@ -121,6 +127,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:read
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.members.get
@@ -134,6 +141,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:write
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.put
@@ -148,6 +156,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:write
      * @param projectId project identifier
      * @param memberId member identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.members.delete
@@ -158,11 +167,13 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getMany
      */
     listUsers(options?: UsersModel.ListUsersOptions): Promise<ResponseList<UsersModel.User>>;
     /**
+     * @requiredScope user:read
      * @param status filter users by status
      * @param search search users by firstName, lastName, username, email
      * @param twoFactor filter users by two-factor authentication status
@@ -211,6 +222,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.post
      */
@@ -220,6 +232,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param userId user identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.getById
      */
@@ -229,6 +242,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.delete
      */
@@ -238,6 +252,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.users.patch
@@ -248,6 +263,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @see https://developer.crowdin.com/api/v2/#operation/api.user.get
      */
     getAuthenticatedUser(): Promise<ResponseObject<UsersModel.User>> {
@@ -256,6 +272,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.user.patch
      */
@@ -265,6 +282,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param userId user identifier
      * @param options request options
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.permissions.getMany
@@ -278,6 +296,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:write
      * @param userId user identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.permissions.patch
@@ -291,6 +310,7 @@ export class Users extends CrowdinApi {
     }
 
     /**
+     * @requiredScope user:read
      * @param userId user identifier
      * @param options request options
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.contributions.getMany

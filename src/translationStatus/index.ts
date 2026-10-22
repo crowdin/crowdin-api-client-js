@@ -8,6 +8,7 @@ import { LanguagesModel } from '../languages';
  */
 export class TranslationStatus extends CrowdinApi {
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param options optional pagination parameters for the request
@@ -19,6 +20,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param branchId branch identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -46,6 +48,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param options optional pagination parameters for the request
@@ -57,6 +60,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -84,6 +88,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param options optional pagination parameters for the request
@@ -95,6 +100,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param fileId file identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -122,6 +128,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param languageId language identifier
      * @param options optional pagination parameters for the request
@@ -133,6 +140,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.FileProgress>>;
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param languageId language identifier
      * @param limit maximum number of items to retrieve (default 25)
@@ -160,6 +168,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany
@@ -169,6 +178,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<TranslationStatusModel.LanguageProgress>>;
     /**
+     * @requiredScope project.status.progress:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -197,6 +207,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.qa-check:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany
@@ -206,6 +217,7 @@ export class TranslationStatus extends CrowdinApi {
         options?: TranslationStatusModel.ListQaCheckIssuesOptions,
     ): Promise<ResponseList<TranslationStatusModel.QaCheck>>;
     /**
+     * @requiredScope project.status.qa-check:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -259,6 +271,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.qa-check:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.post
@@ -272,6 +285,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.qa-check:write
      * @param projectId project identifier
      * @param revalidationId QA checks revalidation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.get
@@ -285,6 +299,7 @@ export class TranslationStatus extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.status.qa-check:write
      * @param projectId project identifier
      * @param revalidationId QA checks revalidation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.revalidate.delete

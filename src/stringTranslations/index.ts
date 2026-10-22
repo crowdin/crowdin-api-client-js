@@ -14,6 +14,7 @@ import {
  */
 export class StringTranslations extends CrowdinApi {
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.getMany
@@ -23,6 +24,7 @@ export class StringTranslations extends CrowdinApi {
         options?: StringTranslationsModel.ListTranslationApprovalsOptions,
     ): Promise<ResponseList<StringTranslationsModel.Approval>>;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
@@ -82,6 +84,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.post
@@ -95,12 +98,14 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param stringId string identifier
      * @see https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.deleteMany
      */
     removeStringApprovals(projectId: number, stringId: number): Promise<void>;
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param options parameters for the request
      * @see https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.deleteMany
@@ -123,6 +128,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param approvalId approval identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.get
@@ -133,6 +139,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.patch
@@ -146,6 +153,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param approvalId approval identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.delete
@@ -156,6 +164,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param languageId language identifier
      * @param options optional parameters for the request
@@ -173,6 +182,7 @@ export class StringTranslations extends CrowdinApi {
         >
     >;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param languageId language identifier
      * @param stringIds filter translations by stringIds
@@ -246,6 +256,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.alignment.post
@@ -259,6 +270,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
@@ -272,6 +284,7 @@ export class StringTranslations extends CrowdinApi {
         options?: StringTranslationsModel.ListStringTranslationsOptions,
     ): Promise<ResponseList<StringTranslationsModel.StringTranslation>>;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
@@ -314,6 +327,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.post
@@ -327,6 +341,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
@@ -334,6 +349,7 @@ export class StringTranslations extends CrowdinApi {
      */
     deleteAllTranslations(projectId: number, stringId: number, languageId?: string): Promise<void>;
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param options parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany
@@ -358,6 +374,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param translationId translation identifier
      * @param options optional parameters for the request
@@ -374,6 +391,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param translationId translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.put
@@ -387,6 +405,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.patch
@@ -400,6 +419,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param translationId translation identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.translations.delete
@@ -410,6 +430,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.votes.getMany
@@ -419,6 +440,7 @@ export class StringTranslations extends CrowdinApi {
         options?: StringTranslationsModel.ListTranslationVotesOptions,
     ): Promise<ResponseList<StringTranslationsModel.Vote>>;
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
@@ -472,6 +494,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.votes.post
@@ -485,6 +508,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param voteId vote identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.votes.get
@@ -495,6 +519,7 @@ export class StringTranslations extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param voteId vote identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.votes.delete

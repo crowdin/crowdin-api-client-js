@@ -9,6 +9,7 @@ import { SourceStringsModel } from '../sourceStrings';
  */
 export class Workflows extends CrowdinApi {
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
@@ -18,6 +19,7 @@ export class Workflows extends CrowdinApi {
         options?: PaginationOptions,
     ): Promise<ResponseList<WorkflowModel.WorkflowStep>>;
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -42,6 +44,7 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param stepId workflow step identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.projects.workflow-steps.getMany
@@ -52,6 +55,7 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:read
      * @param projectId project identifier
      * @param stepId workflow step identifier
      * @param options optional parameters for the request
@@ -70,6 +74,7 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.getMany
      */
@@ -77,6 +82,7 @@ export class Workflows extends CrowdinApi {
         options?: WorkflowModel.ListWorkflowTemplatesOptions,
     ): Promise<ResponseList<WorkflowModel.Workflow>>;
     /**
+     * @requiredScope group:read
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -102,6 +108,7 @@ export class Workflows extends CrowdinApi {
     }
 
     /**
+     * @requiredScope group:read
      * @param templateId workflow template identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.workflow-templates.get
      */

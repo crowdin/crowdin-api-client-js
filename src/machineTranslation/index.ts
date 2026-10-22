@@ -7,6 +7,7 @@ import { CrowdinApi, isOptionalNumber, PaginationOptions, PatchRequest, Response
  */
 export class MachineTranslation extends CrowdinApi {
     /**
+     * @requiredScope mt:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.mts.getMany
      */
@@ -14,6 +15,7 @@ export class MachineTranslation extends CrowdinApi {
         options?: MachineTranslationModel.ListMTsOptions,
     ): Promise<ResponseList<MachineTranslationModel.MachineTranslation>>;
     /**
+     * @requiredScope mt:read
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -39,6 +41,7 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
+     * @requiredScope mt:write
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.mts.post
      */
@@ -50,6 +53,7 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
+     * @requiredScope mt:read
      * @param mtId mt identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.mts.getMany
      */
@@ -59,6 +63,7 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
+     * @requiredScope mt:write
      * @param mtId mt identifier
      * @see https://support.crowdin.com/enterprise/api/#operation/api.mts.delete
      */
@@ -68,6 +73,7 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
+     * @requiredScope mt:write
      * @param mtId mt identifier
      * @param request request body
      * @see https://support.crowdin.com/enterprise/api/#operation/api.mts.patch
@@ -81,6 +87,7 @@ export class MachineTranslation extends CrowdinApi {
     }
 
     /**
+     * @requiredScope mt:write
      * @param mtId mt identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.mts.translations.post

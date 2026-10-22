@@ -2,6 +2,7 @@ import { CrowdinApi, PaginationOptions, PatchRequest, ResponseList, ResponseObje
 
 export class Fields extends CrowdinApi {
     /**
+     * @requiredScope field:read
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.getMany
      */
@@ -14,6 +15,7 @@ export class Fields extends CrowdinApi {
     }
 
     /**
+     * @requiredScope field:write
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.post
      */
@@ -23,6 +25,7 @@ export class Fields extends CrowdinApi {
     }
 
     /**
+     * @requiredScope field:read
      * @param fieldId field identifier
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.get
      */
@@ -32,6 +35,7 @@ export class Fields extends CrowdinApi {
     }
 
     /**
+     * @requiredScope field:write
      * @param fieldId field identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.fields.delete
      */
@@ -41,6 +45,7 @@ export class Fields extends CrowdinApi {
     }
 
     /**
+     * @requiredScope field:write
      * @param fieldId field identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.fields.patch

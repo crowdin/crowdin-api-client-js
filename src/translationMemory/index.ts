@@ -19,6 +19,7 @@ import {
  */
 export class TranslationMemory extends CrowdinApi {
     /**
+     * @requiredScope tm:read
      * @param options optional paramerers for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.getMany
      */
@@ -26,6 +27,7 @@ export class TranslationMemory extends CrowdinApi {
         options?: TranslationMemoryModel.ListTMsOptions,
     ): Promise<ResponseList<TranslationMemoryModel.TranslationMemory>>;
     /**
+     * @requiredScope tm:read
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -54,6 +56,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.post
      */
@@ -65,6 +68,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.get
      */
@@ -74,6 +78,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.delete
      */
@@ -83,6 +88,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.patch
@@ -93,6 +99,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @param options optional paramerers for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany
@@ -108,6 +115,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.post
@@ -121,6 +129,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.clear
      */
@@ -130,6 +139,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.exports.post
@@ -143,6 +153,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.exports.get
@@ -156,6 +167,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @param exportId export identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.exports.download.download
@@ -166,6 +178,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tms.concordance.post
@@ -179,6 +192,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.concordance.post
      */
@@ -190,6 +204,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param request batch operations
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.patchBatch
@@ -203,6 +218,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.imports.post
@@ -216,6 +232,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param importId import identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.imports.get
@@ -229,6 +246,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:read
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.get
@@ -239,6 +257,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.tms.segments.delete
@@ -249,6 +268,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @param tmId tm identifier
      * @param segmentId segment identifier
      * @param request request body
@@ -264,6 +284,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier
@@ -276,6 +297,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier
@@ -294,6 +316,7 @@ export class TranslationMemory extends CrowdinApi {
     }
 
     /**
+     * @requiredScope tm:write
      * @deprecated use {@link TranslationMemory.editTmSegment} or {@link TranslationMemory.batchOperationsOnTmSegments} instead
      * @param tmId tm identifier
      * @param segmentId segment identifier

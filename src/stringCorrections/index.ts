@@ -2,6 +2,7 @@ import { BooleanInt, CrowdinApi, PaginationOptions, ResponseList, ResponseObject
 
 export class StringCorrections extends CrowdinApi {
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Corrections/operation/api.projects.corrections.getMany
@@ -18,6 +19,7 @@ export class StringCorrections extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param request request body
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Corrections/operation/api.projects.corrections.post
@@ -31,6 +33,7 @@ export class StringCorrections extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param stringId string identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Corrections/operation/api.projects.corrections.deleteMany
@@ -42,6 +45,7 @@ export class StringCorrections extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:read
      * @param projectId project identifier
      * @param correctionId correction identifier
      * @param params query params
@@ -58,6 +62,7 @@ export class StringCorrections extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param correctionId correction identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Corrections/operation/api.projects.corrections.put
@@ -71,6 +76,7 @@ export class StringCorrections extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.translation:write
      * @param projectId project identifier
      * @param correctionId correction identifier
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Corrections/operation/api.projects.corrections.delete

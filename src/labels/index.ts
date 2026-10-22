@@ -12,12 +12,14 @@ import { SourceStringsModel } from '../sourceStrings';
 
 export class Labels extends CrowdinApi {
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param options optional pagination parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.getMany
      */
     listLabels(projectId: number, options?: LabelsModel.ListLabelsParams): Promise<ResponseList<LabelsModel.Label>>;
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -40,6 +42,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.post
@@ -50,6 +53,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:read
      * @param projectId project identifier
      * @param labelId label identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.get
@@ -60,6 +64,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.labels.delete
@@ -70,6 +75,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
@@ -81,6 +87,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
@@ -96,6 +103,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @param screenshotIds screenshot identifiers
@@ -112,6 +120,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @param request request body
@@ -127,6 +136,7 @@ export class Labels extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.source.file:write
      * @param projectId project identifier
      * @param labelId label identifier
      * @param stringIds string identifiers

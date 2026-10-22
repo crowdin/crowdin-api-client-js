@@ -19,12 +19,14 @@ import { LanguagesModel } from '../languages';
  */
 export class Tasks extends CrowdinApi {
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany
      */
     listTasks(projectId: number, options?: TasksModel.ListTasksOptions): Promise<ResponseList<TasksModel.Task>>;
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -56,6 +58,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.post
@@ -66,6 +69,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param taskId task identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.exports.post
@@ -76,6 +80,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param taskId task identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.get
@@ -86,6 +91,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskId task identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.delete
@@ -96,6 +102,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
@@ -107,6 +114,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param taskId task identifier
      * @param options optional parameters for the request
@@ -122,6 +130,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
@@ -137,6 +146,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param taskId task identifier
      * @param commentId comment identifier
@@ -152,6 +162,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskId task identifier
      * @param commentId comment identifier
@@ -163,6 +174,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskId task identifier
      * @param commentId comment identifier
@@ -180,11 +192,13 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany
      */
     listUserTasks(options?: TasksModel.ListUserTasksOptions): Promise<ResponseList<TasksModel.UserTask>>;
     /**
+     * @requiredScope none
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status list tasks with specified statuses. It can be one status or a list of comma-separated status values
@@ -222,6 +236,7 @@ export class Tasks extends CrowdinApi {
     /**
      * List tasks owned by a specific user
      * Returns tasks from all projects where the user with the specified ID is the owner/creator
+     * @requiredScope project.task:read
      * @param userId user identifier
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.users.tasks.getMany
@@ -248,6 +263,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param options optional parameters for the request
      * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.tasks.getMany
      */
@@ -270,6 +286,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope none
      * @param projectId project identifier
      * @param taskId task identifier
      * @param request request body
@@ -286,6 +303,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param options optional parameters for the request
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.getMany
@@ -299,6 +317,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.post
@@ -312,6 +331,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:read
      * @param projectId project identifier
      * @param taskSettingsId task settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.get
@@ -325,6 +345,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskSettingsId task settings identifier
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.delete
@@ -335,6 +356,7 @@ export class Tasks extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.task:write
      * @param projectId project identifier
      * @param taskSettingsId task settings identifier
      * @param request request body

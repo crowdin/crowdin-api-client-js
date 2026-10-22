@@ -2,6 +2,7 @@ import { CrowdinApi } from '../core';
 
 export class Notifications extends CrowdinApi {
     /**
+     * @requiredScope notification:write
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.notify.post
      */
@@ -11,6 +12,7 @@ export class Notifications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project:write
      * @param projectId project identifier
      * @param request request body
      * @see https://developer.crowdin.com/api/v2/#operation/api.projects.notify.post
@@ -27,6 +29,7 @@ export class Notifications extends CrowdinApi {
     }
 
     /**
+     * @requiredScope notification:write
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.notify.post
      */
