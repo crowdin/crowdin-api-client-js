@@ -1638,7 +1638,6 @@ export class Ai extends CrowdinApi {
         request?: PlainObject,
     ): Promise<ResponseObject<PlainObject>> {
         const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
-
         return this.patch(url, request, this.defaultConfig());
     }
 
@@ -1651,7 +1650,6 @@ export class Ai extends CrowdinApi {
      */
     userAiGatewayDelete(userId: number, aiProviderId: number, path: string): Promise<ResponseObject<PlainObject>> {
         const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
-
         return this.delete(url, this.defaultConfig());
     }
 
@@ -1666,6 +1664,20 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/ai/settings`;
 
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @requiredScope project:write
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.projects.ai.settings.patch
+     */
+    editProjectAiSettings(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<AiModel.ProjectAiSettings>> {
+        const url = `${this.url}/projects/${projectId}/ai/settings`;
+        return this.patch(url, request, this.defaultConfig());
     }
 }
 
