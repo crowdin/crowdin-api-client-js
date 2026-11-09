@@ -6,6 +6,7 @@ import { Clients } from './clients';
 import { ClientConfig, Credentials, CrowdinApi } from './core';
 import { CustomSpellcheckers } from './customSpellcheckers';
 import { Dictionaries } from './dictionaries';
+import { Discussions } from './discussions';
 import { Distributions } from './distributions';
 import { ExternalQaChecks } from './externalQaChecks';
 import { Fields } from './fields';
@@ -47,6 +48,7 @@ export * from './clients';
 export * from './core';
 export * from './customSpellcheckers';
 export * from './dictionaries';
+export * from './discussions';
 export * from './distributions';
 export * from './externalQaChecks';
 export * from './fields';
@@ -126,6 +128,7 @@ export default class Client extends CrowdinApi {
     readonly externalQaChecksApi: ExternalQaChecks;
     readonly organizationApi: Organization;
     readonly placeholdersApi: Placeholders;
+    readonly discussionsApi: Discussions;
 
     constructor(credentials: Credentials, config?: ClientConfig) {
         super(credentials, config);
@@ -168,6 +171,7 @@ export default class Client extends CrowdinApi {
         this.externalQaChecksApi = new ExternalQaChecks(credentials, config);
         this.organizationApi = new Organization(credentials, config);
         this.placeholdersApi = new Placeholders(credentials, config);
+        this.discussionsApi = new Discussions(credentials, config);
     }
 }
 
