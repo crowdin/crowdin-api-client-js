@@ -334,6 +334,24 @@ describe('Users API', () => {
                     limit: limit,
                 },
             })
+            .get('/managers', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: managerId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(
                 '/managers',
                 {
@@ -534,6 +552,11 @@ describe('Users API', () => {
         expect(managers.data.length).toBe(1);
         expect(managers.data[0].data.id).toBe(managerId);
         expect(managers.pagination.limit).toBe(limit);
+    });
+
+    it('List Managers without filters', async () => {
+        const managers = await api.listManagers();
+        expect(managers.data[0].data.id).toBe(managerId);
     });
 
     it('Add Manager', async () => {

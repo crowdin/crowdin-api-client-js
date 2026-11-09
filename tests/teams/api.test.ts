@@ -157,6 +157,25 @@ describe('Tasks API', () => {
                     limit: limit,
                 },
             })
+            .get(`/projects/${projectId}/teams`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: teamId,
+                            name: 'Translators',
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get('/teams', undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
@@ -339,6 +358,11 @@ describe('Tasks API', () => {
         expect(teams.data[0].data.id).toBe(teamId);
         expect(teams.data[0].data.name).toBe('Translators');
         expect(teams.pagination.limit).toBe(limit);
+    });
+
+    it('List project teams without options', async () => {
+        const teams = await api.listProjectTeams(projectId);
+        expect(teams.data[0].data.id).toBe(teamId);
     });
 
     it('List teams', async () => {

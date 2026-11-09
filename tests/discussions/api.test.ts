@@ -96,10 +96,50 @@ describe('Discussions API', () => {
                 },
             })
             .reply(204)
+            .get(`/projects/${projectId}/discussions`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: discussionId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .get(`/projects/${projectId}/discussions/${discussionId}/replies`, undefined, {
                 reqheaders: {
                     Authorization: `Bearer ${api.token}`,
                 },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: replyId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/discussions/${discussionId}/replies`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                limit,
+                offset: 0,
             })
             .reply(200, {
                 data: [
@@ -185,6 +225,11 @@ describe('Discussions API', () => {
         expect(discussions.pagination.limit).toBe(limit);
     });
 
+    it('List Discussions without filters', async () => {
+        const discussions = await api.listDiscussions(projectId);
+        expect(discussions.data[0].data.id).toBe(discussionId);
+    });
+
     it('Add Discussion', async () => {
         const discussion = await api.addDiscussion(projectId, { title, text });
         expect(discussion.data.id).toBe(discussionId);
@@ -212,8 +257,13 @@ describe('Discussions API', () => {
         await api.deleteDiscussion(projectId, discussionId);
     });
 
-    it('List Discussion Replies', async () => {
+    it('List Discussion Replies without options', async () => {
         const replies = await api.listDiscussionReplies(projectId, discussionId);
+        expect(replies.data[0].data.id).toBe(replyId);
+    });
+
+    it('List Discussion Replies', async () => {
+        const replies = await api.listDiscussionReplies(projectId, discussionId, { limit, offset: 0 });
         expect(replies.data.length).toBe(1);
         expect(replies.data[0].data.id).toBe(replyId);
         expect(replies.pagination.limit).toBe(limit);

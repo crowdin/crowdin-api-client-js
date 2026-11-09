@@ -180,6 +180,57 @@ describe('Web-hooks API', () => {
                     event: 'file.added',
                     status: 'success',
                 },
+            })
+            .get(`/projects/${projectId}/webhooks/deliveries`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: deliveryId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/projects/${projectId}/webhooks/${webhookId}/deliveries`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: deliveryId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                `/projects/${projectId}/webhooks/${webhookId}/tests`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    status: 'failed',
+                    error: 'timeout',
+                },
             });
     });
 
@@ -257,5 +308,21 @@ describe('Web-hooks API', () => {
         const result = await api.testWebhook(projectId, webhookId, { event: 'file.added' });
         expect(result.data.event).toBe('file.added');
         expect(result.data.status).toBe('success');
+    });
+
+    it('List all webhook deliveries without filters', async () => {
+        const deliveries = await api.listAllWebhookDeliveries(projectId);
+        expect(deliveries.data[0].data.id).toBe(deliveryId);
+    });
+
+    it('List webhook deliveries without filters', async () => {
+        const deliveries = await api.listWebhookDeliveries(projectId, webhookId);
+        expect(deliveries.data[0].data.id).toBe(deliveryId);
+    });
+
+    it('Test webhook with default event', async () => {
+        const result = await api.testWebhook(projectId, webhookId);
+        expect(result.data.status).toBe('failed');
+        expect(result.data.error).toBe('timeout');
     });
 });
