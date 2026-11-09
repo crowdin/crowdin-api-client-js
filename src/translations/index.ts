@@ -404,6 +404,8 @@ export namespace TranslationsModel {
         };
         labelIds?: number[];
         excludeLabelIds?: number[];
+        labelMatchRule?: LabelMatchRule;
+        excludeLabelMatchRule?: LabelMatchRule;
         sourceLanguageId?: string;
         customInstruction?: string;
     }
@@ -438,6 +440,8 @@ export namespace TranslationsModel {
         };
         labelIds?: number[];
         excludeLabelIds?: number[];
+        labelMatchRule?: LabelMatchRule;
+        excludeLabelMatchRule?: LabelMatchRule;
         sourceLanguageId?: string;
         customInstruction?: string;
     }
@@ -570,6 +574,8 @@ export namespace TranslationsModel {
     export type Scope = 'untranslated' | 'translated' | 'all';
 
     export type ReplaceTranslationsOption = 'none' | 'autoTranslated' | 'all';
+
+    export type LabelMatchRule = 'all' | 'any';
 
     export type Priority = 'low' | 'normal' | 'high';
 
@@ -832,7 +838,7 @@ export namespace TranslationsModel {
     export interface TranslationSearchResult {
         id: number;
         text: string;
-        pluralCategoryName?: string;
+        pluralCategoryName?: string | null;
         projectId: number;
         stringId: number;
         languageId: string;

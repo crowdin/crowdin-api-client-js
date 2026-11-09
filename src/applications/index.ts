@@ -336,6 +336,7 @@ export namespace ApplicationsModel {
         permissions?: ApplicationPermissions;
         modules?: ApplicationModule[];
         assignAgent?: boolean;
+        manifestHash?: string;
     }
 
     export interface InstallApplicationFromManifest {

@@ -346,6 +346,8 @@ export namespace TranslationMemoryModel {
         defaultProjectIds: number[];
         projectIds: number[] | null;
         isShared: boolean;
+        /** Crowdin only */
+        managerIds?: number[];
         createdAt: string | null;
         webUrl: string;
     }

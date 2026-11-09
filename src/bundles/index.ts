@@ -180,7 +180,7 @@ export namespace BundlesModel {
         exportPattern?: string | null;
         isMultilingual?: boolean;
         includeProjectSourceLanguage?: boolean;
-        sourceLanguageExportPattern?: string;
+        sourceLanguageExportPattern?: string | null;
         includeInContextPseudoLanguage?: boolean;
         labelIds?: number[];
         excludeLabelIds?: number[];

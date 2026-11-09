@@ -145,7 +145,20 @@ describe('Screenshots API', () => {
                     },
                 },
             )
-            .reply(200)
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: tagId,
+                            screenshotId: screenshotId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
             .post(
                 `/projects/${projectId}/screenshots/${screenshotId}/tags`,
                 [
@@ -302,11 +315,13 @@ describe('Screenshots API', () => {
     });
 
     it('Replace tags', async () => {
-        await api.replaceTags(projectId, screenshotId, [
+        const tags = await api.replaceTags(projectId, screenshotId, [
             {
                 stringId: stringId,
             },
         ]);
+        expect(tags.data.length).toBe(1);
+        expect(tags.data[0].data.id).toBe(tagId);
     });
 
     it('Add tag', async () => {

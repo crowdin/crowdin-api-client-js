@@ -413,7 +413,7 @@ export namespace UsersModel {
         email: string;
         firstName?: string;
         lastName?: string;
-        timezone?: string;
+        timezone?: string | null;
         adminAccess?: boolean;
     }
 

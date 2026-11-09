@@ -1924,7 +1924,7 @@ export namespace AiModel {
          * @deprecated
          */
         isEnabled?: boolean;
-        enabledProjectIds?: number[];
+        enabledProjectIds?: number[] | null;
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
             | AiModel.AiPromptConfigBasicAligmentAction
@@ -2013,6 +2013,8 @@ export namespace AiModel {
         createdAt: string;
         updatedAt: string;
         promptsCount: string;
+        autoDisabledAt: string | null;
+        autoDisabledReason: string | null;
     }
 
     export interface AiProviderCredentialsCustomHeaders {
@@ -2123,6 +2125,7 @@ export namespace AiModel {
         providerName: string;
         id: string;
         displayName: string;
+        dialect: 'open_ai' | 'anthropic' | null;
         supportReasoning: boolean;
         intelligence: number;
         speed: number;
@@ -2195,6 +2198,7 @@ export namespace AiModel {
         projectIds?: number[];
         promptIds?: number[];
         userIds?: number[];
+        languageIds?: string[];
     }
 
     /* ai Report Section END*/
@@ -2395,7 +2399,10 @@ export namespace AiModel {
     }
     /* ai Usage Members Section END */
 
-    export type Action = 'pre_translate' | 'alignment' | 'qa_check';
+    /**
+     * Built-in action or a custom one: `custom:` followed by its name (e.g. `custom:marketing_tone_check`)
+     */
+    export type Action = 'pre_translate' | 'alignment' | 'qa_check' | 'advisor_context_review' | `custom:${string}`;
     export type ProviderType =
         | 'open_ai'
         | 'azure_open_ai'

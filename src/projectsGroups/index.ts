@@ -485,7 +485,7 @@ export namespace ProjectsGroupsModel {
     export interface CreateProjectEnterpriseRequest {
         name: string;
         sourceLanguageId: string;
-        templateId?: number;
+        templateId?: number | null;
         steps?: WorkflowTemplateStepConfig[];
         groupId?: number;
         targetLanguageIds?: string[];
@@ -514,6 +514,7 @@ export namespace ProjectsGroupsModel {
         qaChecksIgnorableCategories?: CheckCategories;
         customQaCheckIds?: number[];
         externalQaCheckIds?: number[];
+        externalQaChecksIgnorable?: Record<string, boolean>;
         languageMapping?: LanguageMapping;
         /**
          * @deprecated
@@ -632,6 +633,8 @@ export namespace ProjectsGroupsModel {
         qaApprovalsCount: number;
         customQaCheckIds: number[];
         externalQaCheckIds: number[];
+        /** External QA check IDs mapped to whether a failure of the check can be ignored */
+        externalQaChecksIgnorable: Record<string, boolean>;
         delayedWorkflowStart: boolean;
         alignmentActionAiPromptId: number | null;
     }

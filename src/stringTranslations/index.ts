@@ -588,7 +588,7 @@ export namespace StringTranslationsModel {
     export interface StringTranslation {
         id: number;
         text: string;
-        pluralCategoryName: PluralCategoryName;
+        pluralCategoryName: PluralCategoryName | null;
         user: User;
         rating: number;
         provider: string | null;

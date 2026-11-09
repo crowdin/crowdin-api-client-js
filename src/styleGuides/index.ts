@@ -71,6 +71,8 @@ export namespace StyleGuidesModel {
         languageIds: string[] | null;
         projectIds: number[] | null;
         isShared: boolean;
+        /** Crowdin only */
+        managerIds?: number[];
         webUrl: string;
         downloadLink: string;
         createdAt: string;
