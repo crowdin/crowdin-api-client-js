@@ -9,6 +9,9 @@ describe('Organization Webhooks API', () => {
     };
     const api: OrganizationWebhooks = new OrganizationWebhooks(credentials);
     const webhookId = 3;
+    const deliveryId = 4;
+    const newDeliveryId = 5;
+    const createdAfter = '2026-11-01T00:00:00+00:00';
     const name = 'test';
     const url = 'test.com';
     const requestType = 'GET';
@@ -90,6 +93,92 @@ describe('Organization Webhooks API', () => {
                     id: webhookId,
                     name: name,
                 },
+            })
+            .get('/webhooks/deliveries', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                webhookIds: `${webhookId}`,
+                status: 'failed',
+                events: 'file.added,file.updated',
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: deliveryId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/webhooks/${webhookId}/deliveries`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                createdAfter,
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: deliveryId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get(`/webhooks/${webhookId}/deliveries/${deliveryId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: deliveryId,
+                    payload: {},
+                },
+            })
+            .post(
+                `/webhooks/${webhookId}/deliveries/${deliveryId}/resend`,
+                {},
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(201, {
+                data: {
+                    id: newDeliveryId,
+                },
+            })
+            .post(
+                `/webhooks/${webhookId}/tests`,
+                {
+                    event: 'file.added',
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    event: 'file.added',
+                    status: 'success',
+                },
             });
     });
 
@@ -133,5 +222,39 @@ describe('Organization Webhooks API', () => {
         ]);
         expect(webhook.data.id).toBe(webhookId);
         expect(webhook.data.name).toBe(name);
+    });
+
+    it('List all webhook deliveries', async () => {
+        const deliveries = await api.listAllWebhookDeliveries({
+            webhookIds: `${webhookId}`,
+            status: 'failed',
+            events: 'file.added,file.updated',
+        });
+        expect(deliveries.data.length).toBe(1);
+        expect(deliveries.data[0].data.id).toBe(deliveryId);
+        expect(deliveries.pagination.limit).toBe(limit);
+    });
+
+    it('List webhook deliveries', async () => {
+        const deliveries = await api.listWebhookDeliveries(webhookId, { createdAfter });
+        expect(deliveries.data.length).toBe(1);
+        expect(deliveries.data[0].data.id).toBe(deliveryId);
+        expect(deliveries.pagination.limit).toBe(limit);
+    });
+
+    it('Get webhook delivery', async () => {
+        const delivery = await api.getWebhookDelivery(webhookId, deliveryId);
+        expect(delivery.data.id).toBe(deliveryId);
+    });
+
+    it('Resend webhook delivery', async () => {
+        const delivery = await api.resendWebhookDelivery(webhookId, deliveryId);
+        expect(delivery.data.id).toBe(newDeliveryId);
+    });
+
+    it('Test webhook', async () => {
+        const result = await api.testWebhook(webhookId, { event: 'file.added' });
+        expect(result.data.event).toBe('file.added');
+        expect(result.data.status).toBe('success');
     });
 });
