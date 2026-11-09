@@ -478,6 +478,7 @@ export class Ai extends CrowdinApi {
 
     /**
      * @requiredScope ai.proxy:read
+     * @deprecated use `organizationAiGatewayPost` instead
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post
@@ -1320,6 +1321,7 @@ export class Ai extends CrowdinApi {
 
     /**
      * @requiredScope ai.proxy:read
+     * @deprecated use `userAiGatewayPost` instead
      * @param userId user Identifier
      * @param aiProviderId ai Provider identifier
      * @param request request body

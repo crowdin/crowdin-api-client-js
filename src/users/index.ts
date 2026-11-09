@@ -470,6 +470,9 @@ export namespace UsersModel {
         id: number;
         username: string;
         fullName: string | null;
+        /**
+         * @deprecated use `roles` instead
+         */
         role: Role;
         /**
          * @deprecated
