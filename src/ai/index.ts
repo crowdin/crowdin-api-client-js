@@ -478,6 +478,7 @@ export class Ai extends CrowdinApi {
 
     /**
      * @requiredScope ai.proxy:read
+     * @deprecated use `organizationAiGatewayPost` instead
      * @param aiProviderId ai Provider identifier
      * @param request request body
      * @see https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post
@@ -1320,6 +1321,7 @@ export class Ai extends CrowdinApi {
 
     /**
      * @requiredScope ai.proxy:read
+     * @deprecated use `userAiGatewayPost` instead
      * @param userId user Identifier
      * @param aiProviderId ai Provider identifier
      * @param request request body
@@ -1638,7 +1640,6 @@ export class Ai extends CrowdinApi {
         request?: PlainObject,
     ): Promise<ResponseObject<PlainObject>> {
         const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
-
         return this.patch(url, request, this.defaultConfig());
     }
 
@@ -1651,7 +1652,6 @@ export class Ai extends CrowdinApi {
      */
     userAiGatewayDelete(userId: number, aiProviderId: number, path: string): Promise<ResponseObject<PlainObject>> {
         const url = `${this.url}/users/${userId}/ai/providers/${aiProviderId}/gateway/${path}`;
-
         return this.delete(url, this.defaultConfig());
     }
 
@@ -1666,6 +1666,20 @@ export class Ai extends CrowdinApi {
         const url = `${this.url}/projects/${projectId}/ai/settings`;
 
         return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @requiredScope project:write
+     * @param projectId project identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.projects.ai.settings.patch
+     */
+    editProjectAiSettings(
+        projectId: number,
+        request: PatchRequest[],
+    ): Promise<ResponseObject<AiModel.ProjectAiSettings>> {
+        const url = `${this.url}/projects/${projectId}/ai/settings`;
+        return this.patch(url, request, this.defaultConfig());
     }
 }
 
@@ -1910,7 +1924,7 @@ export namespace AiModel {
          * @deprecated
          */
         isEnabled?: boolean;
-        enabledProjectIds?: number[];
+        enabledProjectIds?: number[] | null;
         config:
             | AiModel.AiPromptConfigBasicPreTranslate
             | AiModel.AiPromptConfigBasicAligmentAction
@@ -1999,6 +2013,8 @@ export namespace AiModel {
         createdAt: string;
         updatedAt: string;
         promptsCount: string;
+        autoDisabledAt: string | null;
+        autoDisabledReason: string | null;
     }
 
     export interface AiProviderCredentialsCustomHeaders {
@@ -2109,6 +2125,7 @@ export namespace AiModel {
         providerName: string;
         id: string;
         displayName: string;
+        dialect: 'open_ai' | 'anthropic' | null;
         supportReasoning: boolean;
         intelligence: number;
         speed: number;
@@ -2181,6 +2198,7 @@ export namespace AiModel {
         projectIds?: number[];
         promptIds?: number[];
         userIds?: number[];
+        languageIds?: string[];
     }
 
     /* ai Report Section END*/
@@ -2381,7 +2399,10 @@ export namespace AiModel {
     }
     /* ai Usage Members Section END */
 
-    export type Action = 'pre_translate' | 'alignment' | 'qa_check';
+    /**
+     * Built-in action or a custom one: `custom:` followed by its name (e.g. `custom:marketing_tone_check`)
+     */
+    export type Action = 'pre_translate' | 'alignment' | 'qa_check' | 'advisor_context_review' | `custom:${string}`;
     export type ProviderType =
         | 'open_ai'
         | 'azure_open_ai'

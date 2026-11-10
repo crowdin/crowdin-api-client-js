@@ -145,7 +145,7 @@ export namespace DistributionsModel {
         /**
          * @deprecated use bundleIds instead
          */
-        fileIds?: number[];
+        fileIds?: number[] | null;
         bundleIds?: number[];
     }
 

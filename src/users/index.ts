@@ -322,6 +322,62 @@ export class Users extends CrowdinApi {
         const url = `${this.url}/users/${userId}/projects/contributions`;
         return this.getList(url, options?.limit, options?.offset);
     }
+
+    /**
+     * @requiredScope manager:read
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Users/operation/api.managers.getMany
+     */
+    listManagers(options?: UsersModel.ListManagersOptions): Promise<ResponseList<UsersModel.Manager>> {
+        let url = `${this.url}/managers`;
+        url = this.addQueryParam(url, 'status', options?.status);
+        url = this.addQueryParam(url, 'email', options?.email);
+        url = this.addQueryParam(url, 'search', options?.search);
+        url = this.addQueryParam(url, 'projectIds', options?.projectIds);
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
+     * @requiredScope manager:write
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Users/operation/api.managers.post
+     */
+    addManager(request: UsersModel.AddManagerRequest): Promise<ResponseObject<UsersModel.Manager>> {
+        const url = `${this.url}/managers`;
+        return this.post(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @requiredScope manager:read
+     * @param managerId manager identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Users/operation/api.managers.get
+     */
+    getManager(managerId: number): Promise<ResponseObject<UsersModel.Manager>> {
+        const url = `${this.url}/managers/${managerId}`;
+        return this.get(url, this.defaultConfig());
+    }
+
+    /**
+     * @requiredScope manager:write
+     * @param managerId manager identifier
+     * @param request request body
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Users/operation/api.managers.patch
+     */
+    editManager(managerId: number, request: PatchRequest[]): Promise<ResponseObject<UsersModel.Manager>> {
+        const url = `${this.url}/managers/${managerId}`;
+        return this.patch(url, request, this.defaultConfig());
+    }
+
+    /**
+     * @requiredScope manager:write
+     * @param managerId manager identifier
+     * @see https://support.crowdin.com/developer/api/v2/#tag/Users/operation/api.managers.delete
+     */
+    deleteManager(managerId: number): Promise<void> {
+        const url = `${this.url}/managers/${managerId}`;
+        return this.delete(url, this.defaultConfig());
+    }
 }
 
 export namespace UsersModel {
@@ -357,7 +413,7 @@ export namespace UsersModel {
         email: string;
         firstName?: string;
         lastName?: string;
-        timezone?: string;
+        timezone?: string | null;
         adminAccess?: boolean;
     }
 
@@ -414,6 +470,9 @@ export namespace UsersModel {
         id: number;
         username: string;
         fullName: string | null;
+        /**
+         * @deprecated use `roles` instead
+         */
         role: Role;
         /**
          * @deprecated
@@ -526,5 +585,48 @@ export namespace UsersModel {
 
     export interface Permissions {
         [lang: string]: string | { workflowStepIds: number[] | 'all' };
+    }
+
+    export interface ListManagersOptions extends PaginationOptions {
+        /**
+         * One status or a comma-separated list: `active`, `pending`
+         */
+        status?: string;
+        email?: string;
+        search?: string;
+        /**
+         * One project ID or a comma-separated list
+         */
+        projectIds?: string;
+        orderBy?: string;
+    }
+
+    export interface Manager {
+        id: number;
+        user: {
+            id: number;
+            username: string;
+            fullName: string;
+            avatarUrl: string;
+        };
+        status: 'active' | 'pending';
+        isApplicationAgent: boolean;
+        projectIds: number[];
+        tmIds: number[];
+        projectDefaultTmIds: number[];
+        glossaryIds: number[];
+        projectDefaultGlossaryIds: number[];
+        styleGuideIds: number[];
+        createdAt: string | null;
+    }
+
+    export interface AddManagerRequest {
+        username?: string;
+        email?: string;
+        projectIds?: number[];
+        tmIds?: number[];
+        glossaryIds?: number[];
+        styleGuideIds?: number[];
+        message?: string;
     }
 }

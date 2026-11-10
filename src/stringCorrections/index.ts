@@ -97,7 +97,7 @@ export namespace StringCorrectionsModel {
     export interface StringCorrection {
         id: number;
         text: string;
-        pluralCategoryName: PluralCategoryName;
+        pluralCategoryName: PluralCategoryName | null;
         user: {
             id: number;
             username: string;

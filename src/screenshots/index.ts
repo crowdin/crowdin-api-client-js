@@ -167,7 +167,7 @@ export class Screenshots extends CrowdinApi {
         projectId: number,
         screenshotId: number,
         request: ScreenshotsModel.ReplaceTagRequest[] | ScreenshotsModel.AutoTagRequest,
-    ): Promise<void> {
+    ): Promise<ResponseList<ScreenshotsModel.Tag>> {
         const url = `${this.url}/projects/${projectId}/screenshots/${screenshotId}/tags`;
         return this.put(url, request, this.defaultConfig());
     }

@@ -1482,6 +1482,24 @@ describe('AI API', () => {
             })
             .reply(200, {
                 data: { editorSuggestionAiPromptId: aiPromptId },
+            })
+            .patch(
+                `/projects/${projectId}/ai/settings`,
+                [
+                    {
+                        op: 'replace',
+                        path: '/qaCheckActionAiPromptId',
+                        value: aiPromptId,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: { qaCheckActionAiPromptId: aiPromptId },
             });
     });
 
@@ -2212,5 +2230,16 @@ describe('AI API', () => {
     it('Get Project AI Settings', async () => {
         const res = await api.getProjectAiSettings(projectId);
         expect(res.data.editorSuggestionAiPromptId).toBe(aiPromptId);
+    });
+
+    it('Edit Project AI Settings', async () => {
+        const res = await api.editProjectAiSettings(projectId, [
+            {
+                op: 'replace',
+                path: '/qaCheckActionAiPromptId',
+                value: aiPromptId,
+            },
+        ]);
+        expect(res.data.qaCheckActionAiPromptId).toBe(aiPromptId);
     });
 });

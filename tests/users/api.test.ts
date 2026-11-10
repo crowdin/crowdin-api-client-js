@@ -16,6 +16,7 @@ describe('Users API', () => {
     const contributionId = 456;
     const groupId = 5;
     const userId = 12;
+    const managerId = 34;
 
     const limit = 25;
 
@@ -309,7 +310,103 @@ describe('Users API', () => {
                     offset: 0,
                     limit: limit,
                 },
-            });
+            })
+            .get('/managers', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .query({
+                status: 'active,pending',
+                projectIds: `${projectId}`,
+                orderBy: 'username',
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: managerId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .get('/managers', undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: [
+                    {
+                        data: {
+                            id: managerId,
+                        },
+                    },
+                ],
+                pagination: {
+                    offset: 0,
+                    limit: limit,
+                },
+            })
+            .post(
+                '/managers',
+                {
+                    email,
+                    projectIds: [projectId],
+                },
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(201, {
+                data: {
+                    id: managerId,
+                    status: 'pending',
+                },
+            })
+            .get(`/managers/${managerId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(200, {
+                data: {
+                    id: managerId,
+                },
+            })
+            .patch(
+                `/managers/${managerId}`,
+                [
+                    {
+                        op: 'add',
+                        path: '/projectIds/-',
+                        value: projectId,
+                    },
+                ],
+                {
+                    reqheaders: {
+                        Authorization: `Bearer ${api.token}`,
+                    },
+                },
+            )
+            .reply(200, {
+                data: {
+                    id: managerId,
+                    projectIds: [projectId],
+                },
+            })
+            .delete(`/managers/${managerId}`, undefined, {
+                reqheaders: {
+                    Authorization: `Bearer ${api.token}`,
+                },
+            })
+            .reply(204);
     });
 
     afterAll(() => {
@@ -444,5 +541,48 @@ describe('Users API', () => {
         expect(contributions.data.length).toBe(1);
         expect(contributions.data[0].data.id).toBe(contributionId);
         expect(contributions.pagination.limit).toBe(limit);
+    });
+
+    it('List Managers', async () => {
+        const managers = await api.listManagers({
+            status: 'active,pending',
+            projectIds: `${projectId}`,
+            orderBy: 'username',
+        });
+        expect(managers.data.length).toBe(1);
+        expect(managers.data[0].data.id).toBe(managerId);
+        expect(managers.pagination.limit).toBe(limit);
+    });
+
+    it('List Managers without filters', async () => {
+        const managers = await api.listManagers();
+        expect(managers.data[0].data.id).toBe(managerId);
+    });
+
+    it('Add Manager', async () => {
+        const manager = await api.addManager({ email, projectIds: [projectId] });
+        expect(manager.data.id).toBe(managerId);
+        expect(manager.data.status).toBe('pending');
+    });
+
+    it('Get Manager', async () => {
+        const manager = await api.getManager(managerId);
+        expect(manager.data.id).toBe(managerId);
+    });
+
+    it('Edit Manager', async () => {
+        const manager = await api.editManager(managerId, [
+            {
+                op: 'add',
+                path: '/projectIds/-',
+                value: projectId,
+            },
+        ]);
+        expect(manager.data.id).toBe(managerId);
+        expect(manager.data.projectIds).toEqual([projectId]);
+    });
+
+    it('Delete Manager', async () => {
+        await api.deleteManager(managerId);
     });
 });

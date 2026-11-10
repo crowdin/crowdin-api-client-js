@@ -404,6 +404,8 @@ export namespace GlossariesModel {
         defaultProjectIds: number[];
         projectIds: number[];
         isShared: boolean;
+        /** Crowdin only */
+        managerIds?: number[];
         webUrl: string;
         createdAt: string;
     }
@@ -425,6 +427,7 @@ export namespace GlossariesModel {
         | 'gender'
         | 'note'
         | 'url'
+        | 'translatable'
         | 'conceptDefinition'
         | 'conceptSubject'
         | 'conceptNote'
@@ -510,13 +513,13 @@ export namespace GlossariesModel {
         glossaryId: number;
         languageId: string;
         text: string;
-        description: string;
-        partOfSpeech: PartOfSpeech;
-        status: Status;
-        type: Type;
-        gender: Gender;
-        note: string;
-        url: string;
+        description: string | null;
+        partOfSpeech: PartOfSpeech | null;
+        status: Status | null;
+        type: Type | null;
+        gender: Gender | null;
+        note: string | null;
+        url: string | null;
         conceptId: number;
         lemma: string;
         createdAt: string;

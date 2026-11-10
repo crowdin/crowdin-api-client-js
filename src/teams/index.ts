@@ -78,6 +78,21 @@ export class Teams extends CrowdinApi {
     }
 
     /**
+     * @requiredScope project.member:read
+     * @param projectId project identifier
+     * @param options optional parameters for the request
+     * @see https://support.crowdin.com/developer/enterprise/api/v2/#tag/Teams/operation/api.projects.teams.getMany
+     */
+    listProjectTeams(
+        projectId: number,
+        options?: TeamsModel.ListProjectTeamsOptions,
+    ): Promise<ResponseList<TeamsModel.ProjectTeamResource>> {
+        let url = `${this.url}/projects/${projectId}/teams`;
+        url = this.addQueryParam(url, 'orderBy', options?.orderBy);
+        return this.getList(url, options?.limit, options?.offset);
+    }
+
+    /**
      * @requiredScope project.member:write
      * @param projectId project identifier
      * @param request request body
@@ -268,8 +283,13 @@ export namespace TeamsModel {
         updated?: ProjectTeamResource;
     }
 
+    export interface ListProjectTeamsOptions extends PaginationOptions {
+        orderBy?: string;
+    }
+
     export interface ProjectTeamResource {
         id: number;
+        name: string;
         hasManagerAccess: boolean;
         hasDeveloperAccess: boolean;
         /**

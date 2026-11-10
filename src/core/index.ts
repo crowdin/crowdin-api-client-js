@@ -104,8 +104,8 @@ export interface Status<T> {
     attributes: T;
     createdAt: string;
     updatedAt: string;
-    startedAt: string;
-    finishedAt: string;
+    startedAt: string | null;
+    finishedAt: string | null;
     eta: string;
 }
 
